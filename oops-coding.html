@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOPs Coding Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:16px}
+.container{max-width:850px;margin:0 auto;padding:20px}
+a.back{color:#38bdf8;text-decoration:none;font-size:.95rem;font-weight:500}
+h1{text-align:center;padding:16px 0;background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.85rem}
+.prog{text-align:center;margin:10px 0 20px;font-size:.95rem;color:#94a3b8}
+.bar{height:8px;background:#1e3a5f;border-radius:6px;overflow:hidden;max-width:400px;margin:6px auto}
+.bar-fill{height:100%;background:linear-gradient(90deg,#0ea5e9,#22d3ee);border-radius:6px;transition:width .3s}
+.card{margin-bottom:12px;border-radius:10px;background:#fff;border-left:4px solid #0ea5e9;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+.card.done{border-left-color:#10b981}
+.card-head{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer}
+.card-head:hover{background:#f0f9ff}
+.num{min-width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;background:#e0f2fe;color:#0369a1;flex-shrink:0}
+.card.done .num{background:#10b981;color:#fff}
+.title{flex:1;font-weight:600;font-size:1rem;color:#1e293b}
+.arrow{font-size:1.1rem;transition:transform .2s;flex-shrink:0}
+.arrow.open{transform:rotate(180deg)}
+.chk{font-size:1.2rem;flex-shrink:0;cursor:pointer}
+.body{display:none;padding:0 16px 16px;border-top:1px solid #e0f2fe}
+.body.open{display:block}
+.body p{margin:10px 0;line-height:1.6;font-size:.95rem;color:#334155}
+.body strong{color:#0369a1}
+.body ul{margin:8px 0 8px 20px;font-size:.95rem;color:#334155}
+.body li{margin-bottom:4px}
+pre{background:#1e1e2e;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin:10px 0;overflow-x:auto;font-size:.88rem;line-height:1.6;color:#cdd6f4}
+.tag{font-size:.7rem;padding:3px 10px;border-radius:10px;color:#fff;margin-left:8px;vertical-align:middle}
+.tag.enc{background:#4caf50}.tag.inh{background:#2196f3}.tag.pol{background:#ff9800}.tag.abs{background:#9c27b0}.tag.sol{background:#f44336}.tag.dp{background:#e91e63}.tag.gen{background:#00bcd4}.tag.del{background:#795548}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>💻 OOPs Coding Questions</h1>
+<div class="prog"><span id="prog">0/10 Covered</span>
+<div class="bar"><div class="bar-fill" id="barFill" style="width:0%"></div></div>
+<div style="margin-top:8px"><button onclick="exportCodePDF()" style="background:#0ea5e9;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78rem;font-weight:600;margin:0 3px">📄 PDF</button><button onclick="exportCodeExcel()" style="background:#10b981;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78rem;font-weight:600;margin:0 3px">📊 Excel</button><button onclick="exportCodeWord()" style="background:#f59e0b;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.78rem;font-weight:600;margin:0 3px">📝 Word</button></div>
+</div>
+<div id="cards"></div>
+</div>
+<script>
+const QS=[
+{
+q:"Create a BankAccount class demonstrating Encapsulation with deposit, withdraw, and balance validation.",
+tag:"enc",tagName:"Encapsulation",
+code:`public class BankAccount
+{
+    private decimal _balance;
+    public string Owner { get; }
+
+    public BankAccount(string owner, decimal initial)
+    {
+        Owner = owner;
+        _balance = initial >= 0 ? initial : 0;
+    }
+
+    public decimal Balance => _balance;
+
+    public bool Deposit(decimal amount)
+    {
+        if (amount <= 0) return false;
+        _balance += amount;
+        return true;
+    }
+
+    public bool Withdraw(decimal amount)
+    {
+        if (amount <= 0 || amount > _balance) return false;
+        _balance -= amount;
+        return true;
+    }
+
+    public override string ToString()
+        => $"{Owner} | Balance: {_balance:C}";
+}
+
+// Usage
+var acc = new BankAccount("Ravi", 5000);
+acc.Deposit(2000);
+acc.Withdraw(1500);
+Console.WriteLine(acc);           // Ravi | Balance: ₹5,500.00
+Console.WriteLine(acc.Balance);   // 5500
+// acc._balance = -999;           // ❌ Compile error!`
+},
+{
+q:"Implement Inheritance: Create Vehicle → Car → ElectricCar hierarchy with method calls from all levels.",
+tag:"inh",tagName:"Inheritance",
+code:`public class Vehicle
+{
+    public string Brand { get; set; }
+    public void Start() => Console.WriteLine($"{Brand}: Engine started");
+}
+
+public class Car : Vehicle
+{
+    public int Doors { get; set; }
+    public void Drive() => Console.WriteLine($"{Brand}: Driving with {Doors} doors");
+}
+
+public class ElectricCar : Car
+{
+    public int Battery { get; set; }
+    public void Charge() => Console.WriteLine($"{Brand}: Charging... {Battery}%");
+}
+
+// Usage
+var tesla = new ElectricCar
+{
+    Brand = "Tesla", Doors = 4, Battery = 85
+};
+tesla.Start();   // Tesla: Engine started     (from Vehicle)
+tesla.Drive();   // Tesla: Driving with 4 doors (from Car)
+tesla.Charge();  // Tesla: Charging... 85%    (own method)`
+},
+{
+q:"Demonstrate Runtime Polymorphism: Shape base class with Circle, Rectangle, Triangle overriding Area().",
+tag:"pol",tagName:"Polymorphism",
+code:`public abstract class Shape
+{
+    public string Name { get; set; }
+    public abstract double Area();
+    public void Print() => Console.WriteLine($"{Name}: Area = {Area():F2}");
+}
+
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+    public Circle(double r) { Radius = r; Name = "Circle"; }
+    public override double Area() => Math.PI * Radius * Radius;
+}
+
+public class Rectangle : Shape
+{
+    public double W { get; set; }
+    public double H { get; set; }
+    public Rectangle(double w, double h) { W = w; H = h; Name = "Rectangle"; }
+    public override double Area() => W * H;
+}
+
+public class Triangle : Shape
+{
+    public double B { get; set; }
+    public double H { get; set; }
+    public Triangle(double b, double h) { B = b; H = h; Name = "Triangle"; }
+    public override double Area() => 0.5 * B * H;
+}
+
+// Polymorphism in action — same method, different behavior
+Shape[] shapes = { new Circle(5), new Rectangle(4, 6), new Triangle(3, 8) };
+foreach (var s in shapes)
+    s.Print();
+// Circle: Area = 78.54
+// Rectangle: Area = 24.00
+// Triangle: Area = 12.00`
+},
+{
+q:"Implement Abstract Class and Interface together: Employee system with IPayable and ITaxable.",
+tag:"abs",tagName:"Abstraction",
+code:`public abstract class Employee
+{
+    public string Name { get; set; }
+    public abstract decimal CalculateSalary();
+}
+
+public interface IPayable
+{
+    decimal GetPayment();
+}
+
+public interface ITaxable
+{
+    decimal CalculateTax();
+}
+
+public class FullTime : Employee, IPayable, ITaxable
+{
+    public decimal Monthly { get; set; }
+
+    public override decimal CalculateSalary() => Monthly;
+    public decimal GetPayment() => Monthly;
+    public decimal CalculateTax() => Monthly * 0.2m;
+}
+
+public class Contract : Employee, IPayable
+{
+    public decimal Rate { get; set; }
+    public int Hours { get; set; }
+
+    public override decimal CalculateSalary() => Rate * Hours;
+    public decimal GetPayment() => CalculateSalary();
+}
+
+// Usage
+var emp1 = new FullTime { Name = "Ravi", Monthly = 50000 };
+var emp2 = new Contract { Name = "Amit", Rate = 500, Hours = 160 };
+
+Console.WriteLine($"{emp1.Name}: Salary={emp1.CalculateSalary()}, Tax={emp1.CalculateTax()}");
+// Ravi: Salary=50000, Tax=10000
+
+Console.WriteLine($"{emp2.Name}: Salary={emp2.CalculateSalary()}");
+// Amit: Salary=80000`
+},
+{
+q:"Implement Method Overloading and Overriding in a single program showing both compile-time and runtime polymorphism.",
+tag:"pol",tagName:"Polymorphism",
+code:`public class Logger
+{
+    // METHOD OVERLOADING — Compile-time polymorphism
+    public virtual void Log(string msg)
+        => Console.WriteLine($"[LOG] {msg}");
+
+    public void Log(string msg, string level)
+        => Console.WriteLine($"[{level}] {msg}");
+
+    public void Log(string msg, Exception ex)
+        => Console.WriteLine($"[ERROR] {msg}: {ex.Message}");
+}
+
+public class FileLogger : Logger
+{
+    // METHOD OVERRIDING — Runtime polymorphism
+    public override void Log(string msg)
+        => Console.WriteLine($"[FILE] {msg}");
+}
+
+public class DbLogger : Logger
+{
+    public override void Log(string msg)
+        => Console.WriteLine($"[DB] {msg}");
+}
+
+// Overloading — same class, different params
+var log = new Logger();
+log.Log("Started");                        // [LOG] Started
+log.Log("Warning", "WARN");               // [WARN] Warning
+log.Log("Crash", new Exception("Oops"));  // [ERROR] Crash: Oops
+
+// Overriding — parent ref, child behavior
+Logger l1 = new FileLogger();
+Logger l2 = new DbLogger();
+l1.Log("Save data");   // [FILE] Save data
+l2.Log("Save data");   // [DB] Save data`
+},
+{
+q:"Implement the Singleton Pattern — thread-safe Logger class with private constructor.",
+tag:"dp",tagName:"Design Pattern",
+code:`public sealed class Logger
+{
+    private static readonly Lazy<Logger> _instance
+        = new Lazy<Logger>(() => new Logger());
+
+    private readonly List<string> _logs = new();
+
+    private Logger()
+    {
+        Console.WriteLine("Logger created (only once!)");
+    }
+
+    public static Logger Instance => _instance.Value;
+
+    public void Log(string msg)
+    {
+        var entry = $"[{DateTime.Now:HH:mm:ss}] {msg}";
+        _logs.Add(entry);
+        Console.WriteLine(entry);
+    }
+
+    public void ShowAll()
+    {
+        Console.WriteLine("--- All Logs ---");
+        _logs.ForEach(Console.WriteLine);
+    }
+}
+
+// Usage — always same instance
+Logger.Instance.Log("App started");
+Logger.Instance.Log("User logged in");
+Logger.Instance.Log("Order placed");
+Logger.Instance.ShowAll();
+
+// Proof it's singleton
+var a = Logger.Instance;
+var b = Logger.Instance;
+Console.WriteLine(a == b);  // True — same object!`
+},
+{
+q:"Implement the Factory Pattern — create different Notification types (Email, SMS, Push) using a factory.",
+tag:"dp",tagName:"Design Pattern",
+code:`public interface INotification
+{
+    void Send(string to, string message);
+}
+
+public class EmailNotification : INotification
+{
+    public void Send(string to, string msg)
+        => Console.WriteLine($"📧 Email to {to}: {msg}");
+}
+
+public class SmsNotification : INotification
+{
+    public void Send(string to, string msg)
+        => Console.WriteLine($"📱 SMS to {to}: {msg}");
+}
+
+public class PushNotification : INotification
+{
+    public void Send(string to, string msg)
+        => Console.WriteLine($"🔔 Push to {to}: {msg}");
+}
+
+// Factory
+public static class NotificationFactory
+{
+    public static INotification Create(string type) => type.ToLower() switch
+    {
+        "email" => new EmailNotification(),
+        "sms"   => new SmsNotification(),
+        "push"  => new PushNotification(),
+        _ => throw new ArgumentException($"Unknown: {type}")
+    };
+}
+
+// Usage — client doesn't know concrete classes
+var n1 = NotificationFactory.Create("email");
+var n2 = NotificationFactory.Create("sms");
+var n3 = NotificationFactory.Create("push");
+
+n1.Send("ravi@mail.com", "Welcome!");    // 📧 Email to ravi@mail.com: Welcome!
+n2.Send("9876543210", "OTP: 1234");      // 📱 SMS to 9876543210: OTP: 1234
+n3.Send("user123", "New offer!");        // 🔔 Push to user123: New offer!`
+},
+{
+q:"Implement the Strategy Pattern — Shopping cart with swappable payment methods (Card, UPI, Cash).",
+tag:"dp",tagName:"Design Pattern",
+code:`public interface IPayment
+{
+    void Pay(decimal amount);
+}
+
+public class CardPayment : IPayment
+{
+    public void Pay(decimal amount)
+        => Console.WriteLine($"💳 Paid ₹{amount} via Card");
+}
+
+public class UpiPayment : IPayment
+{
+    public void Pay(decimal amount)
+        => Console.WriteLine($"📱 Paid ₹{amount} via UPI");
+}
+
+public class CashPayment : IPayment
+{
+    public void Pay(decimal amount)
+        => Console.WriteLine($"💵 Paid ₹{amount} via Cash");
+}
+
+public class ShoppingCart
+{
+    private readonly List<(string Item, decimal Price)> _items = new();
+
+    public void Add(string item, decimal price) => _items.Add((item, price));
+
+    public void Checkout(IPayment method)
+    {
+        var total = _items.Sum(x => x.Price);
+        Console.WriteLine($"Items: {_items.Count} | Total: ₹{total}");
+        method.Pay(total);
+    }
+}
+
+// Usage — swap strategy at runtime!
+var cart = new ShoppingCart();
+cart.Add("Laptop", 50000);
+cart.Add("Mouse", 500);
+
+cart.Checkout(new CardPayment());  // 💳 Paid ₹50500 via Card
+cart.Checkout(new UpiPayment());   // 📱 Paid ₹50500 via UPI
+cart.Checkout(new CashPayment());  // 💵 Paid ₹50500 via Cash`
+},
+{
+q:"Implement Composition over Inheritance — Robot with swappable Movement and Weapon behaviors.",
+tag:"sol",tagName:"SOLID",
+code:`public interface IMovement
+{
+    void Move();
+}
+
+public interface IWeapon
+{
+    void Attack();
+}
+
+// Movement strategies
+public class Walk : IMovement
+{
+    public void Move() => Console.WriteLine("🚶 Walking...");
+}
+
+public class Fly : IMovement
+{
+    public void Move() => Console.WriteLine("✈️ Flying...");
+}
+
+public class Swim : IMovement
+{
+    public void Move() => Console.WriteLine("🏊 Swimming...");
+}
+
+// Weapon strategies
+public class Laser : IWeapon
+{
+    public void Attack() => Console.WriteLine("🔫 Laser blast!");
+}
+
+public class Sword : IWeapon
+{
+    public void Attack() => Console.WriteLine("⚔️ Sword slash!");
+}
+
+// Robot uses COMPOSITION — HAS-A movement and weapon
+public class Robot
+{
+    public string Name { get; }
+    private readonly IMovement _move;
+    private readonly IWeapon _weapon;
+
+    public Robot(string name, IMovement move, IWeapon weapon)
+    {
+        Name = name; _move = move; _weapon = weapon;
+    }
+
+    public void Execute()
+    {
+        Console.WriteLine($"--- {Name} ---");
+        _move.Move();
+        _weapon.Attack();
+    }
+}
+
+// Mix and match behaviors!
+var r1 = new Robot("SkyBot", new Fly(), new Laser());
+var r2 = new Robot("Knight", new Walk(), new Sword());
+var r3 = new Robot("AquaBot", new Swim(), new Laser());
+
+r1.Execute();  // ✈️ Flying... 🔫 Laser blast!
+r2.Execute();  // 🚶 Walking... ⚔️ Sword slash!
+r3.Execute();  // 🏊 Swimming... 🔫 Laser blast!`
+},
+{
+q:"Implement Generic Repository Pattern with CRUD operations.",
+tag:"gen",tagName:"Generics",
+code:`public interface IEntity
+{
+    int Id { get; set; }
+}
+
+public class Product : IEntity
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public override string ToString() => $"[{Id}] {Name} - ₹{Price}";
+}
+
+// Generic Repository — works with ANY entity
+public class Repository<T> where T : class, IEntity
+{
+    private readonly List<T> _data = new();
+    private int _nextId = 1;
+
+    public void Add(T item) { item.Id = _nextId++; _data.Add(item); }
+    public T GetById(int id) => _data.FirstOrDefault(x => x.Id == id);
+    public List<T> GetAll() => _data.ToList();
+    public bool Delete(int id) => _data.RemoveAll(x => x.Id == id) > 0;
+
+    public void Update(T item)
+    {
+        var idx = _data.FindIndex(x => x.Id == item.Id);
+        if (idx >= 0) _data[idx] = item;
+    }
+}
+
+// Usage
+var repo = new Repository<Product>();
+repo.Add(new Product { Name = "Laptop", Price = 50000 });
+repo.Add(new Product { Name = "Mouse", Price = 500 });
+repo.Add(new Product { Name = "Keyboard", Price = 1500 });
+
+repo.GetAll().ForEach(Console.WriteLine);
+// [1] Laptop - ₹50000
+// [2] Mouse - ₹500
+// [3] Keyboard - ₹1500
+
+repo.Delete(2);
+repo.Update(new Product { Id = 1, Name = "Laptop Pro", Price = 75000 });
+
+Console.WriteLine("--- After Update ---");
+repo.GetAll().ForEach(Console.WriteLine);
+// [1] Laptop Pro - ₹75000
+// [3] Keyboard - ₹1500`
+},
+{
+q:"What is the output? Explain virtual, override, and new keyword behavior.",
+tag:"pol",tagName:"Polymorphism",
+code:`public class A
+{
+    public virtual void Show() => Console.WriteLine("A.Show");
+    public void Display() => Console.WriteLine("A.Display");
+}
+
+public class B : A
+{
+    public override void Show() => Console.WriteLine("B.Show");
+    public new void Display() => Console.WriteLine("B.Display");
+}
+
+public class C : B
+{
+    public override void Show() => Console.WriteLine("C.Show");
+    public new void Display() => Console.WriteLine("C.Display");
+}
+
+// INTERVIEW QUESTION: What is the output?
+A obj1 = new C();
+obj1.Show();      // C.Show     ← override = runtime (calls C)
+obj1.Display();   // A.Display  ← new = compile-time (calls A)
+
+B obj2 = new C();
+obj2.Show();      // C.Show     ← override = runtime (calls C)
+obj2.Display();   // B.Display  ← new = compile-time (calls B)
+
+C obj3 = new C();
+obj3.Show();      // C.Show
+obj3.Display();   // C.Display
+
+// KEY: override follows the OBJECT type
+//      new follows the REFERENCE type`
+},
+{
+q:"Implement IDisposable pattern — FileManager class that properly cleans up resources.",
+tag:"enc",tagName:"Encapsulation",
+code:`public class FileManager : IDisposable
+{
+    private StreamWriter _writer;
+    private bool _disposed = false;
+
+    public FileManager(string path)
+    {
+        _writer = new StreamWriter(path);
+        Console.WriteLine("File opened");
+    }
+
+    public void Write(string text)
+    {
+        if (_disposed) throw new ObjectDisposedException(nameof(FileManager));
+        _writer.WriteLine(text);
+    }
+
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                _writer?.Close();
+                _writer?.Dispose();
+            }
+            _disposed = true;
+            Console.WriteLine("File closed & resources freed");
+        }
+    }
+
+    ~FileManager() => Dispose(false);
+}
+
+// Usage with using statement — auto Dispose!
+using (var fm = new FileManager("log.txt"))
+{
+    fm.Write("Line 1");
+    fm.Write("Line 2");
+}  // Dispose() called automatically here!
+
+// C# 8+ simplified
+using var fm2 = new FileManager("log2.txt");
+fm2.Write("Hello");
+// Dispose() called when fm2 goes out of scope`
+},
+{
+q:"Implement Observer Pattern using Events — Stock price alert system.",
+tag:"del",tagName:"Delegates",
+code:`public class Stock
+{
+    public string Symbol { get; }
+    private decimal _price;
+
+    public event Action<string, decimal> OnPriceChanged;
+
+    public Stock(string symbol, decimal price)
+    {
+        Symbol = symbol;
+        _price = price;
+    }
+
+    public decimal Price
+    {
+        get => _price;
+        set
+        {
+            if (_price != value)
+            {
+                _price = value;
+                OnPriceChanged?.Invoke(Symbol, _price);
+            }
+        }
+    }
+}
+
+public class EmailAlert
+{
+    public void Notify(string symbol, decimal price)
+        => Console.WriteLine($"📧 Email: {symbol} is now ₹{price}");
+}
+
+public class SmsAlert
+{
+    public void Notify(string symbol, decimal price)
+        => Console.WriteLine($"📱 SMS: {symbol} is now ₹{price}");
+}
+
+// Usage
+var tcs = new Stock("TCS", 3500);
+var email = new EmailAlert();
+var sms = new SmsAlert();
+
+tcs.OnPriceChanged += email.Notify;  // Subscribe
+tcs.OnPriceChanged += sms.Notify;
+
+tcs.Price = 3600;
+// 📧 Email: TCS is now ₹3600
+// 📱 SMS: TCS is now ₹3600
+
+tcs.OnPriceChanged -= sms.Notify;    // Unsubscribe SMS
+tcs.Price = 3700;
+// 📧 Email: TCS is now ₹3700`
+},
+{
+q:"What is the output? Explain constructor execution order in inheritance.",
+tag:"inh",tagName:"Inheritance",
+code:`public class A
+{
+    public A() => Console.WriteLine("A constructor");
+}
+
+public class B : A
+{
+    public B() => Console.WriteLine("B constructor");
+    public B(string msg) : this()
+    {
+        Console.WriteLine($"B param: {msg}");
+    }
+}
+
+public class C : B
+{
+    public C() : base("hello")
+    {
+        Console.WriteLine("C constructor");
+    }
+}
+
+// INTERVIEW QUESTION: What is the output of new C()?
+var obj = new C();
+
+// Output:
+// A constructor        ← Base of base runs first
+// B constructor        ← B() called via this() chain
+// B param: hello       ← B(string) called via base("hello")
+// C constructor        ← Finally C()
+
+// KEY: Constructors run TOP-DOWN (base → derived)
+//      Destructors run BOTTOM-UP (derived → base)`
+},
+{
+q:"Implement Sealed class and demonstrate why String is sealed — immutable pattern.",
+tag:"enc",tagName:"Encapsulation",
+code:`// Sealed class — cannot be inherited
+public sealed class AppConfig
+{
+    private readonly Dictionary<string, string> _settings = new();
+
+    public void Set(string key, string value) => _settings[key] = value;
+    public string Get(string key) => _settings.GetValueOrDefault(key, "N/A");
+}
+
+// ❌ This will NOT compile:
+// public class MyConfig : AppConfig { }  // Error!
+
+// Immutable class (like String) — sealed + readonly
+public sealed class Money
+{
+    public decimal Amount { get; }
+    public string Currency { get; }
+
+    public Money(decimal amount, string currency)
+    {
+        Amount = amount;
+        Currency = currency;
+    }
+
+    // Returns NEW object instead of modifying
+    public Money Add(Money other)
+    {
+        if (Currency != other.Currency)
+            throw new InvalidOperationException("Currency mismatch");
+        return new Money(Amount + other.Amount, Currency);
+    }
+
+    public override string ToString() => $"{Currency} {Amount}";
+}
+
+// Usage
+var a = new Money(100, "INR");
+var b = new Money(200, "INR");
+var c = a.Add(b);  // Returns NEW object
+
+Console.WriteLine(a);  // INR 100 (unchanged!)
+Console.WriteLine(c);  // INR 300 (new object)`
+},
+{
+q:"Implement Dependency Injection manually — OrderService with injectable dependencies.",
+tag:"sol",tagName:"SOLID",
+code:`// Abstractions
+public interface IOrderRepo
+{
+    void Save(string order);
+}
+
+public interface INotifier
+{
+    void Send(string msg);
+}
+
+// Implementations
+public class SqlOrderRepo : IOrderRepo
+{
+    public void Save(string order)
+        => Console.WriteLine($"💾 Saved to DB: {order}");
+}
+
+public class EmailNotifier : INotifier
+{
+    public void Send(string msg)
+        => Console.WriteLine($"📧 Email: {msg}");
+}
+
+public class SmsNotifier : INotifier
+{
+    public void Send(string msg)
+        => Console.WriteLine($"📱 SMS: {msg}");
+}
+
+// Service — depends on INTERFACES, not concrete classes
+public class OrderService
+{
+    private readonly IOrderRepo _repo;
+    private readonly INotifier _notifier;
+
+    // Constructor Injection
+    public OrderService(IOrderRepo repo, INotifier notifier)
+    {
+        _repo = repo;
+        _notifier = notifier;
+    }
+
+    public void PlaceOrder(string item)
+    {
+        _repo.Save(item);
+        _notifier.Send($"Order placed: {item}");
+    }
+}
+
+// Usage — easily swap implementations!
+var service1 = new OrderService(new SqlOrderRepo(), new EmailNotifier());
+service1.PlaceOrder("Laptop");
+// 💾 Saved to DB: Laptop
+// 📧 Email: Order placed: Laptop
+
+var service2 = new OrderService(new SqlOrderRepo(), new SmsNotifier());
+service2.PlaceOrder("Phone");
+// 💾 Saved to DB: Phone
+// 📱 SMS: Order placed: Phone`
+},
+{
+q:"What is the output? Explain Shallow Copy vs Deep Copy with nested objects.",
+tag:"enc",tagName:"Encapsulation",
+code:`public class Address
+{
+    public string City { get; set; }
+}
+
+public class Person
+{
+    public string Name { get; set; }
+    public Address Addr { get; set; }
+
+    public Person ShallowCopy() => (Person)MemberwiseClone();
+
+    public Person DeepCopy() => new Person
+    {
+        Name = this.Name,
+        Addr = new Address { City = this.Addr.City }
+    };
+}
+
+// INTERVIEW QUESTION: What is the output?
+var p1 = new Person { Name = "Ravi", Addr = new Address { City = "Mumbai" } };
+
+// Shallow Copy
+var p2 = p1.ShallowCopy();
+p2.Name = "Amit";
+p2.Addr.City = "Delhi";
+
+Console.WriteLine($"p1: {p1.Name}, {p1.Addr.City}");
+// p1: Ravi, Delhi    ← ❌ City CHANGED! (shared reference)
+
+// Deep Copy
+var p3 = p1.DeepCopy();
+p3.Addr.City = "Chennai";
+
+Console.WriteLine($"p1: {p1.Name}, {p1.Addr.City}");
+// p1: Ravi, Delhi    ← ✅ NOT affected (independent copy)`
+},
+{
+q:"Implement Decorator Pattern — add toppings to a Pizza dynamically.",
+tag:"dp",tagName:"Design Pattern",
+code:`public abstract class Pizza
+{
+    public abstract string Description { get; }
+    public abstract decimal Cost();
+}
+
+public class BasePizza : Pizza
+{
+    public override string Description => "Base Pizza";
+    public override decimal Cost() => 200;
+}
+
+// Decorator base
+public abstract class ToppingDecorator : Pizza
+{
+    protected readonly Pizza _pizza;
+    protected ToppingDecorator(Pizza pizza) => _pizza = pizza;
+}
+
+public class Cheese : ToppingDecorator
+{
+    public Cheese(Pizza p) : base(p) { }
+    public override string Description => _pizza.Description + " + Cheese";
+    public override decimal Cost() => _pizza.Cost() + 50;
+}
+
+public class Mushroom : ToppingDecorator
+{
+    public Mushroom(Pizza p) : base(p) { }
+    public override string Description => _pizza.Description + " + Mushroom";
+    public override decimal Cost() => _pizza.Cost() + 40;
+}
+
+public class Pepperoni : ToppingDecorator
+{
+    public Pepperoni(Pizza p) : base(p) { }
+    public override string Description => _pizza.Description + " + Pepperoni";
+    public override decimal Cost() => _pizza.Cost() + 60;
+}
+
+// Usage — stack decorators dynamically!
+Pizza order = new BasePizza();
+order = new Cheese(order);
+order = new Mushroom(order);
+order = new Pepperoni(order);
+
+Console.WriteLine(order.Description);
+// Base Pizza + Cheese + Mushroom + Pepperoni
+Console.WriteLine($"Total: ₹{order.Cost()}");
+// Total: ₹350`
+},
+{
+q:"Implement LINQ with custom objects — filter, sort, group employees.",
+tag:"gen",tagName:"Generics",
+code:`public class Employee
+{
+    public string Name { get; set; }
+    public string Dept { get; set; }
+    public decimal Salary { get; set; }
+}
+
+var employees = new List<Employee>
+{
+    new() { Name = "Ravi",   Dept = "IT",    Salary = 60000 },
+    new() { Name = "Priya",  Dept = "HR",    Salary = 45000 },
+    new() { Name = "Amit",   Dept = "IT",    Salary = 75000 },
+    new() { Name = "Sneha",  Dept = "HR",    Salary = 50000 },
+    new() { Name = "Kiran",  Dept = "IT",    Salary = 55000 },
+};
+
+// Filter: Salary > 50000
+var highPaid = employees.Where(e => e.Salary > 50000)
+                        .OrderByDescending(e => e.Salary);
+Console.WriteLine("--- High Paid ---");
+foreach (var e in highPaid)
+    Console.WriteLine($"{e.Name}: ₹{e.Salary}");
+// Amit: ₹75000
+// Ravi: ₹60000
+// Kiran: ₹55000
+
+// Group by Department
+var grouped = employees.GroupBy(e => e.Dept);
+Console.WriteLine("--- By Department ---");
+foreach (var g in grouped)
+    Console.WriteLine($"{g.Key}: {g.Count()} people, Avg: ₹{g.Average(e => e.Salary):F0}");
+// IT: 3 people, Avg: ₹63333
+// HR: 2 people, Avg: ₹47500
+
+// Select + Projection
+var names = employees.Select(e => new { e.Name, Annual = e.Salary * 12 });
+foreach (var n in names)
+    Console.WriteLine($"{n.Name}: ₹{n.Annual}/year");`
+}
+];
+
+function gp(){return JSON.parse(localStorage.getItem('oops_code_prog')||'{}')}
+function sp(p){localStorage.setItem('oops_code_prog',JSON.stringify(p))}
+function tog(i){const p=gp();p[i]=!p[i];sp(p);render()}
+
+let openIdx=-1;
+function togOpen(i){openIdx=openIdx===i?-1:i;render()}
+
+function render(){
+  const p=gp();
+  const done=QS.filter((_,i)=>p[i]).length;
+  document.getElementById('prog').textContent=done+'/'+QS.length+' Covered';
+  document.getElementById('barFill').style.width=(done/QS.length*100)+'%';
+
+  document.getElementById('cards').innerHTML=QS.map((q,i)=>{
+    const d=!!p[i],o=openIdx===i;
+    return `<div class="card ${d?'done':''}">
+      <div class="card-head" onclick="togOpen(${i})">
+        <div class="num">${i+1}</div>
+        <div class="title">${q.q}<span class="tag ${q.tag}">${q.tagName}</span></div>
+        <div class="arrow ${o?'open':''}">▼</div>
+        <div class="chk" onclick="event.stopPropagation();tog(${i})">${d?'✅':'⬜'}</div>
+      </div>
+      <div class="body ${o?'open':''}"><pre>${q.code}</pre></div>
+    </div>`;
+  }).join('');
+}
+render();
+
+function exportCodePDF() {
+  const p = gp();
+  const w = window.open('', '_blank');
+  let html = '<table style="width:100%;border-collapse:collapse"><tr><th style="background:#0ea5e9;color:#fff;padding:8px;border:1px solid #ddd">#</th><th style="background:#0ea5e9;color:#fff;padding:8px;border:1px solid #ddd">Question</th><th style="background:#0ea5e9;color:#fff;padding:8px;border:1px solid #ddd">Concept</th><th style="background:#0ea5e9;color:#fff;padding:8px;border:1px solid #ddd">Status</th></tr>';
+  QS.forEach((q, i) => {
+    const done = !!p[i];
+    html += `<tr><td style="border:1px solid #ddd;padding:6px">${i+1}</td><td style="border:1px solid #ddd;padding:6px">${q.q}</td><td style="border:1px solid #ddd;padding:6px">${q.tagName}</td><td style="border:1px solid #ddd;padding:6px;color:${done?'green':'red'};font-weight:700">${done?'\u2705 Covered':'\u2b1c Pending'}</td></tr>`;
+    html += `<tr><td colspan="4" style="border:1px solid #ddd;padding:8px"><pre style="background:#1e1e2e;color:#cdd6f4;padding:10px;border-radius:6px;font-size:12px;overflow-x:auto;white-space:pre-wrap">${q.code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></td></tr>`;
+  });
+  html += '</table>';
+  const d = QS.filter((_,i) => p[i]).length;
+  w.document.write(`<html><head><title>OOPs Coding Report</title><style>body{font-family:Segoe UI,sans-serif;padding:30px}h1{color:#0369a1}pre{font-family:Consolas,monospace}</style></head><body><h1>\ud83d\udcbb OOPs Coding Questions Report</h1><p><b>Progress: ${d}/${QS.length}</b></p>${html}<script>window.print();<\/script></body></html>`);
+  w.document.close();
+}
+
+function exportCodeExcel() {
+  const p = gp();
+  let csv = '#,Question,Concept,Status\n';
+  QS.forEach((q, i) => {
+    csv += `${i+1},"${q.q.replace(/"/g,'""')}","${q.tagName}","${p[i]?'Covered':'Pending'}"\n`;
+  });
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'OOPs_Coding_Report.csv';
+  a.click();
+}
+
+function exportCodeWord() {
+  const p = gp();
+  let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>body{font-family:Segoe UI,sans-serif;padding:20px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:6px}th{background:#0ea5e9;color:#fff}h1{color:#0369a1}pre{background:#f0f0f0;padding:8px;border-radius:4px;font-size:11px;font-family:Consolas,monospace;white-space:pre-wrap}</style></head><body><h1>\ud83d\udcbb OOPs Coding Questions</h1><table><tr><th>#</th><th>Question</th><th>Concept</th><th>Status</th></tr>`;
+  QS.forEach((q, i) => {
+    const done = !!p[i];
+    html += `<tr><td>${i+1}</td><td>${q.q}</td><td>${q.tagName}</td><td style="color:${done?'green':'red'};font-weight:700">${done?'Covered':'Pending'}</td></tr>`;
+    html += `<tr><td colspan="4"><pre>${q.code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></td></tr>`;
+  });
+  html += '</table></body></html>';
+  const blob = new Blob([html], { type: 'application/msword' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'OOPs_Coding_Questions.doc';
+  a.click();
+}
+</script>
+</body>
+</html>
