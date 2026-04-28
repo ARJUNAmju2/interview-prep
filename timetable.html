@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Timetable 📅</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:850px;margin:0 auto;padding:16px}
+a.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500}
+h1{text-align:center;padding:14px 0;background:linear-gradient(135deg,#f59e0b,#ef4444,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}
+.info{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px;line-height:1.7}
+.info b{color:#38bdf8}
+.overall{text-align:center;margin:8px 0 14px;font-size:.9rem;color:#94a3b8}
+.bar{height:8px;background:#1e3a5f;border-radius:6px;overflow:hidden;max-width:400px;margin:6px auto}
+.bar-fill{height:100%;border-radius:6px;transition:width .3s}
+.week{margin-bottom:16px;border-radius:12px;overflow:hidden;border:1px solid #1e3a5f}
+.week-head{padding:12px 16px;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.week-body{padding:0 8px 8px}
+.day{background:#fff;border-radius:10px;margin-bottom:6px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.day-head{padding:10px 14px;font-weight:700;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:#1e293b}
+.day-head .time{font-size:.72rem;font-weight:500;opacity:.7}
+.slot{padding:7px 14px;border-top:1px solid #f0f0f0;display:flex;align-items:center;gap:8px;font-size:.85rem;color:#334155}
+.slot.done{opacity:.45;text-decoration:line-through}
+.slot-time{min-width:95px;font-weight:600;color:#0369a1;font-size:.78rem}
+.slot-sub{min-width:85px;padding:2px 8px;border-radius:6px;color:#fff;font-size:.7rem;font-weight:600;text-align:center}
+.slot-qs{flex:1;color:#1e293b;font-size:.8rem}
+.chk{width:18px;height:18px;cursor:pointer;accent-color:#10b981;flex-shrink:0}
+.sunday{background:linear-gradient(135deg,#fef3c7,#fde68a)!important}
+.sunday .day-head{color:#92400e!important}
+.stats{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0}
+.stat{background:#0f2847;border:1px solid #1e3a5f;border-radius:8px;padding:6px 10px;text-align:center;min-width:70px}
+.stat .num{font-size:1.1rem;font-weight:700;color:#38bdf8}
+.stat .lbl{font-size:.65rem;color:#64748b}
+.stat .prog{font-size:.6rem;color:#10b981}
+.btn-reset{background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.75rem;font-weight:600;margin:4px}
+.btn-pdf{background:#0ea5e9;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.75rem;font-weight:600;margin:4px}
+.pattern{text-align:center;margin:8px 0;font-size:.78rem;color:#64748b}
+.pattern span{display:inline-block;padding:2px 8px;border-radius:4px;color:#fff;font-size:.7rem;margin:2px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back">← Back to Routine</a>
+<a href="interview.html" style="float:right;color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500">🎯 Interview Prep →</a>
+<h1>📅 Study Timetable - 317 Questions</h1>
+<div class="info">
+<b>Mon-Sat:</b> 5:30-6:30 AM (5 Qs) + 7:30-9:30 PM (5 Qs) = <b>10 Qs/day</b><br>
+<b>Sunday:</b> Revision of that week's topics<br>
+<b>Pattern:</b> 2 subjects/day, <b>rotating</b> — every subject repeats every 2-3 days!
+</div>
+<div class="pattern" id="patternBar"></div>
+<div class="overall">
+<span id="ov">0/317 Completed</span>
+<div class="bar"><div class="bar-fill" id="ovBar" style="width:0%;background:linear-gradient(90deg,#f59e0b,#ef4444)"></div></div>
+<button class="btn-reset" onclick="if(confirm('Reset all progress?')){localStorage.removeItem('tt_prog');renderTT()}">Reset</button>
+<button class="btn-pdf" onclick="exportTTPDF()">📄 Print</button>
+</div>
+<div class="stats" id="stats"></div>
+<div id="weeks"></div>
+</div>
+<script>
+const C={oops:'#ff6f00',csharp:'#764ba2',mvc:'#2196f3',sqlserver:'#e91e63',webapi:'#009688',javascript:'#f59e0b',plsql:'#4caf50'};
+const N={oops:'OOPs',csharp:'C#',mvc:'MVC',sqlserver:'SQL Server',webapi:'Web API',javascript:'JS/TS',plsql:'PL/SQL'};
+const TOTAL={oops:51,csharp:51,mvc:50,sqlserver:47,webapi:41,javascript:26,plsql:51};
+
+// Rotating pairs: each day gets 2 different subjects
+const PAIRS=[
+  ['oops','csharp'],      // Pattern A
+  ['mvc','sqlserver'],     // Pattern B
+  ['webapi','plsql'],      // Pattern C
+  ['javascript','oops'],   // Pattern D
+  ['csharp','mvc'],        // Pattern E
+  ['sqlserver','webapi'],  // Pattern F
+];
+
+// Track how many Qs done per subject
+let subPos={oops:0,csharp:0,mvc:0,sqlserver:0,webapi:0,javascript:0,plsql:0};
+
+function buildSchedule(){
+  const weeks=[];
+  let pairIdx=0;
+  let weekNum=1;
+  let dayNum=1;
+  let allDone=false;
+
+  while(!allDone && weekNum<=8){
+    const week={week:weekNum,days:[]};
+    const weekTopics=[];
+    const DAYNAMES=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+    for(let di=0;di<6;di++){
+      // Find a pair that still has questions
+      let found=false;
+      let tries=0;
+      while(tries<PAIRS.length){
+        const pair=PAIRS[pairIdx%PAIRS.length];
+        const s1=pair[0],s2=pair[1];
+        const s1Left=TOTAL[s1]-subPos[s1];
+        const s2Left=TOTAL[s2]-subPos[s2];
+        if(s1Left>0||s2Left>0){
+          const slots=[];
+          // Morning slot
+          if(s1Left>0){
+            const take=Math.min(5,s1Left);
+            const from=subPos[s1]+1;
+            const to=subPos[s1]+take;
+            slots.push({time:'5:30-6:30 AM',sub:s1,from,to});
+            subPos[s1]+=take;
+            weekTopics.push(N[s1]+' Q'+from+'-'+to);
+          } else if(s2Left>0){
+            // s1 done, give both slots to s2
+            const take=Math.min(5,TOTAL[s2]-subPos[s2]);
+            const from=subPos[s2]+1;
+            const to=subPos[s2]+take;
+            slots.push({time:'5:30-6:30 AM',sub:s2,from,to});
+            subPos[s2]+=take;
+            weekTopics.push(N[s2]+' Q'+from+'-'+to);
+          }
+          // Evening slot
+          const s2LeftNow=TOTAL[s2]-subPos[s2];
+          const s1LeftNow=TOTAL[s1]-subPos[s1];
+          if(s2LeftNow>0){
+            const take=Math.min(5,s2LeftNow);
+            const from=subPos[s2]+1;
+            const to=subPos[s2]+take;
+            slots.push({time:'7:30-9:30 PM',sub:s2,from,to});
+            subPos[s2]+=take;
+            weekTopics.push(N[s2]+' Q'+from+'-'+to);
+          } else if(s1LeftNow>0){
+            const take=Math.min(5,s1LeftNow);
+            const from=subPos[s1]+1;
+            const to=subPos[s1]+take;
+            slots.push({time:'7:30-9:30 PM',sub:s1,from,to});
+            subPos[s1]+=take;
+            weekTopics.push(N[s1]+' Q'+from+'-'+to);
+          }
+
+          if(slots.length>0){
+            week.days.push({day:DAYNAMES[di],d:'Day '+dayNum,slots});
+            dayNum++;
+            found=true;
+          }
+          pairIdx++;
+          break;
+        }
+        pairIdx++;
+        tries++;
+      }
+      if(!found){
+        // Check if all subjects done
+        allDone=Object.keys(TOTAL).every(k=>subPos[k]>=TOTAL[k]);
+        if(allDone) break;
+      }
+    }
+    // Sunday revision
+    if(weekTopics.length>0){
+      const revText=weekTopics.join(', ');
+      week.days.push({day:'Sunday',d:'Revision',rev:'📖 Revise: '+revText});
+    }
+    if(week.days.length>1) weeks.push(week);
+    weekNum++;
+    allDone=Object.keys(TOTAL).every(k=>subPos[k]>=TOTAL[k]);
+  }
+  return weeks;
+}
+
+// Reset positions and build
+function getSchedule(){
+  Object.keys(subPos).forEach(k=>subPos[k]=0);
+  return buildSchedule();
+}
+
+const SCHEDULE=getSchedule();
+
+// Pattern bar
+let patHtml='<b>Daily Rotation:</b> ';
+PAIRS.forEach((p,i)=>{
+  patHtml+=`<span style="background:${C[p[0]]}">${N[p[0]]}</span> + <span style="background:${C[p[1]]}">${N[p[1]]}</span>`;
+  if(i<PAIRS.length-1) patHtml+=' → ';
+});
+patHtml+=' → repeat 🔄';
+document.getElementById('patternBar').innerHTML=patHtml;
+
+function gp(){return JSON.parse(localStorage.getItem('tt_prog')||'{}')}
+function sp(p){localStorage.setItem('tt_prog',JSON.stringify(p))}
+function togSlot(key){const p=gp();p[key]=!p[key];sp(p);renderTT()}
+
+function renderTT(){
+  const p=gp();
+  let totalDone=0,totalAll=0;
+
+  // Stats per subject
+  let subCount={};Object.keys(N).forEach(k=>subCount[k]={total:TOTAL[k],done:0});
+
+  let html='';
+  SCHEDULE.forEach(w=>{
+    let wDone=0,wTotal=0;
+    let daysHtml='';
+    w.days.forEach(d=>{
+      if(d.rev){
+        daysHtml+=`<div class="day sunday"><div class="day-head" style="color:#92400e">☀️ ${d.day} - ${d.d}<span class="time">Full Day</span></div><div class="slot"><div class="slot-time">📖 All Day</div><div class="slot-qs" style="color:#92400e;font-weight:600;font-size:.75rem">${d.rev}</div></div></div>`;
+        return;
+      }
+      let slotsHtml='';
+      d.slots.forEach((s,si)=>{
+        const key=`w${w.week}_${d.d}_${si}`;
+        const cnt=s.to-s.from+1;
+        const done=!!p[key];
+        wTotal+=cnt;totalAll+=cnt;
+        if(done){wDone+=cnt;totalDone+=cnt;subCount[s.sub].done+=cnt;}
+        slotsHtml+=`<div class="slot ${done?'done':''}">
+          <input type="checkbox" class="chk" ${done?'checked':''} onchange="togSlot('${key}')">
+          <div class="slot-time">${s.time}</div>
+          <div class="slot-sub" style="background:${C[s.sub]}">${N[s.sub]}</div>
+          <div class="slot-qs">Q${s.from}-Q${s.to} (${cnt})</div>
+        </div>`;
+      });
+      const dayCnt=d.slots.reduce((a,s)=>a+(s.to-s.from+1),0);
+      daysHtml+=`<div class="day"><div class="day-head">📘 ${d.day} - ${d.d}<span class="time">${dayCnt} Qs</span></div>${slotsHtml}</div>`;
+    });
+    const wPct=wTotal?(wDone/wTotal*100):0;
+    const wClr=w.week<=3?'#0ea5e9,#06b6d4':'#8b5cf6,#7c3aed';
+    html+=`<div class="week">
+      <div class="week-head" style="background:linear-gradient(135deg,${wClr})" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+        📅 Week ${w.week}
+        <span>${wDone}/${wTotal} (${Math.round(wPct)}%)</span>
+      </div>
+      <div class="week-body">${daysHtml}</div>
+    </div>`;
+  });
+
+  document.getElementById('weeks').innerHTML=html;
+  document.getElementById('ov').textContent=totalDone+'/317 Completed';
+  document.getElementById('ovBar').style.width=(totalDone/317*100)+'%';
+
+  // Stats
+  let statsHtml='';
+  Object.keys(N).forEach(k=>{
+    const pct=Math.round(subCount[k].done/subCount[k].total*100)||0;
+    statsHtml+=`<div class="stat"><div class="num">${subCount[k].done}/${subCount[k].total}</div><div class="lbl">${N[k]}</div><div class="prog">${pct}%</div></div>`;
+  });
+  document.getElementById('stats').innerHTML=statsHtml;
+}
+renderTT();
+
+function exportTTPDF(){
+  const w=window.open('','_blank');
+  let html='';
+  SCHEDULE.forEach(wk=>{
+    html+=`<h3 style="color:#0369a1;margin-top:14px">Week ${wk.week}</h3><table style="width:100%;border-collapse:collapse;margin-bottom:8px;font-size:13px"><tr><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Day</th><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Morning 5:30-6:30</th><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Evening 7:30-9:30</th></tr>`;
+    wk.days.forEach(d=>{
+      if(d.rev){
+        html+=`<tr style="background:#fef3c7"><td style="border:1px solid #ddd;padding:5px;font-weight:700">☀️ ${d.day}</td><td colspan="2" style="border:1px solid #ddd;padding:5px;color:#92400e;font-size:11px">${d.rev}</td></tr>`;
+      } else {
+        html+=`<tr><td style="border:1px solid #ddd;padding:5px;font-weight:600">${d.day}</td>`;
+        d.slots.forEach(s=>{html+=`<td style="border:1px solid #ddd;padding:5px">${N[s.sub]} Q${s.from}-Q${s.to}</td>`;});
+        if(d.slots.length===1) html+=`<td style="border:1px solid #ddd;padding:5px">-</td>`;
+        html+=`</tr>`;
+      }
+    });
+    html+=`</table>`;
+  });
+  w.document.write(`<html><head><title>Study Timetable</title><style>body{font-family:Segoe UI,sans-serif;padding:20px}h1{color:#0369a1}</style></head><body><h1>📅 Interview Prep - 317 Questions in 6 Weeks</h1><p><b>Pattern:</b> 2 subjects/day rotating | Mon-Sat: 5:30-6:30 AM + 7:30-9:30 PM | Sunday: Revision</p>${html}<script>window.print();<\/script></body></html>`);
+  w.document.close();
+}
+</script>
+</body>
+</html>
