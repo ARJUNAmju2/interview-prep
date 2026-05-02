@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>English Practice Plan</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:16px}
+.container{max-width:800px;margin:0 auto;padding:20px}
+a.back{color:#38bdf8;text-decoration:none;font-size:.95rem;font-weight:500}
+h1{text-align:center;padding:16px 0;background:linear-gradient(135deg,#f59e0b,#f97316,#ef4444);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:2rem}
+.subtitle{text-align:center;color:#94a3b8;font-size:.9rem;margin-bottom:20px}
+.progress-box{text-align:center;margin-bottom:20px}
+.progress-box .big{font-size:2rem;font-weight:800;color:#f59e0b}
+.progress-box .small{color:#64748b;font-size:.85rem}
+.bar{height:8px;background:#1e3a5f;border-radius:6px;overflow:hidden;max-width:400px;margin:6px auto}
+.bar-fill{height:100%;background:linear-gradient(90deg,#f59e0b,#ef4444);border-radius:6px;transition:width .3s}
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;justify-content:center}
+.tab{padding:10px 14px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#94a3b8;cursor:pointer;font-weight:600;font-size:.85rem;transition:all .2s}
+.tab.active{background:linear-gradient(135deg,#f59e0b,#f97316);color:#fff;border-color:transparent}
+.section{margin-bottom:16px}
+.section-title{font-size:1.1rem;font-weight:700;color:#f59e0b;margin-bottom:10px;padding:10px 14px;background:#1e293b;border-radius:8px;border-left:4px solid #f59e0b}
+.card{background:#fff;border-radius:10px;padding:14px 16px;margin-bottom:8px;color:#1e293b;line-height:1.7;font-size:.92rem;border-left:4px solid #0ea5e9}
+.card b{color:#0369a1}
+.card a{color:#0ea5e9;text-decoration:none;font-weight:600}
+.card a:hover{text-decoration:underline}
+.day-item{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;margin-bottom:6px;border-radius:10px;background:#fff;border-left:4px solid #8b5cf6;color:#1e293b;font-size:.92rem;line-height:1.6}
+.day-item.done{border-left-color:#10b981;background:#f0fdf4}
+.day-item.done .day-text{opacity:.7}
+.day-check{width:20px;height:20px;cursor:pointer;accent-color:#10b981;flex-shrink:0;margin-top:2px}
+.day-num{min-width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:700;background:#ede9fe;color:#6d28d9;flex-shrink:0}
+.day-item.done .day-num{background:#10b981;color:#fff}
+.day-text{flex:1}
+.day-text .topic{font-weight:700;color:#1e293b}
+.day-text .desc{color:#64748b;font-size:.82rem;margin-top:2px}
+.phrase-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.phrase{background:#fff;padding:10px 14px;border-radius:8px;color:#1e293b;font-size:.88rem;border-left:3px solid #10b981}
+.phrase .en{font-weight:600;color:#0369a1}
+.phrase .use{color:#64748b;font-size:.8rem;margin-top:2px}
+.yt-card{display:flex;align-items:center;gap:12px;background:#fff;padding:12px 14px;border-radius:10px;margin-bottom:8px;color:#1e293b;text-decoration:none;border-left:4px solid #ef4444;transition:all .2s}
+.yt-card:hover{transform:translateX(3px);box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.yt-icon{font-size:1.8rem;flex-shrink:0}
+.yt-info .yt-name{font-weight:700;color:#1e293b;font-size:.95rem}
+.yt-info .yt-desc{color:#64748b;font-size:.8rem;margin-top:2px}
+.yt-info .yt-tag{display:inline-block;background:#dbeafe;color:#1e40af;padding:1px 8px;border-radius:10px;font-size:.72rem;font-weight:600;margin-top:4px}
+.week-header{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;padding:10px 14px;border-radius:8px;font-weight:700;margin:14px 0 8px;font-size:.95rem}
+.tip-box{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:12px 0;color:#78350f;font-size:.88rem;line-height:1.8}
+.tip-box b{color:#92400e}
+.reset-btn{background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.78rem;font-weight:600;margin-top:6px}
+.streak{display:inline-flex;align-items:center;gap:6px;background:#1e293b;padding:6px 14px;border-radius:20px;font-size:.85rem;color:#f59e0b;font-weight:600;margin:6px 0}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="index.html" class="back">← Back to Home</a>
+<h1>🗣️ English Communication Plan</h1>
+<p class="subtitle">15-40 mins daily → Confident English in 60 days</p>
+
+<div class="progress-box">
+<div class="big" id="streak">0</div>
+<div class="small">Day Streak 🔥</div>
+<div class="bar"><div class="bar-fill" id="streakBar" style="width:0%"></div></div>
+<div class="small" style="margin-top:6px"><span id="totalDone">0</span>/60 Days Completed</div>
+<button class="reset-btn" onclick="if(confirm('Reset all progress?')){localStorage.removeItem('eng_plan');renderAll()}">Reset</button>
+</div>
+
+<div class="tabs" id="tabs"></div>
+<div id="content"></div>
+</div>
+
+<script>
+const TABS=[
+{id:'daily',name:'📅 Daily Tracker'},
+{id:'youtube',name:'🎬 YouTube'},
+{id:'phrases',name:'💬 Phrases'},
+{id:'topics',name:'📝 Speaking Topics'},
+{id:'resources',name:'📚 Resources'},
+{id:'rules',name:'⚡ Rules'}
+];
+
+const DAILY_PLAN=[];
+// Generate 60 days
+const morningTasks=["Read 1 tech article from dev.to OUT LOUD","Read 1 article from c-sharpcorner.com OUT LOUD","Read Microsoft .NET docs OUT LOUD","Read 1 Medium article on C# OUT LOUD","Read 1 article on Entity Framework OUT LOUD","Read about MVC pattern article OUT LOUD","Read about SQL Server tips article OUT LOUD"];
+const videoTasks=["Watch 1 IAmTimCorey video + repeat sentences","Watch 1 Nick Chapsas video + repeat sentences","Watch 1 DotNet Mastery video + repeat sentences","Watch 1 Kudvenkat video + repeat sentences","Watch 1 Fireship video + repeat sentences","Watch 1 Programming with Mosh video + repeat sentences","Watch 1 TechWorld with Nana video + repeat sentences"];
+const speakTopics=[
+"Explain: What is OOP?","Describe your Helpdesk project","Explain: Class vs Object","Describe your Store Module","Explain: What is MVC?","Describe your Preventive Maintenance project","Explain: What is SQL JOIN?",
+"Explain: What is Dependency Injection?","Describe your Audit Module architecture","Explain: Abstract class vs Interface","Practice: Tell me about yourself (2 min)","Explain: What is Entity Framework?","Practice: Why looking for job change?","Explain: What is async/await?",
+"Explain: What is SOLID?","Describe a challenging project (STAR method)","Explain: Stored Procedure vs Function","Practice: What are your strengths?","Explain: What is Repository Pattern?","Describe how stock transfer works in Store Module","Explain: Clustered vs Non-Clustered Index",
+"Practice: Where do you see yourself in 5 years?","Explain: What is Middleware in .NET Core?","Describe ticket routing in Helpdesk Tool","Explain: What is LINQ?","Practice: Why should we hire you?","Explain: What are Generics?","Describe branch visit scheduling in PM module",
+"Mock Interview: 5 random questions from app","Explain: What is Polymorphism with your project example?","Practice: Tell about a mistake you made","Explain: What is Encapsulation with Store Module example","Mock Interview: 5 behavioral questions","Explain: DELETE vs TRUNCATE vs DROP","Practice: How do you handle deadlines?",
+"Mock Interview: Full 30-min simulation","Explain: What is Factory Pattern?","Practice: Describe your project architecture","Explain: What is Transaction and ACID?","Mock Interview: 5 SQL questions","Explain: What is Singleton Pattern?","Practice: How do you ensure code quality?",
+"Full Mock: Tell me about yourself + 3 technical + 2 behavioral","Explain: IEnumerable vs IQueryable","Practice: What was your complex problem?","Explain: What is JWT Authentication?","Full Mock: 5 questions non-stop","Explain: What is CORS?","Practice: How did you improve performance?",
+"Full Mock Interview: 30 minutes","Explain any 3 OOP concepts fluently","Practice all behavioral answers","Explain any 3 SQL concepts fluently","Full Mock: Record and listen back","Explain your complete project journey","Practice: Salary negotiation conversation",
+"Final Mock: Complete interview simulation","Review all weak topics","Practice top 10 most asked questions","Confidence day: Explain anything asked","Final review: Record full mock interview"
+];
+
+for(let i=0;i<60;i++){
+  const week=Math.floor(i/7)+1;
+  let tasks=[];
+  if(week<=2){
+    tasks.push({t:"📖 Read (15 min)",d:morningTasks[i%morningTasks.length]});
+    tasks.push({t:"🎬 Watch (15 min)",d:videoTasks[i%videoTasks.length]});
+  }else if(week<=4){
+    tasks.push({t:"📖 Read (10 min)",d:morningTasks[i%morningTasks.length]});
+    tasks.push({t:"🎬 Watch (15 min)",d:videoTasks[i%videoTasks.length]});
+    tasks.push({t:"🗣️ Speak (15 min)",d:speakTopics[Math.min(i-14,speakTopics.length-1)]});
+  }else{
+    tasks.push({t:"📖 Read (10 min)",d:morningTasks[i%morningTasks.length]});
+    tasks.push({t:"🎬 Watch (10 min)",d:videoTasks[i%videoTasks.length]});
+    tasks.push({t:"🗣️ Mock (20 min)",d:speakTopics[Math.min(i-14,speakTopics.length-1)]});
+  }
+  DAILY_PLAN.push({day:i+1,week:week,tasks:tasks});
+}
+
+const YOUTUBE=[
+{name:"IAmTimCorey",desc:"Speaks very slowly, explains like a teacher. Best for beginners.",tag:".NET / C#",url:"https://www.youtube.com/@IAmTimCorey",icon:"👨‍🏫"},
+{name:"Nick Chapsas",desc:"Clear British English, short focused videos on .NET tips.",tag:".NET Tips",url:"https://www.youtube.com/@nickchapsas",icon:"🇬🇧"},
+{name:"DotNet Mastery (Bhrugen Patel)",desc:"Indian accent, easy to follow. ASP.NET Core MVC tutorials.",tag:"MVC / .NET Core",url:"https://www.youtube.com/@DotNetMastery",icon:"🇮🇳"},
+{name:"Kudvenkat (Venkat)",desc:"Indian, very slow and clear. C# and SQL Server from basics.",tag:"C# / SQL",url:"https://www.youtube.com/@Aboringchannel",icon:"🇮🇳"},
+{name:"Fireship",desc:"100-second videos, very simple words. Great for quick concepts.",tag:"General Tech",url:"https://www.youtube.com/@Fireship",icon:"🔥"},
+{name:"Programming with Mosh",desc:"Clean, simple teaching style. Good for fundamentals.",tag:"C# / JS",url:"https://www.youtube.com/@programmingwithmosh",icon:"💻"},
+{name:"TechWorld with Nana",desc:"DevOps basics explained clearly. Docker, Kubernetes, CI/CD.",tag:"DevOps",url:"https://www.youtube.com/@TechWorldwithNana",icon:"🐳"},
+];
+
+const PHRASES={
+"Starting an answer":["So basically...","In simple terms...","What happens is...","The way I understand it is...","In my project, what I did was..."],
+"When you need time":["That's a good question, let me think...","If I remember correctly...","Let me explain step by step..."],
+"When you don't know":["I have heard about it but haven't worked on it directly","I know the concept at a high level...","I am currently learning about this"],
+"Connecting sentences":["For example...","Because of this...","The main difference is...","On the other hand...","Similarly...","As a result...","In addition to that..."],
+"Describing your project":["I developed a...","The purpose of this module is...","It handles...","The main feature is...","I used [technology] for this because...","The challenge was... and I solved it by..."],
+"Ending an answer":["So that's how it works.","That's the main idea.","This is what I have experienced.","I hope that explains it."]
+};
+
+let curTab='daily';
+
+function getData(){return JSON.parse(localStorage.getItem('eng_plan')||'{}')}
+function saveData(d){localStorage.setItem('eng_plan',JSON.stringify(d))}
+
+function toggleDay(day){
+  const d=getData();
+  d['day_'+day]=!d['day_'+day];
+  saveData(d);
+  renderAll();
+}
+
+function renderAll(){
+  const d=getData();
+  
+  // Streak & progress
+  let totalDone=0,streak=0,maxStreak=0;
+  for(let i=1;i<=60;i++){
+    if(d['day_'+i]){totalDone++;streak++;}
+    else{if(streak>maxStreak)maxStreak=streak;streak=0;}
+  }
+  if(streak>maxStreak)maxStreak=streak;
+  // Current streak from today backwards
+  let curStreak=0;
+  for(let i=60;i>=1;i--){
+    if(d['day_'+i])curStreak++;
+    else break;
+  }
+  // Actually calculate from first unchecked going forward
+  curStreak=0;
+  for(let i=1;i<=60;i++){
+    if(d['day_'+i])curStreak++;
+    else break;
+  }
+  
+  document.getElementById('streak').textContent=curStreak;
+  document.getElementById('totalDone').textContent=totalDone;
+  document.getElementById('streakBar').style.width=(totalDone/60*100)+'%';
+  
+  // Tabs
+  document.getElementById('tabs').innerHTML=TABS.map(t=>
+    `<div class="tab ${curTab===t.id?'active':''}" onclick="curTab='${t.id}';renderAll()">${t.name}</div>`
+  ).join('');
+  
+  // Content
+  const el=document.getElementById('content');
+  
+  if(curTab==='daily'){
+    let html='';
+    let currentWeek=0;
+    DAILY_PLAN.forEach(dp=>{
+      if(dp.week!==currentWeek){
+        currentWeek=dp.week;
+        const weekLabel=currentWeek<=2?'Foundation — Read + Watch':currentWeek<=4?'Speaking — Read + Watch + Speak':'Confidence — Read + Watch + Mock';
+        html+=`<div class="week-header">Week ${currentWeek}: ${weekLabel}</div>`;
+      }
+      const done=!!d['day_'+dp.day];
+      html+=`<div class="day-item ${done?'done':''}">
+        <input type="checkbox" class="day-check" ${done?'checked':''} onclick="toggleDay(${dp.day})">
+        <div class="day-num">${dp.day}</div>
+        <div class="day-text">
+          <div class="topic">Day ${dp.day}</div>
+          ${dp.tasks.map(t=>`<div class="desc">${t.t}: ${t.d}</div>`).join('')}
+        </div>
+      </div>`;
+    });
+    el.innerHTML=html;
+  }
+  
+  else if(curTab==='youtube'){
+    el.innerHTML=YOUTUBE.map(y=>
+      `<a href="${y.url}" target="_blank" class="yt-card">
+        <div class="yt-icon">${y.icon}</div>
+        <div class="yt-info">
+          <div class="yt-name">${y.name}</div>
+          <div class="yt-desc">${y.desc}</div>
+          <span class="yt-tag">${y.tag}</span>
+        </div>
+      </a>`
+    ).join('')+
+    `<div class="tip-box"><b>How to watch:</b><br>
+    ★ Turn ON English subtitles<br>
+    ★ Pause after each sentence → repeat it out loud<br>
+    ★ Copy their pronunciation and speed<br>
+    ★ Watch same video twice — 1st time understand, 2nd time repeat</div>`;
+  }
+  
+  else if(curTab==='phrases'){
+    let html='';
+    for(const[cat,phrases] of Object.entries(PHRASES)){
+      html+=`<div class="section-title">${cat}</div><div class="phrase-grid">`;
+      phrases.forEach(p=>{
+        html+=`<div class="phrase"><div class="en">"${p}"</div></div>`;
+      });
+      html+=`</div>`;
+    }
+    html+=`<div class="tip-box"><b>How to use:</b><br>
+    ★ Pick 3 phrases daily and use them in your practice<br>
+    ★ When answering interview questions, START with these phrases<br>
+    ★ They make you sound fluent even with simple English</div>`;
+    el.innerHTML=html;
+  }
+  
+  else if(curTab==='topics'){
+    let html=`<div class="tip-box"><b>How to practice:</b><br>
+    ★ Stand up or walk around (don't sit)<br>
+    ★ Speak to yourself or mirror<br>
+    ★ Record on phone → listen → notice pauses<br>
+    ★ Repeat same topic until it flows without stopping</div>`;
+    
+    const groups=[
+      {title:"Week 1-2: Basic Concepts",topics:speakTopics.slice(0,14)},
+      {title:"Week 3-4: Intermediate + Projects",topics:speakTopics.slice(14,28)},
+      {title:"Week 5-6: Advanced + Mock",topics:speakTopics.slice(28,42)},
+      {title:"Week 7-8: Full Mock Interviews",topics:speakTopics.slice(42)}
+    ];
+    groups.forEach(g=>{
+      html+=`<div class="week-header">${g.title}</div>`;
+      g.topics.forEach((t,i)=>{
+        html+=`<div class="card">🗣️ <b>Topic ${i+1}:</b> ${t}</div>`;
+      });
+    });
+    el.innerHTML=html;
+  }
+  
+  else if(curTab==='resources'){
+    el.innerHTML=`
+    <div class="section-title">📖 Articles to Read Daily</div>
+    <a href="https://dev.to" target="_blank" class="yt-card" style="border-left-color:#0ea5e9">
+      <div class="yt-icon">📝</div>
+      <div class="yt-info"><div class="yt-name">Dev.to</div><div class="yt-desc">Search ".NET Core", "C# tips" — community articles, simple English</div></div>
+    </a>
+    <a href="https://www.c-sharpcorner.com" target="_blank" class="yt-card" style="border-left-color:#10b981">
+      <div class="yt-icon">📗</div>
+      <div class="yt-info"><div class="yt-name">C# Corner</div><div class="yt-desc">Indian authors, simple English, .NET focused articles</div></div>
+    </a>
+    <a href="https://medium.com/tag/dotnet" target="_blank" class="yt-card" style="border-left-color:#8b5cf6">
+      <div class="yt-icon">📰</div>
+      <div class="yt-info"><div class="yt-name">Medium (.NET)</div><div class="yt-desc">Search "ASP.NET Core beginner", "C# tutorial"</div></div>
+    </a>
+    <a href="https://learn.microsoft.com/en-us/dotnet/" target="_blank" class="yt-card" style="border-left-color:#f59e0b">
+      <div class="yt-icon">📘</div>
+      <div class="yt-info"><div class="yt-name">Microsoft .NET Docs</div><div class="yt-desc">Official documentation — best for accurate information</div></div>
+    </a>
+    
+    <div class="section-title" style="margin-top:16px">📱 Apps to Install</div>
+    <div class="card"><b>Elsa Speak</b> — AI checks your English pronunciation (free version enough)</div>
+    <div class="card"><b>Grammarly Keyboard</b> — fixes your English typing automatically</div>
+    <div class="card"><b>Google Translate</b> — for quick word meanings</div>
+    
+    <div class="section-title" style="margin-top:16px">🎬 Movies/Series (Weekend)</div>
+    <div class="card"><b>The Social Network</b> — Facebook story, tech English</div>
+    <div class="card"><b>Silicon Valley</b> — HBO series, tech startup comedy</div>
+    <div class="card"><b>The Office</b> — workplace English, very useful for interviews</div>
+    <div class="card"><b>Friends</b> — very simple daily English conversations</div>
+    <div class="tip-box">★ Always watch with <b>English subtitles</b> (NOT Malayalam)</div>`;
+  }
+  
+  else if(curTab==='rules'){
+    el.innerHTML=`
+    <div class="section-title">⚡ Golden Rules</div>
+    <div class="card" style="border-left-color:#ef4444"><b>Rule 1:</b> Think in English, not Malayalam → translate → English. When coding, think "I am writing a for loop" not the Malayalam version.</div>
+    <div class="card" style="border-left-color:#f59e0b"><b>Rule 2:</b> Use simple short sentences. Say "OOP has 4 pillars. First is Encapsulation." NOT "OOP is a paradigm which encompasses four fundamental principles..."</div>
+    <div class="card" style="border-left-color:#10b981"><b>Rule 3:</b> Speak SLOWLY. Slow = confident. Fast = nervous. Take your time.</div>
+    <div class="card" style="border-left-color:#0ea5e9"><b>Rule 4:</b> 15 minutes daily for 60 days beats 3 hours once a week. Consistency wins.</div>
+    <div class="card" style="border-left-color:#8b5cf6"><b>Rule 5:</b> Record yourself answering questions. Listen back. This is the fastest way to improve.</div>
+    <div class="card" style="border-left-color:#ec4899"><b>Rule 6:</b> Change phone language to English. Type WhatsApp messages in English.</div>
+    <div class="card" style="border-left-color:#14b8a6"><b>Rule 7:</b> Don't study grammar books. Learn by speaking and listening, not reading rules.</div>
+    <div class="card" style="border-left-color:#f97316"><b>Rule 8:</b> Technical words ARE your English. "Dependency Injection", "Repository Pattern" — you already know 70% of interview English.</div>
+    
+    <div class="section-title" style="margin-top:16px">📈 Expected Timeline</div>
+    <div class="card" style="border-left-color:#64748b"><b>Week 1-2:</b> Feels uncomfortable — that's normal. Keep going.</div>
+    <div class="card" style="border-left-color:#f59e0b"><b>Week 3-4:</b> You start thinking small phrases in English automatically.</div>
+    <div class="card" style="border-left-color:#10b981"><b>Month 2:</b> You can explain technical concepts without freezing.</div>
+    <div class="card" style="border-left-color:#0ea5e9"><b>Month 3:</b> You feel confident in interviews. English flows naturally.</div>
+    
+    <div class="tip-box" style="font-size:1rem;text-align:center;margin-top:16px">
+    <b>Remember:</b><br>
+    Bad English spoken confidently > Perfect English spoken with fear.<br>
+    Interviewers judge your KNOWLEDGE, not your grammar. 💪
+    </div>`;
+  }
+}
+
+renderAll();
+</script>
+</body>
+</html>
