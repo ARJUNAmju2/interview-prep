@@ -3,342 +3,111 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Routine Tracker</title>
+<title>My Prep Hub</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Segoe UI', sans-serif; background: linear-gradient(160deg, #fff0f3 0%, #ffe4ec 40%, #fdf2f8 100%); color: #111827; min-height: 100vh; font-size: 16px; }
-  .container { max-width: 700px; margin: 0 auto; padding: 20px; }
-  .quote { text-align: center; font-style: italic; color: #e11d48; font-size: .95rem; margin-bottom: 18px; }
-  h1 { text-align: center; padding: 20px 0; background: linear-gradient(135deg, #f43f5e, #e11d48, #be123c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 2rem; }
-  .top-bar { display: flex; justify-content: center; align-items: center; gap: 14px; margin-bottom: 20px; }
-  .top-bar input { background: #fff; color: #111827; border: 1px solid #fda4af; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-size: .95rem; }
-  .btn-report, .btn-iv { background: linear-gradient(135deg, #f43f5e, #e11d48); color: #fff; border: none; padding: 10px 22px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 1rem; transition: all .2s; box-shadow: 0 2px 12px rgba(244,63,94,.3); text-decoration: none; }
-  .btn-iv { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 2px 12px rgba(16,185,129,.3); }
-  .btn-report:hover, .btn-iv:hover { opacity: .9; transform: translateY(-1px); }
-
-  .activity { display: flex; align-items: center; gap: 12px; padding: 16px 18px; margin-bottom: 10px; border-radius: 10px; background: #fff; border-left: 4px solid #f43f5e; cursor: pointer; transition: all .2s; box-shadow: 0 1px 4px rgba(0,0,0,.06); }
-  .activity:hover { background: #fff1f2; transform: translateX(4px); box-shadow: 0 2px 8px rgba(244,63,94,.12); }
-  .activity.done { border-left-color: #10b981; background: #f0fdf4; }
-  .activity.missed { border-left-color: #fb7185; opacity: .75; }
-  .time { font-size: .9rem; color: #9f1239; min-width: 130px; font-weight: 500; }
-  .name { flex: 1; font-weight: 600; font-size: 1rem; color: #111827; }
-  .status { font-size: 1.5rem; width: 34px; text-align: center; }
-  .study-badge { background: linear-gradient(135deg, #f43f5e, #e11d48); color: #fff; font-size: .75rem; padding: 2px 8px; border-radius: 10px; margin-left: 6px; cursor: pointer; }
-
-  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(136,19,55,.3); z-index: 10; justify-content: center; align-items: center; }
-  .modal-overlay.open { display: flex; }
-  .modal { background: #fff; border: 1px solid #fecdd3; border-radius: 14px; padding: 24px; width: 90%; max-width: 500px; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(244,63,94,.15); }
-  .modal h2 { margin-bottom: 16px; color: #e11d48; font-size: 1.3rem; font-weight: 700; }
-  .modal input { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #fda4af; background: #fff5f7; color: #111827; margin-bottom: 10px; font-size: 1rem; }
-  .modal input:focus { outline: none; border-color: #f43f5e; box-shadow: 0 0 8px rgba(244,63,94,.2); }
-  .modal button { padding: 10px 22px; font-size: .95rem; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; }
-  .btn-add { background: linear-gradient(135deg, #f43f5e, #e11d48); color: #fff; }
-  .btn-close { background: #fff1f2; color: #9f1239; margin-left: 8px; border: 1px solid #fecdd3; }
-  .topic-list { list-style: none; margin: 10px 0; }
-  .topic-list li { padding: 10px 14px; font-size: .95rem; background: #fff5f7; border-radius: 6px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #fecdd3; }
-  .topic-list li.covered { color: #10b981; text-decoration: line-through; opacity: .7; }
-  .topic-list li button { background: none; border: none; color: #ef4444; cursor: pointer; font-size: 1rem; }
-  .topic-list li .cover-btn { color: #10b981; margin-right: 8px; }
-
-  /* Report modal */
-  .report-date-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-  .report-date-bar label { font-size: 1rem; color: #9f1239; font-weight: 500; }
-  .report-date-bar input { width: auto; margin-bottom: 0; }
-  .report-row { display: flex; justify-content: space-between; padding: 10px 0; font-size: 1rem; border-bottom: 1px solid #fecdd3; }
-  .report-row .r-status { font-weight: 700; }
-  .r-done { color: #10b981; }
-  .r-miss { color: #ef4444; }
-  .r-topics { padding: 6px 0 10px 16px; border-bottom: 1px solid #fecdd3; }
-  .r-topics-title { font-size: .85rem; color: #9f1239; margin-bottom: 4px; font-weight: 600; }
-  .r-topic { font-size: .95rem; padding: 3px 0; display: flex; align-items: center; gap: 6px; }
-  .r-topic.covered { color: #10b981; }
-  .r-topic.not-covered { color: #ef4444; }
-  .score { text-align: center; margin-top: 14px; font-size: 1.4rem; font-weight: 700; }
-  .btn-export { background: #fff; color: #9f1239; border: 1px solid #fecdd3; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: .85rem; margin: 0 4px; transition: all .2s; }
-  .btn-export:hover { background: #fff1f2; }
-  .export-bar { text-align: center; margin-top: 12px; }
-  .no-data { text-align: center; color: #fb7185; padding: 30px 0; font-size: 1rem; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center}
+.container{max-width:600px;width:100%;padding:30px 20px;text-align:center}
+h1{background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:2.4rem;margin-bottom:8px}
+.subtitle{color:#64748b;font-size:.95rem;margin-bottom:30px}
+.quote-box{background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #1e3a5f;border-radius:16px;padding:28px 24px;margin-bottom:36px;position:relative;overflow:hidden}
+.quote-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#0ea5e9,#22d3ee,#06b6d4)}
+.quote-icon{font-size:2.5rem;margin-bottom:12px;display:block}
+.quote-text{font-size:1.15rem;font-style:italic;color:#cbd5e1;line-height:1.8;margin-bottom:12px}
+.quote-author{color:#0ea5e9;font-size:.85rem;font-weight:600}
+.btn-refresh{background:none;border:1px solid #1e3a5f;color:#64748b;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;margin-top:10px;transition:all .2s}
+.btn-refresh:hover{border-color:#0ea5e9;color:#0ea5e9}
+.links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.link-card{flex:1;min-width:220px;text-decoration:none;border-radius:16px;padding:28px 20px;transition:all .3s;position:relative;overflow:hidden}
+.link-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s}
+.link-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+.link-card:hover::before{opacity:1}
+.link-interview{background:linear-gradient(135deg,#0ea5e9,#0284c7);box-shadow:0 4px 20px rgba(14,165,233,.25)}
+.link-interview:hover{box-shadow:0 12px 40px rgba(14,165,233,.35)}
+.link-timetable{background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 4px 20px rgba(245,158,11,.25)}
+.link-timetable:hover{box-shadow:0 12px 40px rgba(245,158,11,.35)}
+.link-icon{font-size:2.8rem;display:block;margin-bottom:10px}
+.link-title{font-size:1.2rem;font-weight:700;color:#fff;margin-bottom:4px}
+.link-desc{font-size:.82rem;color:rgba(255,255,255,.8)}
+.footer{color:#334155;font-size:.78rem;margin-top:20px}
+.time{color:#0ea5e9;font-size:.9rem;font-weight:500;margin-bottom:20px}
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>🌸 My Daily Routine</h1>
-  <div class="quote" id="quote"></div>
-  <div class="top-bar">
-    <input type="date" id="dateInput">
-    <button class="btn-report" onclick="openReport()">📊 Report</button>
-    <a href="interview.html" class="btn-iv">🎯 Interview</a>
-    <a href="timetable.html" class="btn-iv" style="background:linear-gradient(135deg,#f59e0b,#d97706);box-shadow:0 2px 12px rgba(245,158,11,.3)">📅 Timetable</a>
-  </div>
-  <div id="activities"></div>
+<h1>My Prep Hub</h1>
+<p class="subtitle">Stay focused. Stay consistent. Crack it.</p>
+<div class="time" id="clock"></div>
+
+<div class="quote-box">
+<span class="quote-icon" id="qIcon">💡</span>
+<div class="quote-text" id="quoteText"></div>
+<div class="quote-author" id="quoteAuthor"></div>
+<button class="btn-refresh" onclick="showQuote()">↻ New Quote</button>
 </div>
 
-<!-- Study Topics Modal -->
-<div class="modal-overlay" id="studyModal">
-  <div class="modal">
-    <h2 id="studyModalTitle">📚 Study Topics</h2>
-    <input type="text" id="topicInput" placeholder="Enter topic covered...">
-    <button class="btn-add" onclick="addTopic()">Add Topic</button>
-    <button class="btn-close" onclick="closeStudyModal()">Close</button>
-    <ul class="topic-list" id="topicList"></ul>
-  </div>
+<div class="links">
+<a href="interview.html" class="link-card link-interview">
+<span class="link-icon">🎯</span>
+<div class="link-title">Interview Prep</div>
+<div class="link-desc">OOPs, C#, SQL, MVC, PL/SQL, Web API & more</div>
+</a>
+<a href="timetable.html" class="link-card link-timetable">
+<span class="link-icon">📅</span>
+<div class="link-title">Timetable</div>
+<div class="link-desc">Daily schedule & study planner</div>
+</a>
 </div>
 
-<!-- Report Modal -->
-<div class="modal-overlay" id="reportModal">
-  <div class="modal">
-    <h2>📊 Daily Report</h2>
-    <div class="report-date-bar">
-      <label>Select Date:</label>
-      <input type="date" id="reportDateInput">
-    </div>
-    <div id="reportBody"></div>
-    <div class="score" id="reportScore"></div>
-    <div class="export-bar">
-      <button class="btn-export" onclick="exportPDF()">📄 Export PDF</button>
-      <button class="btn-export" onclick="exportExcel()">📊 Export Excel</button>
-      <button class="btn-export" onclick="exportWord()">📝 Export Word</button>
-    </div>
-    <div style="text-align:center;margin-top:16px;">
-      <button class="btn-close" onclick="closeReport()">Close</button>
-    </div>
-  </div>
+<div class="footer">Keep pushing. Every day counts.</div>
 </div>
 
 <script>
-const ROUTINES = [
-  { id: 'wakeup',    time: '4:30 AM',          name: 'Wake Up' },
-  { id: 'skincare',  time: '4:30 - 5:00 AM',   name: 'Skin Care' },
-  { id: 'exercise',  time: '5:00 - 5:30 AM',   name: 'Exercise' },
-  { id: 'study_am',  time: '5:30 - 6:30 AM',   name: 'Study (Morning)', study: true },
-  { id: 'breakfast', time: '7:00 - 7:15 AM',   name: 'Breakfast' },
-  { id: 'study_pm',  time: '7:30 - 9:00 PM',   name: 'Study (Evening)', study: true },
-  { id: 'bath',      time: '10:00 PM',          name: 'Bath' },
-  { id: 'reading',   time: '10:00 - 10:30 PM', name: 'Reading Books' },
-  { id: 'sleep',     time: '10:30 PM',          name: 'Sleep' },
+const QUOTES=[
+{t:"Success is not final, failure is not fatal: it is the courage to continue that counts.",a:"Winston Churchill",i:"🔥"},
+{t:"The only way to do great work is to love what you do.",a:"Steve Jobs",i:"💡"},
+{t:"Believe you can and you're halfway there.",a:"Theodore Roosevelt",i:"✨"},
+{t:"Hard work beats talent when talent doesn't work hard.",a:"Tim Notke",i:"💪"},
+{t:"Don't watch the clock; do what it does. Keep going.",a:"Sam Levenson",i:"⏰"},
+{t:"The secret of getting ahead is getting started.",a:"Mark Twain",i:"🚀"},
+{t:"Your future is created by what you do today, not tomorrow.",a:"Robert Kiyosaki",i:"⚡"},
+{t:"It does not matter how slowly you go as long as you do not stop.",a:"Confucius",i:"🐢"},
+{t:"Push yourself, because no one else is going to do it for you.",a:"Unknown",i:"💥"},
+{t:"Wake up with determination. Go to bed with satisfaction.",a:"Unknown",i:"🌅"},
+{t:"Dream big. Start small. Act now.",a:"Robin Sharma",i:"🎯"},
+{t:"The pain you feel today will be the strength you feel tomorrow.",a:"Unknown",i:"🏋️"},
+{t:"Code is like humor. When you have to explain it, it's bad.",a:"Cory House",i:"😄"},
+{t:"First, solve the problem. Then, write the code.",a:"John Johnson",i:"🧠"},
+{t:"The best error message is the one that never shows up.",a:"Thomas Fuchs",i:"🐛"},
+{t:"Discipline is the bridge between goals and accomplishment.",a:"Jim Rohn",i:"🌉"},
+{t:"Success usually comes to those who are too busy to be looking for it.",a:"Henry David Thoreau",i:"🏆"},
+{t:"Don't be afraid to give up the good to go for the great.",a:"John D. Rockefeller",i:"🌟"},
+{t:"I find that the harder I work, the more luck I seem to have.",a:"Thomas Jefferson",i:"🍀"},
+{t:"The expert in anything was once a beginner.",a:"Helen Hayes",i:"📚"},
+{t:"Stay hungry, stay foolish.",a:"Steve Jobs",i:"🍎"},
+{t:"Talk is cheap. Show me the code.",a:"Linus Torvalds",i:"💻"},
+{t:"Simplicity is the soul of efficiency.",a:"Austin Freeman",i:"✂️"},
+{t:"Any fool can write code that a computer can understand. Good programmers write code that humans can understand.",a:"Martin Fowler",i:"🧑‍💻"},
+{t:"One day or day one. You decide.",a:"Unknown",i:"📆"}
 ];
 
-const dateInput = document.getElementById('dateInput');
-const reportDateInput = document.getElementById('reportDateInput');
-const today = new Date().toISOString().split('T')[0];
-dateInput.value = today;
-reportDateInput.value = today;
-dateInput.addEventListener('change', render);
-reportDateInput.addEventListener('change', renderReport);
-
-let currentStudyId = null;
-
-function key(date) { return `routine_${date}`; }
-function getData(date) { return JSON.parse(localStorage.getItem(key(date)) || '{}'); }
-function saveData(date, data) { localStorage.setItem(key(date), JSON.stringify(data)); }
-
-function toggle(id) {
-  const date = dateInput.value, data = getData(date);
-  if (!data[id]) data[id] = { done: false, topics: [] };
-  data[id].done = !data[id].done;
-  saveData(date, data);
-  render();
+function showQuote(){
+const q=QUOTES[Math.floor(Math.random()*QUOTES.length)];
+document.getElementById('qIcon').textContent=q.i;
+document.getElementById('quoteText').textContent='"'+q.t+'"';
+document.getElementById('quoteAuthor').textContent='— '+q.a;
 }
+showQuote();
 
-// Study Modal
-function openStudy(id) {
-  currentStudyId = id;
-  document.getElementById('studyModalTitle').textContent =
-    `📚 ${ROUTINES.find(r => r.id === id).name} - Topics`;
-  document.getElementById('studyModal').classList.add('open');
-  renderTopics();
+function updateClock(){
+const now=new Date();
+const opts={weekday:'long',year:'numeric',month:'long',day:'numeric'};
+const time=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+const date=now.toLocaleDateString('en-US',opts);
+document.getElementById('clock').textContent=date+' • '+time;
 }
-function closeStudyModal() {
-  document.getElementById('studyModal').classList.remove('open');
-  document.getElementById('topicInput').value = '';
-  render();
-}
-function addTopic() {
-  const input = document.getElementById('topicInput');
-  const text = input.value.trim();
-  if (!text) return;
-  const date = dateInput.value, data = getData(date);
-  if (!data[currentStudyId]) data[currentStudyId] = { done: false, topics: [] };
-  data[currentStudyId].topics.push({ text, covered: false });
-  saveData(date, data);
-  input.value = '';
-  renderTopics();
-}
-function toggleTopic(i) {
-  const date = dateInput.value, data = getData(date);
-  data[currentStudyId].topics[i].covered = !data[currentStudyId].topics[i].covered;
-  saveData(date, data);
-  renderTopics();
-}
-function deleteTopic(i) {
-  const date = dateInput.value, data = getData(date);
-  data[currentStudyId].topics.splice(i, 1);
-  saveData(date, data);
-  renderTopics();
-}
-function renderTopics() {
-  const date = dateInput.value, data = getData(date);
-  const entry = data[currentStudyId] || { topics: [] };
-  document.getElementById('topicList').innerHTML = entry.topics.map((t, i) => `
-    <li class="${t.covered ? 'covered' : ''}">
-      <span>${t.text}</span>
-      <span>
-        <button class="cover-btn" onclick="toggleTopic(${i})">${t.covered ? '↩️' : '✅'}</button>
-        <button onclick="deleteTopic(${i})">🗑️</button>
-      </span>
-    </li>`).join('');
-}
-
-// Report Modal
-function openReport() {
-  reportDateInput.value = dateInput.value;
-  document.getElementById('reportModal').classList.add('open');
-  renderReport();
-}
-function closeReport() {
-  document.getElementById('reportModal').classList.remove('open');
-}
-function renderReport() {
-  const date = reportDateInput.value, data = getData(date);
-  const rb = document.getElementById('reportBody');
-  const hasData = Object.keys(data).length > 0;
-
-  if (!hasData) {
-    rb.innerHTML = '<div class="no-data">No data recorded for this date.</div>';
-    document.getElementById('reportScore').textContent = '';
-    return;
-  }
-
-  let done = 0;
-  rb.innerHTML = ROUTINES.map(r => {
-    const entry = data[r.id] || { done: false, topics: [] };
-    if (entry.done) done++;
-    const cls = entry.done ? 'r-done' : 'r-miss';
-    const txt = entry.done ? '✅ Done' : '❌ Missed';
-    let html = `<div class="report-row"><span>${r.name}</span><span class="r-status ${cls}">${txt}</span></div>`;
-    if (r.study && entry.topics && entry.topics.length) {
-      const coveredCount = entry.topics.filter(t => t.covered).length;
-      const topicsHtml = entry.topics.map(t =>
-        `<div class="r-topic ${t.covered ? 'covered' : 'not-covered'}">${t.covered ? '✅' : '❌'} ${t.text}</div>`
-      ).join('');
-      html += `<div class="r-topics"><div class="r-topics-title">Topics: ${coveredCount}/${entry.topics.length} covered</div>${topicsHtml}</div>`;
-    }
-    return html;
-  }).join('');
-
-  const pct = Math.round((done / ROUTINES.length) * 100);
-  const scoreEl = document.getElementById('reportScore');
-  scoreEl.textContent = `Score: ${done}/${ROUTINES.length} (${pct}%)`;
-  scoreEl.style.color = pct >= 80 ? '#4caf50' : pct >= 50 ? '#ff9800' : '#f44336';
-}
-
-// Main render
-function render() {
-  const date = dateInput.value, data = getData(date);
-  document.getElementById('activities').innerHTML = ROUTINES.map(r => {
-    const entry = data[r.id] || { done: false, topics: [] };
-    const cls = entry.done ? 'done' : 'missed';
-    const icon = entry.done ? '✅' : '❌';
-    const badge = r.study ? `<span class="study-badge" onclick="event.stopPropagation();openStudy('${r.id}')">📚 Topics (${(entry.topics||[]).length})</span>` : '';
-    return `<div class="activity ${cls}" onclick="toggle('${r.id}')">
-      <span class="time">${r.time}</span>
-      <span class="name">${r.name}${badge}</span>
-      <span class="status">${icon}</span>
-    </div>`;
-  }).join('');
-}
-
-const QUOTES = [
-  "Discipline is the bridge between goals and accomplishment. 💪",
-  "The secret of getting ahead is getting started. 🚀",
-  "Don't watch the clock; do what it does. Keep going. ⏰",
-  "Success is the sum of small efforts repeated day in and day out. 🔥",
-  "Your future is created by what you do today, not tomorrow. ⚡",
-  "Push yourself, because no one else is going to do it for you. 💥",
-  "Wake up with determination. Go to bed with satisfaction. 🌅",
-  "It's not about being the best. It's about being better than yesterday. 📈",
-  "Hard work beats talent when talent doesn't work hard. 🏆",
-  "Believe you can and you're halfway there. ✨"
-];
-document.getElementById('quote').textContent = '"' + QUOTES[Math.floor(Math.random()*QUOTES.length)] + '"';
-
-document.getElementById('topicInput').addEventListener('keydown', e => { if (e.key === 'Enter') addTopic(); });
-
-// === EXPORT FUNCTIONS ===
-function getReportData() {
-  const date = document.getElementById('reportDateInput').value;
-  const data = getData(date);
-  let done = 0;
-  const rows = ROUTINES.map(r => {
-    const entry = data[r.id] || { done: false, topics: [] };
-    if (entry.done) done++;
-    return { time: r.time, name: r.name, status: entry.done ? 'Done' : 'Missed', topics: entry.topics || [] };
-  });
-  const pct = Math.round((done / ROUTINES.length) * 100);
-  return { date, rows, done, total: ROUTINES.length, pct };
-}
-
-function exportPDF() {
-  const d = getReportData();
-  const w = window.open('', '_blank');
-  let topicsHtml = '';
-  d.rows.forEach(r => {
-    if (r.topics.length) {
-      topicsHtml += `<tr><td colspan="3" style="padding:4px 20px;font-size:13px;color:#666">`;
-      r.topics.forEach(t => {
-        topicsHtml += `<div>${t.covered ? '✅' : '❌'} ${t.text}</div>`;
-      });
-      topicsHtml += `</td></tr>`;
-    }
-  });
-  w.document.write(`<html><head><title>Routine Report - ${d.date}</title>
-    <style>body{font-family:Segoe UI,sans-serif;padding:30px;color:#111}table{width:100%;border-collapse:collapse;margin:20px 0}th,td{border:1px solid #ddd;padding:10px;text-align:left}th{background:#f43f5e;color:#fff}.done{color:#10b981;font-weight:700}.missed{color:#ef4444;font-weight:700}h1{color:#e11d48}h2{color:#9f1239;margin-top:20px}.score{font-size:22px;font-weight:700;margin:16px 0}</style>
-    </head><body>
-    <h1>🌸 Daily Routine Report</h1>
-    <h2>Date: ${d.date}</h2>
-    <table><tr><th>Time</th><th>Activity</th><th>Status</th></tr>
-    ${d.rows.map(r => `<tr><td>${r.time}</td><td>${r.name}</td><td class="${r.status==='Done'?'done':'missed'}">${r.status==='Done'?'✅ Done':'❌ Missed'}</td></tr>${r.topics.length ? '<tr><td colspan="3" style="padding:4px 20px;font-size:13px;color:#666">' + r.topics.map(t=>(t.covered?'✅':'❌')+' '+t.text).join('<br>') + '</td></tr>' : ''}`).join('')}
-    </table>
-    <div class="score">Score: ${d.done}/${d.total} (${d.pct}%)</div>
-    <script>window.print();<\/script></body></html>`);
-  w.document.close();
-}
-
-function exportExcel() {
-  const d = getReportData();
-  let csv = 'Time,Activity,Status,Topics\n';
-  d.rows.forEach(r => {
-    const topics = r.topics.map(t => (t.covered ? '[Done] ' : '[Pending] ') + t.text).join(' | ');
-    csv += `"${r.time}","${r.name}","${r.status}","${topics}"\n`;
-  });
-  csv += `\n,,Score:,"${d.done}/${d.total} (${d.pct}%)"\n`;
-  const blob = new Blob([csv], { type: 'text/csv' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `Routine_Report_${d.date}.csv`;
-  a.click();
-}
-
-function exportWord() {
-  const d = getReportData();
-  let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
-    <head><meta charset="utf-8"><style>body{font-family:Segoe UI,sans-serif;padding:20px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:8px}th{background:#f43f5e;color:#fff}.done{color:green;font-weight:700}.missed{color:red;font-weight:700}h1{color:#e11d48}</style></head><body>
-    <h1>🌸 Daily Routine Report</h1><h2>Date: ${d.date}</h2>
-    <table><tr><th>Time</th><th>Activity</th><th>Status</th></tr>
-    ${d.rows.map(r => {
-      let row = `<tr><td>${r.time}</td><td>${r.name}</td><td class="${r.status==='Done'?'done':'missed'}">${r.status}</td></tr>`;
-      if (r.topics.length) row += `<tr><td colspan="3" style="font-size:12px;color:#555;padding-left:20px">${r.topics.map(t=>(t.covered?'✅':'❌')+' '+t.text).join('<br>')}</td></tr>`;
-      return row;
-    }).join('')}
-    </table><p style="font-size:18px;font-weight:700;margin-top:16px">Score: ${d.done}/${d.total} (${d.pct}%)</p></body></html>`;
-  const blob = new Blob([html], { type: 'application/msword' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `Routine_Report_${d.date}.doc`;
-  a.click();
-}
-
-render();
+updateClock();
+setInterval(updateClock,60000);
 </script>
 </body>
 </html>
