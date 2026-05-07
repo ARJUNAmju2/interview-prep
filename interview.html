@@ -47,6 +47,27 @@ h1{text-align:center;padding:16px 0;background:linear-gradient(135deg,#38bdf8,#0
 .ans-btn{background:linear-gradient(135deg,#0ea5e9,#06b6d4);color:#fff;border:none;padding:5px 14px;border-radius:6px;font-size:.78rem;cursor:pointer;font-weight:600;margin-left:8px}
 .voice-btn{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.8rem;cursor:pointer;font-weight:600;margin:8px 4px 0 0;display:inline-flex;align-items:center;gap:4px}
 .voice-btn.playing{background:linear-gradient(135deg,#ef4444,#dc2626);animation:pulse 1s infinite}
+.file-btn{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.78rem;margin-top:6px;font-weight:600}
+.file-panel{background:#1e293b;border:1px solid #1e3a5f;border-radius:10px;padding:14px;margin-top:10px;display:none}
+.file-panel.open{display:block}
+.file-list{list-style:none;margin-top:10px}
+.file-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:#0f172a;border-radius:6px;margin-bottom:6px;border:1px solid #1e3a5f}
+.file-item a{color:#38bdf8;text-decoration:none;font-size:.85rem;flex:1;word-break:break-all}
+.file-item a:hover{text-decoration:underline}
+.file-item .file-icon{font-size:1.2rem}
+.file-item .file-del{background:none;border:none;color:#ef4444;cursor:pointer;font-size:1rem}
+.file-upload-area{border:2px dashed #1e3a5f;border-radius:8px;padding:16px;text-align:center;margin-top:8px;cursor:pointer;transition:all .2s}
+.file-upload-area:hover{border-color:#8b5cf6;background:#1e1b4b}
+.file-upload-area input{display:none}
+.file-upload-area p{color:#94a3b8;font-size:.85rem}
+.file-count{background:#8b5cf6;color:#fff;font-size:.7rem;padding:1px 6px;border-radius:10px;margin-left:4px}
+.note-area{margin-top:10px;border-top:1px solid #bae6fd;padding-top:10px}
+.note-btn{background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.78rem;cursor:pointer;font-weight:600;margin-left:8px}
+.note-box{width:100%;min-height:80px;padding:10px 12px;border-radius:8px;border:1px solid #bae6fd;background:#fff;color:#1e293b;font-size:.88rem;line-height:1.7;font-family:"Segoe UI",sans-serif;resize:vertical;margin-top:8px}
+.note-box:focus{outline:none;border-color:#f59e0b;box-shadow:0 0 8px rgba(245,158,11,.2)}
+.note-save{background:#10b981;color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.78rem;cursor:pointer;font-weight:600;margin-top:6px}
+.note-saved{color:#10b981;font-size:.78rem;font-weight:600;margin-left:8px;display:none}
+.note-display{background:#fffbeb;border:1px solid #fde68a;border-radius:8px;padding:10px 14px;margin-top:8px;font-size:.88rem;color:#78350f;line-height:1.8;white-space:pre-wrap}
 .mal-text{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #f59e0b;border-radius:10px;padding:14px 16px;margin:8px 0;font-size:.9rem;color:#78350f;line-height:2;font-family:"Manjari","Noto Sans Malayalam",sans-serif}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.7}}
 .voice-btn:hover{transform:scale(1.03)}
@@ -60,10 +81,23 @@ h1{text-align:center;padding:16px 0;background:linear-gradient(135deg,#38bdf8,#0
 <h1>🎯 Interview Prep - Crack It!</h1>
 <div class="overall"><button class="btn-reset" style="background:#7c3aed" onclick="downloadQuestionsPDF()">📥 Questions PDF</button>
 <button class="btn-reset" style="background:#0d9488" onclick="downloadQnAPDF()">QnA PDF</button>
+<button class="file-btn" onclick="toggleUploadPanel()">Upload Files</button>
+<button class="file-btn" style="background:linear-gradient(135deg,#0ea5e9,#0284c7)" onclick="toggleViewPanel()">View Files <span id="fileCount" class="file-count">0</span></button>
 </div>
 <div class="overall"><span id="ov">0/0 Studied</span>
 <div class="bar"><div class="bar-fill" id="ovBar" style="width:0%"></div></div>
 <button class="btn-reset" onclick="if(confirm('Reset all study progress?')){localStorage.removeItem('iv_study');render()}">Reset Progress</button>
+</div>
+<div class="file-panel" id="uploadPanel">
+<h4 style="color:#a78bfa;margin-bottom:8px;font-size:.95rem">Upload Files</h4>
+<div class="file-upload-area" onclick="document.getElementById('fileInput').click()">
+<input type="file" id="fileInput" multiple onchange="handleFileUpload(event)">
+<p>Click to upload files (PDF, Images, Docs)</p>
+</div>
+</div>
+<div class="file-panel" id="viewPanel">
+<h4 style="color:#38bdf8;margin-bottom:8px;font-size:.95rem">My Files</h4>
+<ul class="file-list" id="fileList"></ul>
 </div>
 <div class="tabs" id="tabs"></div>
 <input class="search" id="search" placeholder="🔍 Search questions...">
@@ -560,6 +594,83 @@ let currentUtterance=null;
 
 
 
+function toggleUploadPanel(){
+  document.getElementById('uploadPanel').classList.toggle('open');
+  document.getElementById('viewPanel').classList.remove('open');
+}
+function toggleViewPanel(){
+  document.getElementById('viewPanel').classList.toggle('open');
+  document.getElementById('uploadPanel').classList.remove('open');
+  renderFiles();
+}
+function getFiles(){return JSON.parse(localStorage.getItem('iv_files')||'[]')}
+function saveFiles(files){localStorage.setItem('iv_files',JSON.stringify(files));renderFiles();}
+function handleFileUpload(e){
+  const files=getFiles();
+  Array.from(e.target.files).forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=function(ev){
+      files.push({name:file.name,type:file.type,size:file.size,data:ev.target.result,date:new Date().toLocaleDateString()});
+      saveFiles(files);
+    };
+    reader.readAsDataURL(file);
+  });
+  e.target.value='';
+}
+function viewFile(idx){
+  const files=getFiles();
+  const file=files[idx];
+  const w=window.open('','_blank');
+  if(file.type.startsWith('image/')){
+    w.document.write(`<html><body style="margin:0;display:flex;justify-content:center;align-items:center;min-height:100vh;background:#111"><img src="${file.data}" style="max-width:100%;max-height:100vh"></body></html>`);
+  }else if(file.type==='application/pdf'){
+    w.document.write(`<html><body style="margin:0"><iframe src="${file.data}" style="width:100%;height:100vh;border:none"></iframe></body></html>`);
+  }else{
+    w.document.write(`<html><body style="font-family:sans-serif;padding:20px"><h2>${file.name}</h2><p>File type: ${file.type}</p><a href="${file.data}" download="${file.name}" style="color:#0ea5e9">Download File</a></body></html>`);
+  }
+  w.document.close();
+}
+function deleteFile(idx){
+  if(!confirm('Delete this file?'))return;
+  const files=getFiles();
+  files.splice(idx,1);
+  saveFiles(files);
+}
+function renderFiles(){
+  const files=getFiles();
+  document.getElementById('fileCount').textContent=files.length;
+  const list=document.getElementById('fileList');
+  if(!list)return;
+  if(files.length===0){
+    list.innerHTML='<li style="color:#64748b;font-size:.85rem;padding:8px">No files uploaded yet.</li>';
+    return;
+  }
+  list.innerHTML=files.map((f,i)=>{
+    const icon=f.type.startsWith('image/')?'[IMG]':f.type==='application/pdf'?'[PDF]':'[FILE]';
+    const size=(f.size/1024).toFixed(1)+'KB';
+    return `<li class="file-item">
+      <span class="file-icon">${icon}</span>
+      <a href="#" onclick="event.preventDefault();viewFile(${i})">${f.name} <span style="color:#64748b;font-size:.75rem">(${size})</span></a>
+      <button class="file-del" onclick="deleteFile(${i})">âœ•</button>
+    </li>`;
+  }).join('');
+}
+renderFiles();
+function getNote(cat,i){const notes=JSON.parse(localStorage.getItem('iv_notes')||'{}');return notes[cat+'_'+i]||'';}
+function saveNote(cat,i){
+  const notes=JSON.parse(localStorage.getItem('iv_notes')||'{}');
+  const val=document.getElementById('note_'+cat+'_'+i).value;
+  if(val.trim())notes[cat+'_'+i]=val;
+  else delete notes[cat+'_'+i];
+  localStorage.setItem('iv_notes',JSON.stringify(notes));
+  document.getElementById('noteSaved_'+cat+'_'+i).style.display='inline';
+  setTimeout(()=>{document.getElementById('noteSaved_'+cat+'_'+i).style.display='none';},2000);
+  render();
+}
+function toggleNote(cat,i){
+  const el=document.getElementById('noteArea_'+cat+'_'+i);
+  el.style.display=el.style.display==='none'?'block':'none';
+}
 function render(){
   const s=searchEl.value.toLowerCase();
   const sd=getStudy();
@@ -596,7 +707,7 @@ function render(){
       <input type="checkbox" class="study-check" ${studied?'checked':''} onclick="event.stopPropagation();toggleStudy('${cur}',${i})" title="Mark as studied">
       <div class="qn">${n}</div>
       <div class="qt">${q.q}<span class="lvl ${q.l}">${LVL[q.l]}</span>${hasAns?`<button class="ans-btn" onclick="event.stopPropagation();toggleAns('${ansId}')">Answer</button>`:''}</div>
-    </div>${hasAns?`<div class="ans-panel" id="${ansId}" style="display:none"><div style="margin-bottom:8px"><button class="voice-btn" onclick="event.stopPropagation();translateMal('${ansId}',this)">Malayalam</button></div><div class="mal-text" id="mal_${ansId}" style="display:none"></div>${q.a}</div>`:''}`;
+    </div>${hasAns?`<div class="ans-panel" id="${ansId}" style="display:none"><div style="margin-bottom:8px"><button class="voice-btn" onclick="event.stopPropagation();translateMal('${ansId}',this)">Malayalam</button><button class="note-btn" onclick="event.stopPropagation();toggleNote('${cur}',${i})">${getNote(cur,i)?'Edit Notes':'My Notes'}</button></div><div class="mal-text" id="mal_${ansId}" style="display:none"></div>${q.a}${getNote(cur,i)?'<div class="note-display">'+getNote(cur,i).replace(/\\n/g,'<br>')+'</div>':''}<div class="note-area" id="noteArea_${cur}_${i}" style="display:none"><textarea class="note-box" id="note_${cur}_${i}" placeholder="Write your own notes/easy sentences here...">${getNote(cur,i)}</textarea><button class="note-save" onclick="event.stopPropagation();saveNote('${cur}',${i})">Save Note</button><span class="note-saved" id="noteSaved_${cur}_${i}">Saved!</span></div></div>`:''}`;
   });
   document.getElementById('qs').innerHTML=html||'<div style="text-align:center;color:#64748b;padding:30px;font-size:1rem">No questions match.</div>';
 }
