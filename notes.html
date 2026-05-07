@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reference Notes</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:16px}
+.container{max-width:800px;margin:0 auto;padding:20px}
+a.back{color:#38bdf8;text-decoration:none;font-size:.95rem;font-weight:500}
+h1{text-align:center;padding:16px 0;background:linear-gradient(135deg,#8b5cf6,#7c3aed,#6d28d9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:2rem}
+.subtitle{text-align:center;color:#94a3b8;font-size:.9rem;margin-bottom:24px}
+.section-title{color:#a78bfa;font-size:1.15rem;font-weight:700;margin:20px 0 10px;padding:10px 14px;background:#1e293b;border-radius:8px;border-left:4px solid #8b5cf6}
+.note-card{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:12px;color:#1e293b;line-height:1.9;font-size:.92rem;border-left:4px solid #0ea5e9;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.note-card h2{color:#0369a1;font-size:1.05rem;margin-bottom:8px;border-bottom:1px solid #e5e7eb;padding-bottom:6px}
+.note-card ul,.note-card ol{margin-left:20px;margin-top:6px}
+.note-card li{margin:5px 0}
+.note-card b{color:#0369a1}
+.note-card .hl{background:#dbeafe;color:#1e40af;padding:2px 6px;border-radius:3px;font-weight:600;font-size:.85rem}
+.note-card code{background:#f1f5f9;padding:2px 6px;border-radius:4px;font-family:Consolas,monospace;font-size:.85rem;color:#dc2626}
+.tip{background:#fef3c7;border-left:3px solid #f59e0b;padding:10px 14px;border-radius:6px;margin:10px 0;color:#92400e;font-size:.88rem}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>Reference Notes</h1>
+<p class="subtitle">Quick reference notes for interview preparation</p>
+
+<!-- ADD YOUR NOTES BELOW -->
+
+<div class="section-title">My Projects Summary</div>
+
+<div class="note-card">
+<h2>1. Helpdesk Ticketing Tool</h2>
+<ul>
+<li><b>Tech:</b> Web Service, VB Code, SQL Server</li>
+<li><b>Purpose:</b> Create, Assign, Resolve tickets to appropriate teams</li>
+<li><b>Features:</b> Ticket creation, team-based routing, status tracking, escalation</li>
+<li><b>My Role:</b> Developed ticket workflow and assignment logic</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>2. Store Module</h2>
+<ul>
+<li><b>Tech:</b> Windows Application, VB Code, SQL Server</li>
+<li><b>Purpose:</b> Stock management and branch-wise inventory</li>
+<li><b>Features:</b> Add stock, transfer items between branches, stock reports</li>
+<li><b>My Role:</b> Built stock transfer logic with database transactions</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>3. Preventive Maintenance Module</h2>
+<ul>
+<li><b>Tech:</b> MVC .NET Core, Entity Framework Core, SQL Server</li>
+<li><b>Purpose:</b> Schedule and track branch visits</li>
+<li><b>Features:</b> Visit scheduling, branch situation updates, status reports</li>
+<li><b>My Role:</b> Designed MVC architecture, built scheduling system</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>4. Audit Module</h2>
+<ul>
+<li><b>Tech:</b> MVC .NET Core, Entity Framework Core, SQL Server</li>
+<li><b>Purpose:</b> Audit company-wide activities</li>
+<li><b>Features:</b> Audit trail logging, activity tracking, compliance reports</li>
+<li><b>My Role:</b> Built audit tracking with Repository pattern and DI</li>
+</ul>
+</div>
+
+<div class="section-title">Key Concepts Quick Reference</div>
+
+<div class="note-card">
+<h2>OOP 4 Pillars</h2>
+<ul>
+<li><b>Encapsulation</b> - Hide data, use get/set. Example: Store Module stock is private</li>
+<li><b>Inheritance</b> - Child gets parent features. Example: BaseController in Audit Module</li>
+<li><b>Polymorphism</b> - Same name, different behavior. Example: Different ticket types in Helpdesk</li>
+<li><b>Abstraction</b> - Show only needed. Example: ITicketService interface</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>SOLID Principles</h2>
+<ul>
+<li><b>S</b> - Single Responsibility: One class = one job</li>
+<li><b>O</b> - Open/Closed: Extend without modifying</li>
+<li><b>L</b> - Liskov: Child can replace parent</li>
+<li><b>I</b> - Interface Segregation: Small focused interfaces</li>
+<li><b>D</b> - Dependency Inversion: Depend on interfaces, not concrete classes</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>SQL Joins</h2>
+<ul>
+<li><b>INNER JOIN</b> - Only matching rows from both tables</li>
+<li><b>LEFT JOIN</b> - All from left + matching from right (NULL if no match)</li>
+<li><b>RIGHT JOIN</b> - All from right + matching from left</li>
+<li><b>FULL JOIN</b> - All from both (NULL where no match)</li>
+<li><b>CROSS JOIN</b> - Every row combined with every row (cartesian product)</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>DELETE vs TRUNCATE vs DROP</h2>
+<ul>
+<li><b>DELETE</b> - Remove specific rows, can rollback, slow</li>
+<li><b>TRUNCATE</b> - Remove ALL rows, cannot rollback, fast</li>
+<li><b>DROP</b> - Remove entire table permanently</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>MVC .NET Core Key Concepts</h2>
+<ul>
+<li><b>Controller</b> - Handles requests, returns responses</li>
+<li><b>Model</b> - Data structure (classes)</li>
+<li><b>View</b> - UI (Razor pages)</li>
+<li><b>DI</b> - AddScoped, AddSingleton, AddTransient</li>
+<li><b>Middleware</b> - Request pipeline (auth, logging, error handling)</li>
+<li><b>EF Core</b> - ORM for database operations</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>Interview Phrases to Use</h2>
+<ul>
+<li>"In my project, what I did was..."</li>
+<li>"The main difference is..."</li>
+<li>"I used this because..."</li>
+<li>"For example, in my Audit Module..."</li>
+<li>"The challenge was... and I solved it by..."</li>
+<li>"The result was..."</li>
+</ul>
+</div>
+
+<div class="section-title">C# Abstraction</div>
+
+<div class="note-card">
+<h2>Abstract Classes and Methods</h2>
+<p>Data abstraction is the process of <b>hiding certain details</b> and showing only essential information to the user. Abstraction can be achieved with either <span class="hl">abstract classes</span> or <span class="hl">interfaces</span>.</p>
+<ul>
+<li><b>Abstract class:</b> A restricted class that cannot be used to create objects. It must be inherited from another class.</li>
+<li><b>Abstract method:</b> Can only be used in an abstract class, and it does not have a body. The body is provided by the derived class.</li>
+<li>An abstract class can have <b>both abstract and regular methods</b>.</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>Example - Abstract Class</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">abstract class</span> Animal
+{
+  <span style="color:#7c3aed;font-weight:600">public abstract void</span> animalSound(); <span style="color:#9ca3af">// No body - child MUST implement</span>
+  <span style="color:#7c3aed;font-weight:600">public void</span> sleep()
+  {
+    Console.WriteLine(<span style="color:#16a34a">"Zzz"</span>);
+  }
+}</pre>
+<p style="margin-top:8px">You <b>cannot</b> create an object of abstract class:</p>
+<pre style="background:#fee2e2;padding:10px;border-radius:6px;font-family:Consolas,monospace;font-size:.85rem;color:#dc2626">Animal myObj = new Animal(); // ERROR! Cannot create instance of abstract class</pre>
+</div>
+
+<div class="note-card">
+<h2>How to Use - Inherit and Override</h2>
+<p>Use <code>:</code> to inherit and <code>override</code> keyword to provide the body:</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// Abstract class</span>
+<span style="color:#7c3aed;font-weight:600">abstract class</span> Animal
+{
+  <span style="color:#7c3aed;font-weight:600">public abstract void</span> animalSound(); <span style="color:#9ca3af">// abstract method</span>
+  <span style="color:#7c3aed;font-weight:600">public void</span> sleep()
+  {
+    Console.WriteLine(<span style="color:#16a34a">"Zzz"</span>);
+  }
+}
+
+<span style="color:#9ca3af">// Derived class (inherit from Animal)</span>
+<span style="color:#7c3aed;font-weight:600">class</span> Pig : Animal
+{
+  <span style="color:#7c3aed;font-weight:600">public override void</span> animalSound()
+  {
+    Console.WriteLine(<span style="color:#16a34a">"The pig says: wee wee"</span>);
+  }
+}
+
+<span style="color:#9ca3af">// Usage</span>
+<span style="color:#7c3aed;font-weight:600">class</span> Program
+{
+  <span style="color:#7c3aed;font-weight:600">static void</span> Main(string[] args)
+  {
+    Pig myPig = <span style="color:#7c3aed;font-weight:600">new</span> Pig();
+    myPig.animalSound(); <span style="color:#9ca3af">// Output: The pig says: wee wee</span>
+    myPig.sleep();       <span style="color:#9ca3af">// Output: Zzz</span>
+  }
+}</pre>
+</div>
+
+<div class="note-card">
+<h2>Key Points to Remember</h2>
+<ul>
+<li><b>abstract class</b> = cannot create object directly</li>
+<li><b>abstract method</b> = no body, child MUST override it</li>
+<li>Abstract class CAN have regular methods with body</li>
+<li>Use <code>override</code> keyword in child class to provide implementation</li>
+<li><b>Your Project Example:</b> In Audit Module, you could have an abstract <code>BaseAuditService</code> with abstract method <code>PerformAudit()</code> that each specific audit type implements differently</li>
+</ul>
+</div>
+
+<div class="section-title">C# Arrays</div>
+
+<div class="note-card">
+<h2>Create an Array</h2>
+<p>Arrays store <b>multiple values</b> in a single variable. Declare with square brackets:</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// String array</span>
+<span style="color:#7c3aed;font-weight:600">string</span>[] cars = {<span style="color:#16a34a">"Volvo"</span>, <span style="color:#16a34a">"BMW"</span>, <span style="color:#16a34a">"Ford"</span>, <span style="color:#16a34a">"Mazda"</span>};
+
+<span style="color:#9ca3af">// Integer array</span>
+<span style="color:#7c3aed;font-weight:600">int</span>[] myNum = {10, 20, 30, 40};</pre>
+</div>
+
+<div class="note-card">
+<h2>Access and Change Elements</h2>
+<p>Array indexes start with <b>0</b>: [0] = first, [1] = second, etc.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">string</span>[] cars = {<span style="color:#16a34a">"Volvo"</span>, <span style="color:#16a34a">"BMW"</span>, <span style="color:#16a34a">"Ford"</span>, <span style="color:#16a34a">"Mazda"</span>};
+
+<span style="color:#9ca3af">// Access element</span>
+Console.WriteLine(cars[0]); <span style="color:#9ca3af">// Output: Volvo</span>
+
+<span style="color:#9ca3af">// Change element</span>
+cars[0] = <span style="color:#16a34a">"Opel"</span>;
+Console.WriteLine(cars[0]); <span style="color:#9ca3af">// Output: Opel</span>
+
+<span style="color:#9ca3af">// Array length</span>
+Console.WriteLine(cars.Length); <span style="color:#9ca3af">// Output: 4</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Loop Through Array</h2>
+<p><b>for loop</b> - uses index and Length:</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">string</span>[] cars = {<span style="color:#16a34a">"Volvo"</span>, <span style="color:#16a34a">"BMW"</span>, <span style="color:#16a34a">"Ford"</span>, <span style="color:#16a34a">"Mazda"</span>};
+
+<span style="color:#9ca3af">// for loop</span>
+<span style="color:#7c3aed;font-weight:600">for</span> (<span style="color:#7c3aed;font-weight:600">int</span> i = 0; i &lt; cars.Length; i++)
+{
+  Console.WriteLine(cars[i]);
+}</pre>
+<p style="margin-top:12px"><b>foreach loop</b> - easier to write, more readable:</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// foreach - no counter needed</span>
+<span style="color:#7c3aed;font-weight:600">foreach</span> (<span style="color:#7c3aed;font-weight:600">string</span> car <span style="color:#7c3aed;font-weight:600">in</span> cars)
+{
+  Console.WriteLine(car);
+}</pre>
+</div>
+
+<div class="note-card">
+<h2>Sort Arrays</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// Sort string array (alphabetical)</span>
+<span style="color:#7c3aed;font-weight:600">string</span>[] cars = {<span style="color:#16a34a">"Volvo"</span>, <span style="color:#16a34a">"BMW"</span>, <span style="color:#16a34a">"Ford"</span>, <span style="color:#16a34a">"Mazda"</span>};
+Array.Sort(cars);
+<span style="color:#9ca3af">// Result: BMW, Ford, Mazda, Volvo</span>
+
+<span style="color:#9ca3af">// Sort int array (ascending)</span>
+<span style="color:#7c3aed;font-weight:600">int</span>[] myNumbers = {5, 1, 8, 9};
+Array.Sort(myNumbers);
+<span style="color:#9ca3af">// Result: 1, 5, 8, 9</span></pre>
+</div>
+
+<div class="note-card">
+<h2>System.Linq - Min, Max, Sum</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">using</span> System.Linq;
+
+<span style="color:#7c3aed;font-weight:600">int</span>[] myNumbers = {5, 1, 8, 9};
+Console.WriteLine(myNumbers.Max());  <span style="color:#9ca3af">// 9 (largest)</span>
+Console.WriteLine(myNumbers.Min());  <span style="color:#9ca3af">// 1 (smallest)</span>
+Console.WriteLine(myNumbers.Sum());  <span style="color:#9ca3af">// 23 (total)</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Key Points</h2>
+<ul>
+<li>Array index starts from <b>0</b></li>
+<li>Use <code>.Length</code> to get array size</li>
+<li><code>for</code> loop when you need index, <code>foreach</code> when you just need values</li>
+<li><code>Array.Sort()</code> sorts in place</li>
+<li>Add <code>using System.Linq;</code> for Min, Max, Sum</li>
+<li>Arrays are <b>fixed size</b> - use <code>List&lt;T&gt;</code> for dynamic size</li>
+</ul>
+</div>
+
+<div class="section-title">C# Break and Continue</div>
+
+<div class="note-card">
+<h2>Break - Exit the Loop</h2>
+<p><code>break</code> stops the loop completely and jumps out.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">for</span> (<span style="color:#7c3aed;font-weight:600">int</span> i = 0; i &lt; 10; i++)
+{
+  <span style="color:#7c3aed;font-weight:600">if</span> (i == 4)
+  {
+    <span style="color:#dc2626;font-weight:600">break</span>; <span style="color:#9ca3af">// stops loop when i = 4</span>
+  }
+  Console.WriteLine(i);
+}
+<span style="color:#9ca3af">// Output: 0, 1, 2, 3 (stops at 4, never prints 4-9)</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Continue - Skip One Iteration</h2>
+<p><code>continue</code> skips the current iteration and moves to the next one.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">for</span> (<span style="color:#7c3aed;font-weight:600">int</span> i = 0; i &lt; 10; i++)
+{
+  <span style="color:#7c3aed;font-weight:600">if</span> (i == 4)
+  {
+    <span style="color:#dc2626;font-weight:600">continue</span>; <span style="color:#9ca3af">// skips 4, continues with 5</span>
+  }
+  Console.WriteLine(i);
+}
+<span style="color:#9ca3af">// Output: 0, 1, 2, 3, 5, 6, 7, 8, 9 (4 is skipped)</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Break and Continue in While Loop</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// Break in while</span>
+<span style="color:#7c3aed;font-weight:600">int</span> i = 0;
+<span style="color:#7c3aed;font-weight:600">while</span> (i &lt; 10)
+{
+  Console.WriteLine(i);
+  i++;
+  <span style="color:#7c3aed;font-weight:600">if</span> (i == 4) { <span style="color:#dc2626;font-weight:600">break</span>; }
+}
+<span style="color:#9ca3af">// Output: 0, 1, 2, 3</span>
+
+<span style="color:#9ca3af">// Continue in while</span>
+<span style="color:#7c3aed;font-weight:600">int</span> i = 0;
+<span style="color:#7c3aed;font-weight:600">while</span> (i &lt; 10)
+{
+  <span style="color:#7c3aed;font-weight:600">if</span> (i == 4)
+  {
+    i++;
+    <span style="color:#dc2626;font-weight:600">continue</span>; <span style="color:#9ca3af">// skip 4</span>
+  }
+  Console.WriteLine(i);
+  i++;
+}
+<span style="color:#9ca3af">// Output: 0, 1, 2, 3, 5, 6, 7, 8, 9</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Key Points</h2>
+<ul>
+<li><b>break</b> = EXIT the entire loop immediately</li>
+<li><b>continue</b> = SKIP current iteration, go to next</li>
+<li>Both work in <code>for</code>, <code>while</code>, and <code>foreach</code> loops</li>
+<li><code>break</code> also used in <code>switch</code> statements</li>
+</ul>
+</div>
+
+<div class="section-title">C# Constructors</div>
+
+<div class="note-card">
+<h2>What is a Constructor?</h2>
+<ul>
+<li>A <b>special method</b> used to initialize objects</li>
+<li>Called <b>automatically</b> when an object is created with <code>new</code></li>
+<li>Must have <b>same name as the class</b></li>
+<li><b>No return type</b> (not even void)</li>
+<li>Used to set initial values for fields</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>Default Constructor (No Parameters)</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">class</span> Car
+{
+  <span style="color:#7c3aed;font-weight:600">public string</span> model;
+
+  <span style="color:#9ca3af">// Constructor - same name as class, no return type</span>
+  <span style="color:#7c3aed;font-weight:600">public</span> Car()
+  {
+    model = <span style="color:#16a34a">"Mustang"</span>; <span style="color:#9ca3af">// set initial value</span>
+  }
+}
+
+<span style="color:#9ca3af">// Usage</span>
+Car Ford = <span style="color:#7c3aed;font-weight:600">new</span> Car(); <span style="color:#9ca3af">// constructor called automatically</span>
+Console.WriteLine(Ford.model); <span style="color:#9ca3af">// Output: Mustang</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Constructor with Parameters</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">class</span> Car
+{
+  <span style="color:#7c3aed;font-weight:600">public string</span> model;
+  <span style="color:#7c3aed;font-weight:600">public string</span> color;
+  <span style="color:#7c3aed;font-weight:600">public int</span> year;
+
+  <span style="color:#9ca3af">// Constructor with multiple parameters</span>
+  <span style="color:#7c3aed;font-weight:600">public</span> Car(<span style="color:#7c3aed;font-weight:600">string</span> modelName, <span style="color:#7c3aed;font-weight:600">string</span> modelColor, <span style="color:#7c3aed;font-weight:600">int</span> modelYear)
+  {
+    model = modelName;
+    color = modelColor;
+    year = modelYear;
+  }
+}
+
+<span style="color:#9ca3af">// Usage</span>
+Car Ford = <span style="color:#7c3aed;font-weight:600">new</span> Car(<span style="color:#16a34a">"Mustang"</span>, <span style="color:#16a34a">"Red"</span>, 1969);
+Console.WriteLine(Ford.color + <span style="color:#16a34a">" "</span> + Ford.year + <span style="color:#16a34a">" "</span> + Ford.model);
+<span style="color:#9ca3af">// Output: Red 1969 Mustang</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Constructors Save Time</h2>
+<p><b>Without constructor</b> (more code):</p>
+<pre style="background:#fee2e2;padding:12px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b">Car Ford = <span style="color:#7c3aed;font-weight:600">new</span> Car();
+Ford.model = <span style="color:#16a34a">"Mustang"</span>;
+Ford.color = <span style="color:#16a34a">"Red"</span>;
+Ford.year = 1969;
+
+Car Opel = <span style="color:#7c3aed;font-weight:600">new</span> Car();
+Opel.model = <span style="color:#16a34a">"Astra"</span>;
+Opel.color = <span style="color:#16a34a">"White"</span>;
+Opel.year = 2005;</pre>
+<p style="margin-top:10px"><b>With constructor</b> (clean and short):</p>
+<pre style="background:#dcfce7;padding:12px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b">Car Ford = <span style="color:#7c3aed;font-weight:600">new</span> Car(<span style="color:#16a34a">"Mustang"</span>, <span style="color:#16a34a">"Red"</span>, 1969);
+Car Opel = <span style="color:#7c3aed;font-weight:600">new</span> Car(<span style="color:#16a34a">"Astra"</span>, <span style="color:#16a34a">"White"</span>, 2005);</pre>
+</div>
+
+<div class="note-card">
+<h2>Key Points</h2>
+<ul>
+<li>Constructor name = class name, no return type</li>
+<li>Called automatically when <code>new</code> is used</li>
+<li>If you don't write one, C# creates a default empty constructor</li>
+<li>Can have <b>parameters</b> to set values during creation</li>
+<li>Can be <b>overloaded</b> (multiple constructors with different parameters)</li>
+<li><b>Your Project:</b> In Audit Module, the <code>AuditEntry</code> class constructor takes userId, action, timestamp to initialize each audit record</li>
+</ul>
+</div>
+
+<div class="section-title">C# While Loop</div>
+
+<div class="note-card">
+<h2>While Loop</h2>
+<p>Executes code <b>as long as condition is True</b>. Checks condition <b>before</b> each iteration.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">int</span> i = 0;
+<span style="color:#7c3aed;font-weight:600">while</span> (i &lt; 5)
+{
+  Console.WriteLine(i);
+  i++; <span style="color:#9ca3af">// IMPORTANT: increase counter, otherwise infinite loop!</span>
+}
+<span style="color:#9ca3af">// Output: 0, 1, 2, 3, 4</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Do/While Loop</h2>
+<p>Executes code <b>at least once</b>, then checks condition. Checks condition <b>after</b> each iteration.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">int</span> i = 0;
+<span style="color:#7c3aed;font-weight:600">do</span>
+{
+  Console.WriteLine(i);
+  i++;
+}
+<span style="color:#7c3aed;font-weight:600">while</span> (i &lt; 5);
+<span style="color:#9ca3af">// Output: 0, 1, 2, 3, 4</span>
+
+<span style="color:#9ca3af">// Even if condition is false, runs ONCE:</span>
+<span style="color:#7c3aed;font-weight:600">int</span> x = 10;
+<span style="color:#7c3aed;font-weight:600">do</span>
+{
+  Console.WriteLine(x); <span style="color:#9ca3af">// Output: 10 (runs once!)</span>
+}
+<span style="color:#7c3aed;font-weight:600">while</span> (x &lt; 5);</pre>
+</div>
+
+<div class="note-card">
+<h2>Key Difference</h2>
+<ul>
+<li><b>while</b> — checks condition FIRST, may never execute if condition is false</li>
+<li><b>do/while</b> — executes FIRST, then checks condition. Always runs at least once</li>
+<li>Always increment your counter (<code>i++</code>) to avoid infinite loops!</li>
+</ul>
+</div>
+
+<div class="section-title">C# For Loop</div>
+
+<div class="note-card">
+<h2>For Loop - Syntax</h2>
+<p>Use when you know <b>exactly how many times</b> to loop.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">for</span> (statement1; statement2; statement3)
+{
+  <span style="color:#9ca3af">// code to execute</span>
+}
+
+<span style="color:#9ca3af">// statement1 = runs ONCE before loop starts (initialize)</span>
+<span style="color:#9ca3af">// statement2 = condition to keep running (check)</span>
+<span style="color:#9ca3af">// statement3 = runs AFTER each iteration (increment)</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Examples</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// Print 0 to 4</span>
+<span style="color:#7c3aed;font-weight:600">for</span> (<span style="color:#7c3aed;font-weight:600">int</span> i = 0; i &lt; 5; i++)
+{
+  Console.WriteLine(i);
+}
+<span style="color:#9ca3af">// Output: 0, 1, 2, 3, 4</span>
+
+<span style="color:#9ca3af">// Print only even numbers 0 to 10</span>
+<span style="color:#7c3aed;font-weight:600">for</span> (<span style="color:#7c3aed;font-weight:600">int</span> i = 0; i &lt;= 10; i = i + 2)
+{
+  Console.WriteLine(i);
+}
+<span style="color:#9ca3af">// Output: 0, 2, 4, 6, 8, 10</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Foreach Loop - For Arrays</h2>
+<p>Used <b>exclusively</b> to loop through arrays/collections. No counter needed.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">string</span>[] cars = {<span style="color:#16a34a">"Volvo"</span>, <span style="color:#16a34a">"BMW"</span>, <span style="color:#16a34a">"Ford"</span>, <span style="color:#16a34a">"Mazda"</span>};
+
+<span style="color:#7c3aed;font-weight:600">foreach</span> (<span style="color:#7c3aed;font-weight:600">string</span> car <span style="color:#7c3aed;font-weight:600">in</span> cars)
+{
+  Console.WriteLine(car);
+}
+<span style="color:#9ca3af">// Output: Volvo, BMW, Ford, Mazda</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Key Points</h2>
+<ul>
+<li><b>for</b> — use when you know the count (index-based)</li>
+<li><b>foreach</b> — use for arrays/collections (simpler, more readable)</li>
+<li><b>while</b> — use when you don't know how many times</li>
+<li>for loop has 3 parts: <code>initialize; condition; increment</code></li>
+<li>foreach cannot modify the collection during iteration</li>
+</ul>
+</div>
+
+<div class="section-title">C# If ... Else</div>
+
+<div class="note-card">
+<h2>Conditions and Operators</h2>
+<ul>
+<li><code>a &lt; b</code> — Less than</li>
+<li><code>a &lt;= b</code> — Less than or equal to</li>
+<li><code>a &gt; b</code> — Greater than</li>
+<li><code>a &gt;= b</code> — Greater than or equal to</li>
+<li><code>a == b</code> — Equal to</li>
+<li><code>a != b</code> — Not equal to</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>if Statement</h2>
+<p>Executes code block <b>if condition is True</b>.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">int</span> x = 20;
+<span style="color:#7c3aed;font-weight:600">int</span> y = 18;
+<span style="color:#7c3aed;font-weight:600">if</span> (x &gt; y)
+{
+  Console.WriteLine(<span style="color:#16a34a">"x is greater than y"</span>);
+}</pre>
+</div>
+
+<div class="note-card">
+<h2>if ... else</h2>
+<p><code>else</code> runs when condition is <b>False</b>.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">int</span> time = 20;
+<span style="color:#7c3aed;font-weight:600">if</span> (time &lt; 18)
+{
+  Console.WriteLine(<span style="color:#16a34a">"Good day."</span>);
+}
+<span style="color:#7c3aed;font-weight:600">else</span>
+{
+  Console.WriteLine(<span style="color:#16a34a">"Good evening."</span>);
+}
+<span style="color:#9ca3af">// Output: Good evening. (because 20 is NOT less than 18)</span></pre>
+</div>
+
+<div class="note-card">
+<h2>if ... else if ... else</h2>
+<p>Multiple conditions — checks one by one until one is True.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">int</span> time = 22;
+<span style="color:#7c3aed;font-weight:600">if</span> (time &lt; 10)
+{
+  Console.WriteLine(<span style="color:#16a34a">"Good morning."</span>);
+}
+<span style="color:#7c3aed;font-weight:600">else if</span> (time &lt; 20)
+{
+  Console.WriteLine(<span style="color:#16a34a">"Good day."</span>);
+}
+<span style="color:#7c3aed;font-weight:600">else</span>
+{
+  Console.WriteLine(<span style="color:#16a34a">"Good evening."</span>);
+}
+<span style="color:#9ca3af">// Output: Good evening. (22 is not &lt;10, not &lt;20, so else runs)</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Ternary Operator (Short-hand if...else)</h2>
+<p>One-line replacement for simple if/else:</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// Syntax: variable = (condition) ? trueValue : falseValue;</span>
+
+<span style="color:#7c3aed;font-weight:600">int</span> time = 20;
+<span style="color:#7c3aed;font-weight:600">string</span> result = (time &lt; 18) ? <span style="color:#16a34a">"Good day."</span> : <span style="color:#16a34a">"Good evening."</span>;
+Console.WriteLine(result); <span style="color:#9ca3af">// Output: Good evening.</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Key Points</h2>
+<ul>
+<li><code>if</code> must be lowercase (not If or IF)</li>
+<li><code>else if</code> — test new condition when first is false</li>
+<li><code>else</code> — runs when ALL conditions above are false</li>
+<li>Ternary <code>? :</code> — short-hand for simple if/else in one line</li>
+<li>Can have multiple <code>else if</code> blocks</li>
+</ul>
+</div>
+
+<div class="section-title">C# Inheritance</div>
+
+<div class="note-card">
+<h2>What is Inheritance?</h2>
+<ul>
+<li><b>Base Class (parent)</b> — the class being inherited from</li>
+<li><b>Derived Class (child)</b> — the class that inherits from another class</li>
+<li>Use the <code>:</code> symbol to inherit</li>
+<li>Child gets all <b>fields and methods</b> from parent automatically</li>
+<li>Why? <b>Code reusability</b> — write once, use in many classes</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>Example</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// Base class (parent)</span>
+<span style="color:#7c3aed;font-weight:600">class</span> Vehicle
+{
+  <span style="color:#7c3aed;font-weight:600">public string</span> brand = <span style="color:#16a34a">"Ford"</span>;
+  <span style="color:#7c3aed;font-weight:600">public void</span> honk()
+  {
+    Console.WriteLine(<span style="color:#16a34a">"Tuut, tuut!"</span>);
+  }
+}
+
+<span style="color:#9ca3af">// Derived class (child) - inherits from Vehicle</span>
+<span style="color:#7c3aed;font-weight:600">class</span> Car : Vehicle
+{
+  <span style="color:#7c3aed;font-weight:600">public string</span> modelName = <span style="color:#16a34a">"Mustang"</span>;
+}
+
+<span style="color:#9ca3af">// Usage</span>
+Car myCar = <span style="color:#7c3aed;font-weight:600">new</span> Car();
+myCar.honk();  <span style="color:#9ca3af">// From Vehicle (parent) - Output: Tuut, tuut!</span>
+Console.WriteLine(myCar.brand + <span style="color:#16a34a">" "</span> + myCar.modelName);
+<span style="color:#9ca3af">// Output: Ford Mustang</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Sealed Keyword - Prevent Inheritance</h2>
+<p>Use <code>sealed</code> to stop other classes from inheriting:</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">sealed class</span> Vehicle
+{
+  <span style="color:#9ca3af">// ...</span>
+}
+
+<span style="color:#7c3aed;font-weight:600">class</span> Car : Vehicle <span style="color:#9ca3af">// ERROR!</span>
+{
+  <span style="color:#9ca3af">// 'Car': cannot derive from sealed type 'Vehicle'</span>
+}</pre>
+</div>
+
+<div class="note-card">
+<h2>Key Points</h2>
+<ul>
+<li>Use <code>:</code> to inherit: <code>class Child : Parent</code></li>
+<li>Child gets parent's fields + methods for free</li>
+<li>C# supports <b>single inheritance</b> only (one parent class)</li>
+<li>Use <code>sealed</code> to prevent inheritance</li>
+<li><b>Your Project:</b> In Audit Module, all controllers inherit from <code>BaseController</code> which has common methods like GetCurrentUser(), LogActivity()</li>
+</ul>
+</div>
+
+<div class="section-title">C# Interface</div>
+
+<div class="note-card">
+<h2>What is an Interface?</h2>
+<ul>
+<li>A completely <b>abstract class</b> — only method signatures, no body</li>
+<li>Start name with <b>"I"</b> (e.g., IAnimal, IPayment)</li>
+<li>Members are <b>abstract and public</b> by default</li>
+<li>Can contain <b>properties and methods</b>, but NOT fields/variables</li>
+<li>Cannot contain a <b>constructor</b></li>
+<li>Cannot create objects from an interface</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>Implementing an Interface</h2>
+<p>Use <code>:</code> to implement. Must provide body for ALL methods. No <code>override</code> keyword needed.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#9ca3af">// Interface - only signatures</span>
+<span style="color:#7c3aed;font-weight:600">interface</span> IAnimal
+{
+  <span style="color:#7c3aed;font-weight:600">void</span> animalSound(); <span style="color:#9ca3af">// no body</span>
+}
+
+<span style="color:#9ca3af">// Class implements the interface</span>
+<span style="color:#7c3aed;font-weight:600">class</span> Pig : IAnimal
+{
+  <span style="color:#7c3aed;font-weight:600">public void</span> animalSound()
+  {
+    Console.WriteLine(<span style="color:#16a34a">"The pig says: wee wee"</span>);
+  }
+}
+
+<span style="color:#9ca3af">// Usage</span>
+Pig myPig = <span style="color:#7c3aed;font-weight:600">new</span> Pig();
+myPig.animalSound(); <span style="color:#9ca3af">// Output: The pig says: wee wee</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Multiple Interfaces</h2>
+<p>C# doesn't support multiple class inheritance, but a class CAN implement <b>multiple interfaces</b>:</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">interface</span> IFirstInterface
+{
+  <span style="color:#7c3aed;font-weight:600">void</span> myMethod();
+}
+
+<span style="color:#7c3aed;font-weight:600">interface</span> ISecondInterface
+{
+  <span style="color:#7c3aed;font-weight:600">void</span> myOtherMethod();
+}
+
+<span style="color:#9ca3af">// Implement multiple interfaces with comma</span>
+<span style="color:#7c3aed;font-weight:600">class</span> DemoClass : IFirstInterface, ISecondInterface
+{
+  <span style="color:#7c3aed;font-weight:600">public void</span> myMethod()
+  {
+    Console.WriteLine(<span style="color:#16a34a">"Some text.."</span>);
+  }
+  <span style="color:#7c3aed;font-weight:600">public void</span> myOtherMethod()
+  {
+    Console.WriteLine(<span style="color:#16a34a">"Some other text..."</span>);
+  }
+}</pre>
+</div>
+
+<div class="note-card">
+<h2>Why Use Interfaces?</h2>
+<ul>
+<li><b>Security/Abstraction</b> — hide details, show only what's needed</li>
+<li><b>Multiple inheritance</b> — class can implement many interfaces</li>
+<li><b>Loose coupling</b> — depend on interface, not concrete class</li>
+<li><b>Testability</b> — easy to mock interfaces in unit tests</li>
+</ul>
+</div>
+
+<div class="note-card">
+<h2>Key Points</h2>
+<ul>
+<li>Interface = contract (what to do, not how)</li>
+<li>Name starts with <b>I</b> (IAnimal, IService)</li>
+<li>All methods must be implemented by the class</li>
+<li>No <code>override</code> keyword needed (unlike abstract class)</li>
+<li>Supports <b>multiple implementation</b> (comma separated)</li>
+<li><b>Your Project:</b> In Preventive Maintenance Module, <code>IVisitService</code> interface defines ScheduleVisit(), GetBranchStatus() — the actual logic is in <code>VisitService</code> class</li>
+</ul>
+</div>
+
+<div class="section-title">C# Switch</div>
+
+<div class="note-card">
+<h2>Switch Statement</h2>
+<p>Select <b>one of many code blocks</b> to execute based on a value. Cleaner than multiple if...else if.</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">switch</span>(expression)
+{
+  <span style="color:#7c3aed;font-weight:600">case</span> x:
+    <span style="color:#9ca3af">// code block</span>
+    <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">case</span> y:
+    <span style="color:#9ca3af">// code block</span>
+    <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">default</span>:
+    <span style="color:#9ca3af">// runs if no case matches</span>
+    <span style="color:#dc2626;font-weight:600">break</span>;
+}</pre>
+</div>
+
+<div class="note-card">
+<h2>Example - Weekday</h2>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">int</span> day = 4;
+<span style="color:#7c3aed;font-weight:600">switch</span> (day)
+{
+  <span style="color:#7c3aed;font-weight:600">case</span> 1: Console.WriteLine(<span style="color:#16a34a">"Monday"</span>); <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">case</span> 2: Console.WriteLine(<span style="color:#16a34a">"Tuesday"</span>); <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">case</span> 3: Console.WriteLine(<span style="color:#16a34a">"Wednesday"</span>); <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">case</span> 4: Console.WriteLine(<span style="color:#16a34a">"Thursday"</span>); <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">case</span> 5: Console.WriteLine(<span style="color:#16a34a">"Friday"</span>); <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">case</span> 6: Console.WriteLine(<span style="color:#16a34a">"Saturday"</span>); <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">case</span> 7: Console.WriteLine(<span style="color:#16a34a">"Sunday"</span>); <span style="color:#dc2626;font-weight:600">break</span>;
+}
+<span style="color:#9ca3af">// Output: Thursday (day = 4)</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Default Keyword</h2>
+<p>Runs when <b>no case matches</b> (optional, like else):</p>
+<pre style="background:#f1f5f9;padding:14px;border-radius:8px;font-family:Consolas,monospace;font-size:.85rem;overflow-x:auto;line-height:1.7;color:#1e293b"><span style="color:#7c3aed;font-weight:600">int</span> day = 4;
+<span style="color:#7c3aed;font-weight:600">switch</span> (day)
+{
+  <span style="color:#7c3aed;font-weight:600">case</span> 6:
+    Console.WriteLine(<span style="color:#16a34a">"Today is Saturday."</span>);
+    <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">case</span> 7:
+    Console.WriteLine(<span style="color:#16a34a">"Today is Sunday."</span>);
+    <span style="color:#dc2626;font-weight:600">break</span>;
+  <span style="color:#7c3aed;font-weight:600">default</span>:
+    Console.WriteLine(<span style="color:#16a34a">"Looking forward to the Weekend."</span>);
+    <span style="color:#dc2626;font-weight:600">break</span>;
+}
+<span style="color:#9ca3af">// Output: Looking forward to the Weekend. (4 doesn't match 6 or 7)</span></pre>
+</div>
+
+<div class="note-card">
+<h2>Key Points</h2>
+<ul>
+<li><code>break</code> — stops execution, exits the switch block</li>
+<li><code>default</code> — runs if no case matches (like else)</li>
+<li>Expression is evaluated <b>once</b>, then compared with each case</li>
+<li>Without <code>break</code>, code falls through to next case</li>
+<li>Use switch when you have <b>many fixed values</b> to check (cleaner than if/else if)</li>
+<li><b>Your Project:</b> In Helpdesk Tool, switch on ticket type ("Hardware", "Software", "Network") to route to appropriate team</li>
+</ul>
+</div>
+
+<div class="tip">To add more notes: Edit this file (notes.html) and git push. Everyone can see it on any device.</div>
+
+<!-- ADD MORE NOTES ABOVE -->
+
+</div>
+</body>
+</html>

@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C# Assignments</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:16px}
+.container{max-width:800px;margin:0 auto;padding:20px}
+a.back{color:#38bdf8;text-decoration:none;font-size:.95rem;font-weight:500}
+h1{text-align:center;padding:16px 0;background:linear-gradient(135deg,#e11d48,#f43f5e,#fb7185);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:2rem}
+.subtitle{text-align:center;color:#94a3b8;font-size:.9rem;margin-bottom:24px}
+.q-card{background:#fff;border-radius:12px;padding:18px 22px;margin-bottom:16px;color:#1e293b;border-left:4px solid #e11d48;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.q-card .q-num{background:#e11d48;color:#fff;font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:12px;display:inline-block;margin-bottom:8px}
+.q-card .q-title{font-size:1rem;font-weight:700;color:#1e293b;line-height:1.7;margin-bottom:10px}
+.q-card .q-condition{background:#fef3c7;border-left:3px solid #f59e0b;padding:10px 14px;border-radius:6px;margin:8px 0;color:#78350f;font-size:.88rem;line-height:1.8}
+.ans-toggle{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:8px 16px;border-radius:6px;cursor:pointer;font-size:.85rem;font-weight:600;margin-top:8px}
+.ans-toggle:hover{opacity:.9}
+.ans-box{display:none;margin-top:12px}
+.ans-box.open{display:block}
+.code-block{background:#1e293b;border-radius:10px;padding:16px 18px;margin:10px 0;overflow-x:auto;font-family:Consolas,'Courier New',monospace;font-size:.84rem;line-height:1.8;color:#e2e8f0}
+.code-block .kw{color:#c084fc;font-weight:600}
+.code-block .str{color:#86efac}
+.code-block .cm{color:#64748b}
+.code-block .num{color:#fbbf24}
+.explain{background:#f0f9ff;border:1px solid #bae6fd;border-radius:8px;padding:12px 16px;margin:10px 0;color:#0c4a6e;font-size:.88rem;line-height:1.8}
+.explain b{color:#0369a1}
+.output-box{background:#0f172a;border:1px solid #1e3a5f;border-radius:8px;padding:12px 16px;margin:10px 0;font-family:Consolas,monospace;font-size:.85rem;color:#4ade80;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>C# Assignments</h1>
+<p class="subtitle">Practice programs with complete solutions</p>
+
+<!-- Question 1 -->
+<div class="q-card">
+<span class="q-num">Q1</span>
+<div class="q-title">Program to take a value from the user as input the basic salary of an employee and calculate its Gross salary.</div>
+<div class="q-condition">
+<b>Conditions:</b><br>
+Basic Salary &lt;= 10000: HRA = 20%, DA = 80%<br>
+Basic Salary &lt;= 20000: HRA = 25%, DA = 90%<br>
+Basic Salary &gt; 20000: HRA = 30%, DA = 95%<br><br>
+<b>Formula:</b> Gross Salary = Basic + HRA + DA
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take basic salary input from user<br>
+2. Check which range it falls in using if-else<br>
+3. Calculate HRA and DA based on percentage<br>
+4. Gross Salary = Basic + HRA + DA<br>
+5. Display the result
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> GrossSalary<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">double</span> basicSalary, hra, da, grossSalary;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input from user</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter Basic Salary: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;basicSalary = Convert.ToDouble(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Calculate HRA and DA based on salary range</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (basicSalary &lt;= <span class="num">10000</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hra = basicSalary * <span class="num">0.20</span>; <span class="cm">// 20%</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;da = basicSalary * <span class="num">0.80</span>;  <span class="cm">// 80%</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else if</span> (basicSalary &lt;= <span class="num">20000</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hra = basicSalary * <span class="num">0.25</span>; <span class="cm">// 25%</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;da = basicSalary * <span class="num">0.90</span>;  <span class="cm">// 90%</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hra = basicSalary * <span class="num">0.30</span>; <span class="cm">// 30%</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;da = basicSalary * <span class="num">0.95</span>;  <span class="cm">// 95%</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Calculate Gross Salary</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;grossSalary = basicSalary + hra + da;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Display result</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"----------------------------"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Basic Salary : "</span> + basicSalary);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"HRA          : "</span> + hra);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"DA           : "</span> + da);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"----------------------------"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Gross Salary : "</span> + grossSalary);<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter Basic Salary: 15000<br>
+----------------------------<br>
+Basic Salary : 15000<br>
+HRA          : 3750<br>
+DA           : 13500<br>
+----------------------------<br>
+Gross Salary : 32250
+</div>
+
+<div class="explain">
+<b>Explanation:</b><br>
+- Input: 15000 (falls in range &lt;= 20000)<br>
+- HRA = 15000 * 25% = 3750<br>
+- DA = 15000 * 90% = 13500<br>
+- Gross = 15000 + 3750 + 13500 = <b>32250</b>
+</div>
+
+</div>
+</div>
+
+<!-- Question 2 -->
+<div class="q-card">
+<span class="q-num">Q2</span>
+<div class="q-title">Program to take electricity unit charges from user and calculate total electricity bill.</div>
+<div class="q-condition">
+<b>Conditions:</b><br>
+First 50 units: Rs. 0.50/unit<br>
+Next 100 units (51-150): Rs. 0.75/unit<br>
+Next 100 units (151-250): Rs. 1.20/unit<br>
+Above 250 units: Rs. 1.50/unit<br><br>
+<b>Additional:</b> 20% surcharge added to total bill
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take units consumed as input<br>
+2. Calculate bill in slabs using if-else<br>
+3. Add 20% surcharge to the bill<br>
+4. Display total bill
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> ElectricityBill<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> units;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">double</span> bill = <span class="num">0</span>, surcharge, totalBill;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input from user</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter electricity units consumed: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;units = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Calculate bill based on slabs</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (units &lt;= <span class="num">50</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bill = units * <span class="num">0.50</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else if</span> (units &lt;= <span class="num">150</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bill = (<span class="num">50</span> * <span class="num">0.50</span>) + (units - <span class="num">50</span>) * <span class="num">0.75</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else if</span> (units &lt;= <span class="num">250</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bill = (<span class="num">50</span> * <span class="num">0.50</span>) + (<span class="num">100</span> * <span class="num">0.75</span>) + (units - <span class="num">150</span>) * <span class="num">1.20</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bill = (<span class="num">50</span> * <span class="num">0.50</span>) + (<span class="num">100</span> * <span class="num">0.75</span>) + (<span class="num">100</span> * <span class="num">1.20</span>) + (units - <span class="num">250</span>) * <span class="num">1.50</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Add 20% surcharge</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;surcharge = bill * <span class="num">0.20</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;totalBill = bill + surcharge;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Display result</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"----------------------------"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Units Consumed : "</span> + units);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Bill Amount    : Rs. "</span> + bill);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Surcharge (20%): Rs. "</span> + surcharge);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"----------------------------"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Total Bill     : Rs. "</span> + totalBill);<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter electricity units consumed: 300<br>
+----------------------------<br>
+Units Consumed : 300<br>
+Bill Amount    : Rs. 195<br>
+Surcharge (20%): Rs. 39<br>
+----------------------------<br>
+Total Bill     : Rs. 234
+</div>
+
+<div class="explain">
+<b>Explanation (300 units):</b><br>
+- First 50 units: 50 x 0.50 = Rs. 25<br>
+- Next 100 units (51-150): 100 x 0.75 = Rs. 75<br>
+- Next 100 units (151-250): 100 x 1.20 = Rs. 120<br>
+- Above 250 (50 units): 50 x 1.50 = Rs. 75<br>
+- Bill = 25 + 75 + 120 + 75 = <b>Rs. 295</b><br>
+- Surcharge = 295 x 20% = Rs. 59<br>
+- Total = 295 + 59 = <b>Rs. 354</b>
+</div>
+
+</div>
+</div>
+
+<!-- Question 3 -->
+<div class="q-card">
+<span class="q-num">Q3</span>
+<div class="q-title">Program to determine a student's grade based on quiz, mid-term, and final scores.</div>
+<div class="q-condition">
+<b>Conditions:</b><br>
+Average &gt;= 90% : Grade = A<br>
+Average &gt;= 70% and &lt; 90% : Grade = B<br>
+Average &gt;= 50% and &lt; 70% : Grade = C<br>
+Average &lt; 50% : Grade = F
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take 3 scores as input (quiz, mid-term, final)<br>
+2. Calculate average = (quiz + midterm + final) / 3<br>
+3. Use if-else to determine grade based on average<br>
+4. Display grade
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> StudentGrade<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">double</span> quiz, midTerm, final1, average;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">char</span> grade;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input from user</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter Quiz score: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;quiz = Convert.ToDouble(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter Mid-Term score: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;midTerm = Convert.ToDouble(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter Final score: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;final1 = Convert.ToDouble(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Calculate average</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;average = (quiz + midTerm + final1) / <span class="num">3</span>;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Determine grade using if-else</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (average >= <span class="num">90</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grade = <span class="str">'A'</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else if</span> (average >= <span class="num">70</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grade = <span class="str">'B'</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else if</span> (average >= <span class="num">50</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grade = <span class="str">'C'</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;grade = <span class="str">'F'</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Display result</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"----------------------------"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Quiz Score     : "</span> + quiz);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Mid-Term Score : "</span> + midTerm);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Final Score    : "</span> + final1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Average        : "</span> + average.ToString(<span class="str">"F2"</span>));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Grade          : "</span> + grade);<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter Quiz score: 85<br>
+Enter Mid-Term score: 78<br>
+Enter Final score: 72<br>
+----------------------------<br>
+Quiz Score     : 85<br>
+Mid-Term Score : 78<br>
+Final Score    : 72<br>
+Average        : 78.33<br>
+Grade          : B
+</div>
+
+<div class="explain">
+<b>Explanation:</b><br>
+- Quiz = 85, Mid-Term = 78, Final = 72<br>
+- Average = (85 + 78 + 72) / 3 = <b>78.33</b><br>
+- 78.33 >= 70 and &lt; 90, so Grade = <b>B</b>
+</div>
+
+</div>
+</div>
+
+<!-- Question 4 -->
+<div class="q-card">
+<span class="q-num">Q4</span>
+<div class="q-title">Program to find the square root of a number.</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take a number as input from user<br>
+2. Use Math.Sqrt() method to find square root<br>
+3. Display the result
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> SquareRoot<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">double</span> number, result;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input from user</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter a number: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number = Convert.ToDouble(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Check if number is negative</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (number &lt; <span class="num">0</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Cannot find square root of negative number!"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">else</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Calculate square root</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result = Math.Sqrt(number);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Square root of "</span> + number + <span class="str">" = "</span> + result);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter a number: 25<br>
+Square root of 25 = 5<br><br>
+Enter a number: 144<br>
+Square root of 144 = 12<br><br>
+Enter a number: 2<br>
+Square root of 2 = 1.4142135623731
+</div>
+
+<div class="explain">
+<b>Key Points:</b><br>
+- <b>Math.Sqrt()</b> is a built-in method that returns square root<br>
+- Returns <b>double</b> type value<br>
+- Always check for negative numbers (no real square root)<br>
+- Math.Sqrt(25) = 5, Math.Sqrt(144) = 12, Math.Sqrt(2) = 1.414...
+</div>
+
+</div>
+</div>
+
+<!-- Question 5 -->
+<div class="q-card">
+<span class="q-num">Q5</span>
+<div class="q-title">Program to print Fibonacci Series.</div>
+<div class="q-condition">
+<b>Fibonacci Series:</b> Each number is the sum of the two preceding numbers.<br>
+0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55...
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Start with first two numbers: 0 and 1<br>
+2. Next number = previous two numbers added together<br>
+3. Repeat for n terms<br>
+4. Formula: F(n) = F(n-1) + F(n-2)
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> Fibonacci<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> n, a = <span class="num">0</span>, b = <span class="num">1</span>, next;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input from user</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter number of terms: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Fibonacci Series:"</span>);<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(a + <span class="str">" "</span>);<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Calculate next number</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;next = a + b; <span class="cm">// sum of previous two</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a = b;        <span class="cm">// shift: a becomes b</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;b = next;     <span class="cm">// shift: b becomes next</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter number of terms: 10<br>
+Fibonacci Series:<br>
+0 1 1 2 3 5 8 13 21 34
+</div>
+
+<div class="explain">
+<b>Step-by-step (first 6 terms):</b><br>
+- Start: a=0, b=1<br>
+- Print 0 → next=0+1=1, a=1, b=1<br>
+- Print 1 → next=1+1=2, a=1, b=2<br>
+- Print 1 → next=1+2=3, a=2, b=3<br>
+- Print 2 → next=2+3=5, a=3, b=5<br>
+- Print 3 → next=3+5=8, a=5, b=8<br>
+- Print 5...<br><br>
+<b>Key:</b> Each number = sum of previous two numbers
+</div>
+
+</div>
+</div>
+
+<!-- Question 6 -->
+<div class="q-card">
+<span class="q-num">Q6</span>
+<div class="q-title">Program to convert a decimal number into binary.</div>
+<div class="q-condition">
+<b>Example:</b><br>
+Decimal 10 = Binary 1010<br>
+Decimal 25 = Binary 11001<br>
+Decimal 7 = Binary 111
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Divide number by 2 repeatedly<br>
+2. Store the remainder (0 or 1) each time<br>
+3. Reverse the remainders to get binary<br>
+4. Or use built-in Convert.ToString(number, 2)
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> DecimalToBinary<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> number, remainder;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">string</span> binary = <span class="str">""</span>;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input from user</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter a decimal number: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> temp = number; <span class="cm">// save original</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Method 1: Manual conversion</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">while</span> (temp > <span class="num">0</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;remainder = temp % <span class="num">2</span>;  <span class="cm">// get remainder (0 or 1)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;binary = remainder + binary; <span class="cm">// add to front of string</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = temp / <span class="num">2</span>;       <span class="cm">// divide by 2</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Binary (Manual)  : "</span> + binary);<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Method 2: Built-in method (easy way)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">string</span> binary2 = Convert.ToString(number, <span class="num">2</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Binary (Built-in): "</span> + binary2);<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter a decimal number: 25<br>
+Binary (Manual)  : 11001<br>
+Binary (Built-in): 11001
+</div>
+
+<div class="explain">
+<b>Step-by-step (25 to binary):</b><br>
+- 25 / 2 = 12, remainder = <b>1</b><br>
+- 12 / 2 = 6, remainder = <b>0</b><br>
+- 6 / 2 = 3, remainder = <b>0</b><br>
+- 3 / 2 = 1, remainder = <b>1</b><br>
+- 1 / 2 = 0, remainder = <b>1</b><br>
+- Read remainders bottom to top: <b>11001</b><br><br>
+<b>Shortcut:</b> Convert.ToString(number, 2) does it in one line!
+</div>
+
+</div>
+</div>
+
+<!-- Question 7 -->
+<div class="q-card">
+<span class="q-num">Q7</span>
+<div class="q-title">Program to find the Greatest Common Divisor (GCD) of two numbers.</div>
+<div class="q-condition">
+<b>GCD:</b> The largest number that divides both numbers without remainder.<br>
+GCD of 12 and 8 = 4<br>
+GCD of 36 and 24 = 12
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic (Euclidean Algorithm):</b><br>
+1. Divide larger number by smaller<br>
+2. Replace larger with remainder<br>
+3. Repeat until remainder is 0<br>
+4. The last non-zero value is GCD
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> GCDProgram<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> num1, num2, temp;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input from user</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter first number: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;num1 = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter second number: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;num2 = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> a = num1, b = num2; <span class="cm">// save originals</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Euclidean Algorithm</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">while</span> (num2 != <span class="num">0</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp = num2;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num2 = num1 % num2; <span class="cm">// remainder</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;num1 = temp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"GCD of "</span> + a + <span class="str">" and "</span> + b + <span class="str">" = "</span> + num1);<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter first number: 36<br>
+Enter second number: 24<br>
+GCD of 36 and 24 = 12
+</div>
+
+<div class="explain">
+<b>Step-by-step (36 and 24):</b><br>
+- 36 % 24 = 12 (remainder), now: num1=24, num2=12<br>
+- 24 % 12 = 0 (remainder), now: num1=12, num2=0<br>
+- num2 is 0, STOP. GCD = <b>12</b><br><br>
+<b>Verify:</b> 36/12=3, 24/12=2 (both divide evenly)
+</div>
+
+</div>
+</div>
+
+<!-- Question 8 -->
+<div class="q-card">
+<span class="q-num">Q8</span>
+<div class="q-title">Program to check whether a number can be expressed as a sum of two prime numbers.</div>
+<div class="q-condition">
+<b>Example:</b><br>
+10 = 3 + 7 (both prime) - YES<br>
+34 = 3 + 31 (both prime) - YES<br>
+11 = ? (cannot be expressed) - NO
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take a number as input<br>
+2. Create a function to check if a number is prime<br>
+3. Loop from 2 to number/2<br>
+4. For each i, check if both i and (number - i) are prime<br>
+5. If yes, the number can be expressed as sum of two primes
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> SumOfTwoPrimes<br>
+{<br>
+&nbsp;&nbsp;<span class="cm">// Function to check if a number is prime</span><br>
+&nbsp;&nbsp;<span class="kw">static bool</span> IsPrime(<span class="kw">int</span> num)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (num &lt; <span class="num">2</span>) <span class="kw">return false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt;= Math.Sqrt(num); i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (num % i == <span class="num">0</span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return false</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return true</span>;<br>
+&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> number;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">bool</span> found = <span class="kw">false</span>;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter a number: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;number = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Pairs of prime numbers:"</span>);<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Check all pairs</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">2</span>; i &lt;= number / <span class="num">2</span>; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Check if both i and (number - i) are prime</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (IsPrime(i) &amp;&amp; IsPrime(number - i))<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(number + <span class="str">" = "</span> + i + <span class="str">" + "</span> + (number - i));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;found = <span class="kw">true</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (!found)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(number + <span class="str">" cannot be expressed as sum of two primes."</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter a number: 34<br>
+Pairs of prime numbers:<br>
+34 = 3 + 31<br>
+34 = 5 + 29<br>
+34 = 11 + 23<br>
+34 = 17 + 17
+</div>
+
+<div class="explain">
+<b>How IsPrime works:</b><br>
+- If number &lt; 2, not prime<br>
+- Check divisibility from 2 to sqrt(number)<br>
+- If divisible by any, not prime. Otherwise prime.<br><br>
+<b>Main logic:</b><br>
+- For number 34, check: is 2 prime AND is 32 prime? No (32 not prime)<br>
+- Is 3 prime AND is 31 prime? YES! Print: 34 = 3 + 31<br>
+- Is 5 prime AND is 29 prime? YES! Print: 34 = 5 + 29<br>
+- Continue until number/2...
+</div>
+
+</div>
+</div>
+
+<!-- Question 9 -->
+<div class="q-card">
+<span class="q-num">Q9</span>
+<div class="q-title">Program to print Floyd's Triangle.</div>
+<div class="q-condition">
+<b>Floyd's Triangle:</b> A right-angled triangle of natural numbers.<br><br>
+1<br>
+2 3<br>
+4 5 6<br>
+7 8 9 10<br>
+11 12 13 14 15
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take number of rows as input<br>
+2. Use a counter starting from 1<br>
+3. Outer loop for rows (1 to n)<br>
+4. Inner loop prints numbers for each row (row 1 has 1 number, row 2 has 2, etc.)<br>
+5. Increment counter after each print
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> FloydsTriangle<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> rows, number = <span class="num">1</span>;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter number of rows: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;rows = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Floyd's Triangle:"</span>);<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Outer loop for rows</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">1</span>; i &lt;= rows; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Inner loop: row i has i numbers</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">1</span>; j &lt;= i; j++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(number + <span class="str">" "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number++; <span class="cm">// increment counter</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(); <span class="cm">// new line after each row</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter number of rows: 5<br>
+Floyd's Triangle:<br>
+1<br>
+2 3<br>
+4 5 6<br>
+7 8 9 10<br>
+11 12 13 14 15
+</div>
+
+<div class="explain">
+<b>How it works:</b><br>
+- Row 1: prints 1 number (1)<br>
+- Row 2: prints 2 numbers (2, 3)<br>
+- Row 3: prints 3 numbers (4, 5, 6)<br>
+- Row 4: prints 4 numbers (7, 8, 9, 10)<br>
+- Row 5: prints 5 numbers (11, 12, 13, 14, 15)<br><br>
+<b>Key:</b> The counter just keeps incrementing (1, 2, 3, 4...) — the nested loop controls how many numbers per row.
+</div>
+
+</div>
+</div>
+
+<!-- Question 10 -->
+<div class="q-card">
+<span class="q-num">Q10</span>
+<div class="q-title">Program to delete an element from an array at a specified position.</div>
+<div class="q-condition">
+<b>Example:</b><br>
+Array: {10, 20, 30, 40, 50}<br>
+Delete position: 3 (value 30)<br>
+Result: {10, 20, 40, 50}
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take array elements and position to delete as input<br>
+2. Shift all elements after that position one step left<br>
+3. Reduce the array size by 1<br>
+4. Display the new array
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> DeleteFromArray<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> n, pos;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take array size</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter number of elements: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span>[] arr = <span class="kw">new int</span>[n];<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take array elements</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Enter elements:"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = Convert.ToInt32(Console.ReadLine());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take position to delete (1-based)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter position to delete (1 to "</span> + n + <span class="str">"): "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pos = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Validate position</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">if</span> (pos &lt; <span class="num">1</span> || pos > n)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Invalid position!"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">return</span>;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Deleted element: "</span> + arr[pos - <span class="num">1</span>]);<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Shift elements left from the deleted position</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = pos - <span class="num">1</span>; i &lt; n - <span class="num">1</span>; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = arr[i + <span class="num">1</span>]; <span class="cm">// shift left</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;n--; <span class="cm">// reduce size</span><br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Display result</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Array after deletion: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(arr[i] + <span class="str">" "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter number of elements: 5<br>
+Enter elements:<br>
+10 20 30 40 50<br>
+Enter position to delete (1 to 5): 3<br>
+Deleted element: 30<br>
+Array after deletion: 10 20 40 50
+</div>
+
+<div class="explain">
+<b>Step-by-step (delete position 3):</b><br>
+- Original: [10, 20, <b>30</b>, 40, 50]<br>
+- Position 3 = index 2 (pos-1) = value 30<br>
+- Shift left: arr[2] = arr[3] = 40<br>
+- Shift left: arr[3] = arr[4] = 50<br>
+- Reduce size: n = 4<br>
+- Result: [10, 20, 40, 50]<br><br>
+<b>Note:</b> Position is 1-based (user-friendly), index is 0-based (code uses pos-1)
+</div>
+
+</div>
+</div>
+
+<!-- Question 11 -->
+<div class="q-card">
+<span class="q-num">Q11</span>
+<div class="q-title">Program to copy all elements from an array to another array.</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take array elements as input<br>
+2. Create a second array of same size<br>
+3. Loop through and copy each element one by one<br>
+4. Display both arrays
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> CopyArray<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> n;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take array size</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter number of elements: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span>[] source = <span class="kw">new int</span>[n];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span>[] dest = <span class="kw">new int</span>[n];<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take input for source array</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Enter elements:"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;source[i] = Convert.ToInt32(Console.ReadLine());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Copy elements one by one</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dest[i] = source[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Display both arrays</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Source Array: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(source[i] + <span class="str">" "</span>);<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine();<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Copied Array: "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(dest[i] + <span class="str">" "</span>);<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Method 2: Built-in way</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Array.Copy(source, dest, n);</span><br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter number of elements: 5<br>
+Enter elements:<br>
+10 20 30 40 50<br>
+Source Array: 10 20 30 40 50<br>
+Copied Array: 10 20 30 40 50
+</div>
+
+<div class="explain">
+<b>Two ways to copy:</b><br>
+- <b>Manual:</b> Loop and copy each element: dest[i] = source[i]<br>
+- <b>Built-in:</b> Array.Copy(source, dest, n) - one line!<br><br>
+<b>Note:</b> Direct assignment (dest = source) does NOT copy - it makes both point to same array (reference type). Always use loop or Array.Copy() for true copy.
+</div>
+
+</div>
+</div>
+
+<!-- Question 12 -->
+<div class="q-card">
+<span class="q-num">Q12</span>
+<div class="q-title">Program to find sum of main diagonal elements of a matrix.</div>
+<div class="q-condition">
+<b>Main Diagonal:</b> Elements where row index = column index (i == j)<br><br>
+Matrix:<br>
+<b>1</b>&nbsp; 2&nbsp; 3<br>
+4&nbsp; <b>5</b>&nbsp; 6<br>
+7&nbsp; 8&nbsp; <b>9</b><br><br>
+Diagonal elements: 1, 5, 9<br>
+Sum = 1 + 5 + 9 = 15
+</div>
+<button class="ans-toggle" onclick="this.nextElementSibling.classList.toggle('open');this.textContent=this.nextElementSibling.classList.contains('open')?'Hide Answer':'Show Answer'">Show Answer</button>
+<div class="ans-box">
+
+<div class="explain">
+<b>Logic:</b><br>
+1. Take matrix size (n x n) and elements as input<br>
+2. Main diagonal = elements where row == column (arr[0][0], arr[1][1], arr[2][2]...)<br>
+3. Loop and add elements where i == j<br>
+4. Display the sum
+</div>
+
+<div class="code-block">
+<span class="kw">using</span> System;<br><br>
+<span class="kw">class</span> DiagonalSum<br>
+{<br>
+&nbsp;&nbsp;<span class="kw">static void</span> Main(<span class="kw">string</span>[] args)<br>
+&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span> n, sum = <span class="num">0</span>;<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take matrix size</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(<span class="str">"Enter matrix size (n x n): "</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;n = Convert.ToInt32(Console.ReadLine());<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">int</span>[,] matrix = <span class="kw">new int</span>[n, n];<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Take matrix elements</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Enter matrix elements:"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; n; j++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matrix[i, j] = Convert.ToInt32(Console.ReadLine());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Display matrix</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Matrix:"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> j = <span class="num">0</span>; j &lt; n; j++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.Write(matrix[i, j] + <span class="str">"\t"</span>);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="cm">// Sum of main diagonal (where i == j)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sum += matrix[i, i]; <span class="cm">// row == column</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="str">"Sum of main diagonal = "</span> + sum);<br>
+&nbsp;&nbsp;}<br>
+}
+</div>
+
+<div class="output-box">
+Enter matrix size (n x n): 3<br>
+Enter matrix elements:<br>
+1 2 3 4 5 6 7 8 9<br>
+Matrix:<br>
+1&nbsp;&nbsp;2&nbsp;&nbsp;3<br>
+4&nbsp;&nbsp;5&nbsp;&nbsp;6<br>
+7&nbsp;&nbsp;8&nbsp;&nbsp;9<br>
+Sum of main diagonal = 15
+</div>
+
+<div class="explain">
+<b>Main Diagonal = where i == j:</b><br>
+- matrix[0,0] = 1<br>
+- matrix[1,1] = 5<br>
+- matrix[2,2] = 9<br>
+- Sum = 1 + 5 + 9 = <b>15</b><br><br>
+<b>Key:</b> Only need ONE loop (not nested) for diagonal sum since row always equals column. Just use matrix[i, i].
+</div>
+
+</div>
+</div>
+
+<!-- MORE QUESTIONS WILL BE ADDED HERE -->
+
+</div>
+</body>
+</html>
