@@ -7339,6 +7339,79 @@ GroupBy with lookup:
 var lookup = employees.ToLookup(e =&gt; e.Department);
 var itEmployees = lookup["IT"];  // All IT employees</pre></div></div>
 
+<div class="q" data-s=".net framework vs .net core difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">94</span><span class="txt">What is the difference between .NET Framework and .NET Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | .NET Framework         | .NET Core / .NET 5+    |
+|------------------|------------------------|------------------------|
+| Platform         | Windows only           | Cross-platform (Win/Linux/Mac) |
+| Open source      | No                     | Yes (GitHub)           |
+| Performance      | Slower                 | Much faster            |
+| Deployment       | Machine-wide install   | Self-contained / side-by-side |
+| Hosting          | IIS only               | Kestrel, IIS, Docker   |
+| CLI              | Limited                | Full CLI (dotnet)      |
+| Microservices    | Not ideal              | Built for it           |
+| Latest version   | 4.8 (final)            | .NET 8 (latest)        |
+| Future           | Maintenance only       | Active development     |
+| Web              | ASP.NET MVC/WebForms   | ASP.NET Core MVC/API   |
+| DI               | Third-party (Ninject)  | Built-in               |
+| Config           | web.config (XML)       | appsettings.json       |
+
+Why .NET Core:
+- Cross-platform (deploy on Linux servers = cheaper)
+- Better performance (Kestrel is faster than IIS pipeline)
+- Built-in DI container
+- Modular (only include what you need via NuGet)
+- Docker/container friendly
+- Side-by-side versioning (multiple versions on same machine)
+- Active development (new features every year)
+
+In my project:
+- Audit &amp; Inspection: ASP.NET Core 3.1 / 5.0
+- Helpdesk: ASP.NET Web Forms (.NET Framework) — legacy
+- Store: VB.NET WinForms (.NET Framework) — legacy
+
+Interview answer:
+"Our newer projects use ASP.NET Core for cross-platform support,
+better performance, and built-in DI. Legacy projects are on .NET
+Framework which we maintain but don't add new features to."</pre></div></div>
+
+<div class="q" data-s="authentication vs authorization difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">95</span><span class="txt">What is the difference between Authentication and Authorization?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>AUTHENTICATION = WHO are you? (Identity verification)
+- Verifying user's identity (login)
+- Username + Password / JWT token / OAuth
+- Happens FIRST
+- 401 Unauthorized if fails
+
+AUTHORIZATION = Are you ALLOWED? (Permission check)
+- Checking what authenticated user can access
+- Role-based, Policy-based, Claims-based
+- Happens AFTER authentication
+- 403 Forbidden if fails
+
+In my Audit project:
+Authentication:
+- User enters credentials → API validates against Oracle DB
+- JWT token generated with claims (email, role)
+- Session cookie set ("_audit_session")
+- SessionAuthFilter checks cookie on every request
+
+Authorization:
+- Role stored in JWT: Auditor, AuditManager, AuditHead
+- Different dashboards per role
+- API checks role before processing
+- [Authorize(Roles = "Admin")] on sensitive endpoints
+
+ASP.NET Core:
+app.UseAuthentication();   // WHO are you? (validate token/cookie)
+app.UseAuthorization();    // Are you ALLOWED? (check roles/policies)
+// Order matters! Auth before Authz
+
+[Authorize]                         // Must be authenticated
+[Authorize(Roles = "Admin")]        // Must have Admin role
+[Authorize(Policy = "MinAge18")]    // Must satisfy policy
+[AllowAnonymous]                    // Skip both (login page)
+
+Analogy:
+- Authentication = Showing your ID at building entrance
+- Authorization = Your ID card only opens certain floors</pre></div></div>
+
 </div>
 </div>
 <script>

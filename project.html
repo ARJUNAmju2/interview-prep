@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project-Based Questions (Audit)</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}.container{max-width:900px;margin:0 auto;padding:20px}h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#f43f5e,#fb7185);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}.back:hover{text-decoration:underline}.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}.search::placeholder{color:#64748b}.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #f43f5e;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}.q-title:hover{background:#fff1f2}.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#f43f5e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}.q-title .txt{flex:1}.q-title .arrow{transition:transform .3s;color:#f43f5e;font-size:1rem;flex-shrink:0}.q.open .q-title .arrow{transform:rotate(180deg)}.q.open .q-title{background:#fff1f2;border-bottom:1px solid #fecdd3}.q-ans{display:none;padding:14px 16px;background:#fffbfb}.q.open .q-ans{display:block}.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>Project-Based Questions (Audit Module)</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+
+<div class="q" data-s="explain your project architecture"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">Explain your project architecture.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Our Audit Solution follows a layered architecture with separate projects:
+
+1. AuditSolution.Web (MVC - Presentation Layer)
+   - ASP.NET Core MVC with Razor Views
+   - Controllers serve views only (thin controllers)
+   - Session-based authentication using custom SessionAuthFilter
+   - CSP (Content Security Policy) middleware for security headers
+
+2. AuditSolution.PrivateAPI (Web API - Backend)
+   - RESTful API consumed by the Web layer via AJAX
+   - JWT token-based authentication
+   - Handles all business operations
+   - Controllers like LoginController, AuditobservationController, etc.
+
+3. AuditSolution.Core (Business + Data Layer)
+   - BLL (Business Logic Layer): Business rules, validation
+   - DAL (Data Access Layer): Oracle DB queries via OracleHelper
+   - DTO (Data Transfer Objects): Request/Response models
+   - DataSource: Connection and query management
+
+4. AuditSolution.Helpers (Cross-cutting Concerns)
+   - JwtService: Token generation/validation
+   - OracleHelper: Generic DB helper (ExecuteDataTable, GetRecords&lt;T&gt;)
+   - InputValidator: XSS, SQL Injection, HTML sanitization
+   - BruteForceProtection: Account lockout after failed attempts
+   - Email service, Encryption utilities
+   - Custom Middleware (CSP, Path Traversal protection)
+
+5. Audit_mail_console (Background Service)
+   - Console app for sending scheduled audit emails
+
+Flow: Browser → MVC Web → AJAX → Private API → BLL → DAL → Oracle DB
+
+Why this architecture:
+- Separation of concerns (each layer has single responsibility)
+- API can be reused by mobile/other clients
+- Security: Web and API are separate (API not directly exposed)
+- Testable: BLL can be tested independently</pre></div></div>
+
+<div class="q" data-s="how authentication works jwt session"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">How does authentication work in your project?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>We use a DUAL authentication approach:
+
+1. WEB LAYER (Session-based):
+   - Custom SessionAuthFilter (IActionFilter) checks for "_audit_session" cookie
+   - If cookie missing → redirect to Login page
+   - Login/Error pages are excluded from auth check
+   - Cookie is HttpOnly + Secure (prevents XSS theft)
+
+2. API LAYER (JWT-based):
+   - Private API uses JWT tokens for authentication
+   - JwtService generates token with claims (email, role)
+   - Token expires after configurable duration (default 30 min)
+   - Secret key stored in environment variable (AUDIT_JWT_SECRET)
+   - Token includes: Email, Role, JTI (unique ID), IAT (issued at)
+
+Login Flow:
+1. User enters credentials on Login page
+2. MVC sends AJAX POST to Private API → /api/Login/LoginEntryFN
+3. API validates credentials against Oracle DB
+4. If valid → generates JWT token + sets session cookie
+5. If invalid → BruteForceProtection records failed attempt
+6. After 5 failures → account locked for 15 minutes
+7. On success → redirect to role-based dashboard
+
+Security measures:
+- Brute force protection (5 attempts → 15 min lockout)
+- IP tracking for failed attempts
+- JWT secret from environment variable (not in appsettings)
+- HttpOnly + Secure cookies
+- CAPTCHA service available
+- Kestrel server header removed (options.AddServerHeader = false)</pre></div></div>
+
+<div class="q" data-s="security vapt xss sql injection prevention"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">How do you handle security (VAPT fixes) in your project?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>We implemented multiple security layers after VAPT (Vulnerability Assessment and Penetration Testing):
+
+1. INPUT VALIDATION (InputValidator class):
+   - ContainsXss(): Detects script tags, event handlers, javascript: protocol
+   - ContainsSqlInjection(): Detects ' OR, UNION SELECT, DROP, xp_ commands
+   - ContainsHtml(): Detects HTML tags (encoded variants too)
+   - SanitizeHtml(): Whitelist approach for rich-text fields
+   - Checks raw + HTML-decoded + URL-decoded + double-decoded variants
+
+2. CSP (Content Security Policy) MIDDLEWARE:
+   - Generates unique nonce per request for inline scripts
+   - Blocks unauthorized script execution
+   - Headers: X-Content-Type-Options, X-Frame-Options, X-XSS-Protection
+
+3. PATH TRAVERSAL MIDDLEWARE:
+   - Blocks ../ and encoded path traversal attempts
+   - Prevents access to files outside webroot
+
+4. STATIC FILE PROTECTION:
+   - Blocks access to .config, .json, .cs, .sql, .log, .bak files
+   - Returns 404 for sensitive file extensions
+
+5. HTTP METHOD RESTRICTION:
+   - Only GET and POST allowed
+   - Other methods (PUT, DELETE, OPTIONS) return 405
+
+6. BRUTE FORCE PROTECTION:
+   - 5 failed login attempts → 15 minute lockout
+   - IP address tracked
+   - Progressive lockout (lockout_count never resets)
+
+7. ANTI-FORGERY TOKENS:
+   - Cookie name: "_xsrf"
+   - HttpOnly + Secure + SameSite
+   - Prevents CSRF attacks
+
+8. ENCRYPTION:
+   - Request payload encryption (key from environment variable)
+   - Password hashing (ClsCrypto)
+   - JWT secret from environment variable
+
+9. OTHER:
+   - Kestrel server header removed
+   - HTTPS forced
+   - MaxRequestLineSize limited (8192)
+   - ForwardedHeaders for proxy support</pre></div></div>
+
+<div class="q" data-s="how data access layer oracle database works"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">How does your Data Access Layer work? Why not EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>We use a custom OracleHelper class (ADO.NET based) instead of EF Core.
+
+OracleHelper provides:
+- ExecuteNonQuery(): INSERT, UPDATE, DELETE operations
+- ExecuteScalar&lt;T&gt;(): Single value queries (COUNT, MAX)
+- ExecuteReader(): Forward-only data reading
+- ExecuteDataTable(): Returns DataTable
+- ExecuteDataSet(): Returns DataSet (multiple tables)
+- GetRecords&lt;T&gt;(): Generic method — maps DataTable to List&lt;T&gt; using reflection
+- GetRecord&lt;T&gt;(): Maps single row to object
+- ToDynamic(): Converts DataTable to List&lt;dynamic&gt; (ExpandoObject)
+
+Generic mapping (reflection-based):
+- Reads DataTable columns
+- Matches column names to class property names (case-insensitive)
+- Sets property values using PropertyInfo.SetValue()
+- Handles DBNull → null conversion
+
+Why NOT EF Core:
+- Oracle DB with existing stored procedures
+- Legacy database schema (not designed for Code First)
+- Team familiarity with ADO.NET
+- Complex Oracle-specific queries (PL/SQL blocks)
+- Performance: Direct SQL gives more control for complex reports
+- Existing OracleHelper was already proven in production
+
+Connection management:
+- Connection string from AppConfigManager (appsettings.json)
+- Each method opens/closes connection (no connection pooling issues)
+- OracleConnection.ClearPool() called in finally blocks
+- Parameterized queries supported via OracleParameter[]
+
+If I were to improve:
+- Add using statements (IDisposable pattern)
+- Use Dapper for simpler mapping (instead of custom reflection)
+- Add async versions (ExecuteNonQueryAsync)
+- Add connection pooling configuration</pre></div></div>
+
+<div class="q" data-s="how api communication works between web and api"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">How does the Web layer communicate with the API?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>The MVC Web layer communicates with the Private API via AJAX calls using an ApiManager helper.
+
+Flow:
+Browser → JavaScript AJAX → MVC (optional) → ApiManager → Private API → BLL → DAL → Oracle
+
+ApiManager (Helper class):
+- Centralized HTTP client for API calls
+- Adds JWT token to Authorization header
+- Handles request/response encryption
+- Base URL configured in appsettings.json
+
+AJAX from Views (JavaScript):
+$.ajax({
+    url: '/api/Login/LoginEntryFN',
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify(requestData),
+    headers: { 'Authorization': 'Bearer ' + token },
+    success: function(response) {
+        if (response.statusCode === 200) {
+            // Handle success
+        }
+    },
+    error: function(xhr) {
+        // Handle error
+    }
+});
+
+Request/Response pattern:
+- Request DTOs: LoginRequest, AreaAdditionRequest, etc.
+- Response wrapper: Response&lt;T&gt; with statusCode, message, data
+- Consistent structure across all API endpoints
+
+Why separate Web + API:
+- Security: API not directly exposed to internet
+- Reusability: Same API can serve mobile app later
+- Separation: Frontend team works on Views, backend on API
+- Scalability: Can deploy API separately if needed
+
+Encryption:
+- RequestEncryption class encrypts sensitive payloads
+- Key stored in environment variable (AUDIT_PAYLOAD_KEY)
+- Prevents data tampering in transit</pre></div></div>
+
+<div class="q" data-s="role based access different dashboards"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">How do you handle role-based access in the Audit module?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>The Audit module has multiple user roles with different dashboards and permissions:
+
+Roles:
+- Auditor: Conducts audits, creates observations, comments
+- Audit Manager (AM): Approves observations, manages assignments
+- Audit Head (AH): Final approval, oversight
+- Executive: High-level reports and dashboards
+- MIS: Reports and data analysis
+- Client/User Management: Responds to audit observations
+
+Each role has:
+- Dedicated dashboard (Auditor_Dashboard, AM_Dashboard, AH_Dashboard, etc.)
+- Specific API endpoints they can access
+- Different views and actions available
+
+Implementation:
+1. Login returns user role from database
+2. JWT token includes role claim
+3. Frontend redirects to role-specific dashboard
+4. API validates role before processing requests
+5. Views show/hide menu items based on role
+
+Workflow (Audit Observation):
+1. Auditor creates observation → submits
+2. Audit Manager reviews → approves/returns
+3. If returned → Auditor resubmits
+4. Audit Head confirms → final approval
+5. User Management responds with action plan
+6. Auditor verifies action plan completion
+
+Controllers per role:
+- Aud_dashboardController (Auditor)
+- AMdashController (Audit Manager)
+- AHdashController (Audit Head)
+- ExecutiveController, MisController
+- UsermanagementController, ClienthomeController</pre></div></div>
+
+<div class="q" data-s="middleware custom csp path traversal"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">Explain the custom middleware you implemented.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>We have 3 custom middleware components:
+
+1. CSP MIDDLEWARE (CspMiddleware):
+   - Generates unique nonce per request
+   - Adds Content-Security-Policy header
+   - Allows only scripts with matching nonce
+   - Prevents inline script injection (XSS)
+   - Also adds: X-Content-Type-Options, X-Frame-Options
+
+   // In Razor views:
+   &lt;script nonce="@ViewBag.CspNonce"&gt;
+       // Only this script executes (has valid nonce)
+   &lt;/script&gt;
+
+2. PATH TRAVERSAL MIDDLEWARE (PathTraversalMiddleware):
+   - Checks request path for ../ patterns
+   - Blocks encoded variants (%2e%2e, %252e)
+   - Returns 400 Bad Request if detected
+   - Prevents accessing files outside webroot
+
+3. HTTP METHOD RESTRICTION (inline middleware):
+   app.Use(async (context, next) =&gt; {
+       if (context.Request.Method != "GET" &amp;&amp; context.Request.Method != "POST")
+       {
+           context.Response.StatusCode = 405;
+           return;
+       }
+       await next();
+   });
+
+4. SESSION AUTH FILTER (IActionFilter - not middleware but similar):
+   - Checks "_audit_session" cookie on every request
+   - Excludes Login and Error pages
+   - Redirects to Login if not authenticated
+
+Middleware order in pipeline:
+UseForwardedHeaders → UseExceptionHandler → UseStaticFiles →
+UseHttpsRedirection → PathTraversalMiddleware → CspMiddleware →
+HTTP Method Check → UseRouting → UseAuthorization → MapControllers
+
+Why middleware over filters:
+- Middleware: Runs for ALL requests (including static files)
+- Filters: Only for MVC controller actions
+- Security headers need middleware (applies to everything)</pre></div></div>
+
+<div class="q" data-s="brute force account lockout protection"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">How did you implement brute force protection?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>BruteForceProtection class handles account lockout:
+
+Configuration:
+- MaxFailedAttempts = 5
+- LockoutMinutes = 15
+
+Database table: AUDIT_LOGIN_ATTEMPTS
+- emp_code (user ID)
+- failed_count (current failed attempts)
+- last_failed_time
+- last_ip (IP address of attacker)
+- is_locked (0/1)
+- locked_until (timestamp)
+
+Flow:
+1. User attempts login
+2. Check IsAccountLocked(userId) → if locked, reject immediately
+3. If credentials wrong → RecordFailedAttempt(userId, ipAddress)
+   - Increments failed_count
+   - If failed_count >= 5 → sets is_locked=1, locked_until = now + 15 min
+4. If credentials correct → ResetFailedAttempts(userId)
+   - Resets failed_count to 0, is_locked to 0
+5. GetRemainingLockoutSeconds() → shows user how long to wait
+
+Security features:
+- IP address sanitized (only allow IP-safe characters, max 45 chars)
+- Expired lockouts auto-reset on next attempt
+- Progressive lockout (lockout_count tracks total lockouts - never resets)
+- Works at database level (survives app restart)
+
+API integration:
+- LoginController captures RemoteIpAddress from HttpContext
+- Passes to BLL → BruteForceProtection
+- Response includes lockout status and remaining seconds
+
+Improvement I would make:
+- Use parameterized queries instead of string concatenation
+- Add rate limiting at IP level (not just user level)
+- Add CAPTCHA after 3 failed attempts (before lockout)</pre></div></div>
+
+<div class="q" data-s="challenge problem solved performance bug"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">What was the most challenging problem you solved?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>VAPT Security Remediation:
+
+Challenge:
+After a third-party VAPT audit, we received 20+ security vulnerabilities including XSS, SQL Injection, Path Traversal, Missing Security Headers, and Session Management issues. We had to fix all within 2 weeks without breaking existing functionality.
+
+What I did:
+1. Created InputValidator class with comprehensive XSS/SQL detection
+   - Handles encoded variants (HTML-encoded, URL-encoded, double-encoded)
+   - Whitelist-based HTML sanitizer for rich-text fields
+
+2. Implemented CSP middleware with nonce-based script execution
+   - Every inline script needs a unique nonce
+   - Blocks injected scripts even if XSS bypasses input validation
+
+3. Added Path Traversal middleware
+   - Blocks ../ in all forms (raw, encoded, double-encoded)
+
+4. Implemented Brute Force Protection
+   - Database-backed lockout system
+   - IP tracking, progressive lockout
+
+5. Secured static files
+   - Blocked access to .config, .json, .cs, .sql files
+
+6. Moved secrets to environment variables
+   - JWT secret, encryption keys out of appsettings.json
+
+Result:
+- All 20+ vulnerabilities fixed
+- Re-audit passed with zero critical/high findings
+- No functionality broken
+- Performance not impacted
+
+What I learned:
+- Defense in depth (multiple layers of security)
+- Never trust client input (validate on server always)
+- Security headers are essential (CSP, X-Frame-Options)
+- Secrets should never be in source code</pre></div></div>
+
+<div class="q" data-s="how logging error handling works"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">How do you handle errors and logging?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Error Handling:
+
+1. Global Exception Handler:
+   app.UseExceptionHandler("/Home/Error");
+   - Catches all unhandled exceptions
+   - Redirects to error page (doesn't expose stack trace)
+
+2. ErrorLog Helper class:
+   - Logs errors to file/database
+   - Captures: timestamp, user, action, exception details
+
+3. API Response Pattern:
+   Response&lt;T&gt; wrapper:
+   {
+       "statusCode": 200/400/500,
+       "message": "Success/Error description",
+       "data": { ... }
+   }
+   - Consistent error format across all APIs
+   - Never exposes internal details to client
+
+4. SafeError class:
+   - Returns generic error messages to users
+   - Logs detailed error internally
+   - Prevents information disclosure
+
+5. Try-catch in DAL:
+   - OracleHelper catches exceptions in finally blocks
+   - Ensures connections are always closed
+   - Returns empty results on failure (graceful degradation)
+
+What I would improve:
+- Add structured logging (Serilog)
+- Centralized log aggregation
+- Correlation IDs for request tracing
+- Health check endpoints
+- Better exception hierarchy (custom exceptions)</pre></div></div>
+
+<div class="q" data-s="email notification background service"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">How does the email/notification system work?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Two email mechanisms:
+
+1. INLINE EMAIL (Email helper class):
+   - Triggered during actions (observation submitted, approved, etc.)
+   - SMTP-based email sending
+   - HTML email templates
+   - Used for immediate notifications
+
+2. SCHEDULED EMAIL (Audit_mail_console):
+   - Separate console application
+   - Runs as scheduled task (Windows Task Scheduler)
+   - Sends batch emails (daily summaries, reminders)
+   - Queries pending notifications from database
+   - Processes and marks as sent
+
+Email triggers in Audit workflow:
+- Observation created → notify Audit Manager
+- Observation approved → notify Audit Head
+- Observation returned → notify Auditor
+- Action plan submitted → notify Auditor for verification
+- Audit commenced → notify all assigned auditors
+
+Why separate console app:
+- Doesn't block web request (fire-and-forget)
+- Can retry failed emails
+- Runs independently of web app
+- Can be scheduled at specific times
+- Handles bulk emails without affecting web performance</pre></div></div>
+
+<div class="q" data-s="what would you improve refactor"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What would you improve/refactor in this project?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>If I had to refactor (shows you think critically — interviewers love this):
+
+1. DATA ACCESS:
+   - Replace string concatenation with parameterized queries everywhere
+   - Use Dapper instead of custom reflection mapping
+   - Add async/await to OracleHelper methods
+   - Implement proper IDisposable pattern (using statements)
+
+2. ARCHITECTURE:
+   - Add proper Dependency Injection (currently uses static instances like LoginBLL.Instance)
+   - Implement Repository pattern with interfaces
+   - Add Unit of Work for transaction management
+   - Use IHttpClientFactory instead of manual HttpClient
+
+3. SECURITY:
+   - Replace string-based SQL in BruteForceProtection with parameterized queries
+   - Add rate limiting middleware (per IP, not just per user)
+   - Implement refresh tokens (current JWT expires, user must re-login)
+   - Add audit trail logging for all sensitive operations
+
+4. TESTING:
+   - Add unit tests for BLL layer
+   - Add integration tests for API endpoints
+   - Mock OracleHelper for testing
+
+5. LOGGING:
+   - Implement Serilog with structured logging
+   - Add correlation IDs for request tracing
+   - Centralized logging (ELK stack or Seq)
+
+6. PERFORMANCE:
+   - Add caching for frequently accessed data (roles, configurations)
+   - Implement response compression
+   - Add pagination for large data sets
+
+Interview tip: Always mention improvements — shows growth mindset.</pre></div></div>
+
+<div class="q" data-s="am inspection project explain"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">13</span><span class="txt">[AM_Inspection] Explain the Inspection project.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>AM_Inspection is a Branch Inspection Management System built on ASP.NET Core 3.1.
+
+Purpose:
+- Area Managers inspect branches (physical visits)
+- GPS-based location tracking during inspections
+- Questionnaire-based inspection entry
+- Rectification tracking and follow-up
+- Reports: Lag days, pending inspections, block approvals
+
+Architecture (same layered pattern as Audit):
+- AM_Inspection.Web (MVC - UI)
+- AM_Inspection.PublicApi (External API - mobile/GPS)
+- AM_Solution.PrivateApi (Internal API - web consumption)
+- AM_Inspection.Core (BLL/DAL/DTO)
+- AM_Inspection.Helpers (JWT, Oracle, Encryption, Email)
+
+Key Features:
+1. GPS Tracking: Area managers submit GPS coordinates during inspection
+2. Inspection Entry: Questionnaire-based (dynamic questions from DB)
+3. Rectification: Issues found → assigned for fix → tracked until resolved
+4. Block Approval: Branch blocking/unblocking workflow
+5. Lag Days Report: Tracks delays in inspection completion
+6. BH Date Extension: Branch head can request date extensions
+7. Exit Block Report: Tracks blocked branches
+
+Public API (exposed to mobile app):
+- Swagger enabled for documentation
+- CORS enabled (AllowAnyOrigin for mobile access)
+- JWT Bearer authentication
+- Used by field staff on mobile devices
+
+Private API (internal - consumed by Web):
+- Same controllers as Public API
+- Additional security (not exposed externally)
+- Consumed by MVC web via ApiManager
+
+Difference from Audit:
+- Has Public API (mobile app for field inspections)
+- GPS-based features
+- Questionnaire-driven data entry
+- .NET Core 3.1 (Audit is newer)</pre></div></div>
+
+<div class="q" data-s="helpdesk project ticketing system"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">14</span><span class="txt">[Helpdesk] Explain the IT Helpdesk project.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Helpdesk is an IT Service Management (ITSM) system built on ASP.NET Web Forms (VB.NET).
+
+Purpose:
+- Employees raise IT support tickets
+- Technicians resolve issues
+- Managers approve and track
+- ITIL-based workflow (Incident, Service Request, Problem, Change)
+
+Tech Stack:
+- ASP.NET Web Forms (.aspx pages)
+- VB.NET (code-behind)
+- Master Page (Mainmas.Master) for layout
+- Oracle Database
+- Web Service (MabenHelpdeskService) for integrations
+- jQuery, DataTables, SweetAlert for UI
+- iTextSharp for PDF generation
+- CryptoJS for client-side encryption
+
+Ticket Types (ITIL framework):
+1. Service Request (SR): Standard requests (new email, software install)
+2. Incident (IN): Something broken (system down, error)
+3. Problem: Root cause analysis for recurring incidents
+4. Change: Infrastructure changes (server migration, network change)
+5. IMAC: Install, Move, Add, Change requests
+
+Workflow:
+1. User creates ticket (New Request.aspx)
+2. Tech Lead assigns technician (TechLeadAssignDashboard.aspx)
+3. Technician works on ticket (Technician Dashboard2.aspx)
+4. Approval workflow for changes (ApprovalForm.aspx)
+5. Reports and dashboards (Reportdashboard.aspx)
+
+Roles:
+- End User: Raises tickets
+- Technician: Resolves tickets
+- Tech Lead: Assigns work
+- IT Coordinator: Oversees
+- Owner Group: Approval authority
+
+Key pages:
+- login.aspx → Authentication
+- Home.aspx → Dashboard
+- CreateSR/CreateIN/CreateChange/CreateProblem → Ticket creation
+- TechnicianSR/TechnicianINdash → Technician views
+- Mashreport/MabenReport → Reports
+- TicketConversion.aspx → Convert SR to Incident/Problem
+
+This is a LEGACY project — I maintain it but new projects use ASP.NET Core.</pre></div></div>
+
+<div class="q" data-s="store inventory management vb.net windows forms"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">15</span><span class="txt">[STORE_MFI] Explain the Store/Inventory project.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>STORE_MFI is a Store and Inventory Management System built on VB.NET Windows Forms.
+
+Purpose:
+- Manages office supplies and inventory for branches
+- Purchase order creation and approval
+- Stock management (add, deliver, transfer)
+- Branch indent (request) processing
+- Vendor management
+- Crystal Reports for invoices and reports
+
+Tech Stack:
+- VB.NET Windows Forms (Desktop application)
+- Oracle Database
+- Crystal Reports (.rpt files) for printing
+- Web Service for data sync
+- Barcode printing (TSCLIB)
+
+Key Modules:
+1. Store Login → Role-based access
+2. Purchase Order: Create → Approve → Quality Check → Receive
+3. Branch Indent: Branch requests items → HO processes → Delivers
+4. Stock Management: Add stock, transfer between branches
+5. Delivery: Pack → Courier → Confirm delivery
+6. Vendor Management: Add/approve vendors
+7. Reports: Inventory, Invoice, Stock Statement, Delivery reports
+
+Workflow (Purchase):
+1. Store creates Purchase Order (store_purchaseorder.vb)
+2. Manager approves (approve_order.vb)
+3. Vendor delivers goods
+4. Quality check (Quality_approval.vb)
+5. Stock added to inventory (StockAdd.vb)
+6. Branch requests via indent (Branch_indent_rpt.vb)
+7. Store delivers to branch (store_delivery.vb)
+8. Branch confirms receipt (delivery_confirm.vb)
+
+Reports (Crystal Reports):
+- Invoice, Packing List, Branch Delivery
+- Stock Statement, Inventory Report
+- PO Report, Branch Transfer Items
+
+This is also a LEGACY project — desktop app, not web-based.
+
+Interview tip: Mention this briefly as "legacy maintenance" and focus on Audit/Inspection projects.</pre></div></div>
+
+<div class="q" data-s="how many projects worked technologies used"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">16</span><span class="txt">How many projects have you worked on? Summarize all.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>I've worked on 4 projects across different technologies:
+
+| # | Project        | Tech Stack                    | Type          | Role           |
+|---|----------------|-------------------------------|---------------|----------------|
+| 1 | Audit Solution | ASP.NET Core MVC + Web API    | Web App       | Full Stack Dev |
+|   |                | Oracle, JWT, VAPT Security    |               |                |
+| 2 | AM Inspection  | ASP.NET Core 3.1 MVC + API   | Web + Mobile  | Full Stack Dev |
+|   |                | Oracle, GPS, Swagger          |               |                |
+| 3 | IT Helpdesk    | ASP.NET Web Forms, VB.NET     | Web App       | Maintenance    |
+|   |                | Oracle, Web Service           |               |                |
+| 4 | Store MFI      | VB.NET Windows Forms          | Desktop App   | Maintenance    |
+|   |                | Oracle, Crystal Reports       |               |                |
+
+My primary focus: Projects 1 &amp; 2 (modern ASP.NET Core)
+Maintenance: Projects 3 &amp; 4 (legacy)
+
+Common across all:
+- Oracle Database
+- Layered architecture (BLL/DAL)
+- Role-based access control
+- Report generation
+
+What I highlight in interviews:
+- "I primarily work on ASP.NET Core MVC with Web API"
+- "I implemented security features (JWT, VAPT fixes, brute force protection)"
+- "I follow layered architecture with BLL/DAL separation"
+- "I also maintain legacy Web Forms and WinForms applications"
+- "I work with Oracle DB using ADO.NET (OracleHelper)"
+
+Don't say: "I work on old VB.NET projects"
+Do say: "I work on modern .NET Core with API-first architecture, and I also maintain legacy systems which gives me understanding of migration challenges."</pre></div></div>
+
+<div class="q" data-s="why public api private api difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">17</span><span class="txt">Why do you have both Public API and Private API?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>We separate APIs for security and access control:
+
+PRIVATE API:
+- Consumed ONLY by our MVC Web application (internal)
+- Not exposed to internet directly
+- Sits behind firewall/reverse proxy
+- Handles all business operations
+- Session validation + JWT
+
+PUBLIC API:
+- Exposed to external clients (mobile app, third-party)
+- AM_Inspection: Field staff use mobile app for GPS-based inspections
+- Has Swagger documentation for external developers
+- CORS enabled (AllowAnyOrigin for mobile access)
+- Stricter rate limiting and validation
+- Only specific endpoints exposed (not full CRUD)
+
+Why separate:
+1. Security: Public API has limited endpoints (attack surface reduced)
+2. Different auth: Public may use API keys, Private uses internal JWT
+3. Different rate limits: Public is throttled more aggressively
+4. Versioning: Public API versioned for backward compatibility
+5. Monitoring: Track external vs internal usage separately
+
+Deployment:
+- Private API: Internal network only (port 5001)
+- Public API: DMZ/exposed (port 5002)
+- Web: Public-facing (port 443)
+
+Flow:
+- Web users: Browser → MVC Web → Private API → Oracle
+- Mobile users: Mobile App → Public API → Oracle</pre></div></div>
+
+<div class="q" data-s="concurrent users session conflict handling"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">18</span><span class="txt">How do you handle concurrent users/session conflicts?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Multiple auditors can work simultaneously on different branches:
+
+Concurrency handling:
+1. OPTIMISTIC CONCURRENCY (database level):
+   - Before update, check if record was modified since last read
+   - Use timestamp/version column: WHERE last_modified = @originalTimestamp
+   - If 0 rows affected → someone else modified → show conflict message
+
+2. SESSION MANAGEMENT:
+   - Each user has unique session (cookie-based)
+   - CheckSessionFN API validates session is still active
+   - Single session per user (new login invalidates old session)
+   - Prevents same user logged in from multiple devices
+
+3. RECORD LOCKING (for critical operations):
+   - Audit observation: Once auditor starts editing, others see "In Progress"
+   - Status-based workflow prevents two people approving same record
+   - Database status column acts as soft lock
+
+4. WORKFLOW-BASED ISOLATION:
+   - Each auditor assigned specific branches
+   - Assignment approval prevents duplicate assignments
+   - Status transitions: Draft → Submitted → Approved (one-way)
+   - Only current assignee can modify
+
+What we DON'T do (and why):
+- No pessimistic locking (would block users too long)
+- No SignalR real-time updates (not needed for our workflow)
+- No distributed locks (single DB server handles it)
+
+If asked "what would you improve":
+- Add real-time notifications when someone else modifies same record
+- Implement proper ETag-based concurrency for API</pre></div></div>
+
+<div class="q" data-s="deployment iis production cicd"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">19</span><span class="txt">How do you deploy your application?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Deployment process:
+
+1. BUILD:
+   - dotnet publish -c Release -o ./publish
+   - Generates compiled DLLs + static files
+
+2. HOSTING:
+   - IIS (Internet Information Services) on Windows Server
+   - Kestrel behind IIS reverse proxy
+   - Each project deployed as separate IIS site:
+     * AuditSolution.Web → https://audit.company.com
+     * AuditSolution.PrivateAPI → http://internal:5001
+     * AuditSolution.PublicAPI → https://api.company.com
+
+3. CONFIGURATION:
+   - appsettings.json for non-sensitive config
+   - Environment variables for secrets (JWT key, DB password)
+   - Different appsettings per environment:
+     * appsettings.Development.json
+     * appsettings.Production.json
+   - ASPNETCORE_ENVIRONMENT variable controls which config loads
+
+4. DEPLOYMENT STEPS:
+   - Build locally / build server
+   - Copy publish folder to server
+   - Stop IIS site → Replace files → Start IIS site
+   - Verify health (check login page loads)
+
+5. DATABASE:
+   - SQL scripts run manually by DBA
+   - Stored procedures deployed separately
+   - No EF migrations (manual schema management)
+
+What I would improve:
+- CI/CD pipeline (Azure DevOps / GitHub Actions)
+- Automated testing before deployment
+- Blue-green deployment (zero downtime)
+- Docker containers for consistency
+- Health check endpoint for load balancer</pre></div></div>
+
+<div class="q" data-s="file upload attachment document"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">20</span><span class="txt">How do you handle file uploads in your project?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>File uploads used in:
+- Audit observations (evidence photos/documents)
+- Rectification proof uploads
+- User profile photos
+
+Implementation:
+1. FRONTEND:
+   - HTML file input with accept attribute (restrict types)
+   - JavaScript validates file size before upload
+   - FormData object for AJAX upload
+
+2. VALIDATION (FileUploadValidator helper):
+   - Allowed extensions: .jpg, .png, .pdf, .doc, .xlsx
+   - Max file size: 5MB per file
+   - File name sanitization (remove special characters)
+   - Content-type validation (not just extension)
+   - Virus scan integration (if available)
+
+3. STORAGE:
+   - Files saved to server file system (dedicated folder)
+   - Unique filename generated (GUID + original extension)
+   - Path stored in Oracle DB (not the file itself)
+   - Folder structure: /uploads/{year}/{month}/{filename}
+
+4. RETRIEVAL:
+   - API endpoint returns file as FileResult
+   - Authorization check before serving file
+   - Content-Disposition header for download
+
+5. SECURITY:
+   - Never serve files from webroot directly
+   - Validate file content (not just extension)
+   - Rename files (prevent path traversal)
+   - Restrict folder permissions
+   - Block executable files (.exe, .bat, .ps1)
+
+Code pattern:
+[HttpPost("upload")]
+public async Task&lt;IActionResult&gt; Upload(IFormFile file)
+{
+    if (file == null || file.Length == 0)
+        return BadRequest("No file");
+    if (file.Length > 5 * 1024 * 1024)
+        return BadRequest("File too large");
+    
+    var fileName = Guid.NewGuid() + Path.GetExtension(file.FileName);
+    var path = Path.Combine(_uploadPath, fileName);
+    using var stream = new FileStream(path, FileMode.Create);
+    await file.CopyToAsync(stream);
+    
+    // Save path to DB
+    return Ok(new { fileName });
+}</pre></div></div>
+
+<div class="q" data-s="database design table structure oracle"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">21</span><span class="txt">What database design decisions did you make?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle Database design for Audit module:
+
+Key Tables:
+- AUDIT_USERS: Employee details, roles, department
+- AUDIT_ASSIGNMENTS: Auditor-branch mapping, dates
+- AUDIT_OBSERVATIONS: Findings during audit
+- AUDIT_ACTION_PLANS: Corrective actions by management
+- AUDIT_SCORECARD: Rating/scoring per audit
+- AUDIT_LOGIN_ATTEMPTS: Brute force tracking
+- AUDIT_SESSIONS: Active session management
+
+Design Decisions:
+
+1. STORED PROCEDURES for complex operations:
+   - PROC_AUDIT_ALERTMSG: Generates alert notifications
+   - PROC_AUDIT_PUNCHING_BLOCK: Handles branch blocking logic
+   - Why: Complex business logic better in DB (atomic, faster)
+
+2. STATUS-BASED WORKFLOW:
+   - Observations: DRAFT → SUBMITTED → APPROVED/RETURNED → CONFIRMED
+   - Each status change logged with timestamp and user
+   - Prevents invalid state transitions
+
+3. AUDIT TRAIL:
+   - Created_by, Created_date on every table
+   - Modified_by, Modified_date for tracking changes
+   - Never hard-delete (soft delete with IS_ACTIVE flag)
+
+4. INDEXING:
+   - Primary keys on all tables (auto-increment sequences)
+   - Indexes on frequently queried columns (emp_code, branch_code, status)
+   - Composite indexes for report queries
+
+5. NORMALIZATION:
+   - Master tables: Branches, Departments, Roles, Question Masters
+   - Transaction tables: Observations, Assignments, Scores
+   - Lookup tables: Status codes, Categories
+
+6. ORACLE-SPECIFIC:
+   - Sequences for auto-increment (no IDENTITY like SQL Server)
+   - SYSDATE for timestamps
+   - NVL() for null handling
+   - CONNECT BY for hierarchical queries (org structure)</pre></div></div>
+
+<div class="q" data-s="api failure timeout error handling retry"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">22</span><span class="txt">How do you handle API failures/timeouts?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>When MVC Web calls Private API, failures can happen:
+
+Current Implementation:
+1. ApiManager has try-catch around HTTP calls
+2. Timeout configured (default 30 seconds)
+3. On failure → returns error response to UI
+4. UI shows user-friendly error message
+5. ErrorLog captures details for debugging
+
+Error handling in ApiManager:
+try
+{
+    var response = await httpClient.PostAsync(url, content);
+    if (!response.IsSuccessStatusCode)
+    {
+        // Log error
+        ErrorLog.Write($"API Error: {response.StatusCode} at {url}");
+        return new Response { StatusCode = 500, Message = "Service unavailable" };
+    }
+    return await response.Content.ReadAsAsync&lt;Response&gt;();
+}
+catch (TaskCanceledException)  // Timeout
+{
+    ErrorLog.Write($"API Timeout: {url}");
+    return new Response { StatusCode = 408, Message = "Request timed out" };
+}
+catch (HttpRequestException ex)  // Connection refused
+{
+    ErrorLog.Write($"API Down: {url} - {ex.Message}");
+    return new Response { StatusCode = 503, Message = "Service unavailable" };
+}
+
+UI handling:
+$.ajax({
+    url: apiUrl,
+    timeout: 30000,  // 30 sec timeout
+    success: function(data) { /* handle */ },
+    error: function(xhr) {
+        if (xhr.status === 0) {
+            showError("Network error. Please check connection.");
+        } else if (xhr.status === 408) {
+            showError("Request timed out. Please try again.");
+        } else {
+            showError("Something went wrong. Please try again.");
+        }
+    }
+});
+
+What I would improve:
+- Retry policy (Polly library): Retry 3 times with exponential backoff
+- Circuit breaker: If API fails 5 times, stop calling for 30 seconds
+- Fallback: Show cached data if API is down
+- Health check endpoint to monitor API status
+- Queue critical operations (don't lose data on failure)</pre></div></div>
+
+<div class="q" data-s="why oracle not sql server database choice"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">23</span><span class="txt">Why Oracle and not SQL Server?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>This is an organizational decision, not a technical preference:
+
+Why Oracle:
+- Company already had Oracle license (enterprise-wide)
+- Existing core banking/HRMS systems on Oracle
+- DBA team specialized in Oracle
+- Data integration with other Oracle-based systems
+- PL/SQL stored procedures already written for business logic
+- Oracle RAC for high availability (critical for financial company)
+
+Differences I handle (Oracle vs SQL Server):
+| Feature          | Oracle              | SQL Server          |
+|------------------|---------------------|---------------------|
+| Auto-increment   | SEQUENCE + TRIGGER  | IDENTITY            |
+| String concat    | || operator         | + operator          |
+| Null check       | NVL()               | ISNULL()            |
+| Top N rows       | ROWNUM / FETCH      | TOP N               |
+| Date function    | SYSDATE             | GETDATE()           |
+| Boolean          | NUMBER(1) 0/1       | BIT                 |
+| Package          | PL/SQL Packages     | Not available       |
+| Driver           | Oracle.ManagedDataAccess | Microsoft.Data.SqlClient |
+
+In my code:
+- Oracle.ManagedDataAccess.Client NuGet package
+- OracleConnection, OracleCommand, OracleParameter
+- PL/SQL blocks for complex operations
+- Sequences for ID generation
+
+Interview answer:
+"The organization uses Oracle across all systems. I work with Oracle 
+using ADO.NET (Oracle.ManagedDataAccess). I'm comfortable with both 
+Oracle and SQL Server — the concepts are same, syntax differs slightly."</pre></div></div>
+
+<div class="q" data-s="configuration management environment dev staging production"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">24</span><span class="txt">How do you manage configuration across environments?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>We use a combination of appsettings.json + environment variables:
+
+1. APPSETTINGS (non-sensitive, per environment):
+   appsettings.json              → Base config (shared)
+   appsettings.Development.json  → Dev DB connection, debug settings
+   appsettings.Production.json   → Prod URLs, timeouts
+
+   ASP.NET Core auto-loads based on ASPNETCORE_ENVIRONMENT variable.
+
+2. ENVIRONMENT VARIABLES (sensitive secrets):
+   - AUDIT_JWT_SECRET → JWT signing key
+   - AUDIT_PAYLOAD_KEY → Request encryption key
+   - DB passwords (in some cases)
+
+   Why: Secrets never in source code or config files.
+   Set on server: System → Environment Variables → Machine level
+
+3. CODE (OverrideConfigFromEnvironment):
+   private void OverrideConfigFromEnvironment()
+   {
+       SetFromEnv("PayloadEncryptionKey", "AUDIT_PAYLOAD_KEY");
+   }
+   // Checks Machine-level first, then User-level
+   // If found, overrides appsettings value
+
+4. AppConfigManager (helper class):
+   - Reads from IConfiguration
+   - Provides strongly-typed access to config values
+   - Single point of access for all config
+
+Environment setup:
+- Development: Local machine, dev DB, debug logging
+- Staging/UAT: Test server, UAT DB, info logging
+- Production: Prod server, prod DB, warning+ logging only
+
+What I would improve:
+- Azure Key Vault for secrets management
+- IOptions&lt;T&gt; pattern for strongly-typed config
+- Config validation at startup (fail fast if missing)
+- Centralized config service for microservices</pre></div></div>
+
+<div class="q" data-s="stored procedure explain wrote plsql"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">25</span><span class="txt">Explain a stored procedure you wrote.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Example: PROC_AUDIT_PUNCHING_BLOCK
+
+Purpose: Automatically blocks branches where audit is overdue.
+
+Logic:
+1. Check all branches with pending audits
+2. If audit not completed within deadline → mark branch as BLOCKED
+3. Send alert notification to branch head
+4. Log the blocking action with timestamp
+
+Pseudo-code:
+CREATE OR REPLACE PROCEDURE PROC_AUDIT_PUNCHING_BLOCK AS
+    v_count NUMBER;
+BEGIN
+    -- Find branches with overdue audits
+    FOR rec IN (
+        SELECT branch_code, audit_due_date, branch_head_email
+        FROM AUDIT_ASSIGNMENTS
+        WHERE status = 'PENDING'
+        AND audit_due_date &lt; SYSDATE
+        AND is_blocked = 0
+    ) LOOP
+        -- Block the branch
+        UPDATE AUDIT_ASSIGNMENTS
+        SET is_blocked = 1,
+            blocked_date = SYSDATE,
+            blocked_reason = 'Audit overdue'
+        WHERE branch_code = rec.branch_code;
+
+        -- Insert alert notification
+        INSERT INTO AUDIT_ALERTS (branch_code, alert_type, alert_date, message)
+        VALUES (rec.branch_code, 'BLOCK', SYSDATE, 'Branch blocked due to overdue audit');
+
+        COMMIT;
+    END LOOP;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        INSERT INTO ERROR_LOG (proc_name, error_msg, error_date)
+        VALUES ('PROC_AUDIT_PUNCHING_BLOCK', SQLERRM, SYSDATE);
+        COMMIT;
+END;
+
+Called from:
+- Scheduled job (Oracle DBMS_SCHEDULER) runs daily
+- Also callable from API for manual blocking
+
+Why SP instead of C# code:
+- Runs directly on DB server (no network round-trip)
+- Atomic operation (COMMIT/ROLLBACK)
+- Can be scheduled by DBA
+- Processes thousands of branches efficiently
+- Business rule stays close to data</pre></div></div>
+
+<div class="q" data-s="session management load balancer multiple servers"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">26</span><span class="txt">How does session work if you have multiple servers?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Current setup: Single server (no load balancing needed yet)
+
+Our session approach:
+- Cookie-based session ("_audit_session" cookie)
+- Session data stored in Oracle DB (not in-memory)
+- CheckSessionFN API validates session against DB
+- Any server can validate because session is in DB
+
+Why DB-based session works for scaling:
+- Session not tied to specific server
+- Any server can read session from Oracle
+- No sticky sessions needed
+- Survives server restart
+
+If we add load balancer (future):
+Option 1: Database sessions (current - already works)
+- All servers read/write session to same Oracle DB
+- Slight latency (DB call per request)
+
+Option 2: Distributed cache (Redis):
+builder.Services.AddStackExchangeRedisCache(options =&gt;
+{
+    options.Configuration = "redis-server:6379";
+});
+builder.Services.AddSession();
+- Faster than DB
+- Shared across all servers
+- Auto-expiry
+
+Option 3: Sticky sessions (not recommended):
+- Load balancer routes same user to same server
+- Problem: If server dies, session lost
+
+Our validation flow:
+1. User logs in → API creates session record in DB
+2. Session ID returned as cookie
+3. Every request → SessionAuthFilter checks cookie exists
+4. Periodically → CheckSessionFN validates against DB
+5. Logout → Session deleted from DB + cookie cleared
+6. Timeout → DB record expires (configurable)
+
+Best practice answer:
+"Currently single server with DB-backed sessions. If we scale, 
+we'd add Redis for distributed session — our architecture already 
+supports it since sessions aren't stored in-memory."</pre></div></div>
+
+<div class="q" data-s="pagination large data reports handling"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">27</span><span class="txt">How do you handle pagination for large data sets?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>In Audit module, reports can have thousands of records (all branches, all observations).
+
+Approach:
+1. SERVER-SIDE PAGINATION (Oracle):
+   - API accepts page number and page size
+   - Oracle query uses OFFSET-FETCH:
+
+   SELECT * FROM (
+       SELECT a.*, ROWNUM rn FROM (
+           SELECT * FROM AUDIT_OBSERVATIONS
+           WHERE status = 'APPROVED'
+           ORDER BY created_date DESC
+       ) a WHERE ROWNUM &lt;= :endRow
+   ) WHERE rn &gt; :startRow
+
+   -- Or Oracle 12c+:
+   SELECT * FROM AUDIT_OBSERVATIONS
+   ORDER BY created_date DESC
+   OFFSET :skip ROWS FETCH NEXT :take ROWS ONLY;
+
+2. API ENDPOINT:
+   [HttpPost("GetObservations")]
+   public ActionResult GetObservations([FromBody] PaginationRequest request)
+   {
+       // request.PageNumber, request.PageSize, request.SearchTerm
+       var result = _bll.GetObservations(request);
+       return Ok(new {
+           data = result.Records,
+           totalCount = result.TotalCount,
+           totalPages = (int)Math.Ceiling(result.TotalCount / (double)request.PageSize)
+       });
+   }
+
+3. FRONTEND (DataTables.js):
+   - jQuery DataTables with server-side processing
+   - Sends page, pageSize, search, sort to API
+   - Renders only current page
+   - Shows total count and page navigation
+
+   $('#auditTable').DataTable({
+       processing: true,
+       serverSide: true,
+       ajax: { url: '/api/GetObservations', type: 'POST' }
+   });
+
+4. SEARCH + FILTER + SORT:
+   - All done at database level (not in-memory)
+   - WHERE clause built dynamically based on filters
+   - ORDER BY based on sort column from frontend
+
+Why server-side:
+- 50,000+ records — can't load all in browser
+- Faster initial load (only 10-25 records)
+- Less memory on client
+- Database handles filtering efficiently with indexes</pre></div></div>
+
+<div class="q" data-s="design pattern used project singleton bll"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">28</span><span class="txt">What design patterns did you use in your project?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Patterns used in Audit/Inspection projects:
+
+1. SINGLETON PATTERN (BLL classes):
+   public class LoginBLL
+   {
+       private static LoginBLL _instance;
+       public static LoginBLL Instance =&gt;
+           _instance ?? (_instance = new LoginBLL());
+   }
+   // Used for: All BLL classes (stateless, reusable)
+   // Why: No need to create new instance per request (no state)
+
+2. LAYERED ARCHITECTURE PATTERN:
+   Controller → BLL → DAL → Database
+   // Separation of concerns
+   // Each layer has single responsibility
+
+3. DTO PATTERN (Data Transfer Objects):
+   - Request DTOs: LoginRequest, ObservationRequest
+   - Response DTOs: LoginResponse, wrapped in Response&lt;T&gt;
+   // Prevents exposing internal models to API consumers
+
+4. REPOSITORY PATTERN (OracleHelper):
+   - Generic data access methods
+   - GetRecords&lt;T&gt;(), GetRecord&lt;T&gt;(), ExecuteNonQuery()
+   // Abstracts database operations
+
+5. MIDDLEWARE PATTERN (ASP.NET Core pipeline):
+   - CspMiddleware, PathTraversalMiddleware
+   - Chain of responsibility for request processing
+
+6. FILTER PATTERN (Action Filters):
+   - SessionAuthFilter: Cross-cutting auth concern
+   - CspNonceActionFilter: Adds nonce to every response
+
+7. FACTORY-LIKE (OracleHelper command creation):
+   - Determines CommandType based on query string
+   - Text for SELECT/INSERT, StoredProcedure otherwise
+
+8. OBSERVER (Email notifications):
+   - When observation status changes → notify relevant users
+   - Decoupled: Action doesn't know who gets notified
+
+Interview answer:
+"We use Singleton for BLL classes since they're stateless.
+Layered architecture for separation of concerns. DTO pattern
+for API contracts. Middleware pattern for cross-cutting security.
+If I were to refactor, I'd replace static Singleton with proper
+DI registration (AddScoped) for better testability."</pre></div></div>
+
+<div class="q" data-s="dependency injection issue faced real scenario"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">29</span><span class="txt">Did you face any DI lifetime issue? Real scenario.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Honest answer (our project uses static instances, not full DI):
+
+"In our current project, BLL classes use static Singleton pattern
+(LoginBLL.Instance) rather than ASP.NET Core's built-in DI container.
+This was a design decision from early development."
+
+Issue we faced:
+- OracleHelper creates new connection per method call
+- BLL is singleton (static) but OracleHelper is created inside methods
+- No issue because OracleHelper is stateless (new instance per call)
+- BUT: If we had shared state, singleton would cause thread-safety bugs
+
+What I would do differently (shows growth):
+// Current (static singleton):
+public class LoginBLL
+{
+    private static LoginBLL _instance;
+    public static LoginBLL Instance =&gt; _instance ?? (_instance = new LoginBLL());
+}
+// Controller: LoginBLL.Instance.LoginEntryFN(request);
+
+// Better (proper DI):
+public interface ILoginService { Response Login(LoginRequest req); }
+public class LoginService : ILoginService { ... }
+
+// Program.cs:
+builder.Services.AddScoped&lt;ILoginService, LoginService&gt;();
+
+// Controller:
+public LoginController(ILoginService loginService) { _service = loginService; }
+
+Why DI is better:
+- Testable (mock ILoginService in unit tests)
+- Scoped lifetime (proper per-request isolation)
+- No thread-safety concerns
+- Follows SOLID (Dependency Inversion)
+
+Real DI issue I know about (for interview):
+- Captive dependency: If Singleton injects Scoped service
+- Our OracleHelper avoids this by being created fresh each time
+- If we used DbContext (Scoped) inside Singleton BLL = BUG
+- Solution: Use IServiceScopeFactory to create scope manually
+
+Interview tip: Be honest that current code uses static pattern,
+then explain WHY DI would be better. Shows self-awareness.</pre></div></div>
+
+</div>
+</div>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+</script>
+</body>
+</html>
