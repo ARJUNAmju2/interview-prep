@@ -1,0 +1,5721 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OOPs Interview Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:20px}
+h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#ff6f00,#ff9800);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}
+.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}
+.back:hover{text-decoration:underline}
+.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}
+.search::placeholder{color:#64748b}
+.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}
+.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #ff9800;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}
+.q-title:hover{background:#fff7ed}
+.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#ff9800;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+.q-title .txt{flex:1}
+.q-title .arrow{transition:transform .3s;color:#ff9800;font-size:1rem;flex-shrink:0}
+.q.open .q-title .arrow{transform:rotate(180deg)}
+.q.open .q-title{background:#fff7ed;border-bottom:1px solid #fed7aa}
+.q-ans{display:none;padding:14px 16px;background:#fffbf5}
+.q.open .q-ans{display:block}
+.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>OOPs Interview Questions</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+<div class="q" data-s="q1. what is object-oriented programming?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">1</span>
+<span class="txt">Q1. What is Object-Oriented Programming?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>OOP is a programming paradigm that organizes code around OBJECTS (data + behavior)
+rather than functions and logic.
+
+Key idea: Model real-world entities as objects in code.
+
+Example:
+- Real world: A Car has properties (color, speed) and behaviors (start, stop)
+- In code: Car class with properties and methods
+
+public class Car
+{
+    // Properties (data)
+    public string Color { get; set; }
+    public int Speed { get; set; }
+    
+    // Methods (behavior)
+    public void Start() { Console.WriteLine("Car started"); }
+    public void Stop() { Console.WriteLine("Car stopped"); }
+}
+
+// Object (instance of class)
+Car myCar = new Car();
+myCar.Color = "Red";
+myCar.Start();
+
+OOP focuses on:
+- What objects are needed (not what functions)
+- How objects interact with each other
+- Hiding complexity and exposing only necessary parts</pre></div>
+</div>
+<div class="q" data-s="q2. what are the 4 pillars of oops?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">2</span>
+<span class="txt">Q2. What are the 4 pillars of OOPs?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>1. ENCAPSULATION:
+   - Wrapping data and methods together in a class
+   - Hiding internal details, exposing only necessary interface
+   - Using access modifiers (private, public, protected)
+   - Example: Private fields with public properties (get/set)
+
+2. INHERITANCE:
+   - Creating new class from existing class
+   - Child class inherits properties and methods of parent
+   - Promotes code reusability
+   - Example: Dog : Animal (Dog inherits from Animal)
+
+3. POLYMORPHISM:
+   - One interface, multiple implementations
+   - Same method behaves differently based on object
+   - Compile-time (overloading) and Runtime (overriding)
+   - Example: Shape.Draw() → Circle draws circle, Square draws square
+
+4. ABSTRACTION:
+   - Hiding complex implementation, showing only essential features
+   - Using abstract classes and interfaces
+   - Focus on WHAT an object does, not HOW
+   - Example: You drive a car without knowing engine internals</pre></div>
+</div>
+<div class="q" data-s="q3. what is the difference between procedural vs oop?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">3</span>
+<span class="txt">Q3. What is the difference between Procedural vs OOP?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>PROCEDURAL PROGRAMMING:
+- Organized around functions/procedures
+- Data and functions are separate
+- Top-down approach
+- No access control on data
+- Hard to maintain for large programs
+- Examples: C, Pascal, BASIC
+
+OOP:
+- Organized around objects (data + behavior)
+- Data and methods bundled together
+- Bottom-up approach
+- Access modifiers protect data
+- Easy to maintain and extend
+- Examples: C#, Java, Python, C++
+
+| Feature        | Procedural         | OOP                  |
+|----------------|--------------------|--------------------- |
+| Focus          | Functions          | Objects              |
+| Data           | Exposed            | Encapsulated         |
+| Reusability    | Limited            | High (Inheritance)   |
+| Security       | Less               | More (Access control)|
+| Maintenance    | Difficult          | Easier               |
+| Real-world     | Poor mapping       | Good mapping         |</pre></div>
+</div>
+<div class="q" data-s="q4. what is a class and object?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">4</span>
+<span class="txt">Q4. What is a Class and Object?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>CLASS:
+- A blueprint/template for creating objects
+- Defines properties (data) and methods (behavior)
+- Exists in code (compile-time concept)
+- No memory allocated until object is created
+- Like an architectural plan of a house
+
+OBJECT:
+- An instance of a class
+- Actual entity created in memory at runtime
+- Has actual values for properties
+- Like the actual house built from the plan
+
+Example:
+// Class (blueprint)
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Salary { get; set; }
+    
+    public void DisplayInfo()
+    {
+        Console.WriteLine($"{Id}: {Name} - {Salary:C}");
+    }
+}
+
+// Objects (instances)
+Employee emp1 = new Employee { Id = 1, Name = "John", Salary = 50000 };
+Employee emp2 = new Employee { Id = 2, Name = "Jane", Salary = 60000 };
+
+emp1.DisplayInfo();  // 1: John - $50,000
+emp2.DisplayInfo();  // 2: Jane - $60,000
+
+// emp1 and emp2 are different objects of same class
+// They share the same structure but have different data</pre></div>
+</div>
+<div class="q" data-s="q5. what is the difference between class and object?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">5</span>
+<span class="txt">Q5. What is the difference between Class and Object?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature        | Class                    | Object                   |
+|----------------|--------------------------|--------------------------|
+| Definition     | Blueprint/Template       | Instance of class        |
+| Memory         | No memory allocated      | Memory allocated (heap)  |
+| Existence      | Logical (design-time)    | Physical (runtime)       |
+| Creation       | Defined using 'class'    | Created using 'new'      |
+| Count          | Defined once             | Multiple objects possible|
+| Keyword        | class Employee { }       | new Employee()           |
+| Contains       | Declarations             | Actual values            |
+
+Analogy:
+- Class = Cookie cutter (shape/template)
+- Object = Actual cookie (made from the cutter)
+
+- Class = Car design blueprint
+- Object = Actual car manufactured from blueprint</pre></div>
+</div>
+<div class="q" data-s="q6. what is a constructor?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">6</span>
+<span class="txt">Q6. What is a Constructor?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Constructor is a special method that is automatically called when an object 
+is created. It initializes the object's state.
+
+Rules:
+- Same name as the class
+- No return type (not even void)
+- Called automatically with 'new' keyword
+- Can be overloaded
+- If no constructor defined, compiler provides default
+
+Example:
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    
+    // Default constructor
+    public Employee()
+    {
+        Id = 0;
+        Name = "Unknown";
+    }
+    
+    // Parameterized constructor
+    public Employee(int id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
+}
+
+// Usage
+Employee emp1 = new Employee();           // Calls default constructor
+Employee emp2 = new Employee(1, "John");  // Calls parameterized constructor
+
+Purpose:
+- Initialize object with default/specific values
+- Allocate resources
+- Enforce required data at creation time
+- Dependency injection (in ASP.NET Core)</pre></div>
+</div>
+<div class="q" data-s="q7. what are types of constructors?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">7</span>
+<span class="txt">Q7. What are types of Constructors?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>1. DEFAULT CONSTRUCTOR:
+   - No parameters
+   - Compiler provides one if you don't write any constructor
+   
+   public Employee() { }
+
+2. PARAMETERIZED CONSTRUCTOR:
+   - Takes parameters to initialize object
+   
+   public Employee(int id, string name)
+   {
+       Id = id;
+       Name = name;
+   }
+
+3. COPY CONSTRUCTOR:
+   - Creates object by copying another object
+   - C# doesn't have built-in copy constructor (unlike C++)
+   
+   public Employee(Employee other)
+   {
+       Id = other.Id;
+       Name = other.Name;
+   }
+
+4. STATIC CONSTRUCTOR:
+   - Initializes static members
+   - Called only ONCE (first time class is used)
+   - No access modifier, no parameters
+   - Cannot be called directly
+   
+   static Employee()
+   {
+       // Initialize static fields
+       CompanyName = "TechCorp";
+   }
+
+5. PRIVATE CONSTRUCTOR:
+   - Cannot create object from outside the class
+   - Used in Singleton pattern
+   - Used when class has only static members
+   
+   private Employee() { }
+   
+   // Singleton usage
+   public class Singleton
+   {
+       private static Singleton _instance;
+       private Singleton() { }  // Private!
+       
+       public static Singleton Instance
+       {
+           get
+           {
+               if (_instance == null)
+                   _instance = new Singleton();
+               return _instance;
+           }
+       }
+   }</pre></div>
+</div>
+<div class="q" data-s="q8. what is constructor overloading?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">8</span>
+<span class="txt">Q8. What is Constructor Overloading?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Constructor Overloading means having multiple constructors in the same class 
+with different parameter lists.
+
+Example:
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+    public string Category { get; set; }
+    
+    // Constructor 1: No parameters
+    public Product()
+    {
+        Name = "Unknown";
+        Price = 0;
+    }
+    
+    // Constructor 2: Name only
+    public Product(string name)
+    {
+        Name = name;
+        Price = 0;
+    }
+    
+    // Constructor 3: Name and Price
+    public Product(string name, decimal price)
+    {
+        Name = name;
+        Price = price;
+    }
+    
+    // Constructor 4: All parameters
+    public Product(int id, string name, decimal price, string category)
+    {
+        Id = id;
+        Name = name;
+        Price = price;
+        Category = category;
+    }
+}
+
+// Usage - different ways to create object
+var p1 = new Product();
+var p2 = new Product("Phone");
+var p3 = new Product("Phone", 999);
+var p4 = new Product(1, "Phone", 999, "Electronics");
+
+Rules:
+- Same name (class name)
+- Different number or type of parameters
+- Compiler picks the right one based on arguments passed</pre></div>
+</div>
+<div class="q" data-s="q9. what is constructor chaining (this/base)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">9</span>
+<span class="txt">Q9. What is Constructor Chaining (this/base)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Constructor Chaining means one constructor calling another constructor 
+using 'this' (same class) or 'base' (parent class).
+
+Using 'this' (same class):
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Department { get; set; }
+    
+    public Employee() : this(0, "Unknown", "General")
+    {
+        // Calls the 3-parameter constructor first
+    }
+    
+    public Employee(int id, string name) : this(id, name, "General")
+    {
+        // Calls the 3-parameter constructor first
+    }
+    
+    public Employee(int id, string name, string department)
+    {
+        Id = id;
+        Name = name;
+        Department = department;
+    }
+}
+
+Using 'base' (parent class):
+public class Person
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    
+    public Person(string name, int age)
+    {
+        Name = name;
+        Age = age;
+    }
+}
+
+public class Employee : Person
+{
+    public decimal Salary { get; set; }
+    
+    public Employee(string name, int age, decimal salary) : base(name, age)
+    {
+        // Calls Person(name, age) first, then sets Salary
+        Salary = salary;
+    }
+}
+
+Benefits:
+- Avoid code duplication
+- Single point of initialization logic
+- Cleaner code</pre></div>
+</div>
+<div class="q" data-s="q10. what is a destructor/finalizer in c#?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">10</span>
+<span class="txt">Q10. What is a Destructor/Finalizer in C#?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Destructor (Finalizer) is called by the Garbage Collector before an object 
+is destroyed. Used to release unmanaged resources.
+
+Syntax:
+public class FileHandler
+{
+    private IntPtr fileHandle;
+    
+    public FileHandler(string path)
+    {
+        fileHandle = OpenFile(path);  // Unmanaged resource
+    }
+    
+    // Destructor/Finalizer
+    ~FileHandler()
+    {
+        // Cleanup unmanaged resources
+        CloseFile(fileHandle);
+        Console.WriteLine("Destructor called - resources released");
+    }
+}
+
+Rules:
+- Prefix with ~ (tilde) + class name
+- No access modifier
+- No parameters
+- No return type
+- Cannot be called directly (GC calls it)
+- Only ONE destructor per class
+- Cannot be overloaded
+
+Important:
+- You CANNOT predict when GC will call the destructor
+- Prefer IDisposable pattern over destructors
+- Destructors add overhead (objects go to finalization queue)
+
+Better approach - IDisposable:
+public class FileHandler : IDisposable
+{
+    private bool _disposed = false;
+    
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            // Release resources
+            _disposed = true;
+        }
+        GC.SuppressFinalize(this);  // Skip finalizer
+    }
+    
+    ~FileHandler()
+    {
+        Dispose();
+    }
+}
+
+// Usage
+using (var handler = new FileHandler("file.txt"))
+{
+    // Use handler
+}  // Dispose called automatically</pre></div>
+</div>
+<div class="q" data-s="q11. what is the difference between struct and class?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">11</span>
+<span class="txt">Q11. What is the difference between Struct and Class?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature          | Struct (Value Type)      | Class (Reference Type)   |
+|------------------|--------------------------|--------------------------|
+| Storage          | Stack                    | Heap                     |
+| Type             | Value type               | Reference type           |
+| Inheritance      | Cannot inherit           | Can inherit              |
+| Default value    | Cannot be null           | Can be null              |
+| Constructor      | Cannot have parameterless| Can have parameterless   |
+|                  | (before C# 10)           |                          |
+| Destructor       | Cannot have              | Can have                 |
+| Performance      | Faster (no GC)           | Slower (GC overhead)     |
+| Assignment       | Copies entire value      | Copies reference         |
+| Sealed           | Always sealed            | Can be sealed or not     |
+| Interface        | Can implement            | Can implement            |
+
+When to use Struct:
+- Small data (&lt; 16 bytes)
+- Immutable data
+- Short-lived objects
+- No inheritance needed
+- Examples: Point, Color, DateTime, int, decimal
+
+When to use Class:
+- Complex objects
+- Need inheritance
+- Large data
+- Need null reference
+- Long-lived objects
+- Examples: Employee, Order, DbContext
+
+Example:
+struct Point
+{
+    public int X { get; set; }
+    public int Y { get; set; }
+}
+
+Point p1 = new Point { X = 1, Y = 2 };
+Point p2 = p1;  // COPIES the value
+p2.X = 10;
+// p1.X is still 1 (independent copy)
+
+class Employee
+{
+    public string Name { get; set; }
+}
+
+Employee e1 = new Employee { Name = "John" };
+Employee e2 = e1;  // COPIES the reference (both point to same object)
+e2.Name = "Jane";
+// e1.Name is now "Jane" (same object!)</pre></div>
+</div>
+<div class="q" data-s="q12. what is a static class?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">12</span>
+<span class="txt">Q12. What is a Static class?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Static class is a class that cannot be instantiated and can only contain 
+static members.
+
+Rules:
+- Cannot create objects (no 'new')
+- Cannot be inherited
+- Can only have static members
+- Sealed implicitly
+- No instance constructor (only static constructor)
+
+Example:
+public static class MathHelper
+{
+    public static double PI = 3.14159;
+    
+    public static int Add(int a, int b) =&gt; a + b;
+    public static int Multiply(int a, int b) =&gt; a * b;
+    public static double CircleArea(double radius) =&gt; PI * radius * radius;
+}
+
+// Usage - no 'new' needed
+int sum = MathHelper.Add(5, 3);
+double area = MathHelper.CircleArea(10);
+
+Use cases:
+- Utility/Helper classes (StringHelper, MathHelper)
+- Extension methods container
+- Constants and configuration
+- Stateless operations
+
+Common .NET static classes:
+- Math.Abs(), Math.Max()
+- Console.WriteLine()
+- File.ReadAllText()
+- Convert.ToInt32()</pre></div>
+</div>
+<div class="q" data-s="q13. what is a partial class?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">13</span>
+<span class="txt">Q13. What is a Partial class?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Partial class allows splitting a single class definition across multiple files.
+All parts are combined at compile time.
+
+Keyword: partial
+
+File 1 - Employee.cs:
+public partial class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string Email { get; set; }
+}
+
+File 2 - Employee.Methods.cs:
+public partial class Employee
+{
+    public void DisplayInfo()
+    {
+        Console.WriteLine($"{Id}: {Name} ({Email})");
+    }
+    
+    public bool IsValid()
+    {
+        return !string.IsNullOrEmpty(Name) &amp;&amp; !string.IsNullOrEmpty(Email);
+    }
+}
+
+// At compile time, both files merge into ONE class
+
+Use cases:
+- Large classes split for readability
+- Auto-generated code (EF Core models, WinForms designer)
+- Multiple developers working on same class
+- Separating concerns (properties in one file, methods in another)
+
+Rules:
+- All parts must use 'partial' keyword
+- All parts must be in same namespace and assembly
+- All parts must have same accessibility (public, internal)
+- If any part is abstract/sealed, entire class is abstract/sealed</pre></div>
+</div>
+<div class="q" data-s="q14. what is a sealed class?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">14</span>
+<span class="txt">Q14. What is a Sealed class?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Sealed class is a class that CANNOT be inherited. No other class can 
+derive from it.
+
+Keyword: sealed
+
+public sealed class StringHelper
+{
+    public static string Capitalize(string input)
+    {
+        return char.ToUpper(input[0]) + input.Substring(1);
+    }
+}
+
+// This will cause COMPILE ERROR:
+public class ExtendedHelper : StringHelper  // ERROR! Cannot inherit sealed class
+{
+}
+
+Sealed method (prevent further overriding):
+public class Animal
+{
+    public virtual void Speak() { }
+}
+
+public class Dog : Animal
+{
+    public sealed override void Speak()  // Can be overridden here but sealed
+    {
+        Console.WriteLine("Bark");
+    }
+}
+
+public class GoldenRetriever : Dog
+{
+    // ERROR! Cannot override sealed method
+    public override void Speak() { }  // Compile error!
+}
+
+Why use sealed:
+- Security: Prevent modification of critical classes
+- Performance: JIT can optimize (no virtual dispatch needed)
+- Design: Class not designed for inheritance
+- Framework classes: String, DateTime are sealed
+
+.NET sealed classes: String, StringBuilder, DateTime, Math
+
+
+
+================================================================================
+SECTION 2: ENCAPSULATION
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q15. what is encapsulation?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">15</span>
+<span class="txt">Q15. What is Encapsulation?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Encapsulation is wrapping data (fields) and methods that operate on that data 
+into a single unit (class), and restricting direct access to internal details.
+
+"Hide the HOW, expose the WHAT"
+
+Without Encapsulation (bad):
+public class BankAccount
+{
+    public decimal Balance;  // Anyone can directly modify!
+}
+
+var account = new BankAccount();
+account.Balance = -5000;  // Invalid! But no protection
+
+With Encapsulation (good):
+public class BankAccount
+{
+    private decimal _balance;  // Hidden from outside
+    
+    public decimal Balance =&gt; _balance;  // Read-only access
+    
+    public void Deposit(decimal amount)
+    {
+        if (amount &lt;= 0)
+            throw new ArgumentException("Amount must be positive");
+        _balance += amount;
+    }
+    
+    public void Withdraw(decimal amount)
+    {
+        if (amount &lt;= 0)
+            throw new ArgumentException("Amount must be positive");
+        if (amount &gt; _balance)
+            throw new InvalidOperationException("Insufficient funds");
+        _balance -= amount;
+    }
+}
+
+// Now balance is protected
+var account = new BankAccount();
+account.Deposit(1000);    // Valid
+account.Withdraw(500);    // Valid
+account.Withdraw(2000);   // Exception! Insufficient funds
+// account._balance = -5000;  // Compile error! Private
+
+Benefits:
+- Data protection (validation before modification)
+- Hide complexity
+- Control access
+- Easy to change internal implementation without affecting users
+- Maintainability</pre></div>
+</div>
+<div class="q" data-s="q16. what are access modifiers?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">16</span>
+<span class="txt">Q16. What are Access Modifiers?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Access Modifiers control the visibility/accessibility of classes, methods, 
+and properties.
+
+6 Access Modifiers in C#:
+
+1. public:
+   - Accessible from ANYWHERE (no restriction)
+   - Any class, any assembly
+   
+2. private:
+   - Accessible ONLY within the same class
+   - Most restrictive
+   - Default for class members
+   
+3. protected:
+   - Accessible within same class AND derived classes
+   - Not accessible from outside (non-derived)
+   
+4. internal:
+   - Accessible within the SAME ASSEMBLY (project)
+   - Not accessible from other projects
+   - Default for classes
+   
+5. protected internal:
+   - Accessible within same assembly OR derived classes (even in other assembly)
+   - Union of protected and internal
+   
+6. private protected (C# 7.2):
+   - Accessible within same class OR derived classes in SAME ASSEMBLY
+   - Intersection of private and protected
+
+Example:
+public class Employee
+{
+    public string Name { get; set; }           // Anywhere
+    private decimal _salary;                    // Only this class
+    protected int EmployeeLevel;               // This class + derived
+    internal string Department;                // Same assembly
+    protected internal string Branch;          // Same assembly OR derived
+    private protected string SecretCode;       // Derived in same assembly only
+}</pre></div>
+</div>
+<div class="q" data-s="q17. what is the difference between all access modifiers?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">17</span>
+<span class="txt">Q17. What is the difference between all access modifiers?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Modifier           | Same Class | Derived (same) | Same Assembly | Derived (other) | Other Assembly |
+|--------------------|------------|----------------|---------------|-----------------|----------------|
+| public             | YES        | YES            | YES           | YES             | YES            |
+| private            | YES        | NO             | NO            | NO              | NO             |
+| protected          | YES        | YES            | NO            | YES             | NO             |
+| internal           | YES        | YES            | YES           | NO              | NO             |
+| protected internal | YES        | YES            | YES           | YES             | NO             |
+| private protected  | YES        | YES            | NO            | NO              | NO             |
+
+Most commonly used:
+- public: API methods, properties exposed to consumers
+- private: Internal fields, helper methods
+- protected: Members needed by child classes
+- internal: Classes/methods shared within project but not exposed outside
+
+Default access:
+- Class: internal
+- Class members: private
+- Interface members: public (implicitly)
+- Struct members: private</pre></div>
+</div>
+<div class="q" data-s="q18. what are properties (get/set)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">18</span>
+<span class="txt">Q18. What are Properties (get/set)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Properties provide controlled access to private fields. They look like fields 
+from outside but have getter/setter logic internally.
+
+Full property:
+public class Employee
+{
+    private string _name;
+    private int _age;
+    
+    public string Name
+    {
+        get { return _name; }
+        set
+        {
+            if (string.IsNullOrEmpty(value))
+                throw new ArgumentException("Name cannot be empty");
+            _name = value;
+        }
+    }
+    
+    public int Age
+    {
+        get { return _age; }
+        set
+        {
+            if (value &lt; 18 || value &gt; 65)
+                throw new ArgumentException("Age must be 18-65");
+            _age = value;
+        }
+    }
+}
+
+Auto-implemented property:
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+}
+
+Read-only property:
+public string FullName =&gt; $"{FirstName} {LastName}";  // Expression body
+public DateTime CreatedDate { get; } = DateTime.Now;  // Set only in constructor
+
+Property with different access:
+public string Name { get; private set; }  // Public read, private write
+
+Init-only property (C# 9):
+public string Name { get; init; }  // Can only be set during initialization
+var emp = new Employee { Name = "John" };  // OK
+emp.Name = "Jane";  // ERROR after initialization</pre></div>
+</div>
+<div class="q" data-s="q19. what is the difference between field and property?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">19</span>
+<span class="txt">Q19. What is the difference between Field and Property?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>FIELD:
+- Variable declared directly in class
+- No get/set logic
+- Usually private
+- No validation possible
+- Direct memory access
+
+private string _name;
+private int _age;
+
+PROPERTY:
+- Wrapper around field with get/set accessors
+- Can have validation logic
+- Usually public
+- Can be read-only or write-only
+- Can trigger events on change
+
+public string Name
+{
+    get =&gt; _name;
+    set =&gt; _name = value ?? throw new ArgumentNullException();
+}
+
+| Feature      | Field              | Property             |
+|--------------|--------------------|----------------------|
+| Access       | Direct             | Through get/set      |
+| Validation   | No                 | Yes                  |
+| Visibility   | Usually private    | Usually public       |
+| Data binding | Not supported      | Supported (WPF/MVC) |
+| Interface    | Cannot be in       | Can be in interface  |
+| Debugging    | No breakpoint      | Can set breakpoint   |
+| Serialization| May not serialize  | Serializes properly  |
+
+Best Practice: 
+- Fields should be PRIVATE
+- Expose data through PROPERTIES
+- Even for simple cases, use auto-properties (future-proof)</pre></div>
+</div>
+<div class="q" data-s="q20. what is auto-implemented property?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">20</span>
+<span class="txt">Q20. What is Auto-implemented Property?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Auto-implemented properties let you declare properties without explicitly 
+defining a backing field. Compiler creates the hidden field automatically.
+
+// Auto-implemented (compiler creates hidden backing field)
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Salary { get; set; }
+    public DateTime HireDate { get; set; } = DateTime.Now;  // With default
+}
+
+// Equivalent full implementation (what compiler generates):
+public class Employee
+{
+    private int _id;
+    private string _name;
+    
+    public int Id
+    {
+        get { return _id; }
+        set { _id = value; }
+    }
+    
+    public string Name
+    {
+        get { return _name; }
+        set { _name = value; }
+    }
+}
+
+When to use auto-property:
+- No validation needed
+- Simple get/set
+- Most common scenario
+
+When to use full property:
+- Need validation in setter
+- Need to raise events (INotifyPropertyChanged)
+- Need computed values in getter
+- Need logging or side effects</pre></div>
+</div>
+<div class="q" data-s="q21. what is read-only vs write-only property?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">21</span>
+<span class="txt">Q21. What is Read-only vs Write-only Property?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>READ-ONLY PROPERTY (only getter):
+public class Circle
+{
+    public double Radius { get; }
+    
+    // Computed read-only
+    public double Area =&gt; Math.PI * Radius * Radius;
+    
+    // Set only via constructor
+    public Circle(double radius)
+    {
+        Radius = radius;
+    }
+}
+
+var c = new Circle(5);
+double area = c.Area;  // OK - can read
+// c.Radius = 10;      // ERROR - cannot set
+
+WRITE-ONLY PROPERTY (only setter - rare):
+public class Logger
+{
+    private string _password;
+    
+    public string Password
+    {
+        set { _password = HashPassword(value); }
+        // No getter - cannot read password back
+    }
+}
+
+var logger = new Logger();
+logger.Password = "secret123";  // OK - can set
+// var pwd = logger.Password;   // ERROR - cannot read
+
+Common read-only patterns:
+public string FullName =&gt; $"{FirstName} {LastName}";     // Computed
+public int Age =&gt; DateTime.Now.Year - BirthYear;         // Calculated
+public bool IsAdult =&gt; Age &gt;= 18;                        // Derived
+public static DateTime Now =&gt; DateTime.UtcNow;           // Static</pre></div>
+</div>
+<div class="q" data-s="q22. what is the readonly keyword vs const?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">22</span>
+<span class="txt">Q22. What is the readonly keyword vs const?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>CONST:
+- Compile-time constant
+- Must be assigned at declaration
+- Implicitly static
+- Only primitive types and string
+- Value embedded in IL code
+- Cannot change ever
+
+const double PI = 3.14159;
+const string AppName = "MyApp";
+const int MaxRetries = 3;
+// const DateTime Now = DateTime.Now;  // ERROR! Not compile-time
+
+READONLY:
+- Runtime constant
+- Can be assigned at declaration OR in constructor
+- Can be instance or static
+- Any type (including objects)
+- Value resolved at runtime
+
+public class Config
+{
+    public readonly string ConnectionString;
+    public readonly DateTime CreatedAt = DateTime.Now;
+    public static readonly int MaxUsers = GetMaxFromConfig();
+    
+    public Config(string connStr)
+    {
+        ConnectionString = connStr;  // Set in constructor - OK
+    }
+    
+    public void Update()
+    {
+        // ConnectionString = "new";  // ERROR! Cannot change after constructor
+    }
+}
+
+Comparison:
+| Feature        | const              | readonly             |
+|----------------|--------------------|----------------------|
+| Assigned       | Declaration only   | Declaration/Constructor |
+| Time           | Compile-time       | Runtime              |
+| Static         | Always (implicit)  | Can be instance      |
+| Types          | Primitives, string | Any type             |
+| Performance    | Slightly faster    | Normal               |
+| Versioning     | Dangerous*         | Safe                 |
+
+*Versioning issue with const:
+If Assembly A has: public const int Version = 1;
+And Assembly B uses it: var v = A.Version;
+If A changes to Version = 2 and recompiles, B still has 1 (embedded at compile time)
+B must also be recompiled! readonly doesn't have this issue.
+
+Best Practice:
+- Use const for true constants that NEVER change (PI, days in week)
+- Use readonly for values set at runtime or that might change between versions
+
+
+
+================================================================================
+SECTION 3: INHERITANCE
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q23. what is inheritance?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">23</span>
+<span class="txt">Q23. What is Inheritance?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Inheritance allows a class (child/derived) to acquire properties and methods 
+of another class (parent/base). It promotes code reusability.
+
+Syntax: class Child : Parent
+
+Example:
+// Base class (Parent)
+public class Animal
+{
+    public string Name { get; set; }
+    public int Age { get; set; }
+    
+    public void Eat()
+    {
+        Console.WriteLine($"{Name} is eating");
+    }
+    
+    public void Sleep()
+    {
+        Console.WriteLine($"{Name} is sleeping");
+    }
+}
+
+// Derived class (Child)
+public class Dog : Animal
+{
+    public string Breed { get; set; }
+    
+    public void Bark()
+    {
+        Console.WriteLine($"{Name} says Woof!");
+    }
+}
+
+// Usage
+Dog dog = new Dog();
+dog.Name = "Buddy";     // Inherited from Animal
+dog.Age = 3;            // Inherited from Animal
+dog.Breed = "Labrador"; // Own property
+dog.Eat();              // Inherited method
+dog.Bark();             // Own method
+
+Benefits:
+- Code reusability (don't rewrite common code)
+- Establishes IS-A relationship (Dog IS-A Animal)
+- Supports polymorphism
+- Easy to extend functionality</pre></div>
+</div>
+<div class="q" data-s="q24. what are types of inheritance?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">24</span>
+<span class="txt">Q24. What are types of Inheritance?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>1. SINGLE INHERITANCE:
+   One child inherits from one parent.
+   
+   Animal → Dog
+   
+   class Dog : Animal { }
+
+2. MULTILEVEL INHERITANCE:
+   Chain of inheritance (grandparent → parent → child).
+   
+   Animal → Dog → GoldenRetriever
+   
+   class Animal { }
+   class Dog : Animal { }
+   class GoldenRetriever : Dog { }
+
+3. HIERARCHICAL INHERITANCE:
+   Multiple children inherit from same parent.
+   
+   Animal → Dog
+   Animal → Cat
+   Animal → Bird
+   
+   class Dog : Animal { }
+   class Cat : Animal { }
+   class Bird : Animal { }
+
+4. MULTIPLE INHERITANCE (NOT supported with classes in C#):
+   One child inherits from multiple parents.
+   
+   class Child : Parent1, Parent2 { }  // ERROR in C#!
+   
+   Achieved through INTERFACES:
+   class Dog : IAnimal, IPet { }  // OK!
+
+5. HYBRID INHERITANCE:
+   Combination of above types.
+   Not directly supported in C# (due to diamond problem).
+   Achieved through interfaces.
+
+Why C# doesn't support multiple class inheritance:
+- Diamond Problem: If both parents have same method, which one to use?
+- Complexity and ambiguity
+- Interfaces solve this cleanly</pre></div>
+</div>
+<div class="q" data-s="q25. why c# doesnt support multiple inheritance?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">25</span>
+<span class="txt">Q25. Why C# doesn't support Multiple Inheritance?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>C# doesn't allow a class to inherit from multiple classes due to the 
+DIAMOND PROBLEM.
+
+Diamond Problem:
+       ClassA
+      /      \
+   ClassB   ClassC
+      \      /
+       ClassD
+
+If ClassB and ClassC both override a method from ClassA,
+which version does ClassD get? AMBIGUITY!
+
+Example (if it were allowed):
+class A
+{
+    public virtual void Display() =&gt; Console.WriteLine("A");
+}
+
+class B : A
+{
+    public override void Display() =&gt; Console.WriteLine("B");
+}
+
+class C : A
+{
+    public override void Display() =&gt; Console.WriteLine("C");
+}
+
+// If this were allowed:
+class D : B, C  // Which Display()? B's or C's? AMBIGUOUS!
+{
+}
+
+C# Solution: Use INTERFACES
+- A class can implement MULTIPLE interfaces
+- No ambiguity because interfaces don't have implementation (before C# 8)
+- With default interface methods (C# 8+), explicit implementation resolves conflicts
+
+interface IFlyable { void Fly(); }
+interface ISwimmable { void Swim(); }
+
+class Duck : IFlyable, ISwimmable  // Multiple interfaces - OK!
+{
+    public void Fly() =&gt; Console.WriteLine("Flying");
+    public void Swim() =&gt; Console.WriteLine("Swimming");
+}</pre></div>
+</div>
+<div class="q" data-s="q26. how to achieve multiple inheritance in c# (interfaces)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">26</span>
+<span class="txt">Q26. How to achieve Multiple Inheritance in C# (Interfaces)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Use multiple interfaces to achieve multiple inheritance behavior.
+
+interface IPrintable
+{
+    void Print();
+}
+
+interface ISaveable
+{
+    void Save();
+}
+
+interface IExportable
+{
+    void Export(string format);
+}
+
+// Class implements multiple interfaces
+public class Document : IPrintable, ISaveable, IExportable
+{
+    public string Content { get; set; }
+    
+    public void Print()
+    {
+        Console.WriteLine($"Printing: {Content}");
+    }
+    
+    public void Save()
+    {
+        Console.WriteLine("Saving to database");
+    }
+    
+    public void Export(string format)
+    {
+        Console.WriteLine($"Exporting as {format}");
+    }
+}
+
+// Can also combine class inheritance + interfaces:
+public class Report : Document, IEmailable
+{
+    // Inherits from Document class
+    // Also implements IEmailable interface
+    
+    public void SendEmail(string to)
+    {
+        Console.WriteLine($"Emailing report to {to}");
+    }
+}
+
+// Usage with polymorphism:
+IPrintable printable = new Document();
+printable.Print();
+
+ISaveable saveable = new Document();
+saveable.Save();</pre></div>
+</div>
+<div class="q" data-s="q27. what is the base keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">27</span>
+<span class="txt">Q27. What is the base keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'base' keyword refers to the parent/base class. Used to:
+1. Call parent's constructor
+2. Call parent's method (when overriding)
+3. Access parent's members
+
+1. Call parent constructor:
+public class Person
+{
+    public string Name { get; set; }
+    
+    public Person(string name)
+    {
+        Name = name;
+    }
+}
+
+public class Employee : Person
+{
+    public decimal Salary { get; set; }
+    
+    public Employee(string name, decimal salary) : base(name)  // Calls Person(name)
+    {
+        Salary = salary;
+    }
+}
+
+2. Call parent method:
+public class Animal
+{
+    public virtual void Speak()
+    {
+        Console.WriteLine("Animal speaks");
+    }
+}
+
+public class Dog : Animal
+{
+    public override void Speak()
+    {
+        base.Speak();  // Call parent's Speak first
+        Console.WriteLine("Dog barks");
+    }
+}
+
+// Output:
+// Animal speaks
+// Dog barks
+
+3. Access parent members:
+public class Shape
+{
+    protected string Color = "Red";
+}
+
+public class Circle : Shape
+{
+    public void Display()
+    {
+        Console.WriteLine(base.Color);  // Access parent's field
+    }
+}</pre></div>
+</div>
+<div class="q" data-s="q28. what is the order of constructor execution in inheritance?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">28</span>
+<span class="txt">Q28. What is the order of Constructor execution in Inheritance?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Constructors execute from TOP (base) to BOTTOM (derived).
+Parent constructor ALWAYS runs before child constructor.
+
+public class A
+{
+    public A() { Console.WriteLine("A constructor"); }
+}
+
+public class B : A
+{
+    public B() { Console.WriteLine("B constructor"); }
+}
+
+public class C : B
+{
+    public C() { Console.WriteLine("C constructor"); }
+}
+
+// Creating C:
+var obj = new C();
+
+// Output:
+// A constructor    ← Base first
+// B constructor    ← Then middle
+// C constructor    ← Then derived (last)
+
+With parameterized constructors:
+public class Person
+{
+    public Person(string name)
+    {
+        Console.WriteLine($"Person: {name}");
+    }
+}
+
+public class Employee : Person
+{
+    public Employee(string name, int id) : base(name)
+    {
+        Console.WriteLine($"Employee: {id}");
+    }
+}
+
+var emp = new Employee("John", 1);
+// Output:
+// Person: John     ← base runs first
+// Employee: 1      ← derived runs second
+
+Rule: If parent has no parameterless constructor, child MUST explicitly 
+call base() with required parameters.</pre></div>
+</div>
+<div class="q" data-s="q29. can a private member be inherited?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">29</span>
+<span class="txt">Q29. Can a private member be inherited?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Private members ARE inherited but are NOT ACCESSIBLE in the derived class.
+
+public class Parent
+{
+    private int _secret = 42;
+    protected int _visible = 100;
+    
+    private void PrivateMethod()
+    {
+        Console.WriteLine("Private");
+    }
+    
+    public int GetSecret() =&gt; _secret;  // Public accessor
+}
+
+public class Child : Parent
+{
+    public void Test()
+    {
+        // Console.WriteLine(_secret);     // ERROR! Cannot access private
+        // PrivateMethod();                // ERROR! Cannot access private
+        
+        Console.WriteLine(_visible);       // OK! Protected is accessible
+        Console.WriteLine(GetSecret());    // OK! Public method that returns private value
+    }
+}
+
+Key points:
+- Private members exist in child object's memory
+- But child cannot directly access them
+- Can access through public/protected methods of parent
+- This maintains encapsulation</pre></div>
+</div>
+<div class="q" data-s="q30. what is the difference between is-a and has-a relationship?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">30</span>
+<span class="txt">Q30. What is the difference between IS-A and HAS-A relationship?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>IS-A (Inheritance):
+- Child IS-A type of Parent
+- Achieved through inheritance (:)
+- "Dog IS-A Animal"
+- "Employee IS-A Person"
+
+class Animal { }
+class Dog : Animal { }  // Dog IS-A Animal
+
+HAS-A (Composition):
+- Class HAS-A reference to another class
+- Achieved through containing object as property
+- "Car HAS-A Engine"
+- "Employee HAS-A Address"
+
+class Engine
+{
+    public void Start() { }
+}
+
+class Car
+{
+    private Engine _engine;  // Car HAS-A Engine
+    
+    public Car()
+    {
+        _engine = new Engine();
+    }
+    
+    public void StartCar()
+    {
+        _engine.Start();
+    }
+}
+
+Examples:
+IS-A:
+- Dog IS-A Animal ✓
+- Car IS-A Vehicle ✓
+- Manager IS-A Employee ✓
+
+HAS-A:
+- Car HAS-A Engine ✓
+- Employee HAS-A Address ✓
+- Order HAS-A List&lt;OrderItem&gt; ✓
+
+Wrong usage:
+- Car IS-A Engine ✗ (Car is not a type of Engine)
+- Dog HAS-A Animal ✗ (Dog doesn't contain an Animal)</pre></div>
+</div>
+<div class="q" data-s="q31. what is composition vs inheritance? when to use which?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">31</span>
+<span class="txt">Q31. What is Composition vs Inheritance? When to use which?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>INHERITANCE (IS-A):
+class Dog : Animal { }
+- Tight coupling between parent and child
+- Child depends on parent's implementation
+- Changes in parent affect all children
+- Cannot change at runtime
+
+COMPOSITION (HAS-A):
+class Car
+{
+    private IEngine _engine;
+    public Car(IEngine engine) { _engine = engine; }
+}
+- Loose coupling
+- Can swap implementations at runtime
+- More flexible
+- Follows "Favor Composition over Inheritance" principle
+
+Example - Inheritance approach (rigid):
+class Logger
+{
+    public void Log(string msg) =&gt; Console.WriteLine(msg);
+}
+
+class FileLogger : Logger
+{
+    // Inherits Log, but what if we want both File AND Database?
+    // Can't inherit from two classes!
+}
+
+Example - Composition approach (flexible):
+interface ILogger
+{
+    void Log(string message);
+}
+
+class FileLogger : ILogger
+{
+    public void Log(string message) =&gt; File.AppendAllText("log.txt", message);
+}
+
+class DatabaseLogger : ILogger
+{
+    public void Log(string message) =&gt; _db.Logs.Add(new Log { Message = message });
+}
+
+class OrderService
+{
+    private readonly ILogger _logger;  // HAS-A logger
+    
+    public OrderService(ILogger logger)  // Inject any logger!
+    {
+        _logger = logger;
+    }
+}
+
+// Can swap at runtime:
+var service1 = new OrderService(new FileLogger());
+var service2 = new OrderService(new DatabaseLogger());
+
+When to use Inheritance:
+- True IS-A relationship
+- Shared behavior that won't change
+- Framework requires it (Controller : ControllerBase)
+
+When to use Composition:
+- HAS-A relationship
+- Need flexibility to swap behavior
+- Need multiple behaviors (can't multi-inherit)
+- Following SOLID principles
+- Most of the time — prefer composition!
+
+
+
+================================================================================
+SECTION 4: POLYMORPHISM
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q32. what is polymorphism?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">32</span>
+<span class="txt">Q32. What is Polymorphism?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Polymorphism means "many forms" — same method/operator behaves differently 
+based on the context or object type.
+
+Two types:
+1. Compile-time (Static) Polymorphism → Method Overloading, Operator Overloading
+2. Runtime (Dynamic) Polymorphism → Method Overriding (virtual/override)
+
+Example:
+// Same method name "Draw" behaves differently based on object
+Shape shape1 = new Circle();
+Shape shape2 = new Rectangle();
+
+shape1.Draw();  // Draws a circle
+shape2.Draw();  // Draws a rectangle
+
+// Same "+" operator behaves differently
+int result = 5 + 3;           // Addition: 8
+string text = "Hello" + " ";  // Concatenation: "Hello "
+
+Real-world analogy:
+- A person behaves differently as Employee, Father, Husband
+- Same person, different behavior based on context</pre></div>
+</div>
+<div class="q" data-s="q33. what is compile-time polymorphism (method overloading)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">33</span>
+<span class="txt">Q33. What is Compile-time Polymorphism (Method Overloading)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Compile-time polymorphism is resolved at COMPILE TIME. The compiler decides 
+which method to call based on method signature.
+
+Achieved through: Method Overloading, Operator Overloading
+
+public class Calculator
+{
+    // Same method name, different parameters
+    public int Add(int a, int b)
+    {
+        return a + b;
+    }
+    
+    public double Add(double a, double b)
+    {
+        return a + b;
+    }
+    
+    public int Add(int a, int b, int c)
+    {
+        return a + b + c;
+    }
+    
+    public string Add(string a, string b)
+    {
+        return a + b;
+    }
+}
+
+var calc = new Calculator();
+calc.Add(5, 3);          // Calls int version → 8
+calc.Add(5.5, 3.2);     // Calls double version → 8.7
+calc.Add(1, 2, 3);      // Calls 3-param version → 6
+calc.Add("Hi", " World"); // Calls string version → "Hi World"
+
+// Compiler knows at compile time which method to call
+// Based on number and type of arguments</pre></div>
+</div>
+<div class="q" data-s="q34. what is runtime polymorphism (method overriding)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">34</span>
+<span class="txt">Q34. What is Runtime Polymorphism (Method Overriding)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Runtime polymorphism is resolved at RUNTIME. The actual method called depends 
+on the object type, not the reference type.
+
+Achieved through: virtual + override keywords
+
+public class Shape
+{
+    public virtual double CalculateArea()
+    {
+        return 0;
+    }
+}
+
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+    
+    public override double CalculateArea()
+    {
+        return Math.PI * Radius * Radius;
+    }
+}
+
+public class Rectangle : Shape
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+    
+    public override double CalculateArea()
+    {
+        return Width * Height;
+    }
+}
+
+// Runtime polymorphism in action:
+Shape shape1 = new Circle { Radius = 5 };
+Shape shape2 = new Rectangle { Width = 4, Height = 6 };
+
+// Reference type is Shape, but actual method called depends on OBJECT type
+Console.WriteLine(shape1.CalculateArea());  // 78.54 (Circle's method)
+Console.WriteLine(shape2.CalculateArea());  // 24 (Rectangle's method)
+
+// Powerful with collections:
+List&lt;Shape&gt; shapes = new List&lt;Shape&gt;
+{
+    new Circle { Radius = 3 },
+    new Rectangle { Width = 5, Height = 2 },
+    new Circle { Radius = 7 }
+};
+
+foreach (var shape in shapes)
+{
+    Console.WriteLine(shape.CalculateArea());  // Correct method called for each!
+}</pre></div>
+</div>
+<div class="q" data-s="q35. what is method overloading? rules?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">35</span>
+<span class="txt">Q35. What is Method Overloading? Rules?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Method Overloading: Multiple methods with SAME NAME but DIFFERENT parameters 
+in the SAME class.
+
+Rules:
+- Same method name
+- Different parameter list (number, type, or order)
+- Return type alone is NOT enough to overload
+- Can have different return types (but parameters must differ)
+- Can have different access modifiers
+
+Valid overloading:
+public class Printer
+{
+    public void Print(int number) { }           // 1 int param
+    public void Print(string text) { }          // 1 string param
+    public void Print(int a, int b) { }         // 2 int params
+    public void Print(string text, int count) { } // string + int
+    public void Print(int count, string text) { } // int + string (order differs)
+}
+
+Invalid overloading:
+// CANNOT overload by return type only:
+public int Calculate(int a, int b) { return a + b; }
+public double Calculate(int a, int b) { return a + b; }  // ERROR! Same params
+
+// CANNOT overload by parameter name only:
+public void Print(int x) { }
+public void Print(int y) { }  // ERROR! Same signature
+
+// ref/out/in count as different:
+public void Process(int x) { }
+public void Process(ref int x) { }  // Valid! Different signature
+// But ref and out cannot overload each other</pre></div>
+</div>
+<div class="q" data-s="q36. what is method overriding? rules?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">36</span>
+<span class="txt">Q36. What is Method Overriding? Rules?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Method Overriding: Child class provides its own implementation of a method 
+already defined in the parent class.
+
+Rules:
+- Method in parent must be virtual, abstract, or override
+- Child uses 'override' keyword
+- Same method name, same parameters, same return type
+- Cannot override static methods
+- Cannot override sealed methods
+- Access modifier must be the same
+- Cannot reduce accessibility
+
+Example:
+public class Animal
+{
+    public virtual string Speak()  // Must be virtual
+    {
+        return "...";
+    }
+}
+
+public class Dog : Animal
+{
+    public override string Speak()  // Must use override
+    {
+        return "Woof!";
+    }
+}
+
+public class Cat : Animal
+{
+    public override string Speak()
+    {
+        return "Meow!";
+    }
+}
+
+Animal animal = new Dog();
+Console.WriteLine(animal.Speak());  // "Woof!" (runtime polymorphism)
+
+animal = new Cat();
+Console.WriteLine(animal.Speak());  // "Meow!"</pre></div>
+</div>
+<div class="q" data-s="q37. what is the difference between overloading vs overriding?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">37</span>
+<span class="txt">Q37. What is the difference between Overloading vs Overriding?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature        | Overloading              | Overriding               |
+|----------------|--------------------------|--------------------------|
+| Definition     | Same name, diff params   | Same name, same params   |
+| Where          | Same class               | Parent-Child classes     |
+| Polymorphism   | Compile-time (static)    | Runtime (dynamic)        |
+| Keywords       | None needed              | virtual + override       |
+| Parameters     | Must be different        | Must be same             |
+| Return type    | Can be different         | Must be same             |
+| Inheritance    | Not required             | Required                 |
+| Purpose        | Multiple versions        | Change parent behavior   |
+| Binding        | Early binding            | Late binding             |
+
+Overloading:
+class Math
+{
+    int Add(int a, int b) { }        // Same class
+    double Add(double a, double b) { } // Different params
+}
+
+Overriding:
+class Animal
+{
+    virtual void Speak() { }  // Parent
+}
+class Dog : Animal
+{
+    override void Speak() { }  // Child changes behavior
+}</pre></div>
+</div>
+<div class="q" data-s="q38. what is the virtual keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">38</span>
+<span class="txt">Q38. What is the virtual keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'virtual' keyword marks a method/property in the base class that CAN be 
+overridden by derived classes.
+
+Rules:
+- Used in base class
+- Method has a default implementation
+- Derived class MAY override (not required)
+- Cannot be used with: static, abstract, private, override
+
+public class Notification
+{
+    public virtual void Send(string message)
+    {
+        Console.WriteLine($"Default notification: {message}");
+    }
+    
+    public virtual string FormatMessage(string msg)
+    {
+        return $"[{DateTime.Now}] {msg}";
+    }
+}
+
+public class EmailNotification : Notification
+{
+    public override void Send(string message)
+    {
+        Console.WriteLine($"Email sent: {message}");
+    }
+    // FormatMessage is NOT overridden - uses parent's version
+}
+
+public class SmsNotification : Notification
+{
+    public override void Send(string message)
+    {
+        Console.WriteLine($"SMS sent: {message}");
+    }
+    
+    public override string FormatMessage(string msg)
+    {
+        return msg.Substring(0, Math.Min(msg.Length, 160));  // SMS limit
+    }
+}
+
+// Virtual enables runtime polymorphism:
+Notification n = new EmailNotification();
+n.Send("Hello");  // "Email sent: Hello" (overridden version)</pre></div>
+</div>
+<div class="q" data-s="q39. what is the override keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">39</span>
+<span class="txt">Q39. What is the override keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'override' keyword in derived class provides a new implementation for a 
+virtual/abstract method from the base class.
+
+Rules:
+- Used in derived class
+- Base method must be virtual, abstract, or override
+- Same signature (name, params, return type)
+- Cannot override non-virtual methods
+- Cannot use with: new, static, virtual (on same method)
+
+public class Logger
+{
+    public virtual void Log(string message)
+    {
+        Console.WriteLine(message);
+    }
+}
+
+public class FileLogger : Logger
+{
+    public override void Log(string message)
+    {
+        File.AppendAllText("log.txt", message + Environment.NewLine);
+    }
+}
+
+public class DatabaseLogger : Logger
+{
+    public override void Log(string message)
+    {
+        // Save to database
+        _context.Logs.Add(new LogEntry { Message = message });
+        _context.SaveChanges();
+    }
+}
+
+// Polymorphic usage:
+Logger logger = GetLogger();  // Could be any type
+logger.Log("Something happened");  // Correct override called at runtime</pre></div>
+</div>
+<div class="q" data-s="q40. what is the new keyword (method hiding)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">40</span>
+<span class="txt">Q40. What is the new keyword (method hiding)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'new' keyword HIDES the parent's method instead of overriding it.
+The method called depends on the REFERENCE TYPE, not the object type.
+
+public class Animal
+{
+    public void Speak()  // NOT virtual
+    {
+        Console.WriteLine("Animal speaks");
+    }
+}
+
+public class Dog : Animal
+{
+    public new void Speak()  // HIDES parent's Speak
+    {
+        Console.WriteLine("Dog barks");
+    }
+}
+
+// Behavior:
+Dog dog = new Dog();
+dog.Speak();  // "Dog barks" (Dog reference → Dog's method)
+
+Animal animal = new Dog();
+animal.Speak();  // "Animal speaks" (Animal reference → Animal's method!)
+// ↑ This is the KEY difference from override!
+
+Without 'new' keyword, compiler gives a warning but behaves the same way.
+'new' explicitly tells compiler "I know I'm hiding, this is intentional."</pre></div>
+</div>
+<div class="q" data-s="q41. what is the difference between virtual/override vs new?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">41</span>
+<span class="txt">Q41. What is the difference between virtual/override vs new?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>virtual/override (TRUE polymorphism):
+- Method called based on OBJECT type (runtime)
+- Parent method is REPLACED
+
+new (method hiding):
+- Method called based on REFERENCE type (compile-time)
+- Parent method is HIDDEN (still exists)
+
+Example showing the difference:
+public class Base
+{
+    public virtual void Method1()
+    {
+        Console.WriteLine("Base.Method1");
+    }
+    
+    public void Method2()
+    {
+        Console.WriteLine("Base.Method2");
+    }
+}
+
+public class Derived : Base
+{
+    public override void Method1()  // Override
+    {
+        Console.WriteLine("Derived.Method1");
+    }
+    
+    public new void Method2()  // Hide
+    {
+        Console.WriteLine("Derived.Method2");
+    }
+}
+
+Base obj = new Derived();
+
+obj.Method1();  // "Derived.Method1" ← override: object type wins
+obj.Method2();  // "Base.Method2"    ← new: reference type wins
+
+Derived obj2 = new Derived();
+obj2.Method1();  // "Derived.Method1"
+obj2.Method2();  // "Derived.Method2"
+
+Summary:
+| Scenario          | virtual/override    | new (hiding)         |
+|-------------------|---------------------|----------------------|
+| Base ref = Derived| Derived's method    | Base's method        |
+| Derived ref       | Derived's method    | Derived's method     |
+| Polymorphism      | YES                 | NO                   |
+
+Best Practice: Use virtual/override for polymorphism. Use 'new' only when 
+you intentionally want to break the polymorphic chain (rare).</pre></div>
+</div>
+<div class="q" data-s="q42. can we override a method without virtual keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">42</span>
+<span class="txt">Q42. Can we override a method without virtual keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>NO. You cannot override a method that is not marked as virtual, abstract, 
+or override in the base class.
+
+// This will NOT work:
+public class Parent
+{
+    public void Display()  // Not virtual!
+    {
+        Console.WriteLine("Parent");
+    }
+}
+
+public class Child : Parent
+{
+    public override void Display()  // COMPILE ERROR!
+    {
+        Console.WriteLine("Child");
+    }
+}
+
+Options if parent method is not virtual:
+1. Use 'new' keyword (method hiding - not true polymorphism):
+   public new void Display() { }
+
+2. If you control the parent class, add 'virtual':
+   public virtual void Display() { }
+
+3. Use interface-based polymorphism:
+   interface IDisplayable { void Display(); }</pre></div>
+</div>
+<div class="q" data-s="q43. what is operator overloading?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">43</span>
+<span class="txt">Q43. What is Operator Overloading?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Operator Overloading allows you to define custom behavior for operators 
+(+, -, *, ==, etc.) for your own classes.
+
+Example:
+public class Money
+{
+    public decimal Amount { get; set; }
+    public string Currency { get; set; }
+    
+    public Money(decimal amount, string currency)
+    {
+        Amount = amount;
+        Currency = currency;
+    }
+    
+    // Overload + operator
+    public static Money operator +(Money a, Money b)
+    {
+        if (a.Currency != b.Currency)
+            throw new InvalidOperationException("Cannot add different currencies");
+        return new Money(a.Amount + b.Amount, a.Currency);
+    }
+    
+    // Overload - operator
+    public static Money operator -(Money a, Money b)
+    {
+        if (a.Currency != b.Currency)
+            throw new InvalidOperationException("Cannot subtract different currencies");
+        return new Money(a.Amount - b.Amount, a.Currency);
+    }
+    
+    // Overload == operator
+    public static bool operator ==(Money a, Money b)
+    {
+        return a.Amount == b.Amount &amp;&amp; a.Currency == b.Currency;
+    }
+    
+    public static bool operator !=(Money a, Money b)
+    {
+        return !(a == b);
+    }
+    
+    public override string ToString() =&gt; $"{Amount} {Currency}";
+}
+
+// Usage:
+var price1 = new Money(100, "USD");
+var price2 = new Money(50, "USD");
+var total = price1 + price2;  // 150 USD
+Console.WriteLine(total);     // "150 USD"
+
+Rules:
+- Must be public static
+- At least one parameter must be the containing type
+- Some operators must be overloaded in pairs (== and !=)
+- Cannot overload: =, &amp;&amp;, ||, ?:, new, typeof, sizeof</pre></div>
+</div>
+<div class="q" data-s="q44. what is covariance and contravariance?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">44</span>
+<span class="txt">Q44. What is Covariance and Contravariance?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>These allow implicit reference conversion for generic types and delegates.
+
+COVARIANCE (out) - Can use MORE derived type than specified:
+- Used with: return types, IEnumerable&lt;out T&gt;
+- "Output" position
+
+// IEnumerable&lt;out T&gt; is covariant
+IEnumerable&lt;string&gt; strings = new List&lt;string&gt; { "a", "b" };
+IEnumerable&lt;object&gt; objects = strings;  // OK! string derives from object
+
+// Covariant interface
+interface IProducer&lt;out T&gt;
+{
+    T Produce();  // T only in output position
+}
+
+class AnimalProducer : IProducer&lt;Animal&gt; { public Animal Produce() =&gt; new Dog(); }
+class DogProducer : IProducer&lt;Dog&gt; { public Dog Produce() =&gt; new Dog(); }
+
+IProducer&lt;Animal&gt; producer = new DogProducer();  // OK! Dog is more derived
+
+CONTRAVARIANCE (in) - Can use LESS derived type than specified:
+- Used with: input parameters, Action&lt;in T&gt;
+- "Input" position
+
+// Action&lt;in T&gt; is contravariant
+Action&lt;object&gt; objectAction = obj =&gt; Console.WriteLine(obj);
+Action&lt;string&gt; stringAction = objectAction;  // OK! object is less derived
+stringAction("Hello");
+
+// Contravariant interface
+interface IConsumer&lt;in T&gt;
+{
+    void Consume(T item);  // T only in input position
+}
+
+Summary:
+- Covariance (out): Child → Parent direction (more derived to less derived)
+- Contravariance (in): Parent → Child direction (less derived to more derived)
+- Invariant: No conversion allowed (default for generic classes)
+
+
+
+================================================================================
+SECTION 5: ABSTRACTION
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q45. what is abstraction?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">45</span>
+<span class="txt">Q45. What is Abstraction?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Abstraction means hiding complex implementation details and showing only 
+the essential features to the user.
+
+"Show WHAT it does, hide HOW it does it"
+
+Real-world examples:
+- ATM: You see buttons (withdraw, deposit), not internal circuits
+- Car: You use steering/pedals, not engine internals
+- TV Remote: You press buttons, not deal with infrared signals
+
+In C#, achieved through:
+1. Abstract classes
+2. Interfaces
+
+Example:
+// Abstract - defines WHAT, not HOW
+public abstract class PaymentProcessor
+{
+    public abstract bool ProcessPayment(decimal amount);
+    public abstract void Refund(string transactionId);
+}
+
+// Concrete - defines HOW
+public class StripePayment : PaymentProcessor
+{
+    public override bool ProcessPayment(decimal amount)
+    {
+        // Complex Stripe API integration hidden here
+        return CallStripeApi(amount);
+    }
+    
+    public override void Refund(string transactionId)
+    {
+        // Complex refund logic hidden
+    }
+}
+
+// User only sees: processor.ProcessPayment(100);
+// Doesn't need to know Stripe internals</pre></div>
+</div>
+<div class="q" data-s="q46. what is an abstract class?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">46</span>
+<span class="txt">Q46. What is an Abstract class?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>An Abstract class is a class that CANNOT be instantiated and may contain 
+abstract methods (without implementation) that derived classes MUST implement.
+
+public abstract class Shape
+{
+    public string Color { get; set; }
+    
+    // Abstract method - NO body, MUST be overridden
+    public abstract double CalculateArea();
+    public abstract double CalculatePerimeter();
+    
+    // Non-abstract method - HAS body, CAN be used as-is
+    public void Display()
+    {
+        Console.WriteLine($"Shape: {GetType().Name}, Color: {Color}, Area: {CalculateArea()}");
+    }
+}
+
+public class Circle : Shape
+{
+    public double Radius { get; set; }
+    
+    public override double CalculateArea() =&gt; Math.PI * Radius * Radius;
+    public override double CalculatePerimeter() =&gt; 2 * Math.PI * Radius;
+}
+
+public class Rectangle : Shape
+{
+    public double Width { get; set; }
+    public double Height { get; set; }
+    
+    public override double CalculateArea() =&gt; Width * Height;
+    public override double CalculatePerimeter() =&gt; 2 * (Width + Height);
+}
+
+// Usage:
+// Shape s = new Shape();  // ERROR! Cannot instantiate abstract class
+Shape s = new Circle { Radius = 5, Color = "Red" };
+s.Display();  // Works! Uses inherited non-abstract method</pre></div>
+</div>
+<div class="q" data-s="q47. what is an abstract method?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">47</span>
+<span class="txt">Q47. What is an Abstract method?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>An Abstract method is a method declared in an abstract class with NO body.
+Derived classes MUST provide the implementation.
+
+Rules:
+- Can only exist in abstract class
+- No method body (just declaration)
+- Implicitly virtual (no need to add virtual)
+- Derived class MUST override it (unless derived is also abstract)
+- Cannot be private (must be accessible to derived class)
+- Cannot be static
+
+public abstract class Database
+{
+    // Abstract methods - derived MUST implement
+    public abstract void Connect();
+    public abstract void Disconnect();
+    public abstract List&lt;T&gt; Query&lt;T&gt;(string sql);
+    
+    // Non-abstract - shared implementation
+    public void LogQuery(string sql)
+    {
+        Console.WriteLine($"[{DateTime.Now}] Executing: {sql}");
+    }
+}
+
+public class SqlServerDatabase : Database
+{
+    public override void Connect() { /* SQL Server connection */ }
+    public override void Disconnect() { /* Close SQL connection */ }
+    public override List&lt;T&gt; Query&lt;T&gt;(string sql) { /* Execute query */ }
+}
+
+public class MongoDatabase : Database
+{
+    public override void Connect() { /* MongoDB connection */ }
+    public override void Disconnect() { /* Close Mongo connection */ }
+    public override List&lt;T&gt; Query&lt;T&gt;(string sql) { /* Convert to Mongo query */ }
+}</pre></div>
+</div>
+<div class="q" data-s="q48. can an abstract class have a constructor?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">48</span>
+<span class="txt">Q48. Can an Abstract class have a Constructor?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>YES! Abstract classes CAN have constructors.
+
+Why? To initialize common fields/properties when derived class is created.
+
+public abstract class Employee
+{
+    public string Name { get; set; }
+    public DateTime HireDate { get; set; }
+    
+    // Constructor in abstract class
+    protected Employee(string name)
+    {
+        Name = name;
+        HireDate = DateTime.Now;
+        Console.WriteLine($"Employee created: {name}");
+    }
+    
+    public abstract decimal CalculateSalary();
+}
+
+public class FullTimeEmployee : Employee
+{
+    public decimal MonthlySalary { get; set; }
+    
+    public FullTimeEmployee(string name, decimal salary) : base(name)
+    {
+        MonthlySalary = salary;
+    }
+    
+    public override decimal CalculateSalary() =&gt; MonthlySalary;
+}
+
+// Cannot do: new Employee("John");  // ERROR!
+// But constructor runs when creating derived:
+var emp = new FullTimeEmployee("John", 5000);
+// Output: "Employee created: John"
+
+Key points:
+- Abstract class constructor is called via 'base()' from derived class
+- Usually marked protected (not public, since can't instantiate directly)
+- Used to enforce initialization of common properties</pre></div>
+</div>
+<div class="q" data-s="q49. can an abstract class have non-abstract methods?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">49</span>
+<span class="txt">Q49. Can an Abstract class have non-abstract methods?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>YES! Abstract classes can have BOTH abstract and non-abstract methods.
+
+This is one of the KEY differences from interfaces (before C# 8).
+
+public abstract class Report
+{
+    // Abstract - derived MUST implement
+    public abstract string GenerateContent();
+    public abstract string GetTitle();
+    
+    // Non-abstract - shared implementation (derived CAN use as-is)
+    public void Print()
+    {
+        Console.WriteLine($"=== {GetTitle()} ===");
+        Console.WriteLine(GenerateContent());
+        Console.WriteLine("===================");
+    }
+    
+    public void SaveToFile(string path)
+    {
+        File.WriteAllText(path, GenerateContent());
+    }
+    
+    // Virtual - derived CAN override (optional)
+    public virtual string GetFooter()
+    {
+        return $"Generated on {DateTime.Now}";
+    }
+}
+
+public class SalesReport : Report
+{
+    public override string GenerateContent() =&gt; "Sales data...";
+    public override string GetTitle() =&gt; "Monthly Sales Report";
+    // Print() and SaveToFile() inherited as-is
+    // GetFooter() can be overridden or used as-is
+}
+
+This is the Template Method Pattern:
+- Abstract class defines the skeleton (template)
+- Some steps are fixed (non-abstract)
+- Some steps are customizable (abstract/virtual)</pre></div>
+</div>
+<div class="q" data-s="q50. what is the difference between abstract class and interface?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">50</span>
+<span class="txt">Q50. What is the difference between Abstract class and Interface?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature              | Abstract Class         | Interface              |
+|----------------------|------------------------|------------------------|
+| Instantiation        | Cannot                 | Cannot                 |
+| Methods              | Abstract + Concrete    | Only abstract (pre C#8)|
+| Fields               | Can have               | Cannot have            |
+| Constructor          | Can have               | Cannot have            |
+| Access modifiers     | Any                    | Public (implicit)      |
+| Inheritance          | Single only            | Multiple               |
+| State                | Can maintain state     | Cannot (no fields)     |
+| Default impl.       | Yes                    | Yes (C# 8+ only)      |
+| When to use          | IS-A + shared code     | CAN-DO (capability)    |
+| Keyword              | abstract class         | interface              |
+
+Abstract class: "What something IS" + shared behavior
+Interface: "What something CAN DO" (contract/capability)</pre></div>
+</div>
+<div class="q" data-s="q51. when to use abstract class vs interface?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">51</span>
+<span class="txt">Q51. When to use Abstract class vs Interface?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>USE ABSTRACT CLASS when:
+- Classes share common code (not just contract)
+- Need fields/state
+- Need constructors
+- Need access modifiers on members
+- IS-A relationship exists
+- Want to provide default behavior
+
+Example: All employees share salary calculation base logic
+public abstract class Employee
+{
+    protected decimal BaseSalary;
+    public abstract decimal CalculateBonus();
+    public decimal GetTotalPay() =&gt; BaseSalary + CalculateBonus();
+}
+
+USE INTERFACE when:
+- Define a contract/capability
+- Need multiple inheritance
+- Unrelated classes share behavior
+- CAN-DO relationship
+- Want loose coupling (DI)
+- Different class hierarchies need same behavior
+
+Example: Both Printer and EmailService can "send output"
+interface IPrintable { void Print(); }
+interface IExportable { void Export(); }
+
+class Invoice : IPrintable, IExportable { }
+class Report : IPrintable { }
+
+RULE OF THUMB:
+- If you have shared CODE → Abstract class
+- If you have shared CONTRACT → Interface
+- When in doubt → Interface (more flexible)</pre></div>
+</div>
+<div class="q" data-s="q52. can we create an instance of abstract class?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">52</span>
+<span class="txt">Q52. Can we create an instance of Abstract class?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>NO. You cannot create an instance of an abstract class directly.
+
+// COMPILE ERROR:
+Shape shape = new Shape();  // Cannot create instance of abstract type
+
+But you CAN:
+1. Create instance of derived class:
+   Shape shape = new Circle();  // OK!
+
+2. Use as reference type (polymorphism):
+   Shape shape = new Rectangle();
+   shape.CalculateArea();
+
+3. Use in arrays/collections:
+   List&lt;Shape&gt; shapes = new List&lt;Shape&gt;
+   {
+       new Circle { Radius = 5 },
+       new Rectangle { Width = 3, Height = 4 }
+   };
+
+Why can't instantiate:
+- Abstract class may have abstract methods with NO body
+- If instantiated, calling abstract method would have no code to execute
+- It's a blueprint for derived classes, not a complete class</pre></div>
+</div>
+<div class="q" data-s="q53. can an abstract class be sealed?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">53</span>
+<span class="txt">Q53. Can an Abstract class be Sealed?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>NO. An abstract class CANNOT be sealed. They are contradictory:
+
+- abstract = MUST be inherited (incomplete, needs derived class)
+- sealed = CANNOT be inherited (final, no derivation allowed)
+
+// COMPILE ERROR:
+public abstract sealed class MyClass { }  // Contradiction!
+
+However:
+- A method can be sealed in a derived class (prevent further overriding):
+
+public abstract class Animal
+{
+    public abstract void Speak();
+}
+
+public class Dog : Animal
+{
+    public sealed override void Speak()  // Sealed here
+    {
+        Console.WriteLine("Bark");
+    }
+}
+
+public class Puppy : Dog
+{
+    // public override void Speak() { }  // ERROR! Sealed in Dog
+}
+
+
+================================================================================
+SECTION 6: INTERFACES
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q54. what is an interface?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">54</span>
+<span class="txt">Q54. What is an Interface?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>An Interface is a contract that defines WHAT a class must do, without 
+specifying HOW. It contains method signatures, properties, events, and indexers.
+
+public interface IVehicle
+{
+    // Properties
+    string Make { get; set; }
+    int Speed { get; }
+    
+    // Methods
+    void Start();
+    void Stop();
+    void Accelerate(int amount);
+}
+
+public class Car : IVehicle
+{
+    public string Make { get; set; }
+    public int Speed { get; private set; }
+    
+    public void Start() =&gt; Console.WriteLine("Car started");
+    public void Stop() { Speed = 0; Console.WriteLine("Car stopped"); }
+    public void Accelerate(int amount) =&gt; Speed += amount;
+}
+
+public class Bicycle : IVehicle
+{
+    public string Make { get; set; }
+    public int Speed { get; private set; }
+    
+    public void Start() =&gt; Console.WriteLine("Pedaling");
+    public void Stop() { Speed = 0; }
+    public void Accelerate(int amount) =&gt; Speed += amount / 2;
+}
+
+// Polymorphism through interface:
+IVehicle vehicle = new Car();
+vehicle.Start();  // "Car started"
+
+vehicle = new Bicycle();
+vehicle.Start();  // "Pedaling"
+
+Key points:
+- Cannot instantiate interface
+- Class MUST implement ALL members
+- Supports multiple implementation
+- Naming convention: prefix with 'I' (IDisposable, IEnumerable)</pre></div>
+</div>
+<div class="q" data-s="q55. what are default interface methods (c# 8+)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">55</span>
+<span class="txt">Q55. What are Default Interface Methods (C# 8+)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>C# 8 allows interfaces to have method implementations (default methods).
+Classes that implement the interface don't HAVE to override default methods.
+
+public interface ILogger
+{
+    void Log(string message);  // Must implement
+    
+    // Default implementation - optional to override
+    void LogError(string message)
+    {
+        Log($"ERROR: {message}");
+    }
+    
+    void LogWarning(string message)
+    {
+        Log($"WARNING: {message}");
+    }
+}
+
+public class ConsoleLogger : ILogger
+{
+    public void Log(string message)
+    {
+        Console.WriteLine(message);
+    }
+    // LogError and LogWarning use default implementation
+}
+
+// Note: Default methods accessible only through interface reference
+ILogger logger = new ConsoleLogger();
+logger.LogError("Something failed");  // OK
+
+ConsoleLogger cl = new ConsoleLogger();
+// cl.LogError("test");  // ERROR! Not accessible through class reference
+
+Use cases:
+- Adding new methods to existing interfaces without breaking implementations
+- Providing common default behavior
+- Interface evolution (backward compatibility)</pre></div>
+</div>
+<div class="q" data-s="q56. can an interface have properties?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">56</span>
+<span class="txt">Q56. Can an Interface have properties?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>YES. Interfaces can have property declarations.
+
+public interface IEmployee
+{
+    // Auto-property declarations (no backing field)
+    int Id { get; set; }
+    string Name { get; set; }
+    decimal Salary { get; }          // Read-only
+    string Department { get; set; }
+}
+
+public class Employee : IEmployee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Salary { get; private set; }  // Implements read-only
+    public string Department { get; set; }
+}
+
+Interface properties:
+- Define the contract (get, set, or both)
+- No backing field (interface has no state)
+- Implementing class provides the actual storage</pre></div>
+</div>
+<div class="q" data-s="q57. what is explicit interface implementation?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">57</span>
+<span class="txt">Q57. What is Explicit Interface Implementation?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Explicit implementation means implementing an interface method so it's ONLY 
+accessible through the interface reference, not the class reference.
+
+Used when:
+- Two interfaces have same method name
+- Want to hide interface methods from class API
+
+interface IAnimal
+{
+    void Eat();
+}
+
+interface IRobot
+{
+    void Eat();  // Same name as IAnimal!
+}
+
+public class Cyborg : IAnimal, IRobot
+{
+    // Explicit implementation for IAnimal
+    void IAnimal.Eat()
+    {
+        Console.WriteLine("Eating food");
+    }
+    
+    // Explicit implementation for IRobot
+    void IRobot.Eat()
+    {
+        Console.WriteLine("Charging battery");
+    }
+}
+
+// Usage:
+Cyborg cyborg = new Cyborg();
+// cyborg.Eat();  // ERROR! Not accessible directly
+
+IAnimal animal = cyborg;
+animal.Eat();  // "Eating food"
+
+IRobot robot = cyborg;
+robot.Eat();  // "Charging battery"
+
+// Casting:
+((IAnimal)cyborg).Eat();  // "Eating food"
+((IRobot)cyborg).Eat();   // "Charging battery"</pre></div>
+</div>
+<div class="q" data-s="q58. what is the difference between interface and abstract class? (detailed)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">58</span>
+<span class="txt">Q58. What is the difference between Interface and Abstract class? (detailed)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>ABSTRACT CLASS:
+- Can have fields (state)
+- Can have constructors
+- Can have access modifiers (private, protected)
+- Single inheritance only
+- Can have fully implemented methods
+- Can have static members
+- Represents IS-A relationship
+- Used for closely related classes
+
+INTERFACE:
+- Cannot have fields (no state)
+- Cannot have constructors
+- All members implicitly public
+- Multiple implementation
+- Only declarations (before C# 8)
+- Cannot have static members (before C# 8)
+- Represents CAN-DO relationship
+- Used for unrelated classes sharing behavior
+
+When both are needed:
+public abstract class Animal  // Shared state + behavior
+{
+    public string Name { get; set; }
+    public abstract void Speak();
+    public void Breathe() =&gt; Console.WriteLine("Breathing");
+}
+
+public interface ISwimmable  // Capability
+{
+    void Swim();
+}
+
+public interface IFlyable  // Capability
+{
+    void Fly();
+}
+
+public class Duck : Animal, ISwimmable, IFlyable
+{
+    public override void Speak() =&gt; Console.WriteLine("Quack");
+    public void Swim() =&gt; Console.WriteLine("Swimming");
+    public void Fly() =&gt; Console.WriteLine("Flying");
+}
+
+// Duck IS-A Animal (abstract class)
+// Duck CAN Swim (interface)
+// Duck CAN Fly (interface)</pre></div>
+</div>
+<div class="q" data-s="q59. can an interface inherit another interface?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">59</span>
+<span class="txt">Q59. Can an Interface inherit another Interface?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>YES. Interfaces can inherit from one or more interfaces.
+
+public interface IReadable
+{
+    string Read();
+}
+
+public interface IWritable
+{
+    void Write(string data);
+}
+
+// Interface inheriting multiple interfaces
+public interface IReadWritable : IReadable, IWritable
+{
+    void Flush();
+}
+
+// Class must implement ALL methods (from all inherited interfaces)
+public class FileStream : IReadWritable
+{
+    public string Read() =&gt; "data";
+    public void Write(string data) { }
+    public void Flush() { }
+}
+
+// Can use any interface as reference:
+IReadable reader = new FileStream();
+IWritable writer = new FileStream();
+IReadWritable rw = new FileStream();</pre></div>
+</div>
+<div class="q" data-s="q60. what is multiple interface implementation?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">60</span>
+<span class="txt">Q60. What is Multiple Interface Implementation?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A class can implement MULTIPLE interfaces, gaining all their contracts.
+
+public interface IEmailable
+{
+    void SendEmail(string to, string subject, string body);
+}
+
+public interface IPrintable
+{
+    void Print();
+}
+
+public interface IExportable
+{
+    byte[] ExportToPdf();
+    byte[] ExportToExcel();
+}
+
+// One class, multiple interfaces
+public class Invoice : IEmailable, IPrintable, IExportable
+{
+    public decimal Amount { get; set; }
+    
+    public void SendEmail(string to, string subject, string body)
+    {
+        // Send invoice via email
+    }
+    
+    public void Print()
+    {
+        Console.WriteLine($"Invoice: {Amount:C}");
+    }
+    
+    public byte[] ExportToPdf() =&gt; GeneratePdf();
+    public byte[] ExportToExcel() =&gt; GenerateExcel();
+}
+
+// Use through different interfaces:
+IEmailable emailable = new Invoice();
+emailable.SendEmail("client@email.com", "Invoice", "...");
+
+IPrintable printable = new Invoice();
+printable.Print();</pre></div>
+</div>
+<div class="q" data-s="q61. what is interface segregation principle (isp)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">61</span>
+<span class="txt">Q61. What is Interface Segregation Principle (ISP)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>ISP: Clients should not be forced to depend on interfaces they don't use.
+Split large interfaces into smaller, focused ones.
+
+BAD (fat interface):
+public interface IWorker
+{
+    void Work();
+    void Eat();
+    void Sleep();
+    void Code();
+    void Manage();
+}
+// A Robot can't Eat/Sleep, a Manager might not Code
+
+GOOD (segregated interfaces):
+public interface IWorkable { void Work(); }
+public interface IFeedable { void Eat(); }
+public interface ISleepable { void Sleep(); }
+public interface ICodable { void Code(); }
+public interface IManageable { void Manage(); }
+
+public class Developer : IWorkable, IFeedable, ISleepable, ICodable
+{
+    public void Work() { }
+    public void Eat() { }
+    public void Sleep() { }
+    public void Code() { }
+}
+
+public class Robot : IWorkable, ICodable
+{
+    public void Work() { }
+    public void Code() { }
+    // No Eat/Sleep - not forced!
+}
+
+public class Manager : IWorkable, IFeedable, ISleepable, IManageable
+{
+    public void Work() { }
+    public void Eat() { }
+    public void Sleep() { }
+    public void Manage() { }
+    // No Code - not forced!
+}</pre></div>
+</div>
+<div class="q" data-s="q62. what is dependency injection using interfaces?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">62</span>
+<span class="txt">Q62. What is Dependency Injection using Interfaces?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>DI uses interfaces to inject dependencies, enabling loose coupling and testability.
+
+WITHOUT DI (tight coupling):
+public class OrderService
+{
+    private SqlOrderRepository _repo = new SqlOrderRepository();  // Hardcoded!
+    private SmtpEmailService _email = new SmtpEmailService();     // Hardcoded!
+}
+
+WITH DI (loose coupling via interfaces):
+public interface IOrderRepository
+{
+    Task&lt;Order&gt; GetByIdAsync(int id);
+    Task SaveAsync(Order order);
+}
+
+public interface IEmailService
+{
+    Task SendAsync(string to, string subject, string body);
+}
+
+public class OrderService
+{
+    private readonly IOrderRepository _repo;
+    private readonly IEmailService _email;
+    
+    // Dependencies injected through constructor
+    public OrderService(IOrderRepository repo, IEmailService email)
+    {
+        _repo = repo;
+        _email = email;
+    }
+    
+    public async Task PlaceOrderAsync(Order order)
+    {
+        await _repo.SaveAsync(order);
+        await _email.SendAsync(order.CustomerEmail, "Order Placed", "...");
+    }
+}
+
+// Registration in ASP.NET Core:
+builder.Services.AddScoped&lt;IOrderRepository, SqlOrderRepository&gt;();
+builder.Services.AddScoped&lt;IEmailService, SmtpEmailService&gt;();
+builder.Services.AddScoped&lt;OrderService&gt;();
+
+// For testing - inject mock:
+var mockRepo = new Mock&lt;IOrderRepository&gt;();
+var mockEmail = new Mock&lt;IEmailService&gt;();
+var service = new OrderService(mockRepo.Object, mockEmail.Object);</pre></div>
+</div>
+<div class="q" data-s="q63. what is idisposable interface?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">63</span>
+<span class="txt">Q63. What is IDisposable interface?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>IDisposable provides a mechanism to release unmanaged resources deterministically.
+
+public interface IDisposable
+{
+    void Dispose();
+}
+
+Implementation:
+public class DatabaseConnection : IDisposable
+{
+    private SqlConnection _connection;
+    private bool _disposed = false;
+    
+    public DatabaseConnection(string connectionString)
+    {
+        _connection = new SqlConnection(connectionString);
+        _connection.Open();
+    }
+    
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            _connection?.Close();
+            _connection?.Dispose();
+            _disposed = true;
+        }
+        GC.SuppressFinalize(this);
+    }
+}
+
+// Usage with 'using' statement (auto-calls Dispose):
+using (var db = new DatabaseConnection("connStr"))
+{
+    // Use db
+}  // Dispose() called automatically here
+
+// C# 8 using declaration:
+using var db = new DatabaseConnection("connStr");
+// Dispose called at end of scope
+
+When to implement IDisposable:
+- Database connections
+- File handles
+- Network streams
+- Unmanaged resources (COM objects, native handles)</pre></div>
+</div>
+<div class="q" data-s="q64. what is ienumerable vs icollection vs ilist?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">64</span>
+<span class="txt">Q64. What is IEnumerable vs ICollection vs IList?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>IEnumerable&lt;T&gt; (most basic):
+- Forward-only iteration
+- Read-only
+- Supports foreach
+- Deferred execution (LINQ)
+- No Count, no Add/Remove
+
+ICollection&lt;T&gt; (extends IEnumerable):
+- Count property
+- Add, Remove, Clear
+- Contains method
+- IsReadOnly property
+
+IList&lt;T&gt; (extends ICollection):
+- Index-based access [i]
+- Insert at position
+- RemoveAt(index)
+- IndexOf
+
+Hierarchy: IEnumerable&lt;T&gt; → ICollection&lt;T&gt; → IList&lt;T&gt;
+
+| Feature      | IEnumerable&lt;T&gt; | ICollection&lt;T&gt; | IList&lt;T&gt;     |
+|--------------|----------------|----------------|--------------|
+| foreach      | YES            | YES            | YES          |
+| Count        | NO             | YES            | YES          |
+| Add/Remove   | NO             | YES            | YES          |
+| Index [i]    | NO             | NO             | YES          |
+| Insert       | NO             | NO             | YES          |
+| LINQ         | YES            | YES            | YES          |
+
+Best practice - use the LEAST specific type needed:
+public IEnumerable&lt;Product&gt; GetAll() { }     // Just iteration
+public ICollection&lt;Product&gt; GetActive() { }  // Need count
+public IList&lt;Product&gt; GetPaged() { }         // Need indexing</pre></div>
+</div>
+<div class="q" data-s="q65. what is icomparable vs icomparer?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">65</span>
+<span class="txt">Q65. What is IComparable vs IComparer?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>IComparable&lt;T&gt; - Object compares ITSELF to another:
+public class Employee : IComparable&lt;Employee&gt;
+{
+    public string Name { get; set; }
+    public decimal Salary { get; set; }
+    
+    // Default comparison (by Salary)
+    public int CompareTo(Employee other)
+    {
+        return Salary.CompareTo(other.Salary);
+    }
+}
+
+var employees = new List&lt;Employee&gt; { ... };
+employees.Sort();  // Uses CompareTo (sorts by Salary)
+
+IComparer&lt;T&gt; - External class compares two objects:
+public class NameComparer : IComparer&lt;Employee&gt;
+{
+    public int Compare(Employee x, Employee y)
+    {
+        return string.Compare(x.Name, y.Name);
+    }
+}
+
+public class SalaryDescComparer : IComparer&lt;Employee&gt;
+{
+    public int Compare(Employee x, Employee y)
+    {
+        return y.Salary.CompareTo(x.Salary);  // Descending
+    }
+}
+
+// Usage:
+employees.Sort(new NameComparer());        // Sort by name
+employees.Sort(new SalaryDescComparer());  // Sort by salary desc
+
+Difference:
+- IComparable: ONE default sort (built into the class)
+- IComparer: MULTIPLE sort strategies (external, reusable)
+
+Return values:
+- Negative: x comes before y
+- Zero: x equals y
+- Positive: x comes after y
+
+
+
+================================================================================
+SECTION 7: ADVANCED OOPs CONCEPTS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q66. what is the this keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">66</span>
+<span class="txt">Q66. What is the this keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'this' refers to the CURRENT INSTANCE of the class.
+
+Uses:
+1. Distinguish between field and parameter (same name):
+public class Employee
+{
+    private string name;
+    
+    public Employee(string name)
+    {
+        this.name = name;  // this.name = field, name = parameter
+    }
+}
+
+2. Pass current object as parameter:
+public class Node
+{
+    public void Register()
+    {
+        EventManager.Subscribe(this);  // Pass current object
+    }
+}
+
+3. Constructor chaining:
+public Employee() : this("Unknown", 0) { }
+public Employee(string name, decimal salary) { }
+
+4. Return current object (fluent API):
+public class QueryBuilder
+{
+    private string _query = "";
+    
+    public QueryBuilder Select(string columns)
+    {
+        _query += $"SELECT {columns} ";
+        return this;
+    }
+    
+    public QueryBuilder From(string table)
+    {
+        _query += $"FROM {table} ";
+        return this;
+    }
+}
+
+// Fluent usage:
+var query = new QueryBuilder()
+    .Select("*")
+    .From("Products");
+
+Note: 'this' cannot be used in static methods (no instance).</pre></div>
+</div>
+<div class="q" data-s="q67. what is the static keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">67</span>
+<span class="txt">Q67. What is the static keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'static' means the member belongs to the TYPE itself, not to any instance.
+
+Static Field (shared across all instances):
+public class Employee
+{
+    public static int TotalCount = 0;  // Shared
+    public string Name { get; set; }   // Per instance
+    
+    public Employee(string name)
+    {
+        Name = name;
+        TotalCount++;  // Increments for every object created
+    }
+}
+
+var e1 = new Employee("John");   // TotalCount = 1
+var e2 = new Employee("Jane");   // TotalCount = 2
+Console.WriteLine(Employee.TotalCount);  // 2 (accessed via class name)
+
+Static Method:
+public class MathHelper
+{
+    public static int Add(int a, int b) =&gt; a + b;
+}
+int result = MathHelper.Add(5, 3);  // No object needed
+
+Static Constructor:
+public class Config
+{
+    public static string AppName { get; }
+    
+    static Config()  // Runs ONCE, first time class is used
+    {
+        AppName = LoadFromFile();
+    }
+}
+
+Static Class:
+public static class Extensions
+{
+    public static string ToTitleCase(this string input) { }
+}
+
+Key points:
+- Accessed via class name (not object)
+- One copy shared across all instances
+- Cannot access instance members from static context
+- Static constructor runs only once</pre></div>
+</div>
+<div class="q" data-s="q68. what is the difference between static and non-static?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">68</span>
+<span class="txt">Q68. What is the difference between static and non-static?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature        | Static                   | Non-Static (Instance)    |
+|----------------|--------------------------|--------------------------|
+| Belongs to     | Class/Type               | Object/Instance          |
+| Access         | ClassName.Member         | object.Member            |
+| Memory         | One copy (shared)        | Per object copy          |
+| Keyword        | static                   | No keyword               |
+| 'this'         | Cannot use               | Can use                  |
+| Created        | When class loads         | When object created      |
+| Use case       | Utility, shared data     | Object-specific data     |
+
+Example:
+public class BankAccount
+{
+    // Static - shared across ALL accounts
+    public static decimal InterestRate = 0.05m;
+    public static int TotalAccounts = 0;
+    
+    // Non-static - unique per account
+    public string Owner { get; set; }
+    public decimal Balance { get; set; }
+    
+    public BankAccount(string owner)
+    {
+        Owner = owner;
+        TotalAccounts++;  // Static accessed from instance
+    }
+    
+    // Static method
+    public static void SetInterestRate(decimal rate)
+    {
+        InterestRate = rate;
+        // Cannot access Owner or Balance here (no instance)
+    }
+    
+    // Instance method
+    public decimal CalculateInterest()
+    {
+        return Balance * InterestRate;  // Can access both static and instance
+    }
+}</pre></div>
+</div>
+<div class="q" data-s="q69. what is an extension method?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">69</span>
+<span class="txt">Q69. What is an Extension Method?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Extension Methods add new methods to existing types WITHOUT modifying them.
+
+Rules:
+- Must be in a static class
+- Must be a static method
+- First parameter uses 'this' keyword + the type being extended
+
+public static class StringExtensions
+{
+    public static bool IsNullOrEmpty(this string str)
+    {
+        return string.IsNullOrEmpty(str);
+    }
+    
+    public static string Capitalize(this string str)
+    {
+        if (string.IsNullOrEmpty(str)) return str;
+        return char.ToUpper(str[0]) + str.Substring(1).ToLower();
+    }
+    
+    public static int WordCount(this string str)
+    {
+        return str.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+    }
+}
+
+// Usage (looks like instance method):
+string name = "hello world";
+bool empty = name.IsNullOrEmpty();    // false
+string cap = name.Capitalize();       // "Hello world"
+int words = name.WordCount();         // 2
+
+// LINQ is built entirely on extension methods:
+var result = numbers.Where(n =&gt; n &gt; 5).OrderBy(n =&gt; n).ToList();
+// Where, OrderBy, ToList are all extension methods on IEnumerable&lt;T&gt;
+
+Common use cases:
+- Adding utility methods to built-in types
+- LINQ methods
+- Fluent APIs
+- Adding methods to interfaces</pre></div>
+</div>
+<div class="q" data-s="q70. what is a generic class/method?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">70</span>
+<span class="txt">Q70. What is a Generic class/method?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Generics allow writing type-safe code that works with ANY type, 
+determined at compile time.
+
+Generic Method:
+public T GetMax&lt;T&gt;(T a, T b) where T : IComparable&lt;T&gt;
+{
+    return a.CompareTo(b) &gt; 0 ? a : b;
+}
+
+int maxInt = GetMax(5, 10);           // T = int
+string maxStr = GetMax("abc", "xyz"); // T = string
+
+Generic Class:
+public class Repository&lt;T&gt; where T : class
+{
+    private List&lt;T&gt; _items = new List&lt;T&gt;();
+    
+    public void Add(T item) =&gt; _items.Add(item);
+    public T GetById(int index) =&gt; _items[index];
+    public IEnumerable&lt;T&gt; GetAll() =&gt; _items;
+    public int Count =&gt; _items.Count;
+}
+
+// Usage with different types:
+var productRepo = new Repository&lt;Product&gt;();
+productRepo.Add(new Product { Name = "Phone" });
+
+var employeeRepo = new Repository&lt;Employee&gt;();
+employeeRepo.Add(new Employee { Name = "John" });
+
+Benefits:
+- Type safety (compile-time checking)
+- No boxing/unboxing (performance)
+- Code reusability (one class works for all types)
+- No type casting needed</pre></div>
+</div>
+<div class="q" data-s="q71. what are generic constraints?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">71</span>
+<span class="txt">Q71. What are Generic Constraints?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Constraints restrict which types can be used as generic type arguments.
+
+where T : class       → T must be a reference type
+where T : struct      → T must be a value type
+where T : new()       → T must have parameterless constructor
+where T : BaseClass   → T must inherit from BaseClass
+where T : IInterface  → T must implement IInterface
+where T : notnull     → T must be non-nullable
+
+Examples:
+// Must be reference type with parameterless constructor
+public class Factory&lt;T&gt; where T : class, new()
+{
+    public T Create() =&gt; new T();
+}
+
+// Must implement IComparable
+public T FindMax&lt;T&gt;(List&lt;T&gt; items) where T : IComparable&lt;T&gt;
+{
+    T max = items[0];
+    foreach (var item in items)
+        if (item.CompareTo(max) &gt; 0) max = item;
+    return max;
+}
+
+// Must inherit from Entity and implement IValidatable
+public class Repository&lt;T&gt; where T : Entity, IValidatable, new()
+{
+    public void Save(T entity)
+    {
+        if (entity.IsValid())
+            _context.Set&lt;T&gt;().Add(entity);
+    }
+}
+
+// Multiple type parameters with different constraints
+public class Mapper&lt;TSource, TDest&gt; 
+    where TSource : class 
+    where TDest : class, new()
+{
+    public TDest Map(TSource source) { }
+}</pre></div>
+</div>
+<div class="q" data-s="q72. what is boxing and unboxing?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">72</span>
+<span class="txt">Q72. What is Boxing and Unboxing?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>BOXING: Converting a VALUE type to REFERENCE type (stack → heap).
+UNBOXING: Converting a REFERENCE type back to VALUE type (heap → stack).
+
+// Boxing (implicit)
+int number = 42;
+object obj = number;  // Boxing: int copied from stack to heap
+
+// Unboxing (explicit cast required)
+int back = (int)obj;  // Unboxing: copied from heap back to stack
+
+What happens internally:
+Boxing:
+1. Memory allocated on heap
+2. Value copied from stack to heap
+3. Reference returned
+
+Unboxing:
+1. Check if object contains the correct type
+2. Value copied from heap to stack
+3. If wrong type → InvalidCastException
+
+Performance issue:
+// BAD - boxing happens in loop (slow)
+ArrayList list = new ArrayList();
+for (int i = 0; i &lt; 1000000; i++)
+{
+    list.Add(i);  // Boxing int → object every iteration!
+}
+
+// GOOD - no boxing (use generics)
+List&lt;int&gt; list = new List&lt;int&gt;();
+for (int i = 0; i &lt; 1000000; i++)
+{
+    list.Add(i);  // No boxing! Type-safe
+}
+
+Key points:
+- Boxing is expensive (memory allocation + copy)
+- Generics eliminate boxing
+- ArrayList boxes, List&lt;T&gt; doesn't
+- Avoid boxing in performance-critical code</pre></div>
+</div>
+<div class="q" data-s="q73. what is the difference between value type and reference type?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">73</span>
+<span class="txt">Q73. What is the difference between Value Type and Reference Type?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>VALUE TYPES (stored on Stack):
+- Holds actual data directly
+- Copied by value (independent copies)
+- Cannot be null (unless nullable)
+- Destroyed when out of scope
+- Examples: int, double, bool, char, decimal, struct, enum
+
+REFERENCE TYPES (stored on Heap):
+- Holds reference (pointer) to data
+- Copied by reference (both point to same object)
+- Can be null
+- Garbage collected
+- Examples: class, string, array, interface, delegate, object
+
+Example:
+// Value type
+int a = 10;
+int b = a;    // COPY of value
+b = 20;
+// a = 10, b = 20 (independent)
+
+// Reference type
+Employee e1 = new Employee { Name = "John" };
+Employee e2 = e1;  // COPY of reference (same object!)
+e2.Name = "Jane";
+// e1.Name = "Jane" (both point to same object!)
+
+| Feature        | Value Type         | Reference Type       |
+|----------------|--------------------|----------------------|
+| Storage        | Stack              | Heap (ref on stack)  |
+| Contains       | Actual value       | Address/reference    |
+| Copy           | Copies value       | Copies reference     |
+| Null           | No (unless T?)     | Yes                  |
+| Default        | 0, false, etc.     | null                 |
+| Performance    | Faster (no GC)     | GC overhead          |
+| Inheritance    | No (sealed)        | Yes                  |</pre></div>
+</div>
+<div class="q" data-s="q74. what is the difference between stack and heap memory?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">74</span>
+<span class="txt">Q74. What is the difference between Stack and Heap memory?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>STACK:
+- LIFO (Last In, First Out) structure
+- Stores: local variables, method parameters, value types
+- Automatic allocation/deallocation (when method exits)
+- Fast access
+- Limited size (usually 1-4 MB)
+- Thread-specific (each thread has own stack)
+
+HEAP:
+- Dynamic memory pool
+- Stores: objects (reference types), arrays
+- Managed by Garbage Collector
+- Slower access (pointer indirection)
+- Large size (limited by system memory)
+- Shared across threads
+
+Example:
+public void MyMethod()
+{
+    int x = 10;              // Stack: x (value type)
+    string name = "John";   // Stack: name (reference) → Heap: "John" (object)
+    Employee emp = new Employee();  // Stack: emp (reference) → Heap: Employee object
+    
+    // When method exits:
+    // Stack: x, name, emp automatically removed
+    // Heap: "John" and Employee object remain until GC collects them
+}
+
+Visual:
+STACK                    HEAP
+┌──────────┐            ┌──────────────────┐
+│ x = 10   │            │ Employee object  │ ← emp points here
+│ name ────────────────→│ "John"           │ ← name points here
+│ emp  ────────────────→│                  │
+└──────────┘            └──────────────────┘</pre></div>
+</div>
+<div class="q" data-s="q75. what is garbage collection in .net?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">75</span>
+<span class="txt">Q75. What is Garbage Collection in .NET?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Garbage Collection (GC) is automatic memory management that reclaims memory 
+occupied by objects that are no longer referenced.
+
+How it works:
+1. Objects created on heap
+2. When no references point to an object, it becomes eligible for GC
+3. GC runs periodically (non-deterministic)
+4. GC frees memory of unreachable objects
+
+Employee emp = new Employee("John");  // Object on heap
+emp = null;  // Object now unreachable → eligible for GC
+// OR
+emp = new Employee("Jane");  // Old "John" object unreachable
+
+GC Triggers:
+- System low on memory
+- Heap threshold reached
+- GC.Collect() called (avoid in production)
+
+Key points:
+- Automatic (you don't free memory manually)
+- Non-deterministic (you can't predict when it runs)
+- Handles circular references
+- Uses generations for efficiency
+- "Stop the world" pauses (brief)
+
+Force GC (avoid unless testing):
+GC.Collect();
+GC.WaitForPendingFinalizers();</pre></div>
+</div>
+<div class="q" data-s="q76. what are generations in gc (gen 0, gen 1, gen 2)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">76</span>
+<span class="txt">Q76. What are Generations in GC (Gen 0, Gen 1, Gen 2)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>GC uses generations to optimize collection. Most objects die young.
+
+Generation 0 (Short-lived):
+- Newly created objects
+- Collected most frequently
+- Small objects, temporary variables
+- Example: local variables in methods
+
+Generation 1 (Buffer):
+- Survived one GC cycle from Gen 0
+- Buffer between short and long-lived
+- Collected less frequently
+
+Generation 2 (Long-lived):
+- Survived multiple GC cycles
+- Long-lived objects (static, cached data)
+- Collected least frequently (expensive)
+- Large Object Heap (LOH) for objects &gt; 85KB
+
+Flow:
+Object created → Gen 0
+Survives Gen 0 collection → Promoted to Gen 1
+Survives Gen 1 collection → Promoted to Gen 2
+
+Why generations?
+- Most objects die young (Gen 0 collection is fast)
+- No need to scan entire heap every time
+- Gen 0 collection: microseconds
+- Gen 2 collection: milliseconds (full GC)
+
+Best practices:
+- Avoid unnecessary object creation
+- Use object pooling for expensive objects
+- Implement IDisposable for unmanaged resources
+- Avoid finalizers (delays collection)</pre></div>
+</div>
+<div class="q" data-s="q77. what is the dispose pattern vs finalizer?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">77</span>
+<span class="txt">Q77. What is the Dispose pattern vs Finalizer?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>DISPOSE (IDisposable):
+- Deterministic cleanup (you control WHEN)
+- Called explicitly or via 'using'
+- Releases managed + unmanaged resources
+- Fast, predictable
+
+FINALIZER (~ClassName):
+- Non-deterministic (GC decides WHEN)
+- Called by GC before object is collected
+- Only for unmanaged resources
+- Slow, unpredictable, adds GC overhead
+
+Complete pattern:
+public class ResourceHolder : IDisposable
+{
+    private IntPtr _nativeResource;  // Unmanaged
+    private Stream _managedResource; // Managed
+    private bool _disposed = false;
+    
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);  // Skip finalizer
+    }
+    
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Release MANAGED resources
+                _managedResource?.Dispose();
+            }
+            
+            // Release UNMANAGED resources
+            CloseHandle(_nativeResource);
+            _nativeResource = IntPtr.Zero;
+            
+            _disposed = true;
+        }
+    }
+    
+    ~ResourceHolder()  // Finalizer (safety net)
+    {
+        Dispose(false);  // Only unmanaged cleanup
+    }
+}
+
+Best practice: Always prefer Dispose over Finalizer.</pre></div>
+</div>
+<div class="q" data-s="q78. what is the using statement?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">78</span>
+<span class="txt">Q78. What is the using statement?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'using' statement ensures Dispose() is called automatically when the object 
+goes out of scope, even if an exception occurs.
+
+Traditional using (block):
+using (var connection = new SqlConnection(connStr))
+{
+    connection.Open();
+    // Use connection
+}  // Dispose() called here automatically
+
+// Equivalent to:
+SqlConnection connection = null;
+try
+{
+    connection = new SqlConnection(connStr);
+    connection.Open();
+}
+finally
+{
+    connection?.Dispose();  // Always called
+}
+
+C# 8 using declaration (no braces):
+public void ProcessFile()
+{
+    using var reader = new StreamReader("file.txt");
+    string content = reader.ReadToEnd();
+    // Dispose called at end of method scope
+}
+
+Multiple using:
+using var conn = new SqlConnection(connStr);
+using var cmd = new SqlCommand(sql, conn);
+conn.Open();
+var result = cmd.ExecuteReader();
+
+Works with any IDisposable:
+- SqlConnection, SqlCommand
+- StreamReader, StreamWriter
+- FileStream
+- HttpClient (though prefer IHttpClientFactory)
+- DbContext (though DI handles this)</pre></div>
+</div>
+<div class="q" data-s="q79. what is the difference between dispose and finalize?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">79</span>
+<span class="txt">Q79. What is the difference between Dispose and Finalize?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature        | Dispose              | Finalize (~)           |
+|----------------|----------------------|------------------------|
+| Interface      | IDisposable          | Object.Finalize        |
+| Called by      | Developer/using      | Garbage Collector      |
+| When           | Deterministic        | Non-deterministic      |
+| Resources      | Managed + Unmanaged  | Unmanaged only         |
+| Performance    | No overhead          | Adds GC overhead       |
+| Syntax         | public void Dispose  | ~ClassName()           |
+| Multiple calls | Should handle        | Called only once        |
+| Recommended    | YES (always use)     | Only if unmanaged      |
+
+Rule: Use Dispose for cleanup. Use Finalizer only as safety net 
+for unmanaged resources in case Dispose wasn't called.
+
+
+
+================================================================================
+SECTION 7: ADVANCED OOPs
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q66. what is the this keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">80</span>
+<span class="txt">Q66. What is the this keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'this' refers to the CURRENT INSTANCE of the class.
+
+Uses:
+1. Distinguish between field and parameter (same name):
+public class Employee
+{
+    private string name;
+    
+    public Employee(string name)
+    {
+        this.name = name;  // this.name = field, name = parameter
+    }
+}
+
+2. Pass current object as parameter:
+public class Node
+{
+    public void Register()
+    {
+        EventManager.Add(this);  // Pass current object
+    }
+}
+
+3. Constructor chaining:
+public Employee() : this("Unknown", 0) { }
+public Employee(string name, decimal salary) { }
+
+4. Return current object (fluent API):
+public class QueryBuilder
+{
+    private string _query = "";
+    
+    public QueryBuilder Select(string columns)
+    {
+        _query += $"SELECT {columns} ";
+        return this;
+    }
+    
+    public QueryBuilder From(string table)
+    {
+        _query += $"FROM {table} ";
+        return this;
+    }
+}
+
+// Fluent usage:
+var query = new QueryBuilder().Select("*").From("Products");
+
+Note: 'this' cannot be used in static methods (no instance).</pre></div>
+</div>
+<div class="q" data-s="q67. what is the static keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">81</span>
+<span class="txt">Q67. What is the static keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'static' means the member belongs to the TYPE itself, not to any instance.
+
+Static Field (shared across all instances):
+public class Employee
+{
+    public static int TotalCount = 0;  // Shared
+    public string Name { get; set; }   // Per instance
+    
+    public Employee(string name)
+    {
+        Name = name;
+        TotalCount++;  // Increments for every object created
+    }
+}
+
+var e1 = new Employee("John");   // TotalCount = 1
+var e2 = new Employee("Jane");   // TotalCount = 2
+Console.WriteLine(Employee.TotalCount);  // 2 (accessed via class name)
+
+Static Method:
+public class MathHelper
+{
+    public static int Add(int a, int b) =&gt; a + b;
+}
+int result = MathHelper.Add(5, 3);  // No object needed
+
+Static Constructor:
+public class Config
+{
+    public static string AppName { get; }
+    
+    static Config()  // Runs once, first time class is used
+    {
+        AppName = LoadFromFile();
+    }
+}
+
+Static Class:
+public static class Extensions
+{
+    public static string ToTitleCase(this string input) { }
+}
+
+Rules:
+- Static members accessed via CLASS name (not object)
+- Static methods cannot access instance members
+- Static constructor has no access modifier, no parameters
+- Static class cannot be instantiated or inherited</pre></div>
+</div>
+<div class="q" data-s="q68. what is the difference between static and non-static?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">82</span>
+<span class="txt">Q68. What is the difference between static and non-static?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature        | Static                   | Non-Static (Instance)    |
+|----------------|--------------------------|--------------------------|
+| Belongs to     | Class/Type               | Object/Instance          |
+| Access         | ClassName.Member         | object.Member            |
+| Memory         | One copy (shared)        | Per object copy          |
+| Keyword        | static                   | No keyword               |
+| this keyword   | Cannot use               | Can use                  |
+| Lifetime       | App lifetime             | Object lifetime          |
+| Can access     | Only static members      | Both static + instance   |
+
+Example:
+public class BankAccount
+{
+    public static decimal InterestRate = 0.05m;  // Same for ALL accounts
+    public decimal Balance { get; set; }          // Different per account
+    
+    public static void SetRate(decimal rate)
+    {
+        InterestRate = rate;
+        // Balance = 100;  // ERROR! Can't access instance from static
+    }
+    
+    public decimal CalculateInterest()
+    {
+        return Balance * InterestRate;  // Instance CAN access static
+    }
+}</pre></div>
+</div>
+<div class="q" data-s="q69. what is an extension method?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">83</span>
+<span class="txt">Q69. What is an Extension Method?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Extension Methods add new methods to existing types WITHOUT modifying them.
+
+Rules:
+- Must be in a static class
+- Must be a static method
+- First parameter uses 'this' keyword + the type being extended
+
+public static class StringExtensions
+{
+    public static bool IsNullOrEmpty(this string str)
+    {
+        return string.IsNullOrEmpty(str);
+    }
+    
+    public static string Capitalize(this string str)
+    {
+        if (string.IsNullOrEmpty(str)) return str;
+        return char.ToUpper(str[0]) + str.Substring(1).ToLower();
+    }
+    
+    public static int WordCount(this string str)
+    {
+        return str.Split(' ', StringSplitOptions.RemoveEmptyEntries).Length;
+    }
+}
+
+// Usage (looks like instance method):
+string name = "hello world";
+bool empty = name.IsNullOrEmpty();    // false
+string cap = name.Capitalize();       // "Hello world"
+int words = name.WordCount();         // 2
+
+// LINQ is built entirely on extension methods:
+var result = list.Where(x =&gt; x &gt; 5).OrderBy(x =&gt; x).ToList();
+
+Common use cases:
+- Adding utility methods to built-in types
+- LINQ methods on IEnumerable
+- Adding methods to third-party classes you can't modify</pre></div>
+</div>
+<div class="q" data-s="q70. what is a generic class/method?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">84</span>
+<span class="txt">Q70. What is a Generic class/method?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Generics allow writing type-safe code that works with ANY data type,
+determined at compile time.
+
+Generic Method:
+public T GetMax&lt;T&gt;(T a, T b) where T : IComparable&lt;T&gt;
+{
+    return a.CompareTo(b) &gt; 0 ? a : b;
+}
+
+int maxInt = GetMax(5, 10);           // T = int
+string maxStr = GetMax("abc", "xyz"); // T = string
+
+Generic Class:
+public class Repository&lt;T&gt; where T : class
+{
+    private List&lt;T&gt; _items = new List&lt;T&gt;();
+    
+    public void Add(T item) =&gt; _items.Add(item);
+    public T GetById(int index) =&gt; _items[index];
+    public IEnumerable&lt;T&gt; GetAll() =&gt; _items;
+    public int Count =&gt; _items.Count;
+}
+
+// Usage:
+var productRepo = new Repository&lt;Product&gt;();
+productRepo.Add(new Product { Name = "Phone" });
+
+var employeeRepo = new Repository&lt;Employee&gt;();
+employeeRepo.Add(new Employee { Name = "John" });
+
+Benefits:
+- Type safety (compile-time checking)
+- No boxing/unboxing (performance)
+- Code reusability (one class works for all types)
+- No runtime type casting needed</pre></div>
+</div>
+<div class="q" data-s="q71. what are generic constraints?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">85</span>
+<span class="txt">Q71. What are Generic Constraints?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Constraints restrict which types can be used as generic type arguments.
+
+where T : class       → T must be a reference type
+where T : struct      → T must be a value type
+where T : new()       → T must have parameterless constructor
+where T : BaseClass   → T must inherit from BaseClass
+where T : IInterface  → T must implement IInterface
+where T : notnull     → T must be non-nullable
+
+Examples:
+// Must be reference type with parameterless constructor
+public class Factory&lt;T&gt; where T : class, new()
+{
+    public T Create() =&gt; new T();
+}
+
+// Must implement IComparable
+public T FindMax&lt;T&gt;(List&lt;T&gt; items) where T : IComparable&lt;T&gt;
+{
+    T max = items[0];
+    foreach (var item in items)
+        if (item.CompareTo(max) &gt; 0) max = item;
+    return max;
+}
+
+// Must inherit from Entity and implement IValidatable
+public class Repository&lt;T&gt; where T : Entity, IValidatable, new()
+{
+    public void Save(T entity)
+    {
+        if (entity.IsValid())
+            _context.Set&lt;T&gt;().Add(entity);
+    }
+}
+
+// Multiple type parameters with different constraints
+public class Mapper&lt;TSource, TDest&gt; 
+    where TSource : class 
+    where TDest : class, new()
+{
+    public TDest Map(TSource source) { }
+}</pre></div>
+</div>
+<div class="q" data-s="q72. what is boxing and unboxing?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">86</span>
+<span class="txt">Q72. What is Boxing and Unboxing?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>BOXING: Converting a VALUE type to REFERENCE type (stack → heap).
+UNBOXING: Converting a REFERENCE type back to VALUE type (heap → stack).
+
+// Boxing (implicit)
+int number = 42;
+object obj = number;  // Boxing: int copied from stack to heap
+
+// Unboxing (explicit cast required)
+int back = (int)obj;  // Unboxing: copied from heap back to stack
+
+Why it matters - PERFORMANCE:
+// BAD (boxing happens in ArrayList):
+ArrayList list = new ArrayList();
+list.Add(1);    // Boxing! int → object
+list.Add(2);    // Boxing!
+int val = (int)list[0];  // Unboxing!
+
+// GOOD (no boxing with generics):
+List&lt;int&gt; list = new List&lt;int&gt;();
+list.Add(1);    // No boxing! Stays as int
+list.Add(2);    // No boxing!
+int val = list[0];  // No unboxing!
+
+Performance impact:
+- Boxing allocates memory on heap
+- Creates garbage for GC to collect
+- Copying data between stack and heap
+- Avoid in performance-critical code
+
+Common boxing scenarios:
+int x = 5;
+Console.WriteLine("Value: " + x);  // x is boxed to call ToString
+string.Format("{0}", x);           // Boxing
+object[] arr = { 1, 2, 3 };       // All boxed</pre></div>
+</div>
+<div class="q" data-s="q73. what is the difference between value type and reference type?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">87</span>
+<span class="txt">Q73. What is the difference between Value Type and Reference Type?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>VALUE TYPES (stored on Stack):
+- Holds actual data directly
+- Copied by value (independent copies)
+- Cannot be null (unless nullable)
+- Destroyed when out of scope
+- Examples: int, double, bool, char, decimal, struct, enum
+
+REFERENCE TYPES (stored on Heap):
+- Holds reference (address) to data
+- Copied by reference (both point to same object)
+- Can be null
+- Garbage collected
+- Examples: class, string, array, interface, delegate, object
+
+Example:
+// Value type
+int a = 10;
+int b = a;    // COPY of value
+b = 20;
+// a = 10, b = 20 (independent)
+
+// Reference type
+Employee e1 = new Employee { Name = "John" };
+Employee e2 = e1;  // COPY of reference (same object!)
+e2.Name = "Jane";
+// e1.Name = "Jane" (same object modified!)
+
+| Feature        | Value Type         | Reference Type       |
+|----------------|--------------------|----------------------|
+| Storage        | Stack              | Heap (ref on stack)  |
+| Contains       | Actual data        | Address/reference    |
+| Copy           | Copies data        | Copies reference     |
+| Null           | No (unless T?)     | Yes                  |
+| Default        | 0, false, etc.     | null                 |
+| Performance    | Faster (no GC)     | GC overhead          |
+| Inheritance    | No (sealed)        | Yes                  |</pre></div>
+</div>
+<div class="q" data-s="q74. what is the difference between stack and heap memory?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">88</span>
+<span class="txt">Q74. What is the difference between Stack and Heap memory?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>STACK:
+- LIFO (Last In, First Out) structure
+- Stores: local variables, method parameters, value types
+- Automatic allocation/deallocation (when method exits)
+- Fast access
+- Limited size (usually 1-4 MB)
+- Thread-specific (each thread has own stack)
+
+HEAP:
+- Dynamic memory pool
+- Stores: objects (reference types), arrays
+- Managed by Garbage Collector
+- Slower access (pointer indirection)
+- Large size (limited by system memory)
+- Shared across threads
+
+Example:
+public void MyMethod()
+{
+    int x = 10;              // Stack: x (value type)
+    string name = "John";   // Stack: reference, Heap: "John" string object
+    Employee emp = new Employee();  // Stack: reference, Heap: Employee object
+    
+    // When method exits:
+    // x is removed from stack (automatic)
+    // name reference removed from stack
+    // emp reference removed from stack
+    // Heap objects cleaned by GC (later)
+}
+
+Visual:
+STACK                    HEAP
+┌──────────┐            ┌──────────────────┐
+│ x = 10   │            │ Employee object   │
+│ emp →────│────────────│ { Name, Age... }  │
+│ name →───│──────┐     └──────────────────┘
+└──────────┘      │     ┌──────────────────┐
+                  └─────│ "John"            │
+                        └──────────────────┘</pre></div>
+</div>
+<div class="q" data-s="q75. what is garbage collection in .net?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">89</span>
+<span class="txt">Q75. What is Garbage Collection in .NET?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Garbage Collection (GC) is automatic memory management that reclaims memory 
+occupied by objects that are no longer referenced.
+
+How it works:
+1. You create objects (allocated on heap)
+2. When no references point to an object, it becomes eligible for GC
+3. GC periodically runs and frees unreferenced objects
+4. Memory is compacted (defragmented)
+
+Employee emp = new Employee();  // Object on heap
+emp = null;  // Object now unreferenced → eligible for GC
+// OR
+emp = new Employee();  // Old object unreferenced → eligible
+
+GC.Collect();  // Force GC (avoid in production!)
+
+When GC runs:
+- System is low on memory
+- Heap reaches a threshold
+- GC.Collect() is called (not recommended)
+
+Benefits:
+- No manual memory management (no malloc/free)
+- No memory leaks (mostly)
+- No dangling pointers
+- Automatic and optimized
+
+Drawbacks:
+- Non-deterministic (you don't know WHEN it runs)
+- Can cause brief pauses
+- Overhead for tracking references</pre></div>
+</div>
+<div class="q" data-s="q76. what are generations in gc (gen 0, gen 1, gen 2)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">90</span>
+<span class="txt">Q76. What are Generations in GC (Gen 0, Gen 1, Gen 2)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>GC uses generational approach for efficiency:
+
+Generation 0 (youngest):
+- Newly created objects
+- Collected MOST frequently
+- Small, fast collection
+- Short-lived objects (local variables, temp objects)
+
+Generation 1 (middle):
+- Survived one Gen 0 collection
+- Buffer between short-lived and long-lived
+- Collected less frequently
+
+Generation 2 (oldest):
+- Survived Gen 0 and Gen 1 collections
+- Long-lived objects (static, cached, singleton)
+- Collected LEAST frequently (expensive)
+- Full collection
+
+Flow:
+Object created → Gen 0
+Survives Gen 0 collection → Promoted to Gen 1
+Survives Gen 1 collection → Promoted to Gen 2
+
+Why generations?
+- Most objects die young (Gen 0) → cheap to collect
+- Long-lived objects rarely need checking
+- Avoids scanning entire heap every time
+- 90%+ objects collected in Gen 0</pre></div>
+</div>
+<div class="q" data-s="q77. what is the dispose pattern vs finalizer?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">91</span>
+<span class="txt">Q77. What is the Dispose pattern vs Finalizer?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>DISPOSE (IDisposable):
+- Deterministic cleanup (YOU control when)
+- Called explicitly or via 'using'
+- Releases managed + unmanaged resources
+- Fast, predictable
+
+FINALIZER (~ClassName):
+- Non-deterministic (GC decides when)
+- Called by GC before object is collected
+- Only for unmanaged resources
+- Slow, unpredictable
+
+Complete pattern:
+public class ResourceHolder : IDisposable
+{
+    private IntPtr _handle;        // Unmanaged
+    private SqlConnection _conn;   // Managed
+    private bool _disposed = false;
+    
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);  // No need for finalizer
+    }
+    
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+        {
+            if (disposing)
+            {
+                // Release MANAGED resources
+                _conn?.Dispose();
+            }
+            // Release UNMANAGED resources
+            CloseHandle(_handle);
+            _disposed = true;
+        }
+    }
+    
+    ~ResourceHolder()  // Finalizer (safety net)
+    {
+        Dispose(false);  // Only unmanaged cleanup
+    }
+}
+
+Best practice:
+- Always implement IDisposable for resource-holding classes
+- Use 'using' statement
+- Finalizer only as safety net (if Dispose wasn't called)</pre></div>
+</div>
+<div class="q" data-s="q78. what is the using statement?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">92</span>
+<span class="txt">Q78. What is the using statement?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'using' statement ensures Dispose() is called automatically when the object 
+goes out of scope, even if an exception occurs.
+
+// Traditional using block
+using (var connection = new SqlConnection(connStr))
+{
+    connection.Open();
+    // Use connection
+}  // Dispose() called here automatically
+
+// C# 8 using declaration (cleaner)
+using var connection = new SqlConnection(connStr);
+connection.Open();
+// Use connection
+// Dispose() called at end of enclosing scope
+
+// Multiple resources
+using var conn = new SqlConnection(connStr);
+using var cmd = new SqlCommand(sql, conn);
+conn.Open();
+var reader = cmd.ExecuteReader();
+
+// Equivalent to try-finally:
+SqlConnection connection = null;
+try
+{
+    connection = new SqlConnection(connStr);
+    connection.Open();
+}
+finally
+{
+    connection?.Dispose();  // Always called, even on exception
+}
+
+Works with any class implementing IDisposable:
+- Database connections
+- File streams
+- HTTP clients
+- Network streams</pre></div>
+</div>
+<div class="q" data-s="q79. what is the difference between dispose and finalize?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">93</span>
+<span class="txt">Q79. What is the difference between Dispose and Finalize?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature        | Dispose              | Finalize (~)           |
+|----------------|----------------------|------------------------|
+| Interface      | IDisposable          | Object.Finalize        |
+| Called by      | Developer/using      | Garbage Collector      |
+| When           | Deterministic (now)  | Non-deterministic      |
+| Performance    | Fast                 | Slow (extra GC cycle)  |
+| Resources      | Managed + Unmanaged  | Unmanaged only         |
+| Syntax         | public void Dispose()| ~ClassName()           |
+| Control        | Full control         | No control             |
+| Recommended    | YES (always)         | Only if needed         |
+
+Key points:
+- Always prefer Dispose over Finalize
+- Finalize adds objects to finalization queue (extra GC work)
+- Objects with finalizers survive one extra GC cycle
+- Use Finalize only as safety net for unmanaged resources
+- Call GC.SuppressFinalize(this) in Dispose to skip finalizer
+
+
+
+================================================================================
+SECTION 8: DELEGATES, EVENTS &amp; LAMBDA
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q80. what is a delegate?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">94</span>
+<span class="txt">Q80. What is a Delegate?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Delegate is a type-safe function pointer — it holds a reference to a method 
+and can invoke it.
+
+Think of it as: a variable that stores a METHOD instead of data.
+
+// Declare delegate type
+public delegate int MathOperation(int a, int b);
+
+// Methods matching the delegate signature
+public static int Add(int a, int b) =&gt; a + b;
+public static int Multiply(int a, int b) =&gt; a * b;
+
+// Usage
+MathOperation operation = Add;       // Points to Add method
+int result1 = operation(5, 3);       // 8
+
+operation = Multiply;                // Now points to Multiply
+int result2 = operation(5, 3);       // 15
+
+// Pass as parameter (callback)
+public static void ProcessNumbers(int a, int b, MathOperation op)
+{
+    int result = op(a, b);
+    Console.WriteLine($"Result: {result}");
+}
+
+ProcessNumbers(10, 5, Add);       // Result: 15
+ProcessNumbers(10, 5, Multiply);  // Result: 50
+
+Use cases:
+- Callback methods
+- Event handling
+- LINQ (Where, Select use delegates)
+- Strategy pattern
+- Asynchronous programming</pre></div>
+</div>
+<div class="q" data-s="q81. what are types of delegates (single, multicast)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">95</span>
+<span class="txt">Q81. What are types of Delegates (Single, Multicast)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SINGLE-CAST DELEGATE:
+- Points to ONE method
+- Returns the result of that method
+
+delegate int Calculate(int x, int y);
+Calculate calc = Add;
+int result = calc(5, 3);  // Calls Add only
+
+MULTICAST DELEGATE:
+- Points to MULTIPLE methods (invocation list)
+- Calls all methods in order
+- Uses += to add, -= to remove
+- Return value is from LAST method only
+
+delegate void Logger(string message);
+
+void LogToConsole(string msg) =&gt; Console.WriteLine($"Console: {msg}");
+void LogToFile(string msg) =&gt; File.AppendAllText("log.txt", msg);
+void LogToDb(string msg) =&gt; SaveToDatabase(msg);
+
+// Multicast - chains multiple methods
+Logger logger = LogToConsole;
+logger += LogToFile;
+logger += LogToDb;
+
+logger("Error occurred");
+// Calls ALL three methods in order:
+// 1. LogToConsole
+// 2. LogToFile
+// 3. LogToDb
+
+// Remove a method
+logger -= LogToFile;
+logger("Another error");  // Only Console and Db
+
+Note: All delegates in C# are multicast (inherit from MulticastDelegate).</pre></div>
+</div>
+<div class="q" data-s="q82. what is func, action, predicate?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">96</span>
+<span class="txt">Q82. What is Func, Action, Predicate?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Built-in generic delegates — no need to declare custom delegate types.
+
+ACTION&lt;T&gt; - Takes parameters, returns VOID:
+Action                        → void Method()
+Action&lt;int&gt;                   → void Method(int)
+Action&lt;string, int&gt;           → void Method(string, int)
+
+Action&lt;string&gt; print = msg =&gt; Console.WriteLine(msg);
+print("Hello");
+
+Action&lt;int, int&gt; showSum = (a, b) =&gt; Console.WriteLine(a + b);
+showSum(5, 3);  // 8
+
+FUNC&lt;T, TResult&gt; - Takes parameters, returns a VALUE:
+Func&lt;int&gt;                     → int Method()
+Func&lt;int, int&gt;                → int Method(int)
+Func&lt;int, int, int&gt;           → int Method(int, int)
+// Last type parameter is always the RETURN type
+
+Func&lt;int, int, int&gt; add = (a, b) =&gt; a + b;
+int result = add(5, 3);  // 8
+
+Func&lt;string, int&gt; getLength = s =&gt; s.Length;
+int len = getLength("Hello");  // 5
+
+Func&lt;int, bool&gt; isEven = x =&gt; x % 2 == 0;
+bool check = isEven(4);  // true
+
+PREDICATE&lt;T&gt; - Takes ONE parameter, returns BOOL:
+Predicate&lt;int&gt; isPositive = x =&gt; x &gt; 0;
+bool result = isPositive(5);  // true
+
+// Same as Func&lt;T, bool&gt; but more readable for filtering
+List&lt;int&gt; numbers = new List&lt;int&gt; { 1, -2, 3, -4, 5 };
+List&lt;int&gt; positives = numbers.FindAll(x =&gt; x &gt; 0);  // [1, 3, 5]
+
+Summary:
+| Delegate     | Parameters | Return  | Use case              |
+|--------------|------------|---------|-----------------------|
+| Action&lt;T&gt;    | 0-16       | void    | Do something          |
+| Func&lt;T,R&gt;    | 0-16       | R       | Calculate/transform   |
+| Predicate&lt;T&gt; | 1          | bool    | Filter/check          |</pre></div>
+</div>
+<div class="q" data-s="q83. what is an anonymous method?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">97</span>
+<span class="txt">Q83. What is an Anonymous Method?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>An Anonymous Method is a method without a name, defined inline using the 
+'delegate' keyword.
+
+// Named method approach
+public bool IsAdult(int age) { return age &gt;= 18; }
+Func&lt;int, bool&gt; check = IsAdult;
+
+// Anonymous method (no name)
+Func&lt;int, bool&gt; check = delegate(int age)
+{
+    return age &gt;= 18;
+};
+
+// Usage
+bool result = check(25);  // true
+
+// With events
+button.Click += delegate(object sender, EventArgs e)
+{
+    Console.WriteLine("Button clicked!");
+};
+
+// Anonymous method can access outer variables (closure)
+int threshold = 100;
+Func&lt;int, bool&gt; isAbove = delegate(int value)
+{
+    return value &gt; threshold;  // Captures 'threshold'
+};
+
+Note: Anonymous methods are largely replaced by Lambda expressions (cleaner syntax).
+delegate(int x) { return x * 2; }  →  x =&gt; x * 2</pre></div>
+</div>
+<div class="q" data-s="q84. what is a lambda expression?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">98</span>
+<span class="txt">Q84. What is a Lambda Expression?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Lambda Expression is a concise way to write anonymous methods using =&gt; syntax.
+
+Syntax: (parameters) =&gt; expression_or_block
+
+// Expression lambda (single expression)
+Func&lt;int, int&gt; square = x =&gt; x * x;
+Func&lt;int, int, int&gt; add = (a, b) =&gt; a + b;
+Func&lt;string, bool&gt; isEmpty = s =&gt; string.IsNullOrEmpty(s);
+
+// Statement lambda (multiple statements)
+Func&lt;int, int, int&gt; calculate = (a, b) =&gt;
+{
+    int sum = a + b;
+    int doubled = sum * 2;
+    return doubled;
+};
+
+// No parameters
+Action greet = () =&gt; Console.WriteLine("Hello!");
+
+// With LINQ (most common usage)
+var adults = people.Where(p =&gt; p.Age &gt;= 18);
+var names = people.Select(p =&gt; p.Name);
+var sorted = people.OrderBy(p =&gt; p.LastName);
+var first = people.FirstOrDefault(p =&gt; p.Id == 5);
+
+// Event handlers
+button.Click += (sender, e) =&gt; Console.WriteLine("Clicked!");
+
+// As method parameter
+List&lt;int&gt; numbers = new List&lt;int&gt; { 1, 2, 3, 4, 5 };
+numbers.ForEach(n =&gt; Console.WriteLine(n));
+var evens = numbers.FindAll(n =&gt; n % 2 == 0);
+
+Evolution:
+// Named method
+bool IsEven(int x) { return x % 2 == 0; }
+
+// Anonymous method
+delegate(int x) { return x % 2 == 0; }
+
+// Lambda expression
+x =&gt; x % 2 == 0
+
+// All three do the same thing!</pre></div>
+</div>
+<div class="q" data-s="q85. what is an event?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">99</span>
+<span class="txt">Q85. What is an Event?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>An Event is a mechanism for a class to notify other classes when something 
+happens. Based on publisher-subscriber pattern.
+
+// Step 1: Define delegate (event signature)
+public delegate void OrderEventHandler(object sender, OrderEventArgs e);
+
+// Step 2: Define event args
+public class OrderEventArgs : EventArgs
+{
+    public int OrderId { get; set; }
+    public decimal Amount { get; set; }
+}
+
+// Step 3: Publisher (raises event)
+public class OrderService
+{
+    public event OrderEventHandler OrderPlaced;  // Event declaration
+    
+    public void PlaceOrder(int orderId, decimal amount)
+    {
+        // Process order...
+        Console.WriteLine($"Order {orderId} placed");
+        
+        // Raise event
+        OrderPlaced?.Invoke(this, new OrderEventArgs 
+        { 
+            OrderId = orderId, 
+            Amount = amount 
+        });
+    }
+}
+
+// Step 4: Subscriber (handles event)
+public class EmailService
+{
+    public void OnOrderPlaced(object sender, OrderEventArgs e)
+    {
+        Console.WriteLine($"Email sent for order {e.OrderId}");
+    }
+}
+
+public class InventoryService
+{
+    public void OnOrderPlaced(object sender, OrderEventArgs e)
+    {
+        Console.WriteLine($"Inventory updated for order {e.OrderId}");
+    }
+}
+
+// Step 5: Wire up
+var orderService = new OrderService();
+var emailService = new EmailService();
+var inventoryService = new InventoryService();
+
+orderService.OrderPlaced += emailService.OnOrderPlaced;
+orderService.OrderPlaced += inventoryService.OnOrderPlaced;
+
+orderService.PlaceOrder(1, 99.99m);
+// Output:
+// Order 1 placed
+// Email sent for order 1
+// Inventory updated for order 1</pre></div>
+</div>
+<div class="q" data-s="q86. what is the difference between delegate and event?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">100</span>
+<span class="txt">Q86. What is the difference between Delegate and Event?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature        | Delegate                 | Event                    |
+|----------------|--------------------------|--------------------------|
+| Invocation     | Anyone can invoke        | Only declaring class     |
+| Assignment     | Can use = (replace all)  | Only += and -=           |
+| Access         | Public field             | Restricted access        |
+| Purpose        | General callback         | Notification mechanism   |
+| Encapsulation  | Less safe                | More safe                |
+
+Key difference - SAFETY:
+public class Button
+{
+    // Delegate (unsafe)
+    public Action Clicked;
+    
+    // Event (safe)
+    public event Action Pressed;
+}
+
+var btn = new Button();
+
+// With delegate - ANYONE can invoke or replace:
+btn.Clicked = () =&gt; Console.WriteLine("Hacked!");  // Replaces all handlers!
+btn.Clicked();  // Anyone can trigger it!
+
+// With event - RESTRICTED:
+btn.Pressed += () =&gt; Console.WriteLine("Handler 1");
+btn.Pressed += () =&gt; Console.WriteLine("Handler 2");
+// btn.Pressed = null;    // ERROR! Can't assign, only += or -=
+// btn.Pressed();         // ERROR! Can't invoke from outside
+
+// Only the Button class itself can invoke Pressed
+
+Rule: Use EVENTS for notifications, delegates for callbacks/parameters.</pre></div>
+</div>
+<div class="q" data-s="q87. what is publisher-subscriber pattern?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">101</span>
+<span class="txt">Q87. What is Publisher-Subscriber pattern?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Publisher-Subscriber (Pub-Sub) is a messaging pattern where:
+- Publisher: Raises events (doesn't know who listens)
+- Subscriber: Handles events (doesn't know who publishes)
+- Loose coupling between them
+
+Publisher (doesn't know subscribers):
+public class StockMarket
+{
+    public event EventHandler&lt;StockChangedEventArgs&gt; StockChanged;
+    
+    public void UpdatePrice(string symbol, decimal price)
+    {
+        // Notify all subscribers
+        StockChanged?.Invoke(this, new StockChangedEventArgs
+        {
+            Symbol = symbol,
+            NewPrice = price
+        });
+    }
+}
+
+Subscribers (don't know each other):
+public class TradingBot
+{
+    public void OnStockChanged(object sender, StockChangedEventArgs e)
+    {
+        if (e.NewPrice &lt; 100) Buy(e.Symbol);
+    }
+}
+
+public class AlertService
+{
+    public void OnStockChanged(object sender, StockChangedEventArgs e)
+    {
+        SendAlert($"{e.Symbol} is now {e.NewPrice}");
+    }
+}
+
+// Wiring:
+var market = new StockMarket();
+var bot = new TradingBot();
+var alerts = new AlertService();
+
+market.StockChanged += bot.OnStockChanged;
+market.StockChanged += alerts.OnStockChanged;
+
+market.UpdatePrice("AAPL", 150);  // Both subscribers notified
+
+Benefits:
+- Loose coupling (publisher doesn't depend on subscribers)
+- Easy to add/remove subscribers
+- One-to-many communication</pre></div>
+</div>
+<div class="q" data-s="q88. what is a callback using delegates?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">102</span>
+<span class="txt">Q88. What is a Callback using Delegates?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Callback is a method passed as a parameter to another method, which gets 
+called when an operation completes.
+
+// Callback pattern
+public void DownloadFile(string url, Action&lt;string&gt; onComplete, Action&lt;Exception&gt; onError)
+{
+    try
+    {
+        // Download logic...
+        string filePath = DoDownload(url);
+        onComplete(filePath);  // Callback on success
+    }
+    catch (Exception ex)
+    {
+        onError(ex);  // Callback on error
+    }
+}
+
+// Usage
+DownloadFile(
+    "https://example.com/file.pdf",
+    path =&gt; Console.WriteLine($"Downloaded to: {path}"),   // Success callback
+    ex =&gt; Console.WriteLine($"Error: {ex.Message}")        // Error callback
+);
+
+// Another example - processing with progress callback
+public void ProcessItems(List&lt;Item&gt; items, Action&lt;int&gt; progressCallback)
+{
+    for (int i = 0; i &lt; items.Count; i++)
+    {
+        Process(items[i]);
+        int percent = (i + 1) * 100 / items.Count;
+        progressCallback(percent);  // Report progress
+    }
+}
+
+ProcessItems(myItems, percent =&gt; 
+{
+    Console.WriteLine($"Progress: {percent}%");
+    progressBar.Value = percent;
+});
+
+Modern alternative: async/await with IProgress&lt;T&gt;
+public async Task ProcessAsync(IProgress&lt;int&gt; progress)
+{
+    for (int i = 0; i &lt; 100; i++)
+    {
+        await Task.Delay(100);
+        progress.Report(i);
+    }
+}
+
+
+
+================================================================================
+SECTION 9: EXCEPTION HANDLING
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q89. what is exception handling?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">103</span>
+<span class="txt">Q89. What is Exception Handling?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Exception Handling is a mechanism to handle runtime errors gracefully without 
+crashing the application.
+
+Without exception handling:
+int result = 10 / 0;  // App CRASHES with DivideByZeroException
+
+With exception handling:
+try
+{
+    int result = 10 / 0;
+}
+catch (DivideByZeroException ex)
+{
+    Console.WriteLine("Cannot divide by zero!");
+    // App continues running
+}
+
+Key concepts:
+- Exception: An object representing an error
+- try: Code that might throw exception
+- catch: Code that handles the exception
+- finally: Code that ALWAYS runs (cleanup)
+- throw: Manually raise an exception
+
+Common exceptions:
+- NullReferenceException: Accessing null object
+- ArgumentNullException: Null argument passed
+- InvalidOperationException: Invalid state
+- IndexOutOfRangeException: Array index invalid
+- FileNotFoundException: File doesn't exist
+- FormatException: Invalid format (parsing)
+- OverflowException: Arithmetic overflow</pre></div>
+</div>
+<div class="q" data-s="q90. what is try-catch-finally?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">104</span>
+<span class="txt">Q90. What is try-catch-finally?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>try
+{
+    // Code that might throw exception
+    var file = File.ReadAllText("data.txt");
+    var number = int.Parse(file);
+}
+catch (FileNotFoundException ex)
+{
+    // Handle specific exception first
+    Console.WriteLine($"File not found: {ex.FileName}");
+}
+catch (FormatException ex)
+{
+    // Handle another specific exception
+    Console.WriteLine("Invalid number format");
+}
+catch (Exception ex)
+{
+    // Catch-all (base Exception) - LAST
+    Console.WriteLine($"Unexpected error: {ex.Message}");
+}
+finally
+{
+    // ALWAYS executes (success or failure)
+    // Used for cleanup (close connections, files)
+    Console.WriteLine("Cleanup done");
+}
+
+Rules:
+- try is required
+- catch or finally (or both) must follow try
+- Multiple catch blocks: specific → general order
+- finally always runs (even after return in try/catch)
+- Cannot have catch(Exception) before catch(SpecificException)
+
+try-finally without catch:
+SqlConnection conn = null;
+try
+{
+    conn = new SqlConnection(connStr);
+    conn.Open();
+    // Use connection
+}
+finally
+{
+    conn?.Dispose();  // Always cleanup
+}</pre></div>
+</div>
+<div class="q" data-s="q91. what is the difference between throw and throw ex?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">105</span>
+<span class="txt">Q91. What is the difference between throw and throw ex?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>throw (rethrow):
+- Preserves the ORIGINAL stack trace
+- Shows where exception actually occurred
+- RECOMMENDED
+
+throw ex (throw exception):
+- RESETS the stack trace
+- Loses original error location
+- Makes debugging harder
+- NOT recommended
+
+Example:
+try
+{
+    SomeMethod();  // Exception occurs at line 50 in SomeMethod
+}
+catch (Exception ex)
+{
+    // Log the error
+    _logger.LogError(ex, "Error occurred");
+    
+    throw;      // Stack trace shows line 50 (original location) ✓
+    // throw ex; // Stack trace shows THIS line only (loses original) ✗
+}
+
+When to use throw ex:
+- Almost NEVER
+- Only when you intentionally want to hide internal details
+
+Better pattern - wrap in new exception:
+catch (SqlException ex)
+{
+    throw new DataAccessException("Database error", ex);  // ex as inner exception
+    // Preserves original as InnerException
+}</pre></div>
+</div>
+<div class="q" data-s="q92. what is a custom exception?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">106</span>
+<span class="txt">Q92. What is a Custom Exception?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Custom exceptions represent domain-specific errors in your application.
+
+public class InsufficientFundsException : Exception
+{
+    public decimal CurrentBalance { get; }
+    public decimal RequestedAmount { get; }
+    
+    public InsufficientFundsException(decimal balance, decimal amount)
+        : base($"Insufficient funds. Balance: {balance:C}, Requested: {amount:C}")
+    {
+        CurrentBalance = balance;
+        RequestedAmount = amount;
+    }
+    
+    public InsufficientFundsException(string message, Exception innerException)
+        : base(message, innerException)
+    {
+    }
+}
+
+public class NotFoundException : Exception
+{
+    public string EntityName { get; }
+    public object EntityId { get; }
+    
+    public NotFoundException(string entityName, object id)
+        : base($"{entityName} with ID {id} was not found.")
+    {
+        EntityName = entityName;
+        EntityId = id;
+    }
+}
+
+// Usage:
+public void Withdraw(decimal amount)
+{
+    if (amount &gt; Balance)
+        throw new InsufficientFundsException(Balance, amount);
+}
+
+public Product GetById(int id)
+{
+    var product = _context.Products.Find(id);
+    if (product == null)
+        throw new NotFoundException("Product", id);
+    return product;
+}
+
+Best practices:
+- Inherit from Exception (not ApplicationException)
+- End name with "Exception"
+- Include 3 constructors (parameterless, message, message+inner)
+- Add relevant properties for context</pre></div>
+</div>
+<div class="q" data-s="q93. what is the exception hierarchy in .net?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">107</span>
+<span class="txt">Q93. What is the Exception hierarchy in .NET?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>System.Object
+  └── System.Exception                    (base for all exceptions)
+        ├── System.SystemException         (runtime/system errors)
+        │     ├── NullReferenceException
+        │     ├── IndexOutOfRangeException
+        │     ├── InvalidOperationException
+        │     ├── DivideByZeroException
+        │     ├── StackOverflowException
+        │     ├── OutOfMemoryException
+        │     ├── InvalidCastException
+        │     ├── FormatException
+        │     └── ArithmeticException
+        │           └── OverflowException
+        ├── System.ApplicationException    (deprecated, don't use)
+        ├── System.ArgumentException
+        │     ├── ArgumentNullException
+        │     └── ArgumentOutOfRangeException
+        ├── System.IO.IOException
+        │     ├── FileNotFoundException
+        │     └── DirectoryNotFoundException
+        └── Custom exceptions (yours)
+
+Catching order (specific → general):
+catch (ArgumentNullException ex) { }    // Most specific
+catch (ArgumentException ex) { }        // Parent
+catch (Exception ex) { }               // Catch-all (last)</pre></div>
+</div>
+<div class="q" data-s="q94. what is the finally block? does it always execute?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">108</span>
+<span class="txt">Q94. What is the finally block? Does it always execute?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'finally' block ALWAYS executes regardless of whether exception occurred or not.
+
+Purpose: Cleanup resources (close files, connections, release locks)
+
+try
+{
+    OpenConnection();
+    DoWork();
+    return result;  // finally STILL runs after this!
+}
+catch (Exception ex)
+{
+    LogError(ex);
+    throw;  // finally STILL runs after this!
+}
+finally
+{
+    CloseConnection();  // ALWAYS runs
+}
+
+Does it ALWAYS execute? Almost always. Exceptions:
+- Environment.FailFast() → No
+- StackOverflowException → No (process terminates)
+- Power failure / kill process → No
+- Infinite loop in try/catch → Never reaches finally
+
+Normal scenarios where finally RUNS:
+- After try completes normally ✓
+- After catch handles exception ✓
+- After throw/rethrow in catch ✓
+- After return in try ✓
+- After return in catch ✓
+
+Example:
+public int GetValue()
+{
+    try
+    {
+        return 1;  // Return value is stored
+    }
+    finally
+    {
+        Console.WriteLine("Finally runs!");  // Runs BEFORE return
+    }
+    // Returns 1 after finally executes
+}</pre></div>
+</div>
+<div class="q" data-s="q95. what is the difference between system.exception and system.applicationexception?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">109</span>
+<span class="txt">Q95. What is the difference between System.Exception and System.ApplicationException?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>System.Exception:
+- Base class for ALL exceptions
+- Use this as base for custom exceptions
+- Recommended by Microsoft
+
+System.ApplicationException:
+- Originally intended for application-specific exceptions
+- DEPRECATED — Microsoft no longer recommends using it
+- No additional functionality over Exception
+- Exists only for backward compatibility
+
+// DON'T do this:
+public class MyException : ApplicationException { }  // Deprecated
+
+// DO this:
+public class MyException : Exception { }  // Correct
+
+Historical intent:
+- SystemException → CLR/runtime errors
+- ApplicationException → Your app errors
+- In practice, this distinction was never useful
+- Microsoft now says: just inherit from Exception</pre></div>
+</div>
+<div class="q" data-s="q96. what is the when keyword in catch (exception filters)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">110</span>
+<span class="txt">Q96. What is the when keyword in catch (Exception filters)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'when' keyword adds a CONDITION to a catch block. The catch only executes 
+if the condition is true.
+
+try
+{
+    await httpClient.GetAsync(url);
+}
+catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.NotFound)
+{
+    Console.WriteLine("Resource not found");
+}
+catch (HttpRequestException ex) when (ex.StatusCode == HttpStatusCode.Unauthorized)
+{
+    Console.WriteLine("Not authorized");
+}
+catch (HttpRequestException ex)
+{
+    Console.WriteLine($"HTTP error: {ex.StatusCode}");
+}
+
+// Filter by custom property
+catch (SqlException ex) when (ex.Number == 2627)
+{
+    Console.WriteLine("Duplicate key violation");
+}
+
+// Filter with method call
+catch (Exception ex) when (ShouldHandle(ex))
+{
+    HandleException(ex);
+}
+
+// Logging without catching (when returns false → exception not caught)
+catch (Exception ex) when (LogException(ex))  // LogException returns false
+{
+    // Never reaches here, but exception is logged
+}
+
+private bool LogException(Exception ex)
+{
+    _logger.LogError(ex, "Exception occurred");
+    return false;  // Don't catch, let it propagate
+}
+
+Benefits:
+- Avoid catching and rethrowing
+- More specific exception handling
+- Better performance than catch-and-rethrow
+- Preserves stack trace
+
+
+================================================================================
+SECTION 10: COLLECTIONS &amp; GENERICS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q97. what is the difference between array and arraylist?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">111</span>
+<span class="txt">Q97. What is the difference between Array and ArrayList?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>ARRAY:
+- Fixed size (cannot grow/shrink)
+- Type-safe (stores one type only)
+- Better performance (no boxing)
+- Syntax: int[] numbers = new int[5];
+
+int[] numbers = new int[3] { 1, 2, 3 };
+numbers[0] = 10;
+// numbers[3] = 4;  // ERROR! Fixed size
+
+ARRAYLIST:
+- Dynamic size (grows automatically)
+- NOT type-safe (stores object — any type)
+- Boxing/unboxing for value types (slow)
+- From System.Collections (legacy)
+
+ArrayList list = new ArrayList();
+list.Add(1);          // Boxing (int → object)
+list.Add("hello");    // Mixed types allowed!
+list.Add(true);       // No compile-time safety
+int val = (int)list[0];  // Unboxing + casting needed
+
+| Feature        | Array              | ArrayList            |
+|----------------|--------------------|----------------------|
+| Size           | Fixed              | Dynamic              |
+| Type safety    | Yes                | No (stores object)   |
+| Performance    | Fast               | Slow (boxing)        |
+| Namespace      | System             | System.Collections   |
+| Modern use     | Yes                | NO (use List&lt;T&gt;)     |
+
+Best practice: Use List&lt;T&gt; instead of ArrayList (type-safe + dynamic).</pre></div>
+</div>
+<div class="q" data-s="q98. what is the difference between arraylist and list<t>?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">112</span>
+<span class="txt">Q98. What is the difference between ArrayList and List&lt;T&gt;?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>ARRAYLIST (legacy - avoid):
+ArrayList list = new ArrayList();
+list.Add(1);           // Boxing
+list.Add("text");      // No type safety
+int x = (int)list[0]; // Casting needed, runtime error if wrong type
+
+LIST&lt;T&gt; (modern - use this):
+List&lt;int&gt; numbers = new List&lt;int&gt;();
+numbers.Add(1);        // No boxing
+// numbers.Add("text"); // COMPILE ERROR! Type safe
+int x = numbers[0];   // No casting needed
+
+| Feature        | ArrayList            | List&lt;T&gt;              |
+|----------------|----------------------|----------------------|
+| Type safety    | No                   | Yes (compile-time)   |
+| Boxing         | Yes (value types)    | No                   |
+| Performance    | Slower               | Faster               |
+| Casting        | Required             | Not needed           |
+| Namespace      | System.Collections   | System.Collections.Generic |
+| IntelliSense   | No (returns object)  | Yes (knows type)     |
+
+List&lt;T&gt; common operations:
+List&lt;string&gt; names = new List&lt;string&gt; { "John", "Jane", "Bob" };
+names.Add("Alice");
+names.Remove("Bob");
+names.Insert(0, "First");
+bool has = names.Contains("John");
+int count = names.Count;
+names.Sort();
+var found = names.Find(n =&gt; n.StartsWith("J"));
+names.ForEach(n =&gt; Console.WriteLine(n));</pre></div>
+</div>
+<div class="q" data-s="q99. what is dictionary<tkey, tvalue>?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">113</span>
+<span class="txt">Q99. What is Dictionary&lt;TKey, TValue&gt;?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Dictionary stores KEY-VALUE pairs with O(1) lookup time.
+
+var employees = new Dictionary&lt;int, string&gt;
+{
+    { 1, "John" },
+    { 2, "Jane" },
+    { 3, "Bob" }
+};
+
+// Add
+employees.Add(4, "Alice");
+employees[5] = "Charlie";  // Also adds
+
+// Access
+string name = employees[1];  // "John"
+
+// Safe access
+if (employees.TryGetValue(10, out string value))
+{
+    Console.WriteLine(value);
+}
+else
+{
+    Console.WriteLine("Not found");
+}
+
+// Check existence
+bool exists = employees.ContainsKey(1);     // true
+bool hasValue = employees.ContainsValue("John"); // true
+
+// Remove
+employees.Remove(3);
+
+// Iterate
+foreach (KeyValuePair&lt;int, string&gt; kvp in employees)
+{
+    Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+}
+
+// Or deconstruct
+foreach (var (id, empName) in employees)
+{
+    Console.WriteLine($"{id}: {empName}");
+}
+
+Rules:
+- Keys must be UNIQUE (duplicate key throws exception)
+- Keys cannot be null (for reference types)
+- Values can be duplicate
+- O(1) average lookup time (uses hashing)
+- Not ordered (use SortedDictionary for ordered)</pre></div>
+</div>
+<div class="q" data-s="q100. what is the difference between list vs dictionary vs hashset?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">114</span>
+<span class="txt">Q100. What is the difference between List vs Dictionary vs HashSet?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>LIST&lt;T&gt; - Ordered collection with index access:
+- Maintains insertion order
+- Allows duplicates
+- Access by index: list[0]
+- Search: O(n)
+- Use when: Need ordered items, allow duplicates
+
+List&lt;string&gt; names = new List&lt;string&gt; { "John", "Jane", "John" };  // Duplicates OK
+
+DICTIONARY&lt;TKey, TValue&gt; - Key-value pairs:
+- Fast lookup by key: O(1)
+- Keys must be unique
+- No index access
+- Use when: Need fast lookup by key
+
+Dictionary&lt;string, int&gt; ages = new Dictionary&lt;string, int&gt;
+{
+    ["John"] = 30,
+    ["Jane"] = 25
+};
+int age = ages["John"];  // O(1) lookup
+
+HASHSET&lt;T&gt; - Unique values only:
+- No duplicates allowed
+- No index access
+- Fast Contains: O(1)
+- Set operations (Union, Intersect, Except)
+- Use when: Need unique items, fast membership check
+
+HashSet&lt;string&gt; tags = new HashSet&lt;string&gt; { "C#", "ASP.NET", "C#" };
+// Only stores: "C#", "ASP.NET" (duplicate removed)
+bool has = tags.Contains("C#");  // O(1) - very fast
+
+// Set operations
+var set1 = new HashSet&lt;int&gt; { 1, 2, 3, 4 };
+var set2 = new HashSet&lt;int&gt; { 3, 4, 5, 6 };
+set1.UnionWith(set2);      // { 1, 2, 3, 4, 5, 6 }
+set1.IntersectWith(set2);  // { 3, 4 }
+set1.ExceptWith(set2);     // { 1, 2 }
+
+| Feature      | List&lt;T&gt;    | Dictionary&lt;K,V&gt; | HashSet&lt;T&gt;  |
+|--------------|------------|------------------|-------------|
+| Duplicates   | Yes        | Keys: No         | No          |
+| Order        | Yes        | No               | No          |
+| Index        | Yes [i]    | By key [key]     | No          |
+| Lookup       | O(n)       | O(1) by key      | O(1)        |
+| Use case     | Ordered    | Key-value map    | Unique set  |</pre></div>
+</div>
+<div class="q" data-s="q101. what is ienumerable vs iqueryable?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">115</span>
+<span class="txt">Q101. What is IEnumerable vs IQueryable?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>IEnumerable&lt;T&gt; (in-memory, client-side):
+- Executes query in MEMORY
+- Loads ALL data first, then filters
+- Good for: in-memory collections (List, Array)
+- Namespace: System.Collections.Generic
+- Uses LINQ to Objects
+
+IQueryable&lt;T&gt; (database, server-side):
+- Builds expression tree, executes on SERVER
+- Translates to SQL, filters at database level
+- Good for: database queries (EF Core)
+- Namespace: System.Linq
+- Uses LINQ to SQL/Entities
+
+Example showing the difference:
+// IEnumerable - fetches ALL rows, then filters in memory
+IEnumerable&lt;Product&gt; products = _context.Products;
+var expensive = products.Where(p =&gt; p.Price &gt; 100).ToList();
+// SQL: SELECT * FROM Products (gets ALL)
+// Then C# filters in memory — SLOW for large tables!
+
+// IQueryable - builds query, executes on server
+IQueryable&lt;Product&gt; products = _context.Products;
+var expensive = products.Where(p =&gt; p.Price &gt; 100).ToList();
+// SQL: SELECT * FROM Products WHERE Price &gt; 100 (filtered at DB)
+// Only matching rows transferred — FAST!
+
+When to use:
+- IQueryable: Database queries (EF Core) — filter at source
+- IEnumerable: In-memory collections, after data is loaded
+
+// Best practice with EF Core:
+public IQueryable&lt;Product&gt; GetExpensive()  // Return IQueryable
+{
+    return _context.Products.Where(p =&gt; p.Price &gt; 100);
+    // Caller can add more filters before execution
+}
+
+// Caller:
+var result = repo.GetExpensive()
+    .Where(p =&gt; p.Category == "Electronics")  // Added to SQL query
+    .OrderBy(p =&gt; p.Name)
+    .Take(10)
+    .ToList();  // NOW executes single optimized SQL</pre></div>
+</div>
+<div class="q" data-s="q102. what is the yield keyword?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">116</span>
+<span class="txt">Q102. What is the yield keyword?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>'yield' creates an iterator that returns elements ONE AT A TIME (lazy evaluation).
+The method doesn't execute until iterated.
+
+public static IEnumerable&lt;int&gt; GetEvenNumbers(int max)
+{
+    for (int i = 0; i &lt;= max; i++)
+    {
+        if (i % 2 == 0)
+            yield return i;  // Returns one item, pauses here
+    }
+}
+
+// Usage - items generated on demand:
+foreach (int num in GetEvenNumbers(10))
+{
+    Console.WriteLine(num);  // 0, 2, 4, 6, 8, 10
+    if (num == 6) break;     // Stops early - remaining never generated!
+}
+
+yield break - stops iteration:
+public static IEnumerable&lt;int&gt; GetNumbers()
+{
+    yield return 1;
+    yield return 2;
+    yield return 3;
+    yield break;      // Stops here
+    yield return 4;   // Never reached
+}
+
+Benefits:
+- Lazy evaluation (compute only what's needed)
+- Memory efficient (doesn't store all items)
+- Can represent infinite sequences
+- Deferred execution
+
+// Infinite sequence (possible with yield):
+public static IEnumerable&lt;int&gt; Fibonacci()
+{
+    int a = 0, b = 1;
+    while (true)
+    {
+        yield return a;
+        (a, b) = (b, a + b);
+    }
+}
+
+// Take only what you need:
+var first10 = Fibonacci().Take(10).ToList();</pre></div>
+</div>
+<div class="q" data-s="q103. what is linq?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">117</span>
+<span class="txt">Q103. What is LINQ?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>LINQ (Language Integrated Query) provides a unified syntax to query data 
+from different sources (collections, databases, XML).
+
+Two syntaxes:
+
+Query Syntax (SQL-like):
+var result = from p in products
+             where p.Price &gt; 100
+             orderby p.Name
+             select new { p.Name, p.Price };
+
+Method Syntax (fluent/lambda):
+var result = products
+    .Where(p =&gt; p.Price &gt; 100)
+    .OrderBy(p =&gt; p.Name)
+    .Select(p =&gt; new { p.Name, p.Price });
+
+// Both produce same result. Method syntax is more common.
+
+LINQ works with:
+- LINQ to Objects: In-memory collections
+- LINQ to Entities: EF Core (database)
+- LINQ to XML: XML documents
+
+Key characteristics:
+- Deferred execution (query runs when iterated)
+- Strongly typed (compile-time checking)
+- IntelliSense support
+- Composable (chain multiple operations)
+
+Deferred vs Immediate execution:
+// Deferred (query not executed yet)
+var query = products.Where(p =&gt; p.Price &gt; 100);
+
+// Immediate (forces execution NOW)
+var list = products.Where(p =&gt; p.Price &gt; 100).ToList();
+var count = products.Count(p =&gt; p.Price &gt; 100);
+var first = products.First(p =&gt; p.Price &gt; 100);</pre></div>
+</div>
+<div class="q" data-s="q104. what are common linq methods?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">118</span>
+<span class="txt">Q104. What are common LINQ methods?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>FILTERING:
+.Where(x =&gt; x.Age &gt; 18)              // Filter by condition
+.OfType&lt;Dog&gt;()                        // Filter by type
+
+PROJECTION:
+.Select(x =&gt; x.Name)                  // Transform/map
+.SelectMany(x =&gt; x.Orders)            // Flatten nested collections
+
+ORDERING:
+.OrderBy(x =&gt; x.Name)                 // Ascending
+.OrderByDescending(x =&gt; x.Price)      // Descending
+.ThenBy(x =&gt; x.LastName)              // Secondary sort
+
+AGGREGATION:
+.Count()                               // Total count
+.Sum(x =&gt; x.Price)                     // Sum
+.Average(x =&gt; x.Age)                   // Average
+.Min(x =&gt; x.Price)                     // Minimum
+.Max(x =&gt; x.Price)                     // Maximum
+
+ELEMENT:
+.First(x =&gt; x.Id == 5)                // First match (throws if none)
+.FirstOrDefault(x =&gt; x.Id == 5)       // First or null/default
+.Single(x =&gt; x.Id == 5)               // Exactly one (throws if 0 or 2+)
+.SingleOrDefault(x =&gt; x.Id == 5)      // One or null
+.Last()                                // Last element
+.ElementAt(3)                          // By index
+
+QUANTIFIERS:
+.Any(x =&gt; x.Price &gt; 1000)             // At least one matches?
+.All(x =&gt; x.IsActive)                 // All match?
+.Contains(item)                        // Contains specific item?
+
+SET OPERATIONS:
+.Distinct()                            // Remove duplicates
+.Union(otherList)                      // Combine (no duplicates)
+.Intersect(otherList)                  // Common elements
+.Except(otherList)                     // In first but not second
+
+PARTITIONING:
+.Take(10)                              // First N items
+.Skip(20)                              // Skip N items
+.Take(10).Skip(20)                     // Pagination!
+
+GROUPING:
+.GroupBy(x =&gt; x.Category)             // Group by key
+
+JOINING:
+.Join(orders, p =&gt; p.Id, o =&gt; o.ProductId, (p, o) =&gt; new { p.Name, o.Quantity })
+
+CONVERSION:
+.ToList()                              // To List&lt;T&gt;
+.ToArray()                             // To T[]
+.ToDictionary(x =&gt; x.Id)              // To Dictionary
+.AsEnumerable()                        // To IEnumerable
+.AsQueryable()                         // To IQueryable
+
+Practical example:
+var report = orders
+    .Where(o =&gt; o.Date.Year == 2024)
+    .GroupBy(o =&gt; o.Category)
+    .Select(g =&gt; new
+    {
+        Category = g.Key,
+        TotalSales = g.Sum(o =&gt; o.Amount),
+        OrderCount = g.Count(),
+        AverageOrder = g.Average(o =&gt; o.Amount)
+    })
+    .OrderByDescending(x =&gt; x.TotalSales)
+    .Take(5)
+    .ToList();
+
+
+================================================================================
+                    END OF OOPs INTERVIEW PREPARATION
+================================================================================
+
+TIPS:
+1. *** Questions: Practice explaining with CODE examples
+2. Polymorphism (virtual/override/new) — MOST asked topic
+3. Abstract class vs Interface — asked in EVERY interview
+4. Value type vs Reference type — understand deeply
+5. Be ready to write code for: Singleton, Repository, Custom Exception
+6. LINQ — practice writing queries fluently
+
+GOOD LUCK! 
+================================================================================</pre></div>
+</div>
+</div>
+</div>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+</script>
+</body>
+</html>

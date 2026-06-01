@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Interview Tips</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:700px;margin:0 auto;padding:24px 20px}
+.back{color:#38bdf8;text-decoration:none;font-size:.85rem;font-weight:500}
+.back:hover{text-decoration:underline}
+h1{text-align:center;margin:14px 0 20px;background:linear-gradient(135deg,#8b5cf6,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.6rem}
+.section{background:rgba(15,40,71,.8);border:1px solid #1e3a5f;border-radius:12px;padding:18px 20px;margin-bottom:14px}
+.section h2{font-size:.85rem;color:#a78bfa;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.item{font-size:.82rem;color:#cbd5e1;margin-bottom:10px;line-height:1.7;padding-left:8px;border-left:3px solid #1e3a5f}
+.item:last-child{margin-bottom:0}
+.item b{color:#e2e8f0}
+.item .tag{display:inline-block;font-size:.65rem;padding:2px 7px;border-radius:4px;font-weight:700;margin-left:6px;vertical-align:middle}
+.tag.hot{background:#ef4444;color:#fff}
+.tag.imp{background:#f59e0b;color:#fff}
+.priority-box{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.p-card{flex:1;min-width:140px;background:rgba(15,40,71,.8);border:1px solid #1e3a5f;border-radius:10px;padding:14px;text-align:center}
+.p-card .stars{font-size:1.1rem;margin-bottom:4px}
+.p-card .stars.r{color:#ef4444}
+.p-card .stars.y{color:#f59e0b}
+.p-card .stars.g{color:#10b981}
+.p-card .label{font-size:.7rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.p-card .desc{font-size:.72rem;color:#64748b}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Home</a>
+<h1>💡 Interview Tips & Suggestions</h1>
+
+<div class="priority-box">
+<div class="p-card">
+<div class="stars r">★★★</div>
+<div class="label">Must Know</div>
+<div class="desc">90% interviews<br>Prepare FIRST</div>
+</div>
+<div class="p-card">
+<div class="stars y">★★</div>
+<div class="label">Frequent</div>
+<div class="desc">70% interviews<br>Prepare SECOND</div>
+</div>
+<div class="p-card">
+<div class="stars g">★</div>
+<div class="label">Good to Know</div>
+<div class="desc">Gives you edge<br>Prepare LAST</div>
+</div>
+</div>
+
+<div class="section">
+<h2>🎤 "Tell Me About Yourself" (60-second script)</h2>
+<div class="item"><b>Template:</b> "I'm [Name], a .NET Full Stack Developer with 4.7 years of experience. I primarily work with C#, ASP.NET Core MVC, Web API, SQL Server, and JavaScript. In my current role at [Company], I've been working on [brief project description — e.g., 'an enterprise ERP system handling order management and inventory']. I've been involved in designing RESTful APIs, implementing Repository pattern with EF Core, and optimizing SQL queries for performance. I follow SOLID principles and use Dependency Injection extensively. I'm looking for a role where I can take on more architectural responsibilities and work with modern .NET technologies."</div>
+<div class="item" style="margin-top:10px"><b>Tips:</b> Keep it under 60 seconds. Cover: Who you are → Tech stack → Current project (1 line) → Key achievements → Why looking for change.</div>
+</div>
+
+<div class="section">
+<h2>🎯 Most Asked Topics (4.7 Yrs Exp)</h2>
+<div class="item"><b>Abstract class vs Interface</b> — Asked in EVERY interview. Know when to use which with real project examples. <span class="tag hot">HOT</span></div>
+<div class="item"><b>virtual/override vs new</b> — Favorite interviewer trap. Be ready to explain code output. <span class="tag hot">HOT</span></div>
+<div class="item"><b>Value Type vs Reference Type</b> — Explain Stack/Heap with memory diagram. <span class="tag hot">HOT</span></div>
+<div class="item"><b>Dependency Injection using Interfaces</b> — Show how you use it in ASP.NET Core projects. <span class="tag hot">HOT</span></div>
+<div class="item"><b>IEnumerable vs IQueryable</b> — Explain WHERE filtering happens (client vs server). <span class="tag imp">IMP</span></div>
+<div class="item"><b>Composition vs Inheritance</b> — Say "Favor composition over inheritance" and explain why. <span class="tag imp">IMP</span></div>
+<div class="item"><b>SOLID Principles</b> — At 4.7 yrs, they expect you to know all 5 with examples. <span class="tag hot">HOT</span></div>
+<div class="item"><b>async/await</b> — Explain thread pool, non-blocking I/O, when NOT to use async. <span class="tag imp">IMP</span></div>
+<div class="item"><b>Boxing/Unboxing</b> — Explain performance impact and how Generics solve it.</div>
+<div class="item"><b>Delegate, Func, Action, Lambda</b> — Know the difference and real usage in LINQ.</div>
+</div>
+
+<div class="section">
+<h2>⚡ Key Rules for 4.7 Yrs Experience</h2>
+<div class="item"><b>Don't just say WHAT</b> — Always explain WHEN and WHY you'd use it in real projects.</div>
+<div class="item"><b>Always offer to write code</b> — Shows confidence. Even pseudo-code on whiteboard helps.</div>
+<div class="item"><b>Link to your project</b> — "In my project, I used Repository pattern because..." wins points.</div>
+<div class="item"><b>Know trade-offs</b> — "Abstract class gives shared code, Interface gives flexibility" — show you think.</div>
+<div class="item"><b>Admit what you don't know</b> — "I haven't used that, but I think it works like..." is better than faking.</div>
+</div>
+
+<div class="section">
+<h2>📋 Interview Day Checklist</h2>
+<div class="item"><b>OOPs</b> — 4 pillars, Abstract vs Interface, Polymorphism (virtual/override/new)</div>
+<div class="item"><b>C#</b> — Value/Ref types, Generics, async/await, LINQ, Exception handling</div>
+<div class="item"><b>ASP.NET Core</b> — Middleware, DI, Filters, Routing, Model Binding</div>
+<div class="item"><b>SQL</b> — Joins, Indexes, Stored Procedures, Query optimization</div>
+<div class="item"><b>Design Patterns</b> — Singleton, Repository, Factory, Strategy (at minimum)</div>
+<div class="item"><b>Project</b> — Be ready to explain architecture, challenges faced, and how you solved them</div>
+</div>
+
+<div class="section">
+<h2>🚫 Common Mistakes to Avoid</h2>
+<div class="item"><b>Don't memorize definitions</b> — Understand concepts. Interviewers ask follow-ups.</div>
+<div class="item"><b>Don't say "I used it but forgot"</b> — Either know it or say you haven't used it.</div>
+<div class="item"><b>Don't skip basics</b> — Even at 4.7 yrs, they ask "What is polymorphism?" — answer confidently.</div>
+<div class="item"><b>Don't give one-word answers</b> — Elaborate with examples. Show depth.</div>
+<div class="item"><b>Don't panic on coding</b> — Think aloud, explain approach first, then code.</div>
+</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JavaScript Interview Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}.container{max-width:900px;margin:0 auto;padding:20px}h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#eab308,#facc15);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}.back:hover{text-decoration:underline}.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}.search::placeholder{color:#64748b}.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #eab308;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}.q-title:hover{background:#fefce8}.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#eab308;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}.q-title .txt{flex:1}.q-title .arrow{transition:transform .3s;color:#eab308;font-size:1rem;flex-shrink:0}.q.open .q-title .arrow{transform:rotate(180deg)}.q.open .q-title{background:#fefce8;border-bottom:1px solid #fde68a}.q-ans{display:none;padding:14px 16px;background:#fffef5}.q.open .q-ans{display:block}.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>JavaScript Interview Questions</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+
+<div class="q" data-s="var let const difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is the difference between var, let, and const?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature    | var            | let            | const          |
+|------------|----------------|----------------|----------------|
+| Scope      | Function       | Block          | Block          |
+| Hoisting   | Yes (undefined)| Yes (TDZ)      | Yes (TDZ)      |
+| Reassign   | Yes            | Yes            | No             |
+| Redeclare  | Yes            | No             | No             |
+
+var (old - avoid):
+function test() {
+    var x = 10;
+    if (true) {
+        var x = 20;  // SAME variable (function scoped)
+    }
+    console.log(x);  // 20 (leaked out of if block!)
+}
+
+let (use for variables that change):
+function test() {
+    let x = 10;
+    if (true) {
+        let x = 20;  // DIFFERENT variable (block scoped)
+    }
+    console.log(x);  // 10 (safe!)
+}
+
+const (use for values that don't change):
+const PI = 3.14;
+// PI = 3.15;  // ERROR! Cannot reassign
+
+// BUT objects/arrays can be MUTATED:
+const arr = [1, 2, 3];
+arr.push(4);  // OK! Array modified, reference unchanged
+// arr = [5, 6];  // ERROR! Cannot reassign reference
+
+Best Practice: Use const by default, let when you need to reassign, never var.</pre></div></div>
+
+<div class="q" data-s="hoisting javascript"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Hoisting?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Hoisting is JavaScript's behavior of moving declarations to the top of their scope BEFORE code execution.
+
+var hoisting (initialized as undefined):
+console.log(x);  // undefined (not error!)
+var x = 5;
+console.log(x);  // 5
+
+// JavaScript sees it as:
+var x;            // Declaration hoisted
+console.log(x);  // undefined
+x = 5;           // Assignment stays
+console.log(x);  // 5
+
+let/const hoisting (Temporal Dead Zone):
+console.log(y);  // ReferenceError! Cannot access before initialization
+let y = 10;
+// let/const ARE hoisted but NOT initialized (TDZ)
+
+Function hoisting (fully hoisted):
+sayHello();  // Works! "Hello"
+function sayHello() {
+    console.log("Hello");
+}
+
+// But function expressions are NOT hoisted:
+greet();  // TypeError: greet is not a function
+var greet = function() {
+    console.log("Hi");
+};
+
+Arrow functions — NOT hoisted:
+hello();  // TypeError
+const hello = () => console.log("Hello");
+
+Summary:
+- var: Hoisted + initialized as undefined
+- let/const: Hoisted but in TDZ (error if accessed before declaration)
+- function declaration: Fully hoisted (can call before declaration)
+- function expression/arrow: NOT hoisted</pre></div></div>
+
+<div class="q" data-s="closure what is closure"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What is a Closure?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>A Closure is a function that remembers and accesses variables from its outer scope even after the outer function has finished executing.
+
+function outer() {
+    let count = 0;  // Outer variable
+
+    function inner() {
+        count++;  // Accesses outer variable
+        console.log(count);
+    }
+
+    return inner;  // Returns the inner function
+}
+
+const counter = outer();  // outer() finishes, but count is NOT destroyed
+counter();  // 1
+counter();  // 2
+counter();  // 3
+// count is "closed over" — preserved in memory!
+
+Practical example — Private variables:
+function createBankAccount(initialBalance) {
+    let balance = initialBalance;  // Private! Can't access directly
+
+    return {
+        deposit(amount) { balance += amount; },
+        withdraw(amount) {
+            if (amount > balance) return "Insufficient funds";
+            balance -= amount;
+        },
+        getBalance() { return balance; }
+    };
+}
+
+const account = createBankAccount(1000);
+account.deposit(500);
+console.log(account.getBalance());  // 1500
+// account.balance → undefined (private!)
+
+Common interview trap — Loop with var:
+for (var i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 1000);
+}
+// Output: 3, 3, 3 (var is function-scoped, same i)
+
+// Fix with let:
+for (let i = 0; i < 3; i++) {
+    setTimeout(() => console.log(i), 1000);
+}
+// Output: 0, 1, 2 (let is block-scoped, new i each iteration)
+
+// Fix with closure:
+for (var i = 0; i < 3; i++) {
+    (function(j) {
+        setTimeout(() => console.log(j), 1000);
+    })(i);
+}
+// Output: 0, 1, 2</pre></div></div>
+
+<div class="q" data-s="promise async await callback"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What are Promises and async/await?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Promises handle asynchronous operations (API calls, timers, file reads).
+
+CALLBACK (old way — callback hell):
+getData(function(a) {
+    getMore(a, function(b) {
+        getEvenMore(b, function(c) {
+            // Nested mess! "Callback Hell"
+        });
+    });
+});
+
+PROMISE (better):
+const promise = fetch('/api/products');
+
+promise
+    .then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error(error))
+    .finally(() => console.log("Done"));
+
+// Promise states:
+// Pending → Fulfilled (resolved) or Rejected
+
+ASYNC/AWAIT (best — clean, readable):
+async function getProducts() {
+    try {
+        const response = await fetch('/api/products');
+        const data = await response.json();
+        console.log(data);
+    } catch (error) {
+        console.error("Failed:", error);
+    } finally {
+        console.log("Done");
+    }
+}
+
+// Parallel execution:
+async function getDashboard() {
+    const [products, orders, users] = await Promise.all([
+        fetch('/api/products').then(r => r.json()),
+        fetch('/api/orders').then(r => r.json()),
+        fetch('/api/users').then(r => r.json())
+    ]);
+    // All 3 run simultaneously!
+}
+
+Creating a Promise:
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+await delay(2000);  // Wait 2 seconds
+
+Key points:
+- async function always returns a Promise
+- await pauses execution until Promise resolves
+- Use try/catch for error handling
+- Promise.all() for parallel operations
+- Promise.race() for first to complete</pre></div></div>
+
+<div class="q" data-s="== === equality strict"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is == vs === (Equality)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>== (Loose equality) — compares with TYPE COERCION:
+5 == "5"       // true (string "5" converted to number)
+0 == false     // true (false converted to 0)
+null == undefined  // true
+"" == false    // true
+[] == false    // true
+
+=== (Strict equality) — compares WITHOUT type coercion:
+5 === "5"      // false (different types)
+0 === false    // false
+null === undefined  // false
+"" === false   // false
+
+Always use === (strict equality)!
+
+Tricky examples:
+typeof null        // "object" (JS bug, never fixed)
+typeof undefined   // "undefined"
+typeof NaN         // "number"
+NaN === NaN        // false! (use Number.isNaN())
+null == undefined  // true
+null === undefined // false
+
+Best Practice:
+- Always use === and !==
+- Never use == (unpredictable coercion)
+- Use Number.isNaN() to check NaN
+- Use === null or === undefined explicitly</pre></div></div>
+
+<div class="q" data-s="this keyword context"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is 'this' keyword in JavaScript?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>'this' refers to the object that is executing the current function. Its value depends on HOW the function is called.
+
+1. Global context:
+console.log(this);  // window (browser) / global (Node)
+
+2. Object method:
+const obj = {
+    name: "John",
+    greet() {
+        console.log(this.name);  // "John" (this = obj)
+    }
+};
+obj.greet();
+
+3. Regular function:
+function show() {
+    console.log(this);  // window (non-strict) / undefined (strict)
+}
+
+4. Arrow function (inherits from parent):
+const obj = {
+    name: "John",
+    greet: () => {
+        console.log(this.name);  // undefined! Arrow doesn't have own 'this'
+    },
+    delayGreet() {
+        setTimeout(() => {
+            console.log(this.name);  // "John"! Arrow inherits from delayGreet
+        }, 1000);
+    }
+};
+
+5. Event handler:
+button.addEventListener('click', function() {
+    console.log(this);  // The button element
+});
+
+button.addEventListener('click', () => {
+    console.log(this);  // window! (arrow inherits outer this)
+});
+
+6. call/apply/bind (explicit):
+function greet() { console.log(this.name); }
+const user = { name: "John" };
+
+greet.call(user);    // "John" (this = user)
+greet.apply(user);   // "John" (same, args as array)
+const bound = greet.bind(user);
+bound();             // "John" (permanently bound)
+
+Rule of thumb:
+- Regular function: this = whoever CALLS it
+- Arrow function: this = wherever it was DEFINED</pre></div></div>
+
+<div class="q" data-s="event delegation bubbling capturing"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">What is Event Delegation and Event Bubbling?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>EVENT BUBBLING:
+When an event occurs on an element, it first runs handlers on that element, then on its parent, then all the way up to document.
+
+&lt;div id="parent"&gt;
+    &lt;button id="child"&gt;Click me&lt;/button&gt;
+&lt;/div&gt;
+
+// Click button → button handler → div handler → body → document
+// Events "bubble up" from child to parent
+
+document.getElementById("parent").addEventListener("click", () => {
+    console.log("Parent clicked");  // Also fires when child clicked!
+});
+
+// Stop bubbling:
+child.addEventListener("click", (e) => {
+    e.stopPropagation();  // Stops bubbling to parent
+});
+
+EVENT DELEGATION:
+Instead of adding event listeners to EACH child element, add ONE listener to the parent and use event.target to identify which child was clicked.
+
+Without delegation (bad — 100 listeners):
+document.querySelectorAll('.item').forEach(item => {
+    item.addEventListener('click', handleClick);  // 100 listeners!
+});
+
+With delegation (good — 1 listener):
+document.getElementById('list').addEventListener('click', (e) => {
+    if (e.target.classList.contains('item')) {
+        handleClick(e.target);  // 1 listener handles all!
+    }
+});
+
+Benefits of delegation:
+- Works for dynamically added elements
+- Less memory (fewer event listeners)
+- Cleaner code
+- Better performance
+
+Real example — dynamic table rows:
+document.getElementById('table').addEventListener('click', (e) => {
+    const btn = e.target.closest('.delete-btn');
+    if (btn) {
+        const row = btn.closest('tr');
+        row.remove();
+    }
+});</pre></div></div>
+
+<div class="q" data-s="arrow function regular function difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">Arrow Function vs Regular Function?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | Regular Function       | Arrow Function         |
+|------------------|------------------------|------------------------|
+| Syntax           | function() {}          | () => {}               |
+| this             | Dynamic (caller)       | Lexical (parent scope) |
+| arguments object | Yes                    | No                     |
+| Constructor      | Yes (new keyword)      | No                     |
+| Hoisting         | Yes (declarations)     | No                     |
+| Methods          | Good for object methods| Bad for object methods |
+
+Regular function:
+function add(a, b) {
+    return a + b;
+}
+
+Arrow function:
+const add = (a, b) => a + b;
+
+// Shorter syntax:
+const square = x => x * x;           // Single param, no parens needed
+const greet = () => "Hello";          // No params
+const getObj = () => ({ name: "John" }); // Return object (wrap in parens)
+
+When to use Arrow:
+✓ Callbacks: arr.map(x => x * 2)
+✓ Promises: .then(data => console.log(data))
+✓ setTimeout: setTimeout(() => this.save(), 1000)
+✓ Short functions
+
+When to use Regular:
+✓ Object methods (need own 'this')
+✓ Event handlers (need 'this' = element)
+✓ Constructors (new keyword)
+✓ When you need 'arguments' object
+
+// BAD - arrow as method:
+const obj = {
+    name: "John",
+    greet: () => console.log(this.name)  // undefined! No own 'this'
+};
+
+// GOOD - regular as method:
+const obj = {
+    name: "John",
+    greet() { console.log(this.name); }  // "John"
+};</pre></div></div>
+
+<div class="q" data-s="spread rest destructuring es6"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">What is Spread, Rest, and Destructuring?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SPREAD (...) — Expands array/object:
+// Array spread:
+const arr1 = [1, 2, 3];
+const arr2 = [...arr1, 4, 5];  // [1, 2, 3, 4, 5]
+
+// Object spread (clone/merge):
+const obj1 = { name: "John", age: 30 };
+const obj2 = { ...obj1, city: "NYC" };  // { name: "John", age: 30, city: "NYC" }
+
+// Function args:
+Math.max(...arr1);  // 3
+
+REST (...) — Collects remaining into array:
+// Function parameters:
+function sum(...numbers) {
+    return numbers.reduce((a, b) => a + b, 0);
+}
+sum(1, 2, 3, 4);  // 10
+
+// Destructuring rest:
+const [first, ...rest] = [1, 2, 3, 4];
+// first = 1, rest = [2, 3, 4]
+
+const { name, ...others } = { name: "John", age: 30, city: "NYC" };
+// name = "John", others = { age: 30, city: "NYC" }
+
+DESTRUCTURING — Extract values:
+// Array:
+const [a, b, c] = [1, 2, 3];
+
+// Object:
+const { name, age } = { name: "John", age: 30, city: "NYC" };
+
+// Rename:
+const { name: userName } = { name: "John" };  // userName = "John"
+
+// Default values:
+const { name, role = "User" } = { name: "John" };  // role = "User"
+
+// Nested:
+const { address: { city } } = { address: { city: "NYC" } };
+
+// Function parameters:
+function greet({ name, age }) {
+    console.log(`${name} is ${age}`);
+}
+greet({ name: "John", age: 30 });</pre></div></div>
+
+<div class="q" data-s="map filter reduce array methods"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What are map, filter, reduce?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three essential array methods (functional programming):
+
+MAP — Transform each element (returns new array):
+const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+// [2, 4, 6, 8, 10]
+
+const users = [{name: "John"}, {name: "Jane"}];
+const names = users.map(u => u.name);
+// ["John", "Jane"]
+
+FILTER — Keep elements that pass condition (returns new array):
+const numbers = [1, 2, 3, 4, 5, 6];
+const evens = numbers.filter(n => n % 2 === 0);
+// [2, 4, 6]
+
+const adults = users.filter(u => u.age >= 18);
+
+REDUCE — Accumulate into single value:
+const numbers = [1, 2, 3, 4, 5];
+const sum = numbers.reduce((acc, curr) => acc + curr, 0);
+// 15
+
+const cart = [{price: 10}, {price: 20}, {price: 30}];
+const total = cart.reduce((sum, item) => sum + item.price, 0);
+// 60
+
+// Group by:
+const people = [{name: "John", dept: "IT"}, {name: "Jane", dept: "HR"}, {name: "Bob", dept: "IT"}];
+const grouped = people.reduce((acc, person) => {
+    acc[person.dept] = acc[person.dept] || [];
+    acc[person.dept].push(person);
+    return acc;
+}, {});
+// { IT: [{...}, {...}], HR: [{...}] }
+
+CHAINING:
+const result = products
+    .filter(p => p.price > 100)       // Keep expensive
+    .map(p => ({ ...p, tax: p.price * 0.1 }))  // Add tax
+    .reduce((sum, p) => sum + p.price + p.tax, 0);  // Total
+
+Key: These DON'T modify original array (immutable).</pre></div></div>
+
+<div class="q" data-s="fetch api ajax call"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">How to make API calls (Fetch API)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>// GET request:
+async function getProducts() {
+    const response = await fetch('/api/products');
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    return data;
+}
+
+// POST request:
+async function createProduct(product) {
+    const response = await fetch('/api/products', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(product)
+    });
+    if (!response.ok) throw new Error('Failed to create');
+    return await response.json();
+}
+
+// PUT request:
+async function updateProduct(id, product) {
+    await fetch(`/api/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product)
+    });
+}
+
+// DELETE request:
+async function deleteProduct(id) {
+    await fetch(`/api/products/${id}`, { method: 'DELETE' });
+}
+
+// With error handling:
+async function fetchData(url) {
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+            if (response.status === 404) throw new Error('Not found');
+            if (response.status === 401) throw new Error('Unauthorized');
+            throw new Error('Server error');
+        }
+        return await response.json();
+    } catch (error) {
+        console.error('Fetch failed:', error.message);
+        throw error;
+    }
+}
+
+// jQuery AJAX (older but still used in MVC):
+$.ajax({
+    url: '/api/products',
+    type: 'GET',
+    success: function(data) { console.log(data); },
+    error: function(xhr) { console.error(xhr.statusText); }
+});</pre></div></div>
+
+<div class="q" data-s="null undefined nan difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is null vs undefined vs NaN?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>undefined — Variable declared but NOT assigned:
+let x;
+console.log(x);  // undefined
+
+function test(a) { console.log(a); }
+test();  // undefined (no argument passed)
+
+const obj = {};
+console.log(obj.name);  // undefined (property doesn't exist)
+
+null — Intentionally empty/no value:
+let user = null;  // Explicitly set to "nothing"
+// Used to indicate "no object" or "empty"
+
+NaN — Not a Number (invalid math result):
+parseInt("hello");  // NaN
+0 / 0;             // NaN
+Math.sqrt(-1);     // NaN
+
+Comparisons:
+typeof undefined  // "undefined"
+typeof null       // "object" (JS bug!)
+typeof NaN        // "number" (ironic!)
+
+null == undefined   // true (loose)
+null === undefined  // false (strict)
+NaN === NaN         // false! (always)
+
+Checking:
+// Check undefined:
+if (x === undefined) {}
+if (typeof x === 'undefined') {}  // Safer (no ReferenceError)
+
+// Check null:
+if (x === null) {}
+
+// Check both:
+if (x == null) {}  // true for both null and undefined
+
+// Check NaN:
+Number.isNaN(x);  // Correct way
+// isNaN("hello") → true (coerces string, unreliable)
+// Number.isNaN("hello") → false (strict, correct)</pre></div></div>
+
+</div>
+</div>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+</script>
+</body>
+</html>

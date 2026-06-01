@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dependency Injection</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}.container{max-width:900px;margin:0 auto;padding:20px}h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#14b8a6,#5eead4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}.back:hover{text-decoration:underline}.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}.search::placeholder{color:#64748b}.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #14b8a6;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}.q-title:hover{background:#f0fdfa}.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#14b8a6;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}.q-title .txt{flex:1}.q-title .arrow{transition:transform .3s;color:#14b8a6;font-size:1rem;flex-shrink:0}.q.open .q-title .arrow{transform:rotate(180deg)}.q.open .q-title{background:#f0fdfa;border-bottom:1px solid #99f6e4}.q-ans{display:none;padding:14px 16px;background:#f8fffe}.q.open .q-ans{display:block}.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>Dependency Injection</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+
+<div class="q" data-s="what is dependency injection di"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Dependency Injection (DI)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Dependency Injection is a design pattern where an object receives its dependencies from OUTSIDE rather than creating them itself.
+
+WITHOUT DI (tight coupling):
+public class OrderService
+{
+    private SqlOrderRepository _repo = new SqlOrderRepository();  // Creates own dependency
+    private SmtpEmailService _email = new SmtpEmailService();     // Hard-coded!
+
+    public void PlaceOrder(Order order)
+    {
+        _repo.Save(order);
+        _email.Send("Order placed");
+    }
+}
+// Problems:
+// - Can't test without real DB and SMTP
+// - Can't swap implementations
+// - Violates SOLID (DIP)
+
+WITH DI (loose coupling):
+public class OrderService
+{
+    private readonly IOrderRepository _repo;
+    private readonly IEmailService _email;
+
+    public OrderService(IOrderRepository repo, IEmailService email)  // Injected!
+    {
+        _repo = repo;
+        _email = email;
+    }
+
+    public void PlaceOrder(Order order)
+    {
+        _repo.Save(order);
+        _email.Send("Order placed");
+    }
+}
+
+// Registration in Program.cs:
+builder.Services.AddScoped&lt;IOrderRepository, SqlOrderRepository&gt;();
+builder.Services.AddScoped&lt;IEmailService, SmtpEmailService&gt;();
+
+Benefits:
+- Loose coupling (depends on interface, not concrete class)
+- Testable (inject mocks in unit tests)
+- Swappable (change implementation without changing service)
+- Follows SOLID principles (DIP)</pre></div></div>
+
+<div class="q" data-s="scoped transient singleton lifetime"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Scoped vs Transient vs Singleton?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three service lifetimes in ASP.NET Core DI:
+
+TRANSIENT (AddTransient):
+- NEW instance every time it's requested
+- Created fresh for each injection point
+- Use for: Lightweight, stateless services
+
+builder.Services.AddTransient&lt;IEmailService, EmailService&gt;();
+
+// Controller gets instance A
+// Service in same request gets instance B (different!)
+
+SCOPED (AddScoped):
+- ONE instance per HTTP REQUEST
+- Same instance shared within a single request
+- Disposed at end of request
+- Use for: DbContext, repositories, per-request services
+
+builder.Services.AddScoped&lt;IOrderRepository, OrderRepository&gt;();
+
+// Controller gets instance A
+// Service in same request gets instance A (same!)
+// Next request gets instance B (new!)
+
+SINGLETON (AddSingleton):
+- ONE instance for ENTIRE application lifetime
+- Same instance shared across ALL requests and users
+- Created on first request, never disposed until app stops
+- Use for: Caching, configuration, logging, HttpClient
+
+builder.Services.AddSingleton&lt;ICacheService, MemoryCacheService&gt;();
+
+// ALL requests, ALL users get same instance
+
+| Lifetime  | Instance per      | Use for                    |
+|-----------|-------------------|----------------------------|
+| Transient | Every injection   | Lightweight, stateless     |
+| Scoped    | HTTP request      | DbContext, repositories    |
+| Singleton | App lifetime      | Cache, config, logging     |
+
+IMPORTANT RULE:
+- Singleton can inject: Singleton only
+- Scoped can inject: Scoped + Singleton
+- Transient can inject: Transient + Scoped + Singleton
+
+// WRONG (captive dependency):
+// Singleton service injecting Scoped service = BUG!
+// The scoped service never gets disposed!</pre></div></div>
+
+<div class="q" data-s="constructor injection method property"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What are types of Dependency Injection?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>3 Types of DI:
+
+1. CONSTRUCTOR INJECTION (Recommended in ASP.NET Core):
+public class OrderService
+{
+    private readonly IOrderRepository _repo;
+    private readonly ILogger&lt;OrderService&gt; _logger;
+
+    public OrderService(IOrderRepository repo, ILogger&lt;OrderService&gt; logger)
+    {
+        _repo = repo;
+        _logger = logger;
+    }
+}
+// Dependencies are REQUIRED — class can't work without them
+// Most common in ASP.NET Core
+
+2. METHOD INJECTION (via parameter):
+public class ReportService
+{
+    public void GenerateReport(IReportFormatter formatter)
+    {
+        // formatter injected per method call
+        var data = GetData();
+        formatter.Format(data);
+    }
+}
+// Use when: dependency varies per method call
+
+3. PROPERTY INJECTION (via setter):
+public class NotificationService
+{
+    public ILogger Logger { get; set; }  // Optional dependency
+
+    public void Notify(string message)
+    {
+        Logger?.LogInformation(message);  // May or may not be set
+    }
+}
+// Use when: dependency is OPTIONAL
+// Not recommended in ASP.NET Core (use constructor)
+
+ASP.NET Core also supports:
+// [FromServices] in action methods:
+public IActionResult Index([FromServices] IProductService service)
+{
+    return View(service.GetAll());
+}
+
+// @inject in Razor views:
+@inject IConfiguration Config
+&lt;p&gt;@Config["AppName"]&lt;/p&gt;
+
+Best Practice: Always use Constructor Injection in ASP.NET Core.</pre></div></div>
+
+<div class="q" data-s="di container service provider ioc"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is DI Container / IoC Container?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DI Container (IoC Container) is a framework that manages object creation and lifetime automatically.
+
+ASP.NET Core has BUILT-IN DI container (IServiceProvider).
+
+How it works:
+1. REGISTER services at startup (what to create)
+2. RESOLVE dependencies automatically (when needed)
+3. DISPOSE when lifetime ends
+
+// 1. Register (Program.cs):
+builder.Services.AddScoped&lt;IProductRepository, ProductRepository&gt;();
+builder.Services.AddScoped&lt;IProductService, ProductService&gt;();
+builder.Services.AddScoped&lt;IEmailService, SmtpEmailService&gt;();
+builder.Services.AddSingleton&lt;ICacheService, RedisCacheService&gt;();
+
+// 2. Resolve (automatic via constructor):
+public class ProductController : Controller
+{
+    private readonly IProductService _service;  // Auto-resolved!
+
+    public ProductController(IProductService service)
+    {
+        _service = service;
+    }
+}
+
+// Container resolves entire dependency chain:
+// ProductController needs IProductService
+//   → ProductService needs IProductRepository
+//     → ProductRepository needs DbContext
+//       → DbContext needs connection string
+// ALL resolved automatically!
+
+Third-party containers (more features):
+- Autofac
+- Ninject
+- Unity
+- StructureMap
+
+Built-in vs Autofac:
+| Feature              | Built-in    | Autofac     |
+|----------------------|-------------|-------------|
+| Basic DI             | Yes         | Yes         |
+| Named registrations  | No          | Yes         |
+| Property injection   | No          | Yes         |
+| Decorator pattern    | Manual      | Built-in    |
+| Module registration  | No          | Yes         |
+
+For most projects, built-in container is sufficient.</pre></div></div>
+
+<div class="q" data-s="register multiple implementations interface"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">How to register multiple implementations of same interface?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>When you have multiple classes implementing the same interface:
+
+public interface INotificationService { void Send(string msg); }
+public class EmailNotification : INotificationService { ... }
+public class SmsNotification : INotificationService { ... }
+public class PushNotification : INotificationService { ... }
+
+Method 1: Inject IEnumerable (get ALL):
+builder.Services.AddScoped&lt;INotificationService, EmailNotification&gt;();
+builder.Services.AddScoped&lt;INotificationService, SmsNotification&gt;();
+builder.Services.AddScoped&lt;INotificationService, PushNotification&gt;();
+
+public class OrderService
+{
+    private readonly IEnumerable&lt;INotificationService&gt; _notifiers;
+
+    public OrderService(IEnumerable&lt;INotificationService&gt; notifiers)
+    {
+        _notifiers = notifiers;  // Gets ALL 3 implementations
+    }
+
+    public void NotifyAll(string message)
+    {
+        foreach (var notifier in _notifiers)
+            notifier.Send(message);  // Sends via all channels
+    }
+}
+
+Method 2: Factory pattern with keyed services (.NET 8):
+builder.Services.AddKeyedScoped&lt;INotificationService, EmailNotification&gt;("email");
+builder.Services.AddKeyedScoped&lt;INotificationService, SmsNotification&gt;("sms");
+
+public class OrderService
+{
+    private readonly INotificationService _email;
+
+    public OrderService([FromKeyedServices("email")] INotificationService email)
+    {
+        _email = email;
+    }
+}
+
+Method 3: Manual factory:
+builder.Services.AddScoped&lt;EmailNotification&gt;();
+builder.Services.AddScoped&lt;SmsNotification&gt;();
+builder.Services.AddScoped&lt;Func&lt;string, INotificationService&gt;&gt;(sp =&gt; key =&gt;
+{
+    return key switch
+    {
+        "email" =&gt; sp.GetRequiredService&lt;EmailNotification&gt;(),
+        "sms" =&gt; sp.GetRequiredService&lt;SmsNotification&gt;(),
+        _ =&gt; throw new ArgumentException()
+    };
+});</pre></div></div>
+
+<div class="q" data-s="service lifetime mismatch captive dependency"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Captive Dependency problem?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Captive Dependency: When a longer-lived service captures a shorter-lived service, causing the shorter-lived one to live longer than intended.
+
+PROBLEM:
+// Singleton captures Scoped — BUG!
+builder.Services.AddSingleton&lt;ICacheService, CacheService&gt;();
+builder.Services.AddScoped&lt;IDbContext, AppDbContext&gt;();
+
+public class CacheService : ICacheService  // Singleton (lives forever)
+{
+    private readonly IDbContext _context;  // Scoped (should die per request)
+
+    public CacheService(IDbContext context)
+    {
+        _context = context;  // This DbContext NEVER gets disposed!
+        // Same stale DbContext used for ALL requests = data bugs!
+    }
+}
+
+RULES:
+✓ Singleton → can inject → Singleton only
+✓ Scoped    → can inject → Scoped + Singleton
+✓ Transient → can inject → Transient + Scoped + Singleton
+
+✗ Singleton → CANNOT inject → Scoped or Transient
+✗ Scoped    → CANNOT inject → (nothing restricted below)
+
+SOLUTION - Use IServiceScopeFactory:
+public class CacheService : ICacheService  // Singleton
+{
+    private readonly IServiceScopeFactory _scopeFactory;
+
+    public CacheService(IServiceScopeFactory scopeFactory)
+    {
+        _scopeFactory = scopeFactory;
+    }
+
+    public async Task RefreshCache()
+    {
+        using var scope = _scopeFactory.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService&lt;IDbContext&gt;();
+        // Now DbContext is properly scoped and disposed!
+    }
+}
+
+ASP.NET Core validates this at startup (in Development):
+// Throws error if captive dependency detected
+builder.Services.BuildServiceProvider(new ServiceProviderOptions
+{
+    ValidateScopes = true
+});</pre></div></div>
+
+<div class="q" data-s="how di works asp.net core program.cs"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">How does DI work in ASP.NET Core? Show complete example.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Complete DI flow in ASP.NET Core:
+
+// 1. Define interfaces:
+public interface IProductService
+{
+    Task&lt;List&lt;Product&gt;&gt; GetAllAsync();
+    Task&lt;Product&gt; GetByIdAsync(int id);
+    Task CreateAsync(ProductDto dto);
+}
+
+// 2. Implement:
+public class ProductService : IProductService
+{
+    private readonly IProductRepository _repo;
+    private readonly ILogger&lt;ProductService&gt; _logger;
+
+    public ProductService(IProductRepository repo, ILogger&lt;ProductService&gt; logger)
+    {
+        _repo = repo;
+        _logger = logger;
+    }
+
+    public async Task&lt;List&lt;Product&gt;&gt; GetAllAsync()
+    {
+        _logger.LogInformation("Getting all products");
+        return await _repo.GetAllAsync();
+    }
+}
+
+// 3. Register in Program.cs:
+builder.Services.AddDbContext&lt;AppDbContext&gt;(o =&gt; o.UseSqlServer(connStr));
+builder.Services.AddScoped&lt;IProductRepository, ProductRepository&gt;();
+builder.Services.AddScoped&lt;IProductService, ProductService&gt;();
+
+// 4. Inject in Controller:
+public class ProductController : Controller
+{
+    private readonly IProductService _service;
+
+    public ProductController(IProductService service)
+    {
+        _service = service;  // DI container provides this automatically
+    }
+
+    public async Task&lt;IActionResult&gt; Index()
+    {
+        var products = await _service.GetAllAsync();
+        return View(products);
+    }
+}
+
+// DI resolves the ENTIRE chain:
+// Controller → IProductService → ProductService
+//   → IProductRepository → ProductRepository → DbContext
+//   → ILogger → Logger
+// ALL automatic!</pre></div></div>
+
+<div class="q" data-s="unit testing mock di"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">How does DI help in Unit Testing?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DI makes code testable by allowing you to inject MOCK objects instead of real ones.
+
+Without DI (untestable):
+public class OrderService
+{
+    private SqlRepository _repo = new SqlRepository();  // Real DB!
+    // Can't test without actual database connection
+}
+
+With DI (testable):
+public class OrderService
+{
+    private readonly IOrderRepository _repo;
+    public OrderService(IOrderRepository repo) { _repo = repo; }
+}
+
+Unit Test (using Moq):
+[Fact]
+public async Task PlaceOrder_ValidOrder_SavesAndReturnsTrue()
+{
+    // Arrange - Create mock
+    var mockRepo = new Mock&lt;IOrderRepository&gt;();
+    mockRepo.Setup(r =&gt; r.SaveAsync(It.IsAny&lt;Order&gt;()))
+            .ReturnsAsync(true);
+
+    var mockEmail = new Mock&lt;IEmailService&gt;();
+
+    var service = new OrderService(mockRepo.Object, mockEmail.Object);
+
+    // Act
+    var result = await service.PlaceOrder(new Order { Id = 1, Total = 100 });
+
+    // Assert
+    Assert.True(result);
+    mockRepo.Verify(r =&gt; r.SaveAsync(It.IsAny&lt;Order&gt;()), Times.Once);
+    mockEmail.Verify(e =&gt; e.SendAsync(It.IsAny&lt;string&gt;(), It.IsAny&lt;string&gt;()), Times.Once);
+}
+
+// No real database! No real email server!
+// Fast, isolated, reliable tests.
+
+Benefits:
+- Test business logic in isolation
+- No external dependencies (DB, API, email)
+- Fast execution
+- Predictable results
+- Can test edge cases easily</pre></div></div>
+
+</div>
+</div>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+</script>
+</body>
+</html>

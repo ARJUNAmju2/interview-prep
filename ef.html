@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EF Core Interview Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}.container{max-width:900px;margin:0 auto;padding:20px}h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#06b6d4,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}.back:hover{text-decoration:underline}.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}.search::placeholder{color:#64748b}.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #06b6d4;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}.q-title:hover{background:#ecfeff}.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#06b6d4;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}.q-title .txt{flex:1}.q-title .arrow{transition:transform .3s;color:#06b6d4;font-size:1rem;flex-shrink:0}.q.open .q-title .arrow{transform:rotate(180deg)}.q.open .q-title{background:#ecfeff;border-bottom:1px solid #a5f3fc}.q-ans{display:none;padding:14px 16px;background:#f8fffe}.q.open .q-ans{display:block}.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>EF Core Interview Questions</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+
+<div class="q" data-s="what is entity framework core orm"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Entity Framework Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Entity Framework Core (EF Core) is a lightweight, cross-platform ORM (Object-Relational Mapper) for .NET that allows developers to work with databases using C# objects instead of writing raw SQL.
+
+Key Features:
+- Maps C# classes to database tables
+- LINQ queries translated to SQL
+- Change tracking (tracks modifications)
+- Migrations (version control for database schema)
+- Cross-platform (SQL Server, PostgreSQL, MySQL, SQLite)
+- Lazy/Eager/Explicit loading
+
+Without EF Core (raw SQL):
+var cmd = new SqlCommand("SELECT * FROM Products WHERE Price > 100", conn);
+var reader = cmd.ExecuteReader();
+
+With EF Core (C# objects):
+var products = await _context.Products
+    .Where(p => p.Price > 100)
+    .ToListAsync();
+
+DbContext - The main class:
+public class AppDbContext : DbContext
+{
+    public DbSet&lt;Product&gt; Products { get; set; }
+    public DbSet&lt;Category&gt; Categories { get; set; }
+    public DbSet&lt;Order&gt; Orders { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        // Fluent API configurations
+    }
+}</pre></div></div>
+
+<div class="q" data-s="code first database first approach"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Code First vs Database First approach?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CODE FIRST:
+- You write C# classes FIRST
+- EF Core generates database from your classes
+- Use Migrations to update database schema
+- Full control over code
+- Preferred for new projects
+
+Flow: C# Classes → Migrations → Database
+
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public decimal Price { get; set; }
+}
+
+Commands:
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+
+DATABASE FIRST:
+- Database exists FIRST
+- EF Core generates C# classes from database
+- Use Scaffold-DbContext command
+- Used for existing/legacy databases
+
+Flow: Database → Scaffold → C# Classes
+
+Command:
+dotnet ef dbcontext scaffold "ConnectionString" Microsoft.EntityFrameworkCore.SqlServer -o Models
+
+When to use:
+- Code First: New projects, full control, team collaboration
+- Database First: Legacy databases, DBA-managed schemas</pre></div></div>
+
+<div class="q" data-s="migrations add update remove"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What are Migrations? How to use them?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Migrations are version control for your database schema. They track changes to your model and generate SQL to update the database.
+
+Common Commands:
+dotnet ef migrations add AddProductTable     // Create migration
+dotnet ef database update                     // Apply to database
+dotnet ef migrations remove                   // Remove last migration
+dotnet ef database update PreviousMigration   // Rollback
+dotnet ef migrations list                     // List all migrations
+dotnet ef migrations script                   // Generate SQL script
+
+Workflow:
+1. Modify your model class (add property, new class, etc.)
+2. Run: dotnet ef migrations add MigrationName
+3. Review generated migration file
+4. Run: dotnet ef database update
+
+Generated Migration:
+public partial class AddProductTable : Migration
+{
+    protected override void Up(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.CreateTable(
+            name: "Products",
+            columns: table => new
+            {
+                Id = table.Column&lt;int&gt;(nullable: false)
+                    .Annotation("SqlServer:Identity", "1, 1"),
+                Name = table.Column&lt;string&gt;(maxLength: 200),
+                Price = table.Column&lt;decimal&gt;(type: "decimal(18,2)")
+            },
+            constraints: table => table.PrimaryKey("PK_Products", x => x.Id));
+    }
+
+    protected override void Down(MigrationBuilder migrationBuilder)
+    {
+        migrationBuilder.DropTable(name: "Products");
+    }
+}
+
+Best Practices:
+- Give meaningful migration names
+- Review generated SQL before applying to production
+- Use dotnet ef migrations script for production deployments
+- Never edit applied migrations</pre></div></div>
+
+<div class="q" data-s="lazy loading eager loading explicit loading"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is Lazy Loading vs Eager Loading vs Explicit Loading?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three strategies for loading related data:
+
+EAGER LOADING (Include) - Load related data WITH the query:
+var orders = await _context.Orders
+    .Include(o => o.Customer)           // Load Customer
+    .Include(o => o.OrderItems)         // Load OrderItems
+        .ThenInclude(oi => oi.Product)  // Load Product inside OrderItem
+    .ToListAsync();
+
+// SQL: JOIN query - ONE database call
+// Best when: You KNOW you need related data
+
+LAZY LOADING - Load related data WHEN accessed:
+// Setup: Install Microsoft.EntityFrameworkCore.Proxies
+builder.Services.AddDbContext&lt;AppDbContext&gt;(options =>
+    options.UseLazyLoadingProxies().UseSqlServer(connStr));
+
+// Properties must be virtual:
+public class Order
+{
+    public virtual Customer Customer { get; set; }  // Loaded on first access
+    public virtual ICollection&lt;OrderItem&gt; Items { get; set; }
+}
+
+var order = await _context.Orders.FindAsync(1);  // 1 query
+var name = order.Customer.Name;  // ANOTHER query triggered here!
+
+// Problem: N+1 query issue (many small queries)
+// Best when: You MIGHT need related data
+
+EXPLICIT LOADING - Load related data ON DEMAND:
+var order = await _context.Orders.FindAsync(1);
+
+// Load explicitly when needed:
+await _context.Entry(order)
+    .Reference(o => o.Customer)
+    .LoadAsync();
+
+await _context.Entry(order)
+    .Collection(o => o.OrderItems)
+    .LoadAsync();
+
+// Best when: You decide at runtime whether to load
+
+| Strategy | Queries | When to use              | Risk           |
+|----------|---------|--------------------------|----------------|
+| Eager    | 1 (JOIN)| Know you need data       | Over-fetching  |
+| Lazy     | N+1     | Might need data          | N+1 problem    |
+| Explicit | On demand| Conditional loading     | Manual control |
+
+Best Practice: Use Eager Loading (Include) in most cases.</pre></div></div>
+
+<div class="q" data-s="dbcontext lifetime scoped transient singleton"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is DbContext lifetime? Why Scoped?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DbContext should be registered as SCOPED (one instance per HTTP request).
+
+Registration:
+builder.Services.AddDbContext&lt;AppDbContext&gt;(options =>
+    options.UseSqlServer(connectionString));
+// Default lifetime: Scoped
+
+Why SCOPED (not Singleton or Transient):
+- Scoped: One DbContext per request → tracks changes within request → disposed after
+- Singleton: DANGEROUS! Not thread-safe, stale data, memory leaks
+- Transient: New instance every injection → can't track changes across services
+
+Scoped behavior:
+Request 1: Controller → Service → Repository (ALL get SAME DbContext)
+Request 2: Gets a NEW DbContext
+
+Why this matters:
+public class OrderService
+{
+    private readonly AppDbContext _context;  // Same instance as repository
+
+    public void CreateOrder(Order order)
+    {
+        _context.Orders.Add(order);
+        _context.SaveChanges();  // Saves ALL tracked changes in this request
+    }
+}
+
+DbContext is NOT thread-safe:
+- Never share across threads
+- Never use Singleton for DbContext
+- For background services, create scope manually:
+using var scope = _serviceProvider.CreateScope();
+var context = scope.ServiceProvider.GetRequiredService&lt;AppDbContext&gt;();</pre></div></div>
+
+<div class="q" data-s="fluent api data annotations configuration"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Fluent API vs Data Annotations?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Both configure how EF Core maps classes to database. Fluent API is more powerful.
+
+DATA ANNOTATIONS (on model class):
+public class Product
+{
+    [Key]
+    public int Id { get; set; }
+
+    [Required]
+    [MaxLength(200)]
+    public string Name { get; set; }
+
+    [Column(TypeName = "decimal(18,2)")]
+    public decimal Price { get; set; }
+
+    [ForeignKey("Category")]
+    public int CategoryId { get; set; }
+    public Category Category { get; set; }
+}
+
+FLUENT API (in DbContext.OnModelCreating):
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    modelBuilder.Entity&lt;Product&gt;(entity =>
+    {
+        entity.HasKey(p => p.Id);
+        entity.Property(p => p.Name).IsRequired().HasMaxLength(200);
+        entity.Property(p => p.Price).HasColumnType("decimal(18,2)");
+
+        // Relationships
+        entity.HasOne(p => p.Category)
+              .WithMany(c => c.Products)
+              .HasForeignKey(p => p.CategoryId)
+              .OnDelete(DeleteBehavior.Restrict);
+
+        // Index
+        entity.HasIndex(p => p.Name).IsUnique();
+
+        // Seed data
+        entity.HasData(new Product { Id = 1, Name = "Phone", Price = 999 });
+    });
+}
+
+Fluent API can do MORE:
+- Complex relationships
+- Composite keys
+- Table splitting
+- Owned types
+- Query filters (soft delete)
+- Shadow properties
+
+Best Practice: Use Fluent API for relationships and complex config.
+Use Data Annotations for simple validation ([Required], [MaxLength]).</pre></div></div>
+
+<div class="q" data-s="change tracking savechanges add update delete"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">How does Change Tracking work in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Change Tracking monitors entity states and generates appropriate SQL on SaveChanges().
+
+Entity States:
+- Added      → INSERT
+- Modified   → UPDATE
+- Deleted    → DELETE
+- Unchanged  → No SQL
+- Detached   → Not tracked
+
+Example:
+// Added state
+var product = new Product { Name = "Phone", Price = 999 };
+_context.Products.Add(product);  // State: Added
+await _context.SaveChangesAsync();  // INSERT INTO Products...
+
+// Modified state
+var product = await _context.Products.FindAsync(1);  // State: Unchanged
+product.Price = 899;  // State: Modified (auto-detected)
+await _context.SaveChangesAsync();  // UPDATE Products SET Price = 899 WHERE Id = 1
+
+// Deleted state
+var product = await _context.Products.FindAsync(1);
+_context.Products.Remove(product);  // State: Deleted
+await _context.SaveChangesAsync();  // DELETE FROM Products WHERE Id = 1
+
+Disable tracking (read-only queries - better performance):
+var products = await _context.Products
+    .AsNoTracking()  // No change tracking = faster
+    .Where(p => p.Price > 100)
+    .ToListAsync();
+
+// Use AsNoTracking for:
+// - Read-only queries (display lists, reports)
+// - API GET endpoints
+// - When you don't need to update the data</pre></div></div>
+
+<div class="q" data-s="repository pattern unit of work"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">What is Repository Pattern with EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Repository Pattern abstracts data access logic behind an interface.
+
+Interface:
+public interface IRepository&lt;T&gt; where T : class
+{
+    Task&lt;T&gt; GetByIdAsync(int id);
+    Task&lt;IEnumerable&lt;T&gt;&gt; GetAllAsync();
+    Task AddAsync(T entity);
+    void Update(T entity);
+    void Delete(T entity);
+    Task SaveAsync();
+}
+
+Implementation:
+public class Repository&lt;T&gt; : IRepository&lt;T&gt; where T : class
+{
+    private readonly AppDbContext _context;
+    private readonly DbSet&lt;T&gt; _dbSet;
+
+    public Repository(AppDbContext context)
+    {
+        _context = context;
+        _dbSet = context.Set&lt;T&gt;();
+    }
+
+    public async Task&lt;T&gt; GetByIdAsync(int id) => await _dbSet.FindAsync(id);
+    public async Task&lt;IEnumerable&lt;T&gt;&gt; GetAllAsync() => await _dbSet.ToListAsync();
+    public async Task AddAsync(T entity) => await _dbSet.AddAsync(entity);
+    public void Update(T entity) => _dbSet.Update(entity);
+    public void Delete(T entity) => _dbSet.Remove(entity);
+    public async Task SaveAsync() => await _context.SaveChangesAsync();
+}
+
+Registration:
+builder.Services.AddScoped(typeof(IRepository&lt;&gt;), typeof(Repository&lt;&gt;));
+
+Usage in Controller:
+public class ProductController : Controller
+{
+    private readonly IRepository&lt;Product&gt; _repo;
+
+    public ProductController(IRepository&lt;Product&gt; repo) { _repo = repo; }
+
+    public async Task&lt;IActionResult&gt; Index()
+    {
+        var products = await _repo.GetAllAsync();
+        return View(products);
+    }
+}
+
+Benefits:
+- Testable (mock IRepository in unit tests)
+- Swappable (change DB without changing controllers)
+- Single Responsibility (controller doesn't know about EF)
+
+Debate: Some argue DbContext IS already a repository + unit of work.
+Use Repository when: Multiple data sources, complex queries, need abstraction.</pre></div></div>
+
+<div class="q" data-s="ienumerable iqueryable difference performance"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">IEnumerable vs IQueryable in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IEnumerable (client-side filtering):
+IEnumerable&lt;Product&gt; products = _context.Products;
+var expensive = products.Where(p => p.Price > 100).ToList();
+// SQL: SELECT * FROM Products (loads ALL rows)
+// Then filters in C# memory — SLOW for large tables!
+
+IQueryable (server-side filtering):
+IQueryable&lt;Product&gt; products = _context.Products;
+var expensive = products.Where(p => p.Price > 100).ToList();
+// SQL: SELECT * FROM Products WHERE Price > 100
+// Filters at database — FAST!
+
+Key Rule:
+- Keep as IQueryable as long as possible
+- Call .ToList() / .ToListAsync() only at the end
+
+Good pattern:
+public IQueryable&lt;Product&gt; GetProducts()
+{
+    return _context.Products;  // Returns IQueryable
+}
+
+// Caller adds more filters (all translated to SQL):
+var result = await _repo.GetProducts()
+    .Where(p => p.Category == "Electronics")
+    .OrderBy(p => p.Name)
+    .Skip(20).Take(10)
+    .ToListAsync();  // ONE optimized SQL query
+
+Bad pattern:
+public List&lt;Product&gt; GetProducts()
+{
+    return _context.Products.ToList();  // Loads ALL into memory
+}
+// Caller can't add efficient DB filters anymore!</pre></div></div>
+
+<div class="q" data-s="n+1 query problem performance"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What is N+1 Query Problem?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>N+1 Problem: 1 query to get parent records + N queries to get child records for each parent.
+
+Problem:
+var orders = await _context.Orders.ToListAsync();  // 1 query (get 100 orders)
+
+foreach (var order in orders)
+{
+    var customer = order.Customer.Name;  // 100 separate queries! (lazy loading)
+}
+// Total: 101 queries for 100 orders!
+
+Solution - Eager Loading:
+var orders = await _context.Orders
+    .Include(o => o.Customer)  // JOIN in single query
+    .ToListAsync();
+// Total: 1 query with JOIN
+
+Solution - Projection (Select):
+var orders = await _context.Orders
+    .Select(o => new OrderDto
+    {
+        Id = o.Id,
+        CustomerName = o.Customer.Name,  // EF generates efficient JOIN
+        Total = o.OrderItems.Sum(i => i.Price)
+    })
+    .ToListAsync();
+// Total: 1 optimized query
+
+How to detect:
+- Enable EF Core logging
+- Use tools like MiniProfiler
+- Watch for multiple similar queries in logs
+
+builder.Services.AddDbContext&lt;AppDbContext&gt;(options =>
+    options.UseSqlServer(connStr)
+           .LogTo(Console.WriteLine, LogLevel.Information)
+           .EnableSensitiveDataLogging());</pre></div></div>
+
+<div class="q" data-s="global query filter soft delete"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">What are Global Query Filters (Soft Delete)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Global Query Filters automatically apply a WHERE clause to all queries for an entity.
+
+Common use: Soft Delete (mark as deleted instead of actually deleting)
+
+Model:
+public class Product
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public bool IsDeleted { get; set; }  // Soft delete flag
+}
+
+Configure filter:
+protected override void OnModelCreating(ModelBuilder modelBuilder)
+{
+    // All queries automatically add WHERE IsDeleted = 0
+    modelBuilder.Entity&lt;Product&gt;()
+        .HasQueryFilter(p => !p.IsDeleted);
+}
+
+Usage:
+// Automatically excludes deleted products:
+var products = await _context.Products.ToListAsync();
+// SQL: SELECT * FROM Products WHERE IsDeleted = 0
+
+// Soft delete:
+product.IsDeleted = true;
+await _context.SaveChangesAsync();
+// Product still in DB but hidden from queries
+
+// Include deleted (bypass filter):
+var allProducts = await _context.Products
+    .IgnoreQueryFilters()
+    .ToListAsync();
+// SQL: SELECT * FROM Products (includes deleted)
+
+Other uses:
+- Multi-tenancy: .HasQueryFilter(p => p.TenantId == currentTenantId)
+- Active records: .HasQueryFilter(p => p.IsActive)</pre></div></div>
+
+<div class="q" data-s="transactions savechanges multiple operations"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">How to handle Transactions in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SaveChanges() is already a transaction (all or nothing).
+
+For multiple SaveChanges or cross-context operations, use explicit transactions:
+
+using var transaction = await _context.Database.BeginTransactionAsync();
+try
+{
+    // Operation 1
+    var order = new Order { CustomerId = 1, Total = 500 };
+    _context.Orders.Add(order);
+    await _context.SaveChangesAsync();
+
+    // Operation 2
+    var payment = new Payment { OrderId = order.Id, Amount = 500 };
+    _context.Payments.Add(payment);
+    await _context.SaveChangesAsync();
+
+    // Operation 3
+    var inventory = await _context.Inventory.FindAsync(productId);
+    inventory.Quantity -= 1;
+    await _context.SaveChangesAsync();
+
+    await transaction.CommitAsync();  // All succeed
+}
+catch
+{
+    await transaction.RollbackAsync();  // All fail
+    throw;
+}
+
+When to use explicit transactions:
+- Multiple SaveChanges calls that must be atomic
+- Cross-service operations
+- When you need the ID from first save for second operation
+
+SaveChanges alone is enough when:
+- All changes are in single SaveChanges call
+- _context.Orders.Add(order);
+- _context.OrderItems.AddRange(items);
+- await _context.SaveChangesAsync();  // Already atomic!</pre></div></div>
+
+</div>
+</div>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+</script>
+</body>
+</html>

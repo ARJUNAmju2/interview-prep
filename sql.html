@@ -1,0 +1,2076 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Interview Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:20px}
+h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#e91e63,#f06292);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}
+.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}
+.back:hover{text-decoration:underline}
+.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}
+.search::placeholder{color:#64748b}
+.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}
+.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #e91e63;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}
+.q-title:hover{background:#fdf2f8}
+.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#e91e63;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+.q-title .txt{flex:1}
+.q-title .arrow{transition:transform .3s;color:#e91e63;font-size:1rem;flex-shrink:0}
+.q.open .q-title .arrow{transform:rotate(180deg)}
+.q.open .q-title{background:#fdf2f8;border-bottom:1px solid #fbcfe8}
+.q-ans{display:none;padding:14px 16px;background:#fffbfd}
+.q.open .q-ans{display:block}
+.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>SQL Interview Questions</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+<div class="q" data-s="q1. what is sql and what are its types (ddl, dml, dcl, tcl, dql)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">1</span>
+<span class="txt">Q1. What is SQL and what are its types (DDL, DML, DCL, TCL, DQL)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SQL (Structured Query Language) is a standard language for managing and 
+manipulating relational databases.
+
+5 Types of SQL Commands:
+
+1. DDL (Data Definition Language) - Structure/Schema:
+   CREATE   - Create database/table/view/index
+   ALTER    - Modify structure
+   DROP     - Delete object completely
+   TRUNCATE - Remove all rows (reset table)
+
+   CREATE TABLE Employee (Id INT PRIMARY KEY, Name VARCHAR(100));
+   ALTER TABLE Employee ADD Salary DECIMAL(10,2);
+   DROP TABLE Employee;
+   TRUNCATE TABLE Employee;
+
+2. DML (Data Manipulation Language) - Data:
+   INSERT - Add new rows
+   UPDATE - Modify existing rows
+   DELETE - Remove specific rows
+
+   INSERT INTO Employee (Id, Name) VALUES (1, 'John');
+   UPDATE Employee SET Salary = 50000 WHERE Id = 1;
+   DELETE FROM Employee WHERE Id = 1;
+
+3. DQL (Data Query Language) - Retrieve:
+   SELECT - Query/fetch data
+
+   SELECT * FROM Employee WHERE Salary &gt; 40000;
+
+4. DCL (Data Control Language) - Permissions:
+   GRANT  - Give permissions
+   REVOKE - Remove permissions
+
+   GRANT SELECT ON Employee TO UserA;
+   REVOKE INSERT ON Employee FROM UserA;
+
+5. TCL (Transaction Control Language) - Transactions:
+   BEGIN TRANSACTION
+   COMMIT   - Save changes permanently
+   ROLLBACK - Undo changes
+   SAVEPOINT - Partial rollback point
+
+   BEGIN TRANSACTION
+   UPDATE Account SET Balance = Balance - 1000 WHERE Id = 1;
+   UPDATE Account SET Balance = Balance + 1000 WHERE Id = 2;
+   COMMIT;</pre></div>
+</div>
+<div class="q" data-s="q2. what is the difference between delete, truncate, and drop?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">2</span>
+<span class="txt">Q2. What is the difference between DELETE, TRUNCATE, and DROP?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>DELETE:
+- DML command
+- Removes SPECIFIC rows (with WHERE) or all rows
+- Can be rolled back (logged operation)
+- Fires triggers
+- Does NOT reset identity
+- Slower (row-by-row logging)
+
+DELETE FROM Employee WHERE Department = 'HR';
+DELETE FROM Employee;  -- All rows, but table exists
+
+TRUNCATE:
+- DDL command
+- Removes ALL rows (no WHERE clause)
+- Cannot be rolled back easily (minimal logging)
+- Does NOT fire triggers
+- RESETS identity counter to seed
+- Faster (deallocates pages)
+
+TRUNCATE TABLE Employee;  -- All rows gone, identity reset
+
+DROP:
+- DDL command
+- Removes the ENTIRE TABLE (structure + data)
+- Table no longer exists
+- Cannot be rolled back
+
+DROP TABLE Employee;  -- Table completely gone
+
+| Feature        | DELETE           | TRUNCATE         | DROP             |
+|----------------|-----------------|------------------|------------------|
+| Type           | DML             | DDL              | DDL              |
+| WHERE clause   | Yes             | No               | No               |
+| Rollback       | Yes             | No (mostly)      | No               |
+| Triggers       | Yes             | No               | No               |
+| Identity reset | No              | Yes              | N/A              |
+| Speed          | Slow            | Fast             | Fast             |
+| Table exists   | Yes             | Yes (empty)      | No               |
+| Logging        | Full (row-level)| Minimal (page)   | Minimal          |</pre></div>
+</div>
+<div class="q" data-s="q3. what is the difference between where and having clause?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">3</span>
+<span class="txt">Q3. What is the difference between WHERE and HAVING clause?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>WHERE:
+- Filters INDIVIDUAL ROWS before grouping
+- Used with SELECT, UPDATE, DELETE
+- Cannot use aggregate functions
+- Executes BEFORE GROUP BY
+
+HAVING:
+- Filters GROUPS after grouping
+- Used only with GROUP BY
+- CAN use aggregate functions
+- Executes AFTER GROUP BY
+
+Example:
+-- WHERE: Filter rows first
+SELECT Department, COUNT(*) AS EmpCount
+FROM Employee
+WHERE Salary &gt; 30000          -- Filter individual rows BEFORE grouping
+GROUP BY Department;
+
+-- HAVING: Filter groups after
+SELECT Department, COUNT(*) AS EmpCount
+FROM Employee
+GROUP BY Department
+HAVING COUNT(*) &gt; 5;          -- Filter groups AFTER grouping
+
+-- Both together:
+SELECT Department, AVG(Salary) AS AvgSalary
+FROM Employee
+WHERE IsActive = 1            -- First: filter active employees
+GROUP BY Department
+HAVING AVG(Salary) &gt; 50000;  -- Then: only departments with avg &gt; 50K
+
+Execution order:
+FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY
+
+| Feature        | WHERE                | HAVING               |
+|----------------|----------------------|----------------------|
+| Filters        | Individual rows      | Groups               |
+| Aggregates     | Cannot use           | Can use              |
+| GROUP BY       | Not required         | Required             |
+| Executes       | Before GROUP BY      | After GROUP BY       |</pre></div>
+</div>
+<div class="q" data-s="q4. what is the difference between union and union all?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">4</span>
+<span class="txt">Q4. What is the difference between UNION and UNION ALL?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>UNION:
+- Combines results of two queries
+- REMOVES duplicate rows
+- Slower (must check for duplicates)
+- Performs implicit DISTINCT
+
+UNION ALL:
+- Combines results of two queries
+- KEEPS all rows including duplicates
+- Faster (no duplicate check)
+
+Example:
+-- Table1: {1, 2, 3, 4}
+-- Table2: {3, 4, 5, 6}
+
+SELECT Id FROM Table1
+UNION
+SELECT Id FROM Table2;
+-- Result: 1, 2, 3, 4, 5, 6 (duplicates removed)
+
+SELECT Id FROM Table1
+UNION ALL
+SELECT Id FROM Table2;
+-- Result: 1, 2, 3, 4, 3, 4, 5, 6 (all rows kept)
+
+Rules:
+- Both queries must have same number of columns
+- Corresponding columns must have compatible data types
+- Column names come from FIRST query
+
+| Feature        | UNION              | UNION ALL            |
+|----------------|--------------------|----------------------|
+| Duplicates     | Removed            | Kept                 |
+| Performance    | Slower             | Faster               |
+| Use when       | Need unique rows   | Need all rows        |
+
+Best practice: Use UNION ALL when you KNOW there are no duplicates 
+(or duplicates are acceptable) — better performance.</pre></div>
+</div>
+<div class="q" data-s="q5. what are aggregate functions?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">5</span>
+<span class="txt">Q5. What are Aggregate Functions?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Aggregate functions perform calculations on a SET of values and return a 
+single value.
+
+COUNT(*) - Number of rows:
+SELECT COUNT(*) FROM Employee;                    -- All rows
+SELECT COUNT(ManagerId) FROM Employee;            -- Non-null values only
+SELECT COUNT(DISTINCT Department) FROM Employee;  -- Unique departments
+
+SUM() - Total:
+SELECT SUM(Salary) FROM Employee;
+SELECT Department, SUM(Salary) FROM Employee GROUP BY Department;
+
+AVG() - Average:
+SELECT AVG(Salary) FROM Employee;
+
+MIN() / MAX():
+SELECT MIN(Salary), MAX(Salary) FROM Employee;
+SELECT MIN(HireDate) AS FirstHire FROM Employee;
+
+Combined example:
+SELECT 
+    Department,
+    COUNT(*) AS TotalEmployees,
+    SUM(Salary) AS TotalSalary,
+    AVG(Salary) AS AvgSalary,
+    MIN(Salary) AS MinSalary,
+    MAX(Salary) AS MaxSalary
+FROM Employee
+GROUP BY Department
+HAVING COUNT(*) &gt; 3
+ORDER BY AvgSalary DESC;
+
+Note: Aggregate functions ignore NULL values (except COUNT(*)).
+
+
+Q6-Q7. GROUP BY and ORDER BY
+--------------------------------------------------------------------------------
+GROUP BY:
+- Groups rows with same values into summary rows
+- Used with aggregate functions
+- Each group produces one row in result
+
+SELECT Department, COUNT(*) AS EmpCount, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY Department;
+
+-- Result:
+-- IT        | 10 | 65000
+-- HR        | 5  | 55000
+-- Finance   | 8  | 70000
+
+ORDER BY:
+- Sorts the result set
+- ASC (ascending - default) or DESC (descending)
+- Can sort by multiple columns
+- Can sort by column position
+
+SELECT * FROM Employee ORDER BY Salary DESC;
+SELECT * FROM Employee ORDER BY Department ASC, Salary DESC;
+SELECT * FROM Employee ORDER BY 3 DESC;  -- 3rd column
+
+
+Q8-Q9. CHAR vs VARCHAR vs NVARCHAR
+--------------------------------------------------------------------------------
+CHAR(n):
+- Fixed length (always uses n bytes)
+- Padded with spaces if shorter
+- Faster for fixed-length data
+- Use for: Gender(1), CountryCode(2), PIN(6)
+
+CHAR(10) storing "Hello" → "Hello     " (5 chars + 5 spaces = 10 bytes)
+
+VARCHAR(n):
+- Variable length (uses actual length + 2 bytes)
+- No padding
+- Saves space for variable-length data
+- Use for: Name, Email, Address
+
+VARCHAR(100) storing "Hello" → "Hello" (5 + 2 = 7 bytes)
+
+NVARCHAR(n):
+- Variable length UNICODE (2 bytes per character)
+- Supports international characters (Chinese, Arabic, Hindi)
+- Uses more space (double)
+- Use for: multilingual data
+
+NVARCHAR(100) storing "Hello" → 10 + 2 = 12 bytes (2 bytes per char)
+
+| Type       | Storage          | Characters    | Use case           |
+|------------|------------------|---------------|--------------------|
+| CHAR(10)   | Always 10 bytes  | ASCII only    | Fixed-length codes |
+| VARCHAR(10)| 1-10 + 2 bytes   | ASCII only    | Variable English   |
+| NVARCHAR(10)| 2-20 + 2 bytes  | Unicode (all) | Multilingual       |</pre></div>
+</div>
+<div class="q" data-s="q10. what are null values and how to handle them?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">6</span>
+<span class="txt">Q10. What are NULL values and how to handle them?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>NULL means UNKNOWN or MISSING value. It is NOT zero, empty string, or space.
+
+-- NULL comparisons:
+SELECT * FROM Employee WHERE ManagerId IS NULL;      -- Correct
+SELECT * FROM Employee WHERE ManagerId IS NOT NULL;  -- Correct
+-- SELECT * FROM Employee WHERE ManagerId = NULL;    -- WRONG! Always false
+
+-- ISNULL(value, replacement): SQL Server specific
+SELECT Name, ISNULL(Phone, 'N/A') AS Phone FROM Employee;
+
+-- COALESCE(val1, val2, val3...): Returns first non-null (ANSI standard)
+SELECT Name, COALESCE(Phone, Mobile, Email, 'No Contact') AS Contact
+FROM Employee;
+
+-- NULLIF(a, b): Returns NULL if a = b
+SELECT NULLIF(Salary, 0) AS Salary FROM Employee;  -- Returns NULL if salary is 0
+
+-- NULL in calculations:
+-- Any arithmetic with NULL = NULL
+SELECT 100 + NULL;  -- NULL
+SELECT NULL * 5;    -- NULL
+
+-- Handle in aggregates:
+SELECT AVG(ISNULL(Salary, 0)) FROM Employee;  -- Treat NULL as 0
+SELECT AVG(Salary) FROM Employee;             -- Ignores NULL rows
+
+ISNULL vs COALESCE:
+| Feature    | ISNULL           | COALESCE              |
+|------------|------------------|-----------------------|
+| Parameters | Exactly 2        | 2 or more             |
+| Standard   | SQL Server only  | ANSI SQL (portable)   |
+| Data type  | First parameter  | Highest precedence    |
+| Performance| Slightly faster  | Slightly slower       |
+
+
+
+================================================================================
+SECTION 2: JOINS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q11. what are joins in sql? why are they used?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">7</span>
+<span class="txt">Q11. What are JOINS in SQL? Why are they used?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>JOINS combine rows from two or more tables based on a related column 
+(usually Foreign Key - Primary Key relationship).
+
+Why needed:
+- Data is split across multiple tables (normalization)
+- Need to retrieve related data together
+- Example: Employee table + Department table → Employee with Department name
+
+Types:
+- INNER JOIN: Only matching rows from both tables
+- LEFT JOIN: All from left + matching from right
+- RIGHT JOIN: All from right + matching from left
+- FULL OUTER JOIN: All from both tables
+- CROSS JOIN: Every row combined with every row (Cartesian product)
+- SELF JOIN: Table joined with itself
+
+Sample tables for examples:
+Employee: {Id, Name, DepartmentId}
+| Id | Name  | DepartmentId |
+|----|-------|--------------|
+| 1  | John  | 1            |
+| 2  | Jane  | 2            |
+| 3  | Bob   | 1            |
+| 4  | Alice | NULL         |
+
+Department: {Id, DeptName}
+| Id | DeptName  |
+|----|-----------|
+| 1  | IT        |
+| 2  | HR        |
+| 3  | Finance   |</pre></div>
+</div>
+<div class="q" data-s="q12. what is inner join?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">8</span>
+<span class="txt">Q12. What is INNER JOIN?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Returns ONLY rows that have matching values in BOTH tables.
+Non-matching rows are excluded.
+
+SELECT e.Name, d.DeptName
+FROM Employee e
+INNER JOIN Department d ON e.DepartmentId = d.Id;
+
+Result:
+| Name | DeptName |
+|------|----------|
+| John | IT       |
+| Jane | HR       |
+| Bob  | IT       |
+
+-- Alice excluded (DepartmentId is NULL - no match)
+-- Finance excluded (no employee in Finance)</pre></div>
+</div>
+<div class="q" data-s="q13. what is left join (left outer join)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">9</span>
+<span class="txt">Q13. What is LEFT JOIN (LEFT OUTER JOIN)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Returns ALL rows from LEFT table + matching rows from RIGHT table.
+If no match, RIGHT side columns show NULL.
+
+SELECT e.Name, d.DeptName
+FROM Employee e
+LEFT JOIN Department d ON e.DepartmentId = d.Id;
+
+Result:
+| Name  | DeptName |
+|-------|----------|
+| John  | IT       |
+| Jane  | HR       |
+| Bob   | IT       |
+| Alice | NULL     |  ← No matching department, but Alice still appears
+
+-- All employees shown (even without department)
+-- Finance not shown (no employee references it)
+
+Use case: Show all employees, even those not assigned to any department.</pre></div>
+</div>
+<div class="q" data-s="q14. what is right join (right outer join)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">10</span>
+<span class="txt">Q14. What is RIGHT JOIN (RIGHT OUTER JOIN)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Returns ALL rows from RIGHT table + matching rows from LEFT table.
+If no match, LEFT side columns show NULL.
+
+SELECT e.Name, d.DeptName
+FROM Employee e
+RIGHT JOIN Department d ON e.DepartmentId = d.Id;
+
+Result:
+| Name | DeptName |
+|------|----------|
+| John | IT       |
+| Bob  | IT       |
+| Jane | HR       |
+| NULL | Finance  |  ← No employee in Finance, but Finance still appears
+
+-- All departments shown (even without employees)
+-- Alice not shown (has NULL DepartmentId)
+
+Note: RIGHT JOIN is rarely used. You can always rewrite as LEFT JOIN 
+by swapping table order.</pre></div>
+</div>
+<div class="q" data-s="q15. what is full outer join?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">11</span>
+<span class="txt">Q15. What is FULL OUTER JOIN?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Returns ALL rows from BOTH tables. NULL where no match exists.
+
+SELECT e.Name, d.DeptName
+FROM Employee e
+FULL OUTER JOIN Department d ON e.DepartmentId = d.Id;
+
+Result:
+| Name  | DeptName |
+|-------|----------|
+| John  | IT       |
+| Bob   | IT       |
+| Jane  | HR       |
+| Alice | NULL     |  ← Employee without department
+| NULL  | Finance  |  ← Department without employee
+
+-- Everything from both sides shown</pre></div>
+</div>
+<div class="q" data-s="q16. what is cross join?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">12</span>
+<span class="txt">Q16. What is CROSS JOIN?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Returns Cartesian Product — every row from first table combined with every 
+row from second table. No ON condition needed.
+
+SELECT e.Name, d.DeptName
+FROM Employee e
+CROSS JOIN Department d;
+
+Result: 4 employees × 3 departments = 12 rows
+| Name  | DeptName |
+|-------|----------|
+| John  | IT       |
+| John  | HR       |
+| John  | Finance  |
+| Jane  | IT       |
+| Jane  | HR       |
+| Jane  | Finance  |
+| Bob   | IT       |
+| Bob   | HR       |
+| Bob   | Finance  |
+| Alice | IT       |
+| Alice | HR       |
+| Alice | Finance  |
+
+Use cases:
+- Generate all combinations (sizes × colors)
+- Calendar generation (years × months)
+- Test data generation</pre></div>
+</div>
+<div class="q" data-s="q17. what is self join?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">13</span>
+<span class="txt">Q17. What is SELF JOIN?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A table joined with ITSELF. Used for hierarchical/recursive relationships.
+
+Example: Employee-Manager relationship (ManagerId references same table)
+| Id | Name    | ManagerId |
+|----|---------|-----------|
+| 1  | CEO     | NULL      |
+| 2  | VP      | 1         |
+| 3  | Manager | 2         |
+| 4  | Dev     | 3         |
+
+-- Find employee with their manager name:
+SELECT 
+    e.Name AS Employee, 
+    m.Name AS Manager
+FROM Employee e
+LEFT JOIN Employee m ON e.ManagerId = m.Id;
+
+Result:
+| Employee | Manager |
+|----------|---------|
+| CEO      | NULL    |
+| VP       | CEO     |
+| Manager  | VP      |
+| Dev      | Manager |</pre></div>
+</div>
+<div class="q" data-s="q18. what is the difference between inner join and left join?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">14</span>
+<span class="txt">Q18. What is the difference between INNER JOIN and LEFT JOIN?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>INNER JOIN:
+- Returns ONLY matching rows from both tables
+- Excludes non-matching rows from BOTH sides
+- Result is smaller or equal to both tables
+
+LEFT JOIN:
+- Returns ALL rows from left table
+- Matching rows from right table
+- NULL for non-matching right side
+- Result always includes all left table rows
+
+-- INNER JOIN: Only employees WITH departments
+SELECT e.Name, d.DeptName
+FROM Employee e
+INNER JOIN Department d ON e.DepartmentId = d.Id;
+-- Alice excluded (no department)
+
+-- LEFT JOIN: ALL employees, department if available
+SELECT e.Name, d.DeptName
+FROM Employee e
+LEFT JOIN Department d ON e.DepartmentId = d.Id;
+-- Alice included with NULL department
+
+When to use:
+- INNER JOIN: Need only complete/matched data
+- LEFT JOIN: Need all records from main table regardless of match</pre></div>
+</div>
+<div class="q" data-s="q19. how to join more than 2 tables?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">15</span>
+<span class="txt">Q19. How to join more than 2 tables?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Chain multiple JOINs:
+
+SELECT 
+    e.Name,
+    d.DeptName,
+    p.ProjectName,
+    m.Name AS ManagerName
+FROM Employee e
+INNER JOIN Department d ON e.DepartmentId = d.Id
+INNER JOIN Project p ON e.ProjectId = p.Id
+LEFT JOIN Employee m ON e.ManagerId = m.Id
+WHERE e.IsActive = 1
+ORDER BY d.DeptName, e.Name;
+
+-- Each JOIN adds another table to the result
+-- Can mix JOIN types (INNER + LEFT)
+-- Order of JOINs can affect performance</pre></div>
+</div>
+<div class="q" data-s="q20. what is the difference between join and subquery? which is faster?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">16</span>
+<span class="txt">Q20. What is the difference between JOIN and Subquery? Which is faster?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>JOIN approach:
+SELECT e.Name, d.DeptName
+FROM Employee e
+INNER JOIN Department d ON e.DepartmentId = d.Id
+WHERE d.DeptName = 'IT';
+
+Subquery approach:
+SELECT Name
+FROM Employee
+WHERE DepartmentId IN (SELECT Id FROM Department WHERE DeptName = 'IT');
+
+| Feature      | JOIN               | Subquery             |
+|--------------|--------------------|----------------------|
+| Readability  | Better for complex | Better for simple    |
+| Performance  | Usually faster     | Can be slower        |
+| Columns      | Can select from both| Only outer table    |
+| Optimization | Better optimized   | May run per row      |
+
+Performance:
+- JOINs are generally FASTER (optimizer handles well)
+- Correlated subqueries are SLOW (run for each row)
+- Non-correlated subqueries are OK (run once)
+- Modern SQL Server optimizer often converts subqueries to joins
+
+Use JOIN when: Need columns from multiple tables
+Use Subquery when: Simple existence check, IN clause, cleaner logic
+
+
+
+================================================================================
+SECTION 3: SUBQUERIES
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q21. what is a subquery (nested query)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">17</span>
+<span class="txt">Q21. What is a Subquery (Nested Query)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Subquery is a query inside another query. The inner query executes first 
+and its result is used by the outer query.
+
+-- Find employees earning more than average salary:
+SELECT Name, Salary
+FROM Employee
+WHERE Salary &gt; (SELECT AVG(Salary) FROM Employee);
+
+-- Find employees in IT department:
+SELECT Name FROM Employee
+WHERE DepartmentId IN (SELECT Id FROM Department WHERE DeptName = 'IT');
+
+-- Subquery in SELECT:
+SELECT Name, Salary,
+    (SELECT AVG(Salary) FROM Employee) AS CompanyAvg
+FROM Employee;
+
+-- Subquery in FROM (derived table):
+SELECT DeptName, AvgSalary
+FROM (
+    SELECT DepartmentId, AVG(Salary) AS AvgSalary
+    FROM Employee
+    GROUP BY DepartmentId
+) AS DeptAvg
+INNER JOIN Department d ON DeptAvg.DepartmentId = d.Id;
+
+Types:
+- Single-row subquery: Returns one value (use =, &gt;, &lt;)
+- Multi-row subquery: Returns multiple values (use IN, ANY, ALL)
+- Correlated subquery: References outer query (runs per row)</pre></div>
+</div>
+<div class="q" data-s="q22. what is the difference between correlated and non-correlated subquery?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">18</span>
+<span class="txt">Q22. What is the difference between Correlated and Non-Correlated Subquery?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>NON-CORRELATED (Independent):
+- Inner query runs ONCE independently
+- Does NOT reference outer query
+- Result is used by outer query
+- Faster
+
+-- Runs inner query once, gets avg, then filters:
+SELECT Name, Salary
+FROM Employee
+WHERE Salary &gt; (SELECT AVG(Salary) FROM Employee);
+
+CORRELATED (Dependent):
+- Inner query runs ONCE FOR EACH ROW of outer query
+- References outer query's columns
+- Slower (executes multiple times)
+
+-- For each employee, checks if they earn more than their dept average:
+SELECT e.Name, e.Salary
+FROM Employee e
+WHERE e.Salary &gt; (
+    SELECT AVG(e2.Salary) 
+    FROM Employee e2 
+    WHERE e2.DepartmentId = e.DepartmentId  -- References outer query!
+);
+
+| Feature        | Non-Correlated       | Correlated           |
+|----------------|----------------------|----------------------|
+| Execution      | Once                 | Per outer row        |
+| References     | Independent          | Uses outer columns   |
+| Performance    | Faster               | Slower               |
+| Can run alone  | Yes                  | No                   |</pre></div>
+</div>
+<div class="q" data-s="q23. what is exists vs in?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">19</span>
+<span class="txt">Q23. What is EXISTS vs IN?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>IN:
+- Checks if value exists in a list/subquery result
+- Compares values
+- Better for small result sets from subquery
+
+SELECT Name FROM Employee
+WHERE DepartmentId IN (SELECT Id FROM Department WHERE DeptName IN ('IT', 'HR'));
+
+EXISTS:
+- Checks if subquery returns ANY rows (true/false)
+- Stops as soon as first match found (short-circuits)
+- Better for large result sets
+
+SELECT Name FROM Employee e
+WHERE EXISTS (
+    SELECT 1 FROM Department d 
+    WHERE d.Id = e.DepartmentId AND d.DeptName = 'IT'
+);
+
+| Feature      | IN                   | EXISTS               |
+|--------------|----------------------|----------------------|
+| Returns      | Values to compare    | True/False           |
+| NULL handling| Problems with NULL   | Handles NULL well    |
+| Performance  | Better for small set | Better for large set |
+| Short-circuit| No                   | Yes (stops early)    |
+
+Rule of thumb:
+- Small subquery result → IN
+- Large subquery result → EXISTS
+- NULL values in subquery → EXISTS (IN has issues with NULL)
+
+
+Q24-Q25. Scalar Subquery and Multiple Row Subquery
+--------------------------------------------------------------------------------
+SCALAR SUBQUERY (returns single value):
+SELECT Name, Salary,
+    Salary - (SELECT AVG(Salary) FROM Employee) AS DiffFromAvg
+FROM Employee;
+
+MULTIPLE ROW SUBQUERY (returns multiple values):
+-- Use with IN, ANY, ALL:
+SELECT Name FROM Employee
+WHERE DepartmentId IN (SELECT Id FROM Department WHERE Budget &gt; 100000);
+
+-- ANY: True if condition matches ANY value
+SELECT Name FROM Employee
+WHERE Salary &gt; ANY (SELECT Salary FROM Employee WHERE Department = 'HR');
+-- Employees earning more than at least one HR employee
+
+-- ALL: True if condition matches ALL values
+SELECT Name FROM Employee
+WHERE Salary &gt; ALL (SELECT Salary FROM Employee WHERE Department = 'HR');
+-- Employees earning more than every HR employee
+
+
+================================================================================
+SECTION 4: INDEXES
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q26. what is an index in sql?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">20</span>
+<span class="txt">Q26. What is an Index in SQL?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>An Index is a database object that speeds up data retrieval. Like a book's 
+index — instead of reading every page, you look up the topic and go directly.
+
+Without index: Full Table Scan (reads every row) — SLOW for large tables
+With index: Index Seek (goes directly to matching rows) — FAST
+
+-- Create index:
+CREATE INDEX IX_Employee_Name ON Employee(Name);
+CREATE INDEX IX_Employee_Dept_Salary ON Employee(DepartmentId, Salary);
+
+-- Drop index:
+DROP INDEX IX_Employee_Name ON Employee;
+
+How it works:
+- Index creates a separate data structure (B-Tree)
+- Stores indexed column values + pointer to actual row
+- Sorted for fast searching (binary search)
+
+Trade-offs:
+- Faster SELECT (reads)
+- Slower INSERT/UPDATE/DELETE (must update index too)
+- Uses additional disk space</pre></div>
+</div>
+<div class="q" data-s="q27. what is clustered vs non-clustered index?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">21</span>
+<span class="txt">Q27. What is Clustered vs Non-Clustered Index?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>CLUSTERED INDEX:
+- Determines PHYSICAL ORDER of data in table
+- Table data is SORTED by clustered index key
+- Only ONE per table (data can only be sorted one way)
+- Leaf nodes contain ACTUAL DATA rows
+- Primary Key creates clustered index by default
+- Faster for range queries
+
+CREATE CLUSTERED INDEX IX_Employee_Id ON Employee(Id);
+-- Or automatically: PRIMARY KEY creates clustered index
+
+NON-CLUSTERED INDEX:
+- Separate structure with POINTERS to data
+- Does NOT change physical order of data
+- Multiple per table (up to 999)
+- Leaf nodes contain index key + row pointer (RID or clustered key)
+- Like a book's index at the back
+
+CREATE NONCLUSTERED INDEX IX_Employee_Name ON Employee(Name);
+CREATE NONCLUSTERED INDEX IX_Employee_Email ON Employee(Email);
+
+| Feature          | Clustered            | Non-Clustered        |
+|------------------|----------------------|----------------------|
+| Physical order   | Yes (sorts data)     | No (separate struct) |
+| Per table        | Only 1               | Up to 999            |
+| Leaf nodes       | Actual data rows     | Pointers to data     |
+| Speed            | Faster (data is there)| Slightly slower (lookup)|
+| Space            | No extra (IS the data)| Extra space needed   |
+| Default          | Primary Key          | Must create manually |
+| Range queries    | Excellent            | Good                 |
+
+Analogy:
+- Clustered = Dictionary (words sorted alphabetically, definition right there)
+- Non-Clustered = Book index (topics listed, page number to look up)</pre></div>
+</div>
+<div class="q" data-s="q28. what is a unique index?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">22</span>
+<span class="txt">Q28. What is a Unique Index?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Unique Index ensures all values in the indexed column(s) are DISTINCT.
+No duplicate values allowed.
+
+CREATE UNIQUE INDEX IX_Employee_Email ON Employee(Email);
+
+-- Now:
+INSERT INTO Employee (Name, Email) VALUES ('John', 'john@mail.com');  -- OK
+INSERT INTO Employee (Name, Email) VALUES ('Jane', 'john@mail.com');  -- ERROR! Duplicate
+
+-- Unique constraint automatically creates a unique index:
+ALTER TABLE Employee ADD CONSTRAINT UQ_Email UNIQUE (Email);
+
+Note: Unique index allows ONE NULL value (in SQL Server).</pre></div>
+</div>
+<div class="q" data-s="q29. what is a composite index?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">23</span>
+<span class="txt">Q29. What is a Composite Index?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Composite Index is an index on MULTIPLE columns.
+
+CREATE INDEX IX_Employee_Dept_Salary ON Employee(DepartmentId, Salary);
+
+-- This index helps queries that filter by:
+-- DepartmentId alone ✓
+-- DepartmentId AND Salary ✓
+-- Salary alone ✗ (leftmost column must be used)
+
+-- Helps:
+SELECT * FROM Employee WHERE DepartmentId = 1;
+SELECT * FROM Employee WHERE DepartmentId = 1 AND Salary &gt; 50000;
+
+-- Does NOT help:
+SELECT * FROM Employee WHERE Salary &gt; 50000;  -- Missing leftmost column
+
+Rule: "Leftmost Prefix" — index is used only if query includes the 
+leftmost column(s) of the composite index.
+
+Column order matters! Put most selective (most filtered) column first.</pre></div>
+</div>
+<div class="q" data-s="q30. when to use and when not to use indexes?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">24</span>
+<span class="txt">Q30. When to use and when NOT to use indexes?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>USE indexes when:
+- Column is frequently used in WHERE clause
+- Column is used in JOIN conditions
+- Column is used in ORDER BY
+- Column has high selectivity (many unique values)
+- Table is large and queries return small % of rows
+- Column used in GROUP BY
+
+DO NOT use indexes when:
+- Small tables (full scan is fast enough)
+- Columns with low selectivity (Gender: M/F only)
+- Tables with heavy INSERT/UPDATE/DELETE (index maintenance overhead)
+- Columns rarely used in queries
+- Columns frequently updated
+
+Over-indexing problems:
+- Slower writes (every INSERT/UPDATE must update all indexes)
+- More disk space
+- Index maintenance overhead
+- Diminishing returns
+
+
+Q31-Q32. Index Fragmentation and Covering Index
+--------------------------------------------------------------------------------
+INDEX FRAGMENTATION:
+- Over time, indexes become fragmented (pages out of order)
+- Causes more I/O, slower queries
+- Fix: REBUILD or REORGANIZE
+
+-- Check fragmentation:
+SELECT * FROM sys.dm_db_index_physical_stats(DB_ID(), NULL, NULL, NULL, 'LIMITED');
+
+-- Fix:
+ALTER INDEX IX_Employee_Name ON Employee REBUILD;      -- &gt; 30% fragmentation
+ALTER INDEX IX_Employee_Name ON Employee REORGANIZE;   -- 10-30% fragmentation
+
+COVERING INDEX:
+- Index that contains ALL columns needed by a query
+- Query can be answered entirely from index (no table lookup)
+- Very fast (avoids "key lookup")
+
+-- Query needs: Name, Salary WHERE DepartmentId = 1
+CREATE INDEX IX_Covering ON Employee(DepartmentId) INCLUDE (Name, Salary);
+
+-- Now this query uses ONLY the index (no table access):
+SELECT Name, Salary FROM Employee WHERE DepartmentId = 1;</pre></div>
+</div>
+<div class="q" data-s="q33. how many clustered indexes can a table have?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">25</span>
+<span class="txt">Q33. How many Clustered indexes can a table have?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Only ONE clustered index per table.
+
+Reason: Clustered index determines the PHYSICAL ORDER of data rows.
+Data can only be physically sorted in ONE way.
+
+- 1 Clustered index (usually on Primary Key)
+- Up to 999 Non-Clustered indexes
+
+-- By default, PRIMARY KEY = Clustered Index
+CREATE TABLE Employee (
+    Id INT PRIMARY KEY,  -- Clustered index created automatically
+    Name VARCHAR(100)
+);
+
+-- You can make PK non-clustered and cluster on another column:
+CREATE TABLE Employee (
+    Id INT PRIMARY KEY NONCLUSTERED,
+    Name VARCHAR(100),
+    CreatedDate DATETIME
+);
+CREATE CLUSTERED INDEX IX_Employee_Date ON Employee(CreatedDate);
+
+
+
+================================================================================
+SECTION 5: STORED PROCEDURES &amp; FUNCTIONS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q34. what is a stored procedure?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">26</span>
+<span class="txt">Q34. What is a Stored Procedure?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Stored Procedure is a precompiled collection of SQL statements stored in 
+the database that can be executed as a single unit.
+
+CREATE PROCEDURE sp_GetEmployeesByDept
+    @DepartmentId INT,
+    @MinSalary DECIMAL(10,2) = 0  -- Default parameter
+AS
+BEGIN
+    SELECT Id, Name, Salary
+    FROM Employee
+    WHERE DepartmentId = @DepartmentId
+      AND Salary &gt;= @MinSalary
+    ORDER BY Salary DESC;
+END
+
+-- Execute:
+EXEC sp_GetEmployeesByDept @DepartmentId = 1;
+EXEC sp_GetEmployeesByDept 1, 50000;
+
+Benefits:
+- Precompiled (faster execution, cached plan)
+- Reusable (call from multiple places)
+- Security (grant EXEC permission without table access)
+- Reduces network traffic (one call instead of multiple queries)
+- Maintainability (change logic in one place)
+- Prevents SQL injection (parameterized)</pre></div>
+</div>
+<div class="q" data-s="q35. what is the difference between stored procedure and function?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">27</span>
+<span class="txt">Q35. What is the difference between Stored Procedure and Function?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>| Feature          | Stored Procedure     | Function               |
+|------------------|----------------------|------------------------|
+| Return           | 0 or more values     | Must return ONE value  |
+| Return type      | INT (status) + OUT   | Scalar or Table        |
+| Call in SELECT   | Cannot               | Can                    |
+| DML allowed      | Yes (INSERT/UPDATE)  | No (read-only)         |
+| Transaction      | Can use              | Cannot use             |
+| TRY-CATCH        | Can use              | Cannot use             |
+| Call syntax       | EXEC sp_Name        | SELECT dbo.FnName()   |
+| Output params    | Yes                  | No                     |
+| Table-valued     | Via result set       | Returns TABLE          |
+
+-- Function can be used in SELECT:
+SELECT Name, dbo.fn_GetTax(Salary) AS Tax FROM Employee;
+
+-- SP cannot be used in SELECT:
+-- SELECT Name, EXEC sp_GetTax(Salary) FROM Employee;  -- ERROR!</pre></div>
+</div>
+<div class="q" data-s="q36. what are input and output parameters in sp?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">28</span>
+<span class="txt">Q36. What are Input and Output parameters in SP?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>INPUT parameters (pass data IN):
+CREATE PROCEDURE sp_GetEmployee
+    @Id INT  -- Input parameter
+AS
+BEGIN
+    SELECT * FROM Employee WHERE Id = @Id;
+END
+
+EXEC sp_GetEmployee @Id = 5;
+
+OUTPUT parameters (get data OUT):
+CREATE PROCEDURE sp_GetEmployeeCount
+    @DepartmentId INT,           -- Input
+    @Count INT OUTPUT,           -- Output
+    @AvgSalary DECIMAL OUTPUT    -- Output
+AS
+BEGIN
+    SELECT @Count = COUNT(*), @AvgSalary = AVG(Salary)
+    FROM Employee
+    WHERE DepartmentId = @DepartmentId;
+END
+
+-- Call with OUTPUT:
+DECLARE @EmpCount INT, @Avg DECIMAL;
+EXEC sp_GetEmployeeCount @DepartmentId = 1, 
+     @Count = @EmpCount OUTPUT, 
+     @AvgSalary = @Avg OUTPUT;
+PRINT @EmpCount;
+PRINT @Avg;</pre></div>
+</div>
+<div class="q" data-s="q37. what is a user-defined function?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">29</span>
+<span class="txt">Q37. What is a User-Defined Function?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SCALAR FUNCTION (returns single value):
+CREATE FUNCTION fn_GetFullName(@FirstName VARCHAR(50), @LastName VARCHAR(50))
+RETURNS VARCHAR(100)
+AS
+BEGIN
+    RETURN @FirstName + ' ' + @LastName;
+END
+
+-- Usage:
+SELECT dbo.fn_GetFullName(FirstName, LastName) AS FullName FROM Employee;
+
+TABLE-VALUED FUNCTION (returns table):
+
+-- Inline (single SELECT):
+CREATE FUNCTION fn_GetEmployeesByDept(@DeptId INT)
+RETURNS TABLE
+AS
+RETURN (
+    SELECT Id, Name, Salary FROM Employee WHERE DepartmentId = @DeptId
+);
+
+-- Usage:
+SELECT * FROM dbo.fn_GetEmployeesByDept(1);
+SELECT * FROM dbo.fn_GetEmployeesByDept(1) WHERE Salary &gt; 50000;
+
+
+================================================================================
+SECTION 6: VIEWS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q41. what is a view?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">30</span>
+<span class="txt">Q41. What is a View?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A View is a virtual table based on a SELECT query. It doesn't store data 
+physically — it executes the query each time it's accessed.
+
+CREATE VIEW vw_EmployeeDetails
+AS
+SELECT e.Id, e.Name, e.Salary, d.DeptName, m.Name AS ManagerName
+FROM Employee e
+LEFT JOIN Department d ON e.DepartmentId = d.Id
+LEFT JOIN Employee m ON e.ManagerId = m.Id
+WHERE e.IsActive = 1;
+
+-- Usage (like a table):
+SELECT * FROM vw_EmployeeDetails;
+SELECT * FROM vw_EmployeeDetails WHERE DeptName = 'IT';
+
+Benefits:
+- Simplify complex queries (write once, use many times)
+- Security (expose only certain columns/rows)
+- Abstraction (hide table structure from users)
+- Consistent data access
+
+Limitations:
+- Cannot use ORDER BY without TOP/OFFSET
+- Cannot have parameters (use function instead)
+- Performance same as underlying query (not cached)
+
+
+Q42-Q43. View vs Table and DML on Views
+--------------------------------------------------------------------------------
+| Feature    | View                 | Table                |
+|------------|----------------------|----------------------|
+| Storage    | No data stored       | Data stored on disk  |
+| Definition | SELECT query         | CREATE TABLE         |
+| DML        | Limited              | Full support         |
+| Index      | Only indexed views   | Full index support   |
+| Performance| Runs query each time | Direct data access   |
+
+DML on Views:
+- Simple views (single table, no aggregates): INSERT/UPDATE/DELETE allowed
+- Complex views (joins, GROUP BY, DISTINCT): Usually NOT allowed
+- Use INSTEAD OF trigger to enable DML on complex views
+
+
+================================================================================
+SECTION 7: TRIGGERS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q46. what is a trigger?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">31</span>
+<span class="txt">Q46. What is a Trigger?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Trigger is a special stored procedure that automatically executes when a 
+specific event (INSERT, UPDATE, DELETE) occurs on a table.
+
+AFTER TRIGGER (executes AFTER the DML operation):
+CREATE TRIGGER trg_Employee_Audit
+ON Employee
+AFTER INSERT, UPDATE, DELETE
+AS
+BEGIN
+    -- Log changes to audit table
+    INSERT INTO AuditLog (TableName, Action, DateTime)
+    SELECT 'Employee', 
+           CASE 
+               WHEN EXISTS(SELECT 1 FROM inserted) AND EXISTS(SELECT 1 FROM deleted) THEN 'UPDATE'
+               WHEN EXISTS(SELECT 1 FROM inserted) THEN 'INSERT'
+               ELSE 'DELETE'
+           END,
+           GETDATE();
+END
+
+INSTEAD OF TRIGGER (executes INSTEAD of the DML operation):
+CREATE TRIGGER trg_Employee_SoftDelete
+ON Employee
+INSTEAD OF DELETE
+AS
+BEGIN
+    -- Soft delete instead of actual delete
+    UPDATE Employee SET IsActive = 0, DeletedDate = GETDATE()
+    WHERE Id IN (SELECT Id FROM deleted);
+END</pre></div>
+</div>
+<div class="q" data-s="q48. inserted and deleted tables:">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">32</span>
+<span class="txt">Q48. INSERTED and DELETED tables:</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>INSERTED: Contains NEW rows (INSERT/UPDATE new values)
+- DELETED: Contains OLD rows (DELETE/UPDATE old values)
+
+| Operation | INSERTED        | DELETED         |
+|-----------|-----------------|-----------------|
+| INSERT    | New rows        | Empty           |
+| DELETE    | Empty           | Deleted rows    |
+| UPDATE    | New values      | Old values      |
+
+
+================================================================================
+SECTION 8: CONSTRAINTS &amp; KEYS
+================================================================================
+
+Q51-Q61. Constraints, Keys, and Referential Integrity
+--------------------------------------------------------------------------------
+CONSTRAINTS enforce rules on data in tables:
+
+PRIMARY KEY:
+- Uniquely identifies each row
+- Cannot be NULL
+- Only ONE per table
+- Creates clustered index by default
+
+CREATE TABLE Employee (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Name VARCHAR(100) NOT NULL
+);
+
+FOREIGN KEY:
+- References Primary Key of another table
+- Enforces referential integrity
+- Can be NULL (optional relationship)
+
+CREATE TABLE Employee (
+    Id INT PRIMARY KEY,
+    DepartmentId INT FOREIGN KEY REFERENCES Department(Id)
+);
+
+UNIQUE:
+- All values must be distinct
+- Allows ONE NULL
+- Multiple unique constraints per table
+
+ALTER TABLE Employee ADD CONSTRAINT UQ_Email UNIQUE (Email);
+
+CHECK:
+- Validates data against a condition
+
+ALTER TABLE Employee ADD CONSTRAINT CK_Salary CHECK (Salary &gt; 0);
+ALTER TABLE Employee ADD CONSTRAINT CK_Age CHECK (Age BETWEEN 18 AND 65);
+
+DEFAULT:
+- Provides default value if none specified
+
+ALTER TABLE Employee ADD CONSTRAINT DF_HireDate DEFAULT GETDATE() FOR HireDate;
+ALTER TABLE Employee ADD CONSTRAINT DF_IsActive DEFAULT 1 FOR IsActive;
+
+NOT NULL:
+- Column cannot contain NULL values
+
+CREATE TABLE Employee (
+    Id INT PRIMARY KEY,
+    Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(200) NOT NULL
+);
+
+PRIMARY KEY vs UNIQUE KEY:
+| Feature      | Primary Key        | Unique Key         |
+|--------------|--------------------|--------------------|
+| NULL         | Not allowed        | One NULL allowed   |
+| Per table    | Only 1             | Multiple           |
+| Index        | Clustered (default)| Non-clustered      |
+| Purpose      | Row identifier     | Prevent duplicates |
+
+CASCADE DELETE/UPDATE:
+CREATE TABLE Employee (
+    Id INT PRIMARY KEY,
+    DepartmentId INT FOREIGN KEY REFERENCES Department(Id)
+        ON DELETE CASCADE      -- Delete employees when department deleted
+        ON UPDATE CASCADE      -- Update FK when department Id changes
+);
+
+-- Options: CASCADE, SET NULL, SET DEFAULT, NO ACTION
+
+
+================================================================================
+SECTION 9: NORMALIZATION
+================================================================================
+
+Q62-Q67. Normalization
+--------------------------------------------------------------------------------
+Normalization is organizing database tables to reduce redundancy and 
+dependency. Each normal form has specific rules.
+
+1NF (First Normal Form):
+- Each column has atomic (single) values
+- No repeating groups or arrays
+- Each row is unique
+
+BAD: | Id | Name | Phones              |
+     | 1  | John | 123-456, 789-012    |  ← Multiple values!
+
+GOOD: | Id | Name | Phone   |
+      | 1  | John | 123-456 |
+      | 1  | John | 789-012 |  ← Separate rows
+
+2NF (Second Normal Form):
+- Must be in 1NF
+- No PARTIAL dependency (non-key column depends on PART of composite key)
+- Every non-key column depends on the ENTIRE primary key
+
+BAD (composite key: StudentId + CourseId):
+| StudentId | CourseId | StudentName | CourseName | Grade |
+StudentName depends only on StudentId (partial dependency!)
+
+GOOD: Split into separate tables:
+Students: | StudentId | StudentName |
+Courses:  | CourseId | CourseName |
+Enrollments: | StudentId | CourseId | Grade |
+
+3NF (Third Normal Form):
+- Must be in 2NF
+- No TRANSITIVE dependency (non-key depends on another non-key)
+
+BAD:
+| EmpId | EmpName | DeptId | DeptName |
+DeptName depends on DeptId (not directly on EmpId) — transitive!
+
+GOOD: Split:
+Employee: | EmpId | EmpName | DeptId |
+Department: | DeptId | DeptName |
+
+DENORMALIZATION:
+- Intentionally adding redundancy for READ performance
+- Used in reporting databases, data warehouses
+- Trade-off: faster reads, slower writes, more storage
+- Example: Store calculated TotalAmount in Order table
+
+
+================================================================================
+SECTION 10: TRANSACTIONS &amp; CONCURRENCY
+================================================================================
+
+Q68-Q74. Transactions, ACID, Deadlocks, Isolation Levels
+--------------------------------------------------------------------------------
+TRANSACTION:
+A unit of work that must complete entirely or not at all.
+
+BEGIN TRANSACTION
+    UPDATE Account SET Balance = Balance - 1000 WHERE Id = 1;
+    UPDATE Account SET Balance = Balance + 1000 WHERE Id = 2;
+    
+    IF @@ERROR &lt;&gt; 0
+        ROLLBACK;
+    ELSE
+        COMMIT;
+
+-- Better with TRY-CATCH:
+BEGIN TRY
+    BEGIN TRANSACTION
+        UPDATE Account SET Balance = Balance - 1000 WHERE Id = 1;
+        UPDATE Account SET Balance = Balance + 1000 WHERE Id = 2;
+    COMMIT TRANSACTION
+END TRY
+BEGIN CATCH
+    ROLLBACK TRANSACTION
+    PRINT ERROR_MESSAGE();
+END CATCH
+
+ACID PROPERTIES:
+- Atomicity: All or nothing (complete fully or rollback)
+- Consistency: Database moves from one valid state to another
+- Isolation: Concurrent transactions don't interfere
+- Durability: Committed changes survive system failure
+
+DEADLOCK:
+Two transactions waiting for each other's locks — neither can proceed.
+
+Transaction 1: Locks Table A, wants Table B
+Transaction 2: Locks Table B, wants Table A
+→ DEADLOCK! SQL Server kills one (victim)
+
+Prevention:
+- Access tables in same order
+- Keep transactions short
+- Use appropriate isolation level
+- Use NOLOCK hint for read-only queries (carefully)
+
+ISOLATION LEVELS:
+| Level              | Dirty Read | Non-Repeatable | Phantom |
+|--------------------|------------|----------------|---------|
+| Read Uncommitted   | YES        | YES            | YES     |
+| Read Committed*    | NO         | YES            | YES     |
+| Repeatable Read    | NO         | NO             | YES     |
+| Serializable       | NO         | NO             | NO      |
+| Snapshot           | NO         | NO             | NO      |
+* Default in SQL Server
+
+SET TRANSACTION ISOLATION LEVEL READ COMMITTED;
+
+Dirty Read: Reading uncommitted data from another transaction
+Non-Repeatable Read: Same query returns different data (another committed)
+Phantom Read: New rows appear between two reads (another inserted)
+
+
+================================================================================
+SECTION 11: ADVANCED SQL
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q75. what is cte (common table expression)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">33</span>
+<span class="txt">Q75. What is CTE (Common Table Expression)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>CTE is a temporary named result set defined within a single statement.
+More readable than subqueries.
+
+WITH HighEarners AS (
+    SELECT Name, Salary, DepartmentId
+    FROM Employee
+    WHERE Salary &gt; 70000
+)
+SELECT h.Name, h.Salary, d.DeptName
+FROM HighEarners h
+INNER JOIN Department d ON h.DepartmentId = d.Id;
+
+-- Multiple CTEs:
+WITH 
+DeptStats AS (
+    SELECT DepartmentId, AVG(Salary) AS AvgSalary, COUNT(*) AS EmpCount
+    FROM Employee GROUP BY DepartmentId
+),
+TopDepts AS (
+    SELECT DepartmentId FROM DeptStats WHERE AvgSalary &gt; 60000
+)
+SELECT e.Name, e.Salary
+FROM Employee e
+WHERE e.DepartmentId IN (SELECT DepartmentId FROM TopDepts);
+
+Recursive CTE (hierarchy):
+WITH EmpHierarchy AS (
+    -- Anchor: Top-level (no manager)
+    SELECT Id, Name, ManagerId, 0 AS Level
+    FROM Employee WHERE ManagerId IS NULL
+    
+    UNION ALL
+    
+    -- Recursive: Join with parent
+    SELECT e.Id, e.Name, e.ManagerId, h.Level + 1
+    FROM Employee e
+    INNER JOIN EmpHierarchy h ON e.ManagerId = h.Id
+)
+SELECT * FROM EmpHierarchy ORDER BY Level;</pre></div>
+</div>
+<div class="q" data-s="q77. what is temp table vs table variable?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">34</span>
+<span class="txt">Q77. What is TEMP Table vs Table Variable?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>TEMP TABLE (#table):
+CREATE TABLE #TempEmployees (
+    Id INT, Name VARCHAR(100), Salary DECIMAL
+);
+INSERT INTO #TempEmployees SELECT Id, Name, Salary FROM Employee;
+-- Exists until session ends or explicitly dropped
+-- Stored in tempdb
+-- Can have indexes
+-- Visible in nested SPs
+-- Better for large datasets
+
+TABLE VARIABLE (@table):
+DECLARE @TempEmployees TABLE (
+    Id INT, Name VARCHAR(100), Salary DECIMAL
+);
+INSERT INTO @TempEmployees SELECT Id, Name, Salary FROM Employee;
+-- Exists only in current batch/scope
+-- Stored in memory (small) or tempdb (large)
+-- Cannot have non-clustered indexes (before SQL 2014)
+-- Not visible in nested SPs
+-- Better for small datasets (&lt; 1000 rows)
+
+| Feature        | #Temp Table          | @Table Variable      |
+|----------------|----------------------|----------------------|
+| Scope          | Session/SP           | Batch/scope only     |
+| Storage        | tempdb               | Memory/tempdb        |
+| Indexes        | Yes (all types)      | Limited              |
+| Statistics     | Yes                  | No                   |
+| Transactions   | Affected by rollback | NOT affected         |
+| Performance    | Better for large data| Better for small data|
+| Recompilation  | May cause            | Does not cause       |</pre></div>
+</div>
+<div class="q" data-s="q79. what are window functions (row_number, rank, dense_rank)?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">35</span>
+<span class="txt">Q79. What are Window Functions (ROW_NUMBER, RANK, DENSE_RANK)?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Window Functions perform calculations across a set of rows RELATED to 
+current row, without collapsing rows (unlike GROUP BY).
+
+SELECT 
+    Name, Department, Salary,
+    ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum,
+    RANK() OVER (ORDER BY Salary DESC) AS Rank,
+    DENSE_RANK() OVER (ORDER BY Salary DESC) AS DenseRank
+FROM Employee;
+
+| Name  | Salary | ROW_NUMBER | RANK | DENSE_RANK |
+|-------|--------|------------|------|------------|
+| Alice | 90000  | 1          | 1    | 1          |
+| Bob   | 80000  | 2          | 2    | 2          |
+| Carol | 80000  | 3          | 2    | 2          |
+| Dave  | 70000  | 4          | 4    | 3          |
+
+Differences:
+- ROW_NUMBER: Always unique (1,2,3,4) — no ties
+- RANK: Same rank for ties, SKIPS next (1,2,2,4)
+- DENSE_RANK: Same rank for ties, NO skip (1,2,2,3)</pre></div>
+</div>
+<div class="q" data-s="q80. partition by:">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">36</span>
+<span class="txt">Q80. PARTITION BY:</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Rank within each department:
+SELECT Name, Department, Salary,
+    ROW_NUMBER() OVER (PARTITION BY Department ORDER BY Salary DESC) AS DeptRank
+FROM Employee;
+
+-- Running total:
+SELECT Name, Salary,
+    SUM(Salary) OVER (ORDER BY Id) AS RunningTotal
+FROM Employee;</pre></div>
+</div>
+<div class="q" data-s="q84. offset fetch (pagination):">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">37</span>
+<span class="txt">Q84. OFFSET FETCH (Pagination):</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Page 3, 10 records per page:
+SELECT * FROM Employee
+ORDER BY Id
+OFFSET 20 ROWS          -- Skip first 20 (page 1 &amp; 2)
+FETCH NEXT 10 ROWS ONLY; -- Take next 10 (page 3)
+
+-- Formula: OFFSET (PageNumber - 1) * PageSize ROWS FETCH NEXT PageSize ROWS ONLY
+
+
+================================================================================
+SECTION 13: PRACTICAL QUERIES (Most Asked!)
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q90. find nth highest salary">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">38</span>
+<span class="txt">Q90. Find Nth Highest Salary</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>-- 2nd highest:
+SELECT MAX(Salary) FROM Employee
+WHERE Salary &lt; (SELECT MAX(Salary) FROM Employee);
+
+-- Nth highest using DENSE_RANK (recommended):
+WITH RankedSalaries AS (
+    SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rank
+    FROM Employee
+)
+SELECT DISTINCT Salary FROM RankedSalaries WHERE Rank = 3;  -- 3rd highest
+
+-- Using OFFSET:
+SELECT DISTINCT Salary FROM Employee
+ORDER BY Salary DESC
+OFFSET 2 ROWS FETCH NEXT 1 ROWS ONLY;  -- 3rd highest (skip 2)</pre></div>
+</div>
+<div class="q" data-s="q91. find duplicate records">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">39</span>
+<span class="txt">Q91. Find Duplicate Records</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT Name, Email, COUNT(*) AS DuplicateCount
+FROM Employee
+GROUP BY Name, Email
+HAVING COUNT(*) &gt; 1;
+
+-- With details:
+SELECT * FROM Employee
+WHERE Email IN (
+    SELECT Email FROM Employee GROUP BY Email HAVING COUNT(*) &gt; 1
+);</pre></div>
+</div>
+<div class="q" data-s="q92. delete duplicate records keeping one">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">40</span>
+<span class="txt">Q92. Delete Duplicate Records Keeping One</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>-- Keep lowest Id, delete rest:
+WITH CTE AS (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY Email ORDER BY Id) AS RowNum
+    FROM Employee
+)
+DELETE FROM CTE WHERE RowNum &gt; 1;
+
+-- Alternative:
+DELETE e1 FROM Employee e1
+INNER JOIN Employee e2 
+ON e1.Email = e2.Email AND e1.Id &gt; e2.Id;</pre></div>
+</div>
+<div class="q" data-s="q93. employee-manager hierarchy">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">41</span>
+<span class="txt">Q93. Employee-Manager Hierarchy</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT 
+    e.Name AS Employee,
+    m.Name AS Manager
+FROM Employee e
+LEFT JOIN Employee m ON e.ManagerId = m.Id;
+
+-- With levels (recursive CTE):
+WITH Hierarchy AS (
+    SELECT Id, Name, ManagerId, 0 AS Level
+    FROM Employee WHERE ManagerId IS NULL
+    UNION ALL
+    SELECT e.Id, e.Name, e.ManagerId, h.Level + 1
+    FROM Employee e INNER JOIN Hierarchy h ON e.ManagerId = h.Id
+)
+SELECT REPLICATE('  ', Level) + Name AS OrgChart, Level
+FROM Hierarchy ORDER BY Level;</pre></div>
+</div>
+<div class="q" data-s="q94. rank() vs dense_rank() vs row_number()">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">42</span>
+<span class="txt">Q94. RANK() vs DENSE_RANK() vs ROW_NUMBER()</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>Data: Salaries = 90000, 80000, 80000, 70000
+
+ROW_NUMBER(): 1, 2, 3, 4 (always unique, arbitrary for ties)
+RANK():       1, 2, 2, 4 (ties get same rank, next rank SKIPPED)
+DENSE_RANK(): 1, 2, 2, 3 (ties get same rank, next rank NOT skipped)
+
+Use cases:
+- ROW_NUMBER: Pagination, unique numbering
+- RANK: Competition ranking (1st, 2nd, 2nd, 4th)
+- DENSE_RANK: Find Nth highest (no gaps)</pre></div>
+</div>
+<div class="q" data-s="q95. @@identity vs scope_identity() vs ident_current()">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">43</span>
+<span class="txt">Q95. @@IDENTITY vs SCOPE_IDENTITY() vs IDENT_CURRENT()</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>@@IDENTITY:
+- Last identity value generated in current SESSION
+- ANY table, ANY scope (including triggers)
+- Dangerous if trigger inserts into another identity table
+
+SCOPE_IDENTITY():
+- Last identity value in current SESSION and SCOPE
+- Ignores trigger inserts
+- RECOMMENDED
+
+IDENT_CURRENT('TableName'):
+- Last identity value for specific table
+- ANY session, ANY scope
+- Not safe for concurrent inserts
+
+INSERT INTO Employee (Name) VALUES ('John');
+SELECT SCOPE_IDENTITY();  -- Returns new Employee Id (safe)
+SELECT @@IDENTITY;        -- Might return trigger's insert Id (unsafe)</pre></div>
+</div>
+<div class="q" data-s="q96. what is a cursor? why avoid it?">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">44</span>
+<span class="txt">Q96. What is a Cursor? Why avoid it?</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>A Cursor processes rows ONE AT A TIME (row-by-row) instead of set-based.
+
+DECLARE @Name VARCHAR(100)
+DECLARE emp_cursor CURSOR FOR
+    SELECT Name FROM Employee WHERE IsActive = 1;
+
+OPEN emp_cursor;
+FETCH NEXT FROM emp_cursor INTO @Name;
+
+WHILE @@FETCH_STATUS = 0
+BEGIN
+    PRINT 'Processing: ' + @Name;
+    FETCH NEXT FROM emp_cursor INTO @Name;
+END
+
+CLOSE emp_cursor;
+DEALLOCATE emp_cursor;
+
+Why AVOID cursors:
+- VERY SLOW (row-by-row vs set-based)
+- High memory usage
+- Locks held longer
+- 10-100x slower than set-based equivalent
+
+Alternative (set-based - always prefer):
+UPDATE Employee SET Salary = Salary * 1.1 WHERE IsActive = 1;
+-- One statement processes ALL rows at once (fast!)</pre></div>
+</div>
+<div class="q" data-s="q97. isnull vs coalesce">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">45</span>
+<span class="txt">Q97. ISNULL vs COALESCE</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>ISNULL(value, replacement):
+- SQL Server specific
+- Exactly 2 parameters
+- Returns data type of first parameter
+
+SELECT ISNULL(Phone, 'N/A') FROM Employee;
+
+COALESCE(val1, val2, val3, ...):
+- ANSI standard (portable)
+- Multiple parameters (returns first non-null)
+- Returns highest precedence data type
+
+SELECT COALESCE(Phone, Mobile, WorkPhone, 'No Contact') FROM Employee;
+
+Prefer COALESCE (standard, more flexible).</pre></div>
+</div>
+<div class="q" data-s="q99. string_agg / for xml path (string concatenation)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">46</span>
+<span class="txt">Q99. STRING_AGG / FOR XML PATH (String Concatenation)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>-- Combine multiple rows into one comma-separated string:
+
+-- SQL Server 2017+ (STRING_AGG):
+SELECT Department, STRING_AGG(Name, ', ') AS Employees
+FROM Employee
+GROUP BY Department;
+-- Result: IT | John, Jane, Bob
+
+-- Older versions (FOR XML PATH):
+SELECT Department,
+    STUFF((
+        SELECT ', ' + Name 
+        FROM Employee e2 
+        WHERE e2.Department = e1.Department 
+        FOR XML PATH('')
+    ), 1, 2, '') AS Employees
+FROM Employee e1
+GROUP BY Department;
+
+
+================================================================================
+                    END OF SQL INTERVIEW PREPARATION
+================================================================================
+
+TIPS:
+1. Practice writing queries WITHOUT looking at answers
+2. Most asked: Joins, Nth salary, duplicates, RANK functions, CTE
+3. Know the difference questions well (DELETE/TRUNCATE, Clustered/Non-Clustered)
+4. Be ready to optimize a slow query (indexes, execution plan)
+5. Understand ACID and deadlocks for transaction questions
+
+GOOD LUCK!
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="clustered non-clustered index difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">47</span><span class="txt">What is Clustered vs Non-Clustered Index?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CLUSTERED INDEX:
+- Physically sorts and stores data rows in the table
+- Only ONE per table (like a phone book sorted by name)
+- Primary Key creates clustered index by default
+- Faster for range queries (WHERE Price BETWEEN 100 AND 500)
+- Table IS the index (leaf nodes = actual data)
+
+CREATE CLUSTERED INDEX IX_Employee_Id ON Employees(Id);
+
+NON-CLUSTERED INDEX:
+- Separate structure with pointers to actual data
+- Multiple per table (up to 999)
+- Like an index at the back of a book
+- Contains: indexed columns + pointer to row
+- Faster for specific lookups
+
+CREATE NONCLUSTERED INDEX IX_Employee_Name ON Employees(LastName, FirstName);
+
+| Feature          | Clustered            | Non-Clustered        |
+|------------------|----------------------|----------------------|
+| Count per table  | Only 1               | Up to 999            |
+| Data storage     | Sorts actual data    | Separate structure   |
+| Speed            | Fast for ranges      | Fast for lookups     |
+| Size             | No extra space       | Extra storage needed |
+| Leaf nodes       | Actual data rows     | Pointers to data     |
+
+When to use Non-Clustered:
+- Columns frequently used in WHERE clause
+- Columns used in JOIN conditions
+- Columns used in ORDER BY
+- Foreign key columns
+
+Covering Index (includes all needed columns):
+CREATE INDEX IX_Order_Cover ON Orders(CustomerId)
+INCLUDE (OrderDate, Total);  -- No need to go to table for these columns</pre></div></div>
+
+<div class="q" data-s="optimize slow query execution plan performance"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">48</span><span class="txt">How to optimize a slow SQL query?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Step-by-step approach:
+
+1. CHECK EXECUTION PLAN:
+   - SET STATISTICS IO ON
+   - SET STATISTICS TIME ON
+   - Look for Table Scans (bad) vs Index Seeks (good)
+
+2. ADD PROPER INDEXES:
+   - Index columns in WHERE, JOIN, ORDER BY
+   - Use covering indexes (INCLUDE)
+   - Remove unused indexes
+
+3. AVOID SELECT *:
+   -- BAD:
+   SELECT * FROM Orders WHERE CustomerId = 5
+   -- GOOD:
+   SELECT OrderId, OrderDate, Total FROM Orders WHERE CustomerId = 5
+
+4. AVOID FUNCTIONS ON INDEXED COLUMNS:
+   -- BAD (can't use index):
+   WHERE YEAR(OrderDate) = 2024
+   -- GOOD (uses index):
+   WHERE OrderDate &gt;= '2024-01-01' AND OrderDate &lt; '2025-01-01'
+
+5. USE EXISTS INSTEAD OF IN (for subqueries):
+   -- Slower:
+   WHERE Id IN (SELECT OrderId FROM OrderItems WHERE Qty &gt; 10)
+   -- Faster:
+   WHERE EXISTS (SELECT 1 FROM OrderItems WHERE OrderId = Orders.Id AND Qty &gt; 10)
+
+6. PAGINATION:
+   -- Use OFFSET-FETCH instead of loading all:
+   ORDER BY Id OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
+
+7. AVOID CURSORS — Use set-based operations
+
+8. UPDATE STATISTICS:
+   UPDATE STATISTICS TableName
+
+9. CHECK FOR PARAMETER SNIFFING:
+   OPTION (RECOMPILE) -- Force new plan
+
+10. AVOID N+1 in application code — Use JOINs or batch queries</pre></div></div>
+
+<div class="q" data-s="nth highest salary second third"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">49</span><span class="txt">Write query to find Nth highest salary?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Method 1: Using DENSE_RANK (Best):
+SELECT Salary FROM (
+    SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rank
+    FROM Employees
+) t
+WHERE Rank = 3;  -- 3rd highest
+
+Method 2: Using OFFSET-FETCH:
+SELECT DISTINCT Salary
+FROM Employees
+ORDER BY Salary DESC
+OFFSET 2 ROWS FETCH NEXT 1 ROWS ONLY;  -- 3rd highest (0-based offset)
+
+Method 3: Using subquery:
+SELECT MAX(Salary) FROM Employees
+WHERE Salary &lt; (SELECT MAX(Salary) FROM Employees);  -- 2nd highest only
+
+Method 4: Generic Nth using CTE:
+WITH RankedSalaries AS (
+    SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rank
+    FROM Employees
+)
+SELECT DISTINCT Salary FROM RankedSalaries WHERE Rank = @N;
+
+DENSE_RANK vs ROW_NUMBER vs RANK:
+- ROW_NUMBER: 1,2,3,4,5 (no ties)
+- RANK: 1,2,2,4,5 (ties skip numbers)
+- DENSE_RANK: 1,2,2,3,4 (ties don't skip)
+
+For salary questions, use DENSE_RANK (handles duplicate salaries correctly).</pre></div></div>
+
+<div class="q" data-s="cte temp table table variable difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">50</span><span class="txt">What is CTE vs Temp Table vs Table Variable?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CTE (Common Table Expression):
+- Temporary named result set within a single query
+- Exists only during that query execution
+- Good for readability and recursive queries
+- No physical storage
+
+WITH ActiveEmployees AS (
+    SELECT Id, Name, DepartmentId
+    FROM Employees
+    WHERE IsActive = 1
+)
+SELECT d.Name, COUNT(*) as EmpCount
+FROM ActiveEmployees ae
+JOIN Departments d ON ae.DepartmentId = d.Id
+GROUP BY d.Name;
+
+TEMP TABLE (#table):
+- Physical table in tempdb
+- Can have indexes
+- Exists for the session/connection
+- Good for large datasets, multiple uses
+
+CREATE TABLE #TempOrders (
+    Id INT, Total DECIMAL(18,2)
+);
+INSERT INTO #TempOrders SELECT Id, Total FROM Orders WHERE Year = 2024;
+-- Use multiple times...
+DROP TABLE #TempOrders;
+
+TABLE VARIABLE (@table):
+- In-memory (small datasets)
+- No statistics (optimizer assumes 1 row)
+- Scope: current batch only
+- Good for small datasets (&lt; 1000 rows)
+
+DECLARE @Results TABLE (Id INT, Name NVARCHAR(100));
+INSERT INTO @Results SELECT Id, Name FROM Products WHERE Price &gt; 100;
+SELECT * FROM @Results;
+
+| Feature        | CTE            | Temp Table     | Table Variable |
+|----------------|----------------|----------------|----------------|
+| Storage        | None (inline)  | tempdb         | Memory         |
+| Indexes        | No             | Yes            | Limited        |
+| Scope          | Single query   | Session        | Batch          |
+| Best for       | Readability    | Large data     | Small data     |
+| Statistics     | N/A            | Yes            | No             |
+| Transactions   | N/A            | Yes            | No rollback    |</pre></div></div>
+
+<div class="q" data-s="stored procedure vs inline query"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">51</span><span class="txt">Stored Procedure vs Inline Query — when to use?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>STORED PROCEDURE:
+- Pre-compiled SQL stored in database
+- Execution plan cached (faster repeated execution)
+- Security (grant EXECUTE without table access)
+- Reduces network traffic
+- Can contain complex logic (IF, WHILE, TRY-CATCH)
+
+CREATE PROCEDURE GetOrdersByCustomer
+    @CustomerId INT,
+    @FromDate DATE = NULL
+AS
+BEGIN
+    SELECT o.Id, o.OrderDate, o.Total
+    FROM Orders o
+    WHERE o.CustomerId = @CustomerId
+    AND (@FromDate IS NULL OR o.OrderDate &gt;= @FromDate)
+    ORDER BY o.OrderDate DESC;
+END
+
+-- Call:
+EXEC GetOrdersByCustomer @CustomerId = 5, @FromDate = '2024-01-01';
+
+INLINE QUERY (EF Core / Dapper):
+- Written in application code
+- Easier to maintain with code
+- Version controlled with application
+- EF Core generates optimized SQL
+
+var orders = await _context.Orders
+    .Where(o =&gt; o.CustomerId == customerId)
+    .OrderByDescending(o =&gt; o.OrderDate)
+    .ToListAsync();
+
+When to use SP:
+- Complex reports with multiple steps
+- Batch operations (bulk insert/update)
+- When DBA manages database
+- Security-sensitive operations
+- Legacy systems
+
+When to use Inline/EF Core:
+- Simple CRUD operations
+- When using Code First approach
+- Rapid development
+- When logic should be in application layer
+- Microservices (DB per service)
+
+Call SP from EF Core:
+var orders = await _context.Orders
+    .FromSqlRaw("EXEC GetOrdersByCustomer @p0, @p1", customerId, fromDate)
+    .ToListAsync();</pre></div></div>
+
+<div class="q" data-s="window function row_number rank partition by"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">52</span><span class="txt">What are Window Functions (ROW_NUMBER, RANK, PARTITION BY)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Window Functions perform calculations across a set of rows related to current row WITHOUT grouping.
+
+ROW_NUMBER — Unique sequential number:
+SELECT Name, Department, Salary,
+    ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum
+FROM Employees;
+-- Result: 1, 2, 3, 4, 5 (no ties)
+
+RANK — Rank with gaps for ties:
+SELECT Name, Salary,
+    RANK() OVER (ORDER BY Salary DESC) AS Rank
+FROM Employees;
+-- If two people have same salary: 1, 2, 2, 4, 5 (skips 3)
+
+DENSE_RANK — Rank without gaps:
+SELECT Name, Salary,
+    DENSE_RANK() OVER (ORDER BY Salary DESC) AS DenseRank
+FROM Employees;
+-- If two people have same salary: 1, 2, 2, 3, 4 (no skip)
+
+PARTITION BY — Window per group:
+SELECT Name, Department, Salary,
+    ROW_NUMBER() OVER (PARTITION BY Department ORDER BY Salary DESC) AS RankInDept
+FROM Employees;
+-- Ranks reset for each department!
+-- IT: 1,2,3  HR: 1,2,3  Finance: 1,2,3
+
+Practical: Top 3 earners per department:
+WITH Ranked AS (
+    SELECT *, DENSE_RANK() OVER (PARTITION BY Department ORDER BY Salary DESC) AS Rank
+    FROM Employees
+)
+SELECT * FROM Ranked WHERE Rank &lt;= 3;
+
+Running Total:
+SELECT OrderDate, Amount,
+    SUM(Amount) OVER (ORDER BY OrderDate) AS RunningTotal
+FROM Orders;</pre></div></div>
+
+</div>
+</div>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+</script>
+</body>
+</html>

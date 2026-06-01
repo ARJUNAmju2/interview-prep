@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Web API Interview Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:20px}
+h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#f97316,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}
+.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}
+.back:hover{text-decoration:underline}
+.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}
+.search::placeholder{color:#64748b}
+.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}
+.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #f97316;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}
+.q-title:hover{background:#fff7ed}
+.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#f97316;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+.q-title .txt{flex:1}
+.q-title .arrow{transition:transform .3s;color:#f97316;font-size:1rem;flex-shrink:0}
+.q.open .q-title .arrow{transform:rotate(180deg)}
+.q.open .q-title{background:#fff7ed;border-bottom:1px solid #fed7aa}
+.q-ans{display:none;padding:14px 16px;background:#fffcfa}
+.q.open .q-ans{display:block}
+.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>Web API Interview Questions</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+
+<div class="q" data-s="what is web api">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Web API? How is it different from MVC?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>Web API is a framework for building HTTP-based services that can be consumed by any client (browser, mobile, desktop, IoT).
+
+Key Differences:
+| Feature        | MVC                  | Web API              |
+|----------------|----------------------|----------------------|
+| Returns        | Views (HTML)         | Data (JSON/XML)      |
+| Base class     | Controller           | ControllerBase       |
+| Attribute      | -                    | [ApiController]      |
+| Content-Type   | text/html            | application/json     |
+| Consumers      | Browsers only        | Any client           |
+| Authentication | Cookie-based         | Token-based (JWT)    |
+
+Web API Controller:
+[ApiController]
+[Route("api/[controller]")]
+public class ProductsController : ControllerBase
+{
+    [HttpGet]
+    public ActionResult&lt;IEnumerable&lt;Product&gt;&gt; GetAll()
+    {
+        return Ok(_service.GetAll());
+    }
+}</pre></div>
+</div>
+
+<div class="q" data-s="what is rest restful">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is REST? What are RESTful principles?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>REST (Representational State Transfer) is an architectural style for designing networked applications.
+
+6 RESTful Principles:
+1. Client-Server: Separation of concerns
+2. Stateless: Each request contains all info needed (no server session)
+3. Cacheable: Responses can be cached
+4. Uniform Interface: Consistent URL patterns and HTTP methods
+5. Layered System: Client doesn't know if connected directly to server
+6. Code on Demand (optional): Server can send executable code
+
+RESTful URL Design:
+GET    /api/products        → Get all products
+GET    /api/products/5      → Get product by ID
+POST   /api/products        → Create new product
+PUT    /api/products/5      → Update entire product
+PATCH  /api/products/5      → Partial update
+DELETE /api/products/5      → Delete product
+
+Rules:
+- Use NOUNS not verbs: /api/products (not /api/getProducts)
+- Use plural: /api/products (not /api/product)
+- Use HTTP methods for actions
+- Use status codes for responses
+- Use query params for filtering: /api/products?category=electronics</pre></div>
+</div>
+
+<div class="q" data-s="http status codes">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What are HTTP Status Codes? List important ones.</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>HTTP Status Codes indicate the result of an HTTP request.
+
+2xx - SUCCESS:
+200 OK              → Request successful (GET, PUT)
+201 Created         → Resource created (POST)
+204 No Content      → Success but no body (DELETE)
+
+3xx - REDIRECTION:
+301 Moved Permanently → URL changed permanently
+302 Found            → Temporary redirect
+304 Not Modified     → Use cached version
+
+4xx - CLIENT ERROR:
+400 Bad Request      → Invalid input/validation failed
+401 Unauthorized     → Not authenticated (no/invalid token)
+403 Forbidden        → Authenticated but no permission
+404 Not Found        → Resource doesn't exist
+405 Method Not Allowed → Wrong HTTP method
+409 Conflict         → Duplicate/conflict (e.g., duplicate email)
+422 Unprocessable    → Validation error
+
+5xx - SERVER ERROR:
+500 Internal Server Error → Unhandled exception
+502 Bad Gateway      → Upstream server error
+503 Service Unavailable → Server overloaded/maintenance
+
+In ASP.NET Core:
+return Ok(data);           // 200
+return Created(uri, data); // 201
+return NoContent();        // 204
+return BadRequest(errors); // 400
+return Unauthorized();     // 401
+return Forbid();           // 403
+return NotFound();         // 404
+return StatusCode(500);    // 500</pre></div>
+</div>
+
+<div class="q" data-s="what is jwt json web token authentication">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is JWT (JSON Web Token)? How does authentication work?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>JWT is a compact, self-contained token used for securely transmitting information between parties as a JSON object.
+
+Structure: Header.Payload.Signature
+eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9PlFUP0THsR8U
+
+3 Parts:
+1. Header: {"alg": "HS256", "typ": "JWT"}
+2. Payload: {"sub": "userId", "name": "John", "role": "Admin", "exp": 1234567890}
+3. Signature: HMACSHA256(base64(header) + "." + base64(payload), secret)
+
+Flow:
+1. Client sends credentials (username/password) to /api/auth/login
+2. Server validates → generates JWT token → returns to client
+3. Client stores token (localStorage/cookie)
+4. Client sends token in header: Authorization: Bearer &lt;token&gt;
+5. Server validates token on each request
+
+ASP.NET Core Setup:
+// Program.cs
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =&gt;
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidIssuer = "myapp",
+            ValidAudience = "myapp",
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes("your-secret-key-here"))
+        };
+    });
+
+// Generate Token:
+var claims = new[] {
+    new Claim(ClaimTypes.Name, user.Username),
+    new Claim(ClaimTypes.Role, user.Role)
+};
+var token = new JwtSecurityToken(
+    issuer: "myapp",
+    audience: "myapp",
+    claims: claims,
+    expires: DateTime.Now.AddHours(1),
+    signingCredentials: creds);
+
+return new JwtSecurityTokenHandler().WriteToken(token);
+
+// Protect endpoint:
+[Authorize]
+[HttpGet("profile")]
+public IActionResult GetProfile() { }
+
+[Authorize(Roles = "Admin")]
+[HttpDelete("{id}")]
+public IActionResult Delete(int id) { }</pre></div>
+</div>
+
+<div class="q" data-s="what is middleware pipeline">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is Middleware? Explain the request pipeline.</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>Middleware is software that's assembled into an application pipeline to handle requests and responses. Each middleware can:
+- Process the request
+- Pass to next middleware (or short-circuit)
+- Process the response on the way back
+
+Pipeline Order (matters!):
+app.UseExceptionHandler("/Error");  // 1. Exception handling
+app.UseHttpsRedirection();          // 2. HTTPS redirect
+app.UseStaticFiles();               // 3. Serve static files
+app.UseRouting();                   // 4. Route matching
+app.UseCors();                      // 5. CORS
+app.UseAuthentication();            // 6. Who are you?
+app.UseAuthorization();             // 7. Are you allowed?
+app.MapControllers();               // 8. Execute endpoint
+
+Custom Middleware:
+public class RequestLoggingMiddleware
+{
+    private readonly RequestDelegate _next;
+    private readonly ILogger _logger;
+
+    public RequestLoggingMiddleware(RequestDelegate next, ILogger&lt;RequestLoggingMiddleware&gt; logger)
+    {
+        _next = next;
+        _logger = logger;
+    }
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        // Before next middleware
+        _logger.LogInformation($"Request: {context.Request.Method} {context.Request.Path}");
+        var stopwatch = Stopwatch.StartNew();
+
+        await _next(context);  // Call next middleware
+
+        // After next middleware (response coming back)
+        stopwatch.Stop();
+        _logger.LogInformation($"Response: {context.Response.StatusCode} in {stopwatch.ElapsedMilliseconds}ms");
+    }
+}
+
+// Register:
+app.UseMiddleware&lt;RequestLoggingMiddleware&gt;();</pre></div>
+</div>
+
+<div class="q" data-s="api versioning">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is API Versioning? How to implement it?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>API Versioning allows you to maintain multiple versions of your API simultaneously without breaking existing clients.
+
+3 Common Approaches:
+
+1. URL Path Versioning (most common):
+   /api/v1/products
+   /api/v2/products
+
+2. Query String Versioning:
+   /api/products?api-version=1.0
+   /api/products?api-version=2.0
+
+3. Header Versioning:
+   X-Api-Version: 1.0
+   X-Api-Version: 2.0
+
+Implementation in ASP.NET Core:
+// Install: Microsoft.AspNetCore.Mvc.Versioning
+builder.Services.AddApiVersioning(options =&gt;
+{
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.ReportApiVersions = true;  // Adds header in response
+    options.ApiVersionReader = ApiVersionReader.Combine(
+        new UrlSegmentApiVersionReader(),
+        new HeaderApiVersionReader("X-Api-Version")
+    );
+});
+
+// Controllers:
+[ApiController]
+[Route("api/v{version:apiVersion}/products")]
+[ApiVersion("1.0")]
+public class ProductsV1Controller : ControllerBase
+{
+    [HttpGet]
+    public IActionResult Get() =&gt; Ok(new { version = "1.0", data = products });
+}
+
+[ApiController]
+[Route("api/v{version:apiVersion}/products")]
+[ApiVersion("2.0")]
+public class ProductsV2Controller : ControllerBase
+{
+    [HttpGet]
+    public IActionResult Get() =&gt; Ok(new { version = "2.0", data = productsV2 });
+}
+
+When to version:
+- Breaking changes (removing/renaming fields)
+- Changing response structure
+- Changing business logic significantly</pre></div>
+</div>
+
+<div class="q" data-s="content negotiation accept header json xml">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">What is Content Negotiation?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>Content Negotiation is the process where the server selects the best response format based on the client's Accept header.
+
+Client sends:
+Accept: application/json  → Server returns JSON
+Accept: application/xml   → Server returns XML
+Accept: text/plain        → Server returns plain text
+
+ASP.NET Core Setup:
+builder.Services.AddControllers(options =&gt;
+{
+    options.RespectBrowserAcceptHeader = true;
+    options.ReturnHttpNotAcceptable = true;  // Returns 406 if format not supported
+})
+.AddXmlSerializerFormatters();  // Enable XML support
+
+Default: JSON (System.Text.Json)
+
+Custom formatter:
+builder.Services.AddControllers(options =&gt;
+{
+    options.OutputFormatters.Add(new CsvOutputFormatter());
+});</pre></div>
+</div>
+
+<div class="q" data-s="cors cross origin resource sharing">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">What is CORS? How to enable it?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>CORS (Cross-Origin Resource Sharing) is a security mechanism that allows/restricts web pages from making requests to a different domain.
+
+Problem: Browser blocks requests from http://frontend.com to http://api.com (different origin)
+
+Solution: Server must explicitly allow cross-origin requests.
+
+ASP.NET Core Setup:
+// Program.cs
+builder.Services.AddCors(options =&gt;
+{
+    options.AddPolicy("AllowFrontend", policy =&gt;
+    {
+        policy.WithOrigins("http://localhost:3000", "https://myapp.com")
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+
+    options.AddPolicy("AllowAll", policy =&gt;
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
+// Middleware (order matters - before auth):
+app.UseCors("AllowFrontend");
+
+// Or per controller/action:
+[EnableCors("AllowFrontend")]
+[ApiController]
+public class ProductsController : ControllerBase { }
+
+[DisableCors]
+[HttpDelete("{id}")]
+public IActionResult Delete(int id) { }</pre></div>
+</div>
+
+<div class="q" data-s="action filter exception handling global error">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">How to handle exceptions globally in Web API?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>3 Approaches:
+
+1. Exception Handling Middleware (Recommended):
+app.UseExceptionHandler(app =&gt;
+{
+    app.Run(async context =&gt;
+    {
+        context.Response.StatusCode = 500;
+        context.Response.ContentType = "application/json";
+
+        var error = context.Features.Get&lt;IExceptionHandlerFeature&gt;();
+        if (error != null)
+        {
+            await context.Response.WriteAsJsonAsync(new
+            {
+                StatusCode = 500,
+                Message = "Internal Server Error",
+                Detail = error.Error.Message  // Hide in production
+            });
+        }
+    });
+});
+
+2. Custom Exception Middleware:
+public class ExceptionMiddleware
+{
+    private readonly RequestDelegate _next;
+
+    public async Task InvokeAsync(HttpContext context)
+    {
+        try
+        {
+            await _next(context);
+        }
+        catch (NotFoundException ex)
+        {
+            context.Response.StatusCode = 404;
+            await context.Response.WriteAsJsonAsync(new { error = ex.Message });
+        }
+        catch (ValidationException ex)
+        {
+            context.Response.StatusCode = 400;
+            await context.Response.WriteAsJsonAsync(new { errors = ex.Errors });
+        }
+        catch (Exception ex)
+        {
+            context.Response.StatusCode = 500;
+            await context.Response.WriteAsJsonAsync(new { error = "Something went wrong" });
+        }
+    }
+}
+
+3. Exception Filter:
+public class ApiExceptionFilter : IExceptionFilter
+{
+    public void OnException(ExceptionContext context)
+    {
+        context.Result = new ObjectResult(new { error = context.Exception.Message })
+        {
+            StatusCode = 500
+        };
+        context.ExceptionHandled = true;
+    }
+}
+
+// Register globally:
+builder.Services.AddControllers(options =&gt;
+    options.Filters.Add&lt;ApiExceptionFilter&gt;());</pre></div>
+</div>
+
+<div class="q" data-s="apicontroller attribute model validation automatic">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What does [ApiController] attribute do?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>[ApiController] adds several conventions automatically:
+
+1. Automatic Model Validation:
+   - Returns 400 automatically if ModelState is invalid
+   - No need to check ModelState.IsValid manually
+
+2. Binding Source Inference:
+   - Complex types → [FromBody] (automatically)
+   - Simple types in route → [FromRoute]
+   - Simple types → [FromQuery]
+
+3. Problem Details for errors:
+   - Returns RFC 7807 standard error format
+   - { "type": "...", "title": "...", "status": 400, "errors": {...} }
+
+4. Attribute Routing required:
+   - Must use [Route] attribute (no conventional routing)
+
+Without [ApiController]:
+[HttpPost]
+public IActionResult Create(ProductDto dto)
+{
+    if (!ModelState.IsValid)          // Must check manually
+        return BadRequest(ModelState);
+    // ...
+}
+
+With [ApiController]:
+[HttpPost]
+public IActionResult Create(ProductDto dto)
+{
+    // ModelState already validated! 400 returned automatically if invalid
+    // dto is automatically [FromBody]
+    // ...
+}</pre></div>
+</div>
+
+<div class="q" data-s="rate limiting throttling">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">What is Rate Limiting in Web API?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>Rate Limiting restricts the number of requests a client can make in a given time period. Prevents abuse and ensures fair usage.
+
+ASP.NET Core 7+ Built-in:
+builder.Services.AddRateLimiter(options =&gt;
+{
+    options.AddFixedWindowLimiter("fixed", opt =&gt;
+    {
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.PermitLimit = 100;  // 100 requests per minute
+        opt.QueueLimit = 10;
+    });
+
+    options.AddSlidingWindowLimiter("sliding", opt =&gt;
+    {
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.SegmentsPerWindow = 6;
+        opt.PermitLimit = 100;
+    });
+
+    options.RejectionStatusCode = 429;  // Too Many Requests
+});
+
+app.UseRateLimiter();
+
+// Apply to endpoint:
+[EnableRateLimiting("fixed")]
+[HttpGet]
+public IActionResult GetAll() { }
+
+Common strategies:
+- Fixed Window: 100 requests per minute (resets every minute)
+- Sliding Window: Smoother distribution
+- Token Bucket: Allows bursts
+- Concurrency: Limit simultaneous requests</pre></div>
+</div>
+
+<div class="q" data-s="swagger openapi documentation">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is Swagger/OpenAPI?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>Swagger (OpenAPI) is a tool for documenting and testing REST APIs. It generates interactive API documentation automatically.
+
+Setup in ASP.NET Core:
+// Program.cs
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(options =&gt;
+{
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "My API",
+        Version = "v1",
+        Description = "Product management API"
+    });
+
+    // Add JWT auth to Swagger UI:
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT"
+    });
+});
+
+// Enable middleware:
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// Access at: https://localhost:5001/swagger
+
+Benefits:
+- Auto-generated API documentation
+- Interactive testing (try endpoints in browser)
+- Client SDK generation
+- Team collaboration (share API spec)</pre></div>
+</div>
+
+<div class="q" data-s="httpget httppost httpput httpdelete patch methods">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">13</span><span class="txt">Explain HTTP Methods (GET, POST, PUT, PATCH, DELETE)</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>| Method | Purpose          | Idempotent | Body | Example                    |
+|--------|------------------|------------|------|----------------------------|
+| GET    | Read/Retrieve    | Yes        | No   | GET /api/products          |
+| POST   | Create           | No         | Yes  | POST /api/products         |
+| PUT    | Full Update      | Yes        | Yes  | PUT /api/products/5        |
+| PATCH  | Partial Update   | Yes        | Yes  | PATCH /api/products/5      |
+| DELETE | Remove           | Yes        | No   | DELETE /api/products/5     |
+
+Idempotent = Same request multiple times = same result
+
+PUT vs PATCH:
+PUT: Send ENTIRE object (replaces completely)
+{
+    "id": 5,
+    "name": "Phone",
+    "price": 999,
+    "category": "Electronics"
+}
+
+PATCH: Send ONLY changed fields
+{
+    "price": 899
+}
+
+ASP.NET Core:
+[HttpGet]           public IActionResult GetAll() { }
+[HttpGet("{id}")]   public IActionResult GetById(int id) { }
+[HttpPost]          public IActionResult Create(ProductDto dto) { }
+[HttpPut("{id}")]   public IActionResult Update(int id, ProductDto dto) { }
+[HttpPatch("{id}")] public IActionResult Patch(int id, JsonPatchDocument patch) { }
+[HttpDelete("{id}")]public IActionResult Delete(int id) { }</pre></div>
+</div>
+
+<div class="q" data-s="frombody fromquery fromroute fromheader model binding">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">14</span><span class="txt">What is [FromBody], [FromQuery], [FromRoute], [FromHeader]?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>These attributes specify WHERE the model binder should look for data.
+
+[FromRoute] - From URL path:
+// URL: /api/products/5
+[HttpGet("{id}")]
+public IActionResult Get([FromRoute] int id) { }  // id = 5
+
+[FromQuery] - From query string:
+// URL: /api/products?page=2&amp;size=10
+[HttpGet]
+public IActionResult Get([FromQuery] int page, [FromQuery] int size) { }
+
+[FromBody] - From request body (JSON):
+// Body: {"name":"Phone","price":999}
+[HttpPost]
+public IActionResult Create([FromBody] ProductDto dto) { }
+
+[FromHeader] - From HTTP headers:
+public IActionResult Get([FromHeader(Name = "X-Api-Key")] string apiKey) { }
+
+[FromForm] - From form data (file upload):
+[HttpPost("upload")]
+public IActionResult Upload([FromForm] IFormFile file) { }
+
+Rules:
+- [FromBody] can only be used ONCE per action
+- [ApiController] auto-infers [FromBody] for complex types
+- Simple types default to [FromQuery] or [FromRoute]</pre></div>
+</div>
+
+<div class="q" data-s="async await task web api performance">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">15</span><span class="txt">Why use async/await in Web API?</span><span class="arrow">&#9660;</span></div>
+<div class="q-ans"><pre>async/await makes API non-blocking, improving scalability.
+
+Synchronous (blocks thread):
+[HttpGet]
+public IActionResult GetProducts()
+{
+    var products = _context.Products.ToList();  // Thread BLOCKED
+    return Ok(products);
+}
+
+Asynchronous (releases thread):
+[HttpGet]
+public async Task&lt;IActionResult&gt; GetProducts()
+{
+    var products = await _context.Products.ToListAsync();  // Thread RELEASED
+    return Ok(products);
+}
+
+Why it matters:
+- Thread pool has limited threads (e.g., 100)
+- Sync: 100 concurrent DB calls = 100 threads blocked = no threads left
+- Async: 100 concurrent DB calls = threads released during I/O = can handle more
+
+When to use async:
+✓ Database calls (EF Core)
+✓ HTTP calls (HttpClient)
+✓ File I/O
+✓ Any I/O-bound operation
+
+When NOT to use:
+✗ CPU-bound calculations
+✗ Simple in-memory operations
+✗ When it adds no benefit</pre></div>
+</div>
+
+</div>
+</div>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+</script>
+</body>
+</html>

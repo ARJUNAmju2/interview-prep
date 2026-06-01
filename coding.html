@@ -1,0 +1,918 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coding Interview Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:20px}
+h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#ff5722,#ff7043);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}
+.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}
+.back:hover{text-decoration:underline}
+.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}
+.search::placeholder{color:#64748b}
+.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}
+.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #ff5722;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}
+.q-title:hover{background:#fff7ed}
+.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#ff5722;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+.q-title .txt{flex:1}
+.q-title .arrow{transition:transform .3s;color:#ff5722;font-size:1rem;flex-shrink:0}
+.q.open .q-title .arrow{transform:rotate(180deg)}
+.q.open .q-title{background:#fff7ed;border-bottom:1px solid #fed7aa}
+.q-ans{display:none;padding:14px 16px;background:#fffcfa}
+.q.open .q-ans{display:block}
+.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>Coding Interview Questions</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+<div class="q" data-s="q1. reverse a string without using built-in method">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">1</span>
+<span class="txt">Q1. Reverse a string without using built-in method</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static string ReverseString(string input)
+{
+    char[] chars = input.ToCharArray();
+    int left = 0, right = chars.Length - 1;
+    
+    while (left &lt; right)
+    {
+        char temp = chars[left];
+        chars[left] = chars[right];
+        chars[right] = temp;
+        left++;
+        right--;
+    }
+    
+    return new string(chars);
+}
+
+// Usage:
+Console.WriteLine(ReverseString("Hello"));  // "olleH"</pre></div>
+</div>
+<div class="q" data-s="q2. check if a string is palindrome">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">2</span>
+<span class="txt">Q2. Check if a string is Palindrome</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static bool IsPalindrome(string input)
+{
+    input = input.ToLower();
+    int left = 0, right = input.Length - 1;
+    
+    while (left &lt; right)
+    {
+        if (input[left] != input[right])
+            return false;
+        left++;
+        right--;
+    }
+    
+    return true;
+}
+
+// Usage:
+Console.WriteLine(IsPalindrome("madam"));   // true
+Console.WriteLine(IsPalindrome("hello"));   // false</pre></div>
+</div>
+<div class="q" data-s="q3. find duplicate characters in a string">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">3</span>
+<span class="txt">Q3. Find duplicate characters in a string</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static void FindDuplicates(string input)
+{
+    var charCount = new Dictionary&lt;char, int&gt;();
+    
+    foreach (char c in input.ToLower())
+    {
+        if (charCount.ContainsKey(c))
+            charCount[c]++;
+        else
+            charCount[c] = 1;
+    }
+    
+    foreach (var pair in charCount)
+    {
+        if (pair.Value &gt; 1)
+            Console.WriteLine($"'{pair.Key}' appears {pair.Value} times");
+    }
+}
+
+// Usage:
+FindDuplicates("programming");
+// 'r' appears 2 times
+// 'g' appears 2 times
+// 'm' appears 2 times</pre></div>
+</div>
+<div class="q" data-s="q4. count vowels and consonants in a string">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">4</span>
+<span class="txt">Q4. Count vowels and consonants in a string</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static void CountVowelsConsonants(string input)
+{
+    int vowels = 0, consonants = 0;
+    string vowelList = "aeiou";
+    
+    foreach (char c in input.ToLower())
+    {
+        if (char.IsLetter(c))
+        {
+            if (vowelList.Contains(c))
+                vowels++;
+            else
+                consonants++;
+        }
+    }
+    
+    Console.WriteLine($"Vowels: {vowels}, Consonants: {consonants}");
+}
+
+// Usage:
+CountVowelsConsonants("Hello World");  // Vowels: 3, Consonants: 7</pre></div>
+</div>
+<div class="q" data-s="q5. check if two strings are anagrams">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">5</span>
+<span class="txt">Q5. Check if two strings are Anagrams</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static bool IsAnagram(string str1, string str2)
+{
+    if (str1.Length != str2.Length)
+        return false;
+    
+    char[] arr1 = str1.ToLower().ToCharArray();
+    char[] arr2 = str2.ToLower().ToCharArray();
+    
+    Array.Sort(arr1);
+    Array.Sort(arr2);
+    
+    return arr1.SequenceEqual(arr2);
+}
+
+// Usage:
+Console.WriteLine(IsAnagram("listen", "silent"));  // true
+Console.WriteLine(IsAnagram("hello", "world"));    // false</pre></div>
+</div>
+<div class="q" data-s="q6. reverse words in a sentence">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">6</span>
+<span class="txt">Q6. Reverse words in a sentence</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static string ReverseWords(string sentence)
+{
+    string[] words = sentence.Split(' ');
+    Array.Reverse(words);
+    return string.Join(" ", words);
+}
+
+// Usage:
+Console.WriteLine(ReverseWords("Hello World From CSharp"));
+// Output: "CSharp From World Hello"</pre></div>
+</div>
+<div class="q" data-s="q7. find first non-repeating character in a string">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">7</span>
+<span class="txt">Q7. Find first non-repeating character in a string</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static char FirstNonRepeating(string input)
+{
+    var charCount = new Dictionary&lt;char, int&gt;();
+    
+    foreach (char c in input)
+    {
+        if (charCount.ContainsKey(c))
+            charCount[c]++;
+        else
+            charCount[c] = 1;
+    }
+    
+    foreach (char c in input)
+    {
+        if (charCount[c] == 1)
+            return c;
+    }
+    
+    return '\0';  // No non-repeating character
+}
+
+// Usage:
+Console.WriteLine(FirstNonRepeating("aabbcdd"));  // 'c'</pre></div>
+</div>
+<div class="q" data-s="q8. remove duplicate characters from a string">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">8</span>
+<span class="txt">Q8. Remove duplicate characters from a string</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static string RemoveDuplicates(string input)
+{
+    var seen = new HashSet&lt;char&gt;();
+    var result = new StringBuilder();
+    
+    foreach (char c in input)
+    {
+        if (seen.Add(c))  // Add returns false if already exists
+        {
+            result.Append(c);
+        }
+    }
+    
+    return result.ToString();
+}
+
+// Usage:
+Console.WriteLine(RemoveDuplicates("programming"));  // "progamin"
+
+
+================================================================================
+SECTION 2: NUMBER PROBLEMS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q9. swap two numbers without using a temp variable">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">9</span>
+<span class="txt">Q9. Swap two numbers without using a temp variable</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>// Method 1: Arithmetic
+int a = 10, b = 20;
+a = a + b;   // a = 30
+b = a - b;   // b = 10
+a = a - b;   // a = 20
+Console.WriteLine($"a = {a}, b = {b}");  // a = 20, b = 10
+
+// Method 2: XOR
+int x = 10, y = 20;
+x = x ^ y;
+y = x ^ y;
+x = x ^ y;
+Console.WriteLine($"x = {x}, y = {y}");  // x = 20, y = 10
+
+// Method 3: Tuple (C# modern way)
+(a, b) = (b, a);</pre></div>
+</div>
+<div class="q" data-s="q10. check if a number is prime">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">10</span>
+<span class="txt">Q10. Check if a number is Prime</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static bool IsPrime(int number)
+{
+    if (number &lt;= 1) return false;
+    if (number &lt;= 3) return true;
+    if (number % 2 == 0 || number % 3 == 0) return false;
+    
+    for (int i = 5; i * i &lt;= number; i += 2)
+    {
+        if (number % i == 0)
+            return false;
+    }
+    
+    return true;
+}
+
+// Usage:
+Console.WriteLine(IsPrime(7));   // true
+Console.WriteLine(IsPrime(10));  // false</pre></div>
+</div>
+<div class="q" data-s="q11. fibonacci series (first n numbers)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">11</span>
+<span class="txt">Q11. Fibonacci Series (first N numbers)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static void PrintFibonacci(int n)
+{
+    int a = 0, b = 1;
+    
+    for (int i = 0; i &lt; n; i++)
+    {
+        Console.Write(a + " ");
+        int temp = a + b;
+        a = b;
+        b = temp;
+    }
+}
+
+// Usage:
+PrintFibonacci(10);  // 0 1 1 2 3 5 8 13 21 34</pre></div>
+</div>
+<div class="q" data-s="q12. factorial of a number">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">12</span>
+<span class="txt">Q12. Factorial of a number</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>// Iterative:
+public static long Factorial(int n)
+{
+    long result = 1;
+    for (int i = 2; i &lt;= n; i++)
+    {
+        result *= i;
+    }
+    return result;
+}
+
+// Recursive:
+public static long FactorialRecursive(int n)
+{
+    if (n &lt;= 1) return 1;
+    return n * FactorialRecursive(n - 1);
+}
+
+// Usage:
+Console.WriteLine(Factorial(5));  // 120</pre></div>
+</div>
+<div class="q" data-s="q13. check armstrong number">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">13</span>
+<span class="txt">Q13. Check Armstrong Number</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>// Armstrong: Sum of digits^n equals the number (e.g., 153 = 1³+5³+3³)
+public static bool IsArmstrong(int number)
+{
+    int original = number;
+    int digits = number.ToString().Length;
+    int sum = 0;
+    
+    while (number &gt; 0)
+    {
+        int digit = number % 10;
+        sum += (int)Math.Pow(digit, digits);
+        number /= 10;
+    }
+    
+    return sum == original;
+}
+
+// Usage:
+Console.WriteLine(IsArmstrong(153));   // true (1+125+27=153)
+Console.WriteLine(IsArmstrong(123));   // false</pre></div>
+</div>
+<div class="q" data-s="q14. reverse a number">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">14</span>
+<span class="txt">Q14. Reverse a number</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static int ReverseNumber(int number)
+{
+    int reversed = 0;
+    
+    while (number &gt; 0)
+    {
+        int digit = number % 10;
+        reversed = reversed * 10 + digit;
+        number /= 10;
+    }
+    
+    return reversed;
+}
+
+// Usage:
+Console.WriteLine(ReverseNumber(12345));  // 54321</pre></div>
+</div>
+<div class="q" data-s="q15. find gcd (greatest common divisor) of two numbers">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">15</span>
+<span class="txt">Q15. Find GCD (Greatest Common Divisor) of two numbers</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static int GCD(int a, int b)
+{
+    while (b != 0)
+    {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+// Usage:
+Console.WriteLine(GCD(12, 8));   // 4
+Console.WriteLine(GCD(54, 24));  // 6
+
+
+================================================================================
+SECTION 3: ARRAY PROBLEMS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q16. find the second largest element in an array">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">16</span>
+<span class="txt">Q16. Find the second largest element in an array</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static int SecondLargest(int[] arr)
+{
+    int first = int.MinValue, second = int.MinValue;
+    
+    foreach (int num in arr)
+    {
+        if (num &gt; first)
+        {
+            second = first;
+            first = num;
+        }
+        else if (num &gt; second &amp;&amp; num != first)
+        {
+            second = num;
+        }
+    }
+    
+    return second;
+}
+
+// Usage:
+int[] arr = { 12, 35, 1, 10, 34, 1 };
+Console.WriteLine(SecondLargest(arr));  // 34</pre></div>
+</div>
+<div class="q" data-s="q17. remove duplicates from an array">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">17</span>
+<span class="txt">Q17. Remove duplicates from an array</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>// Method 1: Using HashSet
+public static int[] RemoveDuplicates(int[] arr)
+{
+    return arr.Distinct().ToArray();
+}
+
+// Method 2: Without LINQ
+public static int[] RemoveDuplicatesManual(int[] arr)
+{
+    var set = new HashSet&lt;int&gt;();
+    var result = new List&lt;int&gt;();
+    
+    foreach (int num in arr)
+    {
+        if (set.Add(num))
+            result.Add(num);
+    }
+    
+    return result.ToArray();
+}
+
+// Usage:
+int[] arr = { 1, 2, 2, 3, 4, 4, 5 };
+int[] unique = RemoveDuplicates(arr);  // { 1, 2, 3, 4, 5 }</pre></div>
+</div>
+<div class="q" data-s="q18. find missing number in array (1 to n)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">18</span>
+<span class="txt">Q18. Find missing number in array (1 to N)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static int FindMissing(int[] arr, int n)
+{
+    int expectedSum = n * (n + 1) / 2;
+    int actualSum = arr.Sum();
+    return expectedSum - actualSum;
+}
+
+// Usage:
+int[] arr = { 1, 2, 4, 5, 6 };  // 3 is missing
+Console.WriteLine(FindMissing(arr, 6));  // 3</pre></div>
+</div>
+<div class="q" data-s="q19. sort an array without using built-in sort (bubble sort)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">19</span>
+<span class="txt">Q19. Sort an array without using built-in Sort (Bubble Sort)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static void BubbleSort(int[] arr)
+{
+    int n = arr.Length;
+    
+    for (int i = 0; i &lt; n - 1; i++)
+    {
+        for (int j = 0; j &lt; n - i - 1; j++)
+        {
+            if (arr[j] &gt; arr[j + 1])
+            {
+                // Swap
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
+        }
+    }
+}
+
+// Usage:
+int[] arr = { 64, 34, 25, 12, 22, 11, 90 };
+BubbleSort(arr);  // { 11, 12, 22, 25, 34, 64, 90 }</pre></div>
+</div>
+<div class="q" data-s="q20. find pair of elements whose sum equals a given number">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">20</span>
+<span class="txt">Q20. Find pair of elements whose sum equals a given number</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static void FindPairsWithSum(int[] arr, int target)
+{
+    var seen = new HashSet&lt;int&gt;();
+    
+    foreach (int num in arr)
+    {
+        int complement = target - num;
+        if (seen.Contains(complement))
+        {
+            Console.WriteLine($"Pair: ({complement}, {num})");
+        }
+        seen.Add(num);
+    }
+}
+
+// Usage:
+int[] arr = { 1, 5, 7, 2, 3, 8 };
+FindPairsWithSum(arr, 10);
+// Pair: (3, 7)
+// Pair: (2, 8)
+
+
+================================================================================
+SECTION 4: LINQ CODING QUESTIONS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q21. group employees by department and get count">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">21</span>
+<span class="txt">Q21. Group employees by department and get count</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>var result = employees
+    .GroupBy(e =&gt; e.Department)
+    .Select(g =&gt; new 
+    { 
+        Department = g.Key, 
+        Count = g.Count(), 
+        AvgSalary = g.Average(e =&gt; e.Salary) 
+    });
+
+foreach (var item in result)
+    Console.WriteLine($"{item.Department}: {item.Count} employees, Avg: {item.AvgSalary:C}");</pre></div>
+</div>
+<div class="q" data-s="q22. find highest salary in each department">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">22</span>
+<span class="txt">Q22. Find highest salary in each department</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>var result = employees
+    .GroupBy(e =&gt; e.Department)
+    .Select(g =&gt; new
+    {
+        Department = g.Key,
+        TopEmployee = g.OrderByDescending(e =&gt; e.Salary).First()
+    });</pre></div>
+</div>
+<div class="q" data-s="q23. find employees whose name starts with a and salary > 50000">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">23</span>
+<span class="txt">Q23. Find employees whose name starts with 'A' and salary &gt; 50000</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>var result = employees
+    .Where(e =&gt; e.Name.StartsWith("A") &amp;&amp; e.Salary &gt; 50000)
+    .OrderBy(e =&gt; e.Name)
+    .ToList();</pre></div>
+</div>
+<div class="q" data-s="q24. join two lists (employees + departments)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">24</span>
+<span class="txt">Q24. Join two lists (Employees + Departments)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>var result = employees
+    .Join(departments,
+        e =&gt; e.DepartmentId,
+        d =&gt; d.Id,
+        (e, d) =&gt; new { e.Name, e.Salary, DeptName = d.Name })
+    .ToList();</pre></div>
+</div>
+<div class="q" data-s="q25. find duplicate values in a list">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">25</span>
+<span class="txt">Q25. Find duplicate values in a list</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>var duplicates = numbers
+    .GroupBy(n =&gt; n)
+    .Where(g =&gt; g.Count() &gt; 1)
+    .Select(g =&gt; g.Key)
+    .ToList();</pre></div>
+</div>
+<div class="q" data-s="q26. pagination with linq">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">26</span>
+<span class="txt">Q26. Pagination with LINQ</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>int pageNumber = 3;
+int pageSize = 10;
+
+var pagedResult = employees
+    .OrderBy(e =&gt; e.Id)
+    .Skip((pageNumber - 1) * pageSize)
+    .Take(pageSize)
+    .ToList();
+
+
+================================================================================
+SECTION 5: SQL CODING QUESTIONS
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q27. find nth highest salary">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">27</span>
+<span class="txt">Q27. Find Nth highest salary</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>-- 2nd highest:
+SELECT MAX(Salary) FROM Employee
+WHERE Salary &lt; (SELECT MAX(Salary) FROM Employee);
+
+-- Nth highest (using DENSE_RANK):
+WITH CTE AS (
+    SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rank
+    FROM Employee
+)
+SELECT DISTINCT Salary FROM CTE WHERE Rank = 3;  -- 3rd highest</pre></div>
+</div>
+<div class="q" data-s="q28. find duplicate records">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">28</span>
+<span class="txt">Q28. Find duplicate records</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT Email, COUNT(*) AS Count
+FROM Employee
+GROUP BY Email
+HAVING COUNT(*) &gt; 1;</pre></div>
+</div>
+<div class="q" data-s="q29. delete duplicate records keeping one (lowest id)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">29</span>
+<span class="txt">Q29. Delete duplicate records keeping one (lowest Id)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>WITH CTE AS (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY Email ORDER BY Id) AS RowNum
+    FROM Employee
+)
+DELETE FROM CTE WHERE RowNum &gt; 1;</pre></div>
+</div>
+<div class="q" data-s="q30. employee with manager name (self join)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">30</span>
+<span class="txt">Q30. Employee with Manager name (Self Join)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT e.Name AS Employee, m.Name AS Manager
+FROM Employee e
+LEFT JOIN Employee m ON e.ManagerId = m.Id;</pre></div>
+</div>
+<div class="q" data-s="q31. department wise highest salary">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">31</span>
+<span class="txt">Q31. Department wise highest salary</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT Department, Name, Salary
+FROM (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY Department ORDER BY Salary DESC) AS Rank
+    FROM Employee
+) AS Ranked
+WHERE Rank = 1;</pre></div>
+</div>
+<div class="q" data-s="q32. employees earning more than their manager">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">32</span>
+<span class="txt">Q32. Employees earning more than their manager</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT e.Name AS Employee, e.Salary AS EmpSalary, m.Name AS Manager, m.Salary AS MgrSalary
+FROM Employee e
+INNER JOIN Employee m ON e.ManagerId = m.Id
+WHERE e.Salary &gt; m.Salary;</pre></div>
+</div>
+<div class="q" data-s="q33. running total of salary">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">33</span>
+<span class="txt">Q33. Running total of salary</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT Name, Salary,
+    SUM(Salary) OVER (ORDER BY Id) AS RunningTotal
+FROM Employee;</pre></div>
+</div>
+<div class="q" data-s="q34. find employees who joined in last 30 days">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">34</span>
+<span class="txt">Q34. Find employees who joined in last 30 days</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT * FROM Employee
+WHERE HireDate &gt;= DATEADD(DAY, -30, GETDATE());</pre></div>
+</div>
+<div class="q" data-s="q35. pivot - rows to columns">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">35</span>
+<span class="txt">Q35. Pivot - Rows to Columns</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>SELECT *
+FROM (
+    SELECT Department, Salary FROM Employee
+) AS Source
+PIVOT (
+    SUM(Salary) FOR Department IN ([IT], [HR], [Finance])
+) AS PivotTable;
+
+
+================================================================================
+SECTION 6: PATTERN / DESIGN CODING
+================================================================================</pre></div>
+</div>
+<div class="q" data-s="q36. implement singleton pattern">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">36</span>
+<span class="txt">Q36. Implement Singleton Pattern</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public sealed class Singleton
+{
+    private static readonly Lazy&lt;Singleton&gt; _instance = 
+        new Lazy&lt;Singleton&gt;(() =&gt; new Singleton());
+    
+    private Singleton() { }
+    
+    public static Singleton Instance =&gt; _instance.Value;
+    
+    public void DoWork() =&gt; Console.WriteLine("Working...");
+}
+
+// Usage:
+Singleton.Instance.DoWork();</pre></div>
+</div>
+<div class="q" data-s="q37. implement simple generic repository">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">37</span>
+<span class="txt">Q37. Implement simple Generic Repository</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public interface IRepository&lt;T&gt; where T : class
+{
+    T GetById(int id);
+    IEnumerable&lt;T&gt; GetAll();
+    void Add(T entity);
+    void Delete(T entity);
+}
+
+public class Repository&lt;T&gt; : IRepository&lt;T&gt; where T : class
+{
+    private readonly DbContext _context;
+    private readonly DbSet&lt;T&gt; _dbSet;
+    
+    public Repository(DbContext context)
+    {
+        _context = context;
+        _dbSet = context.Set&lt;T&gt;();
+    }
+    
+    public T GetById(int id) =&gt; _dbSet.Find(id);
+    public IEnumerable&lt;T&gt; GetAll() =&gt; _dbSet.ToList();
+    public void Add(T entity) =&gt; _dbSet.Add(entity);
+    public void Delete(T entity) =&gt; _dbSet.Remove(entity);
+}</pre></div>
+</div>
+<div class="q" data-s="q38. fizzbuzz (classic!)">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">38</span>
+<span class="txt">Q38. FizzBuzz (Classic!)</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>for (int i = 1; i &lt;= 100; i++)
+{
+    if (i % 15 == 0)
+        Console.WriteLine("FizzBuzz");
+    else if (i % 3 == 0)
+        Console.WriteLine("Fizz");
+    else if (i % 5 == 0)
+        Console.WriteLine("Buzz");
+    else
+        Console.WriteLine(i);
+}</pre></div>
+</div>
+<div class="q" data-s="q39. check if string has all unique characters">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">39</span>
+<span class="txt">Q39. Check if string has all unique characters</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static bool HasAllUniqueChars(string input)
+{
+    var set = new HashSet&lt;char&gt;();
+    
+    foreach (char c in input)
+    {
+        if (!set.Add(c))
+            return false;
+    }
+    
+    return true;
+}
+
+// Usage:
+Console.WriteLine(HasAllUniqueChars("abcdef"));   // true
+Console.WriteLine(HasAllUniqueChars("hello"));    // false</pre></div>
+</div>
+<div class="q" data-s="q40. convert string to title case without built-in">
+<div class="q-title" onclick="this.parentElement.classList.toggle('open')">
+<span class="num">40</span>
+<span class="txt">Q40. Convert string to Title Case without built-in</span>
+<span class="arrow">&#9660;</span>
+</div>
+<div class="q-ans"><pre>public static string ToTitleCase(string input)
+{
+    char[] chars = input.ToLower().ToCharArray();
+    bool capitalizeNext = true;
+    
+    for (int i = 0; i &lt; chars.Length; i++)
+    {
+        if (chars[i] == ' ')
+        {
+            capitalizeNext = true;
+        }
+        else if (capitalizeNext)
+        {
+            chars[i] = char.ToUpper(chars[i]);
+            capitalizeNext = false;
+        }
+    }
+    
+    return new string(chars);
+}
+
+// Usage:
+Console.WriteLine(ToTitleCase("hello world from csharp"));
+// "Hello World From Csharp"
+
+
+================================================================================
+                         QUICK REVISION - TOP 10 MOST ASKED
+================================================================================
+
+1.  Reverse a string           → Two pointer swap (Q1)
+2.  Palindrome check           → Compare left &amp; right (Q2)
+3.  Fibonacci series           → a=0, b=1, loop (Q11)
+4.  FizzBuzz                   → % 15, % 3, % 5 (Q38)
+5.  Second largest in array    → Track first &amp; second (Q16)
+6.  Nth highest salary (SQL)   → DENSE_RANK + CTE (Q27)
+7.  Find duplicates (SQL)      → GROUP BY HAVING COUNT &gt; 1 (Q28)
+8.  Delete duplicates (SQL)    → ROW_NUMBER + PARTITION BY (Q29)
+9.  LINQ GroupBy               → .GroupBy().Select() (Q21)
+10. Singleton pattern          → Lazy&lt;T&gt; (Q36)
+
+================================================================================
+TIPS:
+- Practice writing code on PAPER (no IntelliSense in interview!)
+- Explain your approach BEFORE coding
+- Handle edge cases (null, empty, single element)
+- Know time complexity (O(n), O(n²), etc.)
+- If stuck, start with brute force then optimize
+================================================================================</pre></div>
+</div>
+</div>
+</div>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+</script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git Interview Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}.container{max-width:900px;margin:0 auto;padding:20px}h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}.back:hover{text-decoration:underline}.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #6366f1;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}.q-title:hover{background:#eef2ff}.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#6366f1;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}.q-title .txt{flex:1}.q-title .arrow{transition:transform .3s;color:#6366f1;font-size:1rem;flex-shrink:0}.q.open .q-title .arrow{transform:rotate(180deg)}.q.open .q-title{background:#eef2ff;border-bottom:1px solid #c7d2fe}.q-ans{display:none;padding:14px 16px;background:#fafbff}.q.open .q-ans{display:block}.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>Git (Quick Essentials)</h1>
+<div class="count">4 Questions — Usually 1-2 asked in interviews</div>
+<div id="qlist">
+
+<div class="q" data-s="merge vs rebase"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is the difference between Git Merge and Rebase?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>MERGE:
+- Combines two branches by creating a NEW merge commit
+- Preserves complete history (all commits visible)
+- Non-destructive (safe)
+- Creates a "merge commit" node
+
+git checkout main
+git merge feature-branch
+// History: A--B--C--M (merge commit)
+//               \  /
+//                D--E (feature commits)
+
+REBASE:
+- Moves your branch commits ON TOP of another branch
+- Creates LINEAR history (cleaner)
+- Rewrites commit history (destructive)
+- No merge commit
+
+git checkout feature-branch
+git rebase main
+// History: A--B--C--D'--E' (linear, clean)
+
+When to use:
+- Merge: Public/shared branches (main, develop) — safe
+- Rebase: Local/feature branches before merging — clean history
+
+Golden Rule: NEVER rebase public/shared branches!
+
+Team workflow:
+git checkout feature/login
+git rebase main              // Update feature with latest main
+git checkout main
+git merge feature/login      // Fast-forward merge (clean)</pre></div></div>
+
+<div class="q" data-s="branching strategy gitflow"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What branching strategy do you follow?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>GITFLOW (most common answer for interviews):
+
+Branches:
+- main (production-ready code)
+- develop (integration branch)
+- feature/* (new features)
+- release/* (prepare for release)
+- hotfix/* (urgent production fixes)
+
+Flow:
+1. Create feature branch from develop:
+   git checkout -b feature/login develop
+
+2. Work on feature, commit regularly
+
+3. Merge back to develop:
+   git checkout develop
+   git merge feature/login
+
+4. Create release branch when ready:
+   git checkout -b release/1.0 develop
+
+5. After testing, merge to main AND develop:
+   git checkout main
+   git merge release/1.0
+   git tag v1.0
+
+6. Hotfix (urgent):
+   git checkout -b hotfix/bug-fix main
+   // Fix → merge to main AND develop
+
+TRUNK-BASED (simpler, modern):
+- Everyone commits to main (or short-lived branches)
+- Feature flags for incomplete features
+- CI/CD deploys frequently
+- Used by: Google, Facebook
+
+Interview answer:
+"We follow GitFlow. Feature branches from develop, 
+PRs with code review, merge to develop, then release 
+branches for production deployment."</pre></div></div>
+
+<div class="q" data-s="resolve merge conflict"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">How do you resolve merge conflicts?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Merge conflict occurs when two branches modify the SAME line in the same file.
+
+Steps to resolve:
+1. Git marks conflicting files:
+   &lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (your changes)
+   public int Calculate() { return a + b; }
+   =======
+   public int Calculate() { return a * b; }
+   &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-branch (their changes)
+
+2. Manually edit — keep correct code:
+   public int Calculate() { return a + b; }  // Choose one or combine
+
+3. Remove conflict markers (&lt;&lt;&lt;, ===, &gt;&gt;&gt;)
+
+4. Stage and commit:
+   git add .
+   git commit -m "Resolved merge conflict in Calculator.cs"
+
+Tools:
+- VS Code built-in merge editor
+- Visual Studio merge tool
+- Beyond Compare / KDiff3
+
+Prevention:
+- Pull frequently (git pull --rebase)
+- Small, focused branches
+- Communicate with team about shared files
+- Short-lived feature branches
+
+Interview answer:
+"I open the conflicting file, understand both changes, 
+decide which to keep or combine both, remove markers, 
+test the code, then commit. I use VS Code's merge editor 
+for complex conflicts."</pre></div></div>
+
+<div class="q" data-s="pull request code review pr"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is a Pull Request (PR)? Your PR process?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Pull Request (PR) is a request to merge your branch into another branch, with code review by team members.
+
+PR Process:
+1. Create feature branch and implement
+2. Push to remote: git push origin feature/login
+3. Create PR on GitHub/Azure DevOps/Bitbucket
+4. Add description, link to task/ticket
+5. Reviewers review code, add comments
+6. Address feedback, push fixes
+7. Approve → Merge (squash/merge/rebase)
+8. Delete feature branch
+
+What I check in code review:
+- Code follows team conventions
+- No hardcoded values
+- Proper error handling
+- Unit tests included
+- No security issues (SQL injection, exposed secrets)
+- Performance (N+1 queries, unnecessary loops)
+- SOLID principles followed
+
+Common merge strategies:
+- Merge commit: Preserves all commits (verbose history)
+- Squash merge: Combines all into ONE commit (clean history)
+- Rebase merge: Linear history without merge commit
+
+Interview answer:
+"I create a feature branch, implement the feature with 
+small commits, push and create a PR. I add description 
+and link the Jira ticket. Team reviews, I address comments, 
+then we squash-merge to keep history clean."</pre></div></div>
+
+</div>
+</div>
+</body>
+</html>
