@@ -25,6 +25,21 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#ff572
 .q-ans{display:none;padding:14px 16px;background:#fffcfa}
 .q.open .q-ans{display:block}
 .q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+.try-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:4px 10px;border-radius:5px;font-size:.7rem;font-weight:700;cursor:pointer;margin-left:auto;flex-shrink:0}
+.try-btn:hover{background:linear-gradient(135deg,#059669,#047857)}
+#codePanel{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.7);z-index:9999;align-items:center;justify-content:center;padding:16px}
+.cp-box{background:#0f172a;border:1px solid #1e3a5f;border-radius:12px;width:100%;max-width:700px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column}
+.cp-head{background:linear-gradient(135deg,#ff5722,#ff7043);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.cp-head h3{color:#fff;font-size:.85rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cp-close{background:#fff;color:#ff5722;border:none;width:28px;height:28px;border-radius:50%;font-size:1rem;font-weight:700;cursor:pointer;flex-shrink:0}
+.cp-editor{width:100%;min-height:250px;padding:14px;border:none;font-family:"Cascadia Code",Consolas,monospace;font-size:.82rem;line-height:1.7;background:#1e293b;color:#e2e8f0;resize:vertical;outline:none;flex:1}
+.cp-footer{padding:10px 14px;background:#0a1628;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.cp-footer button{padding:6px 14px;border:none;border-radius:6px;font-size:.75rem;font-weight:700;cursor:pointer}
+.btn-run{background:#10b981;color:#fff}.btn-run:hover{background:#059669}
+.btn-sql{background:#e91e63;color:#fff}.btn-sql:hover{background:#c2185b}
+.btn-save{background:#0ea5e9;color:#fff}.btn-save:hover{background:#0284c7}
+.btn-clear{background:#64748b;color:#fff}.btn-clear:hover{background:#475569}
+.saved-msg{color:#10b981;font-size:.72rem;font-weight:600;display:none}
 </style>
 </head>
 <body>
@@ -909,10 +924,93 @@ TIPS:
 </div>
 </div>
 </div>
+
+<!-- Code Panel (separate popup - doesn't show answer) -->
+<div id="codePanel" onclick="if(event.target===this)closeCodePanel()">
+<div class="cp-box">
+<div class="cp-head">
+<h3 id="cpTitle">Question</h3>
+<button class="cp-close" onclick="closeCodePanel()">&times;</button>
+</div>
+<textarea class="cp-editor" id="cpEditor" placeholder="Write your solution here... Then click Run to test it."></textarea>
+<div class="cp-footer">
+<input type="hidden" id="cpIdx">
+<input type="hidden" id="cpType">
+<button class="btn-run" onclick="runCodePanel()">&#9654; Run Code</button>
+<button class="btn-save" onclick="saveCodePanel()">&#128190; Save</button>
+<button class="btn-clear" onclick="clearCodePanel()">Clear</button>
+<span class="saved-msg" id="cpSaved">Saved!</span>
+</div>
+</div>
+</div>
+
 <script>
 var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
 countEl.textContent=qs.length+" Questions";
 search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+
+// Add "Try It" button to each question title (NOT inside answer)
+qs.forEach(function(q, idx){
+    var titleDiv = q.querySelector('.q-title');
+    var isSql = q.dataset.s.includes('sql') || q.dataset.s.includes('salary') || q.dataset.s.includes('duplicate records') || q.dataset.s.includes('join') || q.dataset.s.includes('pivot') || q.dataset.s.includes('department wise') || q.dataset.s.includes('running total') || q.dataset.s.includes('joined in last');
+    var tryBtn = document.createElement('button');
+    tryBtn.className = 'try-btn';
+    tryBtn.textContent = '\u270d Try';
+    tryBtn.onclick = function(e){
+        e.stopPropagation();
+        openCodePanel(idx, isSql, q.querySelector('.q-title .txt').textContent);
+    };
+    titleDiv.insertBefore(tryBtn, titleDiv.querySelector('.arrow'));
+});
+
+function openCodePanel(idx, isSql, title){
+    var panel = document.getElementById('codePanel');
+    var savedCode = localStorage.getItem('code_'+idx) || '';
+    document.getElementById('cpTitle').textContent = title;
+    document.getElementById('cpEditor').value = savedCode;
+    document.getElementById('cpIdx').value = idx;
+    document.getElementById('cpType').value = isSql ? 'sql' : 'csharp';
+    panel.style.display = 'flex';
+    document.getElementById('cpEditor').focus();
+}
+
+function closeCodePanel(){
+    document.getElementById('codePanel').style.display='none';
+}
+
+function runCodePanel(){
+    var idx = document.getElementById('cpIdx').value;
+    var type = document.getElementById('cpType').value;
+    var code = document.getElementById('cpEditor').value;
+    if(!code.trim()){alert('Write some code first!');return;}
+    if(type==='sql'){
+        navigator.clipboard.writeText(code).then(function(){
+            alert('SQL copied! Paste in db-fiddle.');
+        });
+        window.open('https://www.db-fiddle.com/','_blank');
+    } else {
+        var fullCode = code;
+        if(!code.includes('class ') && !code.includes('static void Main')){
+            fullCode='using System;\nusing System.Collections.Generic;\nusing System.Linq;\n\npublic class Program\n{\n    public static void Main()\n    {\n        '+code.replace(/\n/g,'\n        ')+'\n    }\n}';
+        }
+        window.open('https://dotnetfiddle.net/?code='+encodeURIComponent(fullCode),'_blank');
+    }
+}
+
+function saveCodePanel(){
+    var idx = document.getElementById('cpIdx').value;
+    var code = document.getElementById('cpEditor').value;
+    localStorage.setItem('code_'+idx, code);
+    var msg=document.getElementById('cpSaved');
+    msg.style.display='inline';
+    setTimeout(function(){msg.style.display='none';},2000);
+}
+
+function clearCodePanel(){
+    document.getElementById('cpEditor').value='';
+    var idx = document.getElementById('cpIdx').value;
+    localStorage.removeItem('code_'+idx);
+}
 </script>
 </body>
 </html>

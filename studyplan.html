@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Study Plan - Interview Prep</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:750px;margin:0 auto;padding:20px}
+h1{text-align:center;margin-bottom:6px;background:linear-gradient(135deg,#38bdf8,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.sub{text-align:center;color:#64748b;font-size:.78rem;margin-bottom:16px}
+.back{color:#38bdf8;text-decoration:none;font-size:.85rem;font-weight:500;display:inline-block;margin-bottom:12px}
+.back:hover{text-decoration:underline}
+.progress-box{background:rgba(15,40,71,.8);border:1px solid #1e3a5f;border-radius:10px;padding:14px 18px;margin-bottom:16px;text-align:center}
+.progress-box .ptext{font-size:.85rem;color:#94a3b8;margin-bottom:6px}
+.progress-box .bar{height:10px;background:#1e3a5f;border-radius:6px;overflow:hidden}
+.progress-box .bar-fill{height:100%;background:linear-gradient(90deg,#10b981,#34d399);border-radius:6px;transition:width .3s}
+.progress-box .percent{font-size:1.1rem;font-weight:700;color:#10b981;margin-top:6px}
+.day{background:#fff;border-radius:10px;margin-bottom:6px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.day.done{opacity:.6;border-left:4px solid #10b981}
+.day-header{padding:12px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.day-header:hover{background:#f8fafc}
+.day-check{width:20px;height:20px;accent-color:#10b981;cursor:pointer;flex-shrink:0}
+.day-num{min-width:44px;font-size:.7rem;font-weight:700;color:#fff;background:#0ea5e9;padding:4px 8px;border-radius:5px;text-align:center;flex-shrink:0}
+.day-num.sun{background:#f59e0b}
+.day-num.rev{background:#8b5cf6}
+.day-topic{font-weight:600;color:#1e293b;font-size:.85rem;flex:1}
+.day-count{font-size:.7rem;color:#64748b;background:#f1f5f9;padding:3px 8px;border-radius:4px;flex-shrink:0}
+.day-details{font-size:.78rem;color:#64748b;padding:0 14px 10px 48px;display:none}
+.day.open .day-details{display:block}
+.legend{display:flex;gap:12px;justify-content:center;margin-bottom:14px;font-size:.7rem;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:4px}
+.ldot{width:10px;height:10px;border-radius:3px;display:inline-block}
+.ldot.blue{background:#0ea5e9}
+.ldot.yellow{background:#f59e0b}
+.ldot.purple{background:#8b5cf6}
+.btn-reset{background:#ef4444;color:#fff;border:none;padding:6px 14px;border-radius:6px;cursor:pointer;font-size:.72rem;font-weight:600;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Home</a>
+<h1>📅 44-Day Study Plan</h1>
+<p class="sub">10-15 Qs/day • Coding on Sundays • Track your progress</p>
+
+<div class="progress-box">
+<div class="ptext"><span id="doneCount">0</span>/44 Days Completed</div>
+<div class="bar"><div class="bar-fill" id="progressBar" style="width:0%"></div></div>
+<div class="percent" id="percentText">0%</div>
+</div>
+
+<div class="legend">
+<span><span class="ldot blue"></span> Regular</span>
+<span><span class="ldot yellow"></span> Sunday (Coding)</span>
+<span><span class="ldot purple"></span> Revision</span>
+</div>
+
+<div id="days"></div>
+<div style="text-align:center"><button class="btn-reset" onclick="if(confirm('Reset all progress?')){localStorage.removeItem('studyplan');location.reload()}">Reset Progress</button></div>
+</div>
+
+<script>
+const plan = [
+{d:1,topic:"Project Q&A (1-15)",count:"15 Qs",detail:"Architecture, Auth, Security, DAL, API communication, Roles, Middleware, Brute Force, Challenge solved, Logging, Email, Improvements",type:"normal"},
+{d:2,topic:"Project Q&A (16-29) + Tips/HR",count:"14+HR",detail:"Public vs Private API, Concurrent users, Deployment, File upload, DB design, API failures, Oracle, Config, SP, Session, Pagination, Design Patterns, DI issue + HR answers",type:"normal"},
+{d:3,topic:"OOPs (1-10) — 4 Pillars, Class/Object, Constructor",count:"10 Qs",detail:"What is OOP, 4 pillars, Procedural vs OOP, Class & Object, Constructor, Types of constructors, Constructor overloading, Chaining, Destructor",type:"normal"},
+{d:4,topic:"OOPs (11-22) — Encapsulation, Access Modifiers",count:"12 Qs",detail:"Struct vs Class, Static class, Partial class, Sealed class, Encapsulation, Access Modifiers, Properties, Field vs Property, Auto-property, readonly vs const",type:"normal"},
+{d:5,topic:"OOPs (23-31) — Inheritance, Composition",count:"10 Qs",detail:"Inheritance, Types, Why no Multiple Inheritance, Interfaces for MI, base keyword, Constructor order, Private member inherited, IS-A vs HAS-A, Composition vs Inheritance",type:"normal"},
+{d:6,topic:"OOPs (32-44) — Polymorphism (virtual/override/new)",count:"12 Qs",detail:"Polymorphism, Compile-time, Runtime, Overloading rules, Overriding rules, Overloading vs Overriding, virtual, override, new keyword, virtual vs new, Operator overloading, Covariance",type:"normal"},
+{d:7,topic:"Coding (1-10) — String, Array problems",count:"10 Qs",detail:"Reverse string, Palindrome, Duplicate chars, Anagram, Fibonacci, Factorial, Prime number, Array reverse, Second largest, Remove duplicates",type:"sun"},
+{d:8,topic:"OOPs (45-58) — Abstraction, Interfaces",count:"14 Qs",detail:"Abstraction, Abstract class, Abstract method, Constructor in abstract, Non-abstract methods, Abstract vs Interface, When to use, Interface, Default methods, Properties, Explicit implementation, Interface vs Abstract detailed",type:"normal"},
+{d:9,topic:"OOPs (59-72) — Interfaces deep, Generics, Boxing",count:"14 Qs",detail:"Interface inheritance, Multiple implementation, ISP, DI using interfaces, IDisposable, IEnumerable/ICollection/IList, IComparable, this keyword, static, Extension method, Generics, Constraints, Boxing/Unboxing",type:"normal"},
+{d:10,topic:"OOPs (73-88) — Delegates, Events, Lambda",count:"15 Qs",detail:"Value vs Reference, Stack vs Heap, GC, Generations, Dispose pattern, using statement, Delegate, Multicast, Func/Action/Predicate, Anonymous method, Lambda, Events, Delegate vs Event, Publisher-Subscriber, Callback",type:"normal"},
+{d:11,topic:"OOPs (89-104) — Exceptions, Collections, LINQ",count:"15 Qs",detail:"Exception handling, try-catch-finally, throw vs throw ex, Custom exception, Exception hierarchy, finally always?, Exception filters, Array vs ArrayList, ArrayList vs List, Dictionary, List vs Dict vs HashSet, IEnumerable vs IQueryable, yield, LINQ, Common LINQ methods",type:"normal"},
+{d:12,topic:"C# (1-10) — Basics, Boxing, Struct vs Class",count:"10 Qs",detail:"What is C#, Object, Managed/Unmanaged code, Boxing/Unboxing, Struct vs Class, Interface vs Abstract, Enum, break vs continue, const vs readonly, ref vs out",type:"normal"},
+{d:13,topic:"C# (11-22) — Properties, Extension, Dispose",count:"12 Qs",detail:"this in static, Properties, Extension methods, Dispose vs Finalize, String vs StringBuilder, Delegates, Sealed classes, Partial classes, IEnumerable, Late vs Early binding, IEnumerable vs IQueryable, Interface conflicts",type:"normal"},
+{d:14,topic:"Coding (11-20) — Sorting, Searching",count:"10 Qs",detail:"Bubble sort, Binary search, Two sum, FizzBuzz, String compression, Count words, Matrix problems, Linked list basics, Stack implementation, Queue implementation",type:"sun"},
+{d:15,topic:"C# (23-35) — Nullable, Overloading, Singleton",count:"13 Qs",detail:"Arrays, Array.Copy vs Clone, Multiple catch, Singleton pattern, throw vs throw ex, Indexers, Multicast delegate, == vs Equals, is vs as, Nullable types, Method overloading ways, Object pooling, Generics",type:"normal"},
+{d:16,topic:"C# (36-50) — Access modifiers, Virtual, Serialization",count:"15 Qs",detail:"Access modifiers role, Virtual method, Array vs ArrayList, Value vs Reference types, Serialization, using statement, Jagged array, Multithreading, Anonymous types, Hashtable, File handling",type:"normal"},
+{d:17,topic:"C# (51-70) — Remaining C# questions",count:"15 Qs",detail:"Remaining questions from C# text file — review and cover all",type:"normal"},
+{d:18,topic:"C# (71-85) — LINQ deep, SelectMany, GroupBy",count:"15 Qs",detail:"Advanced LINQ, GroupBy with aggregate, SelectMany vs Select, query vs method syntax, deferred execution",type:"normal"},
+{d:19,topic:"C# (86-95) — async/await deep, .NET FW vs Core",count:"10 Qs",detail:"async deadlock, Task vs Thread vs ValueTask, CancellationToken, Deferred vs Immediate, SelectMany, GroupBy, .NET Framework vs Core, Authentication vs Authorization",type:"normal"},
+{d:20,topic:"SOLID (1-12) + DI (1-4)",count:"15 Qs",detail:"All 5 SOLID principles (SRP, OCP, LSP, ISP, DIP) + Singleton, Repository, Factory, Strategy, Observer, Unit of Work + DI basics, Scoped/Transient/Singleton, Constructor injection, DI Container",type:"normal"},
+{d:21,topic:"Coding (21-30) — Logic problems",count:"10 Qs",detail:"Pattern printing, Number to words, Roman numeral, Power of 2, Missing number in array, Rotate array, Merge sorted arrays, Intersection of arrays, Valid parentheses, Max subarray",type:"sun"},
+{d:22,topic:"DI (5-8) + EF Core (1-6)",count:"10 Qs",detail:"Multiple implementations, Captive dependency, Complete DI example, Unit testing with mocks + EF Core basics, Code First, Migrations, Lazy/Eager loading, DbContext lifetime, Fluent API",type:"normal"},
+{d:23,topic:"EF Core (7-12) + Web API (1-5)",count:"11 Qs",detail:"Change tracking, Repository pattern, IEnumerable vs IQueryable, N+1 problem, Global query filters, Transactions + What is Web API, REST principles, HTTP Status Codes, JWT, Middleware",type:"normal"},
+{d:24,topic:"Web API (6-15)",count:"10 Qs",detail:"API Versioning, Content Negotiation, CORS, Global exception handling, [ApiController], Rate Limiting, Swagger, HTTP Methods, FromBody/FromQuery, async in API",type:"normal"},
+{d:25,topic:"SQL (1-12) — Joins, Basics",count:"12 Qs",detail:"SQL types (DDL/DML), SELECT, WHERE, Joins (INNER/LEFT/RIGHT/FULL), GROUP BY, HAVING, Subqueries, UNION, ORDER BY, DISTINCT, Aliases",type:"normal"},
+{d:26,topic:"SQL (13-26) — SP, Functions",count:"14 Qs",detail:"Stored procedures, Functions vs SP, Triggers, Views, Indexes basics, Constraints, Primary vs Foreign key, Normalization, Transactions, ACID, Cursors, Temp tables",type:"normal"},
+{d:27,topic:"SQL (27-40) — Advanced",count:"14 Qs",detail:"CTEs, Recursive CTE, MERGE statement, PIVOT, Dynamic SQL, Error handling (TRY-CATCH), Deadlocks, Isolation levels, Query hints, EXISTS vs IN, COALESCE/ISNULL",type:"normal"},
+{d:28,topic:"Coding (31-40) + SQL (41-52)",count:"10+12",detail:"Sunday coding problems + Clustered vs Non-clustered, Optimize slow query, Nth salary, CTE vs Temp Table vs Table Variable, SP vs Inline, Window functions (ROW_NUMBER, RANK, PARTITION BY)",type:"sun"},
+{d:29,topic:"ASP.NET Core (1-15) — Fundamentals",count:"15 Qs",detail:"What is ASP.NET Core, Middleware, Request pipeline, Startup.cs, Program.cs, Kestrel, Routing (conventional + attribute), DI built-in, Configuration, Environments, Logging basics",type:"normal"},
+{d:30,topic:"ASP.NET Core (16-30) — Controllers, Actions",count:"15 Qs",detail:"Controllers, Action methods, IActionResult types, Model binding, [FromBody/Query/Route], Validation, ModelState, Data Annotations, Filters overview, Action filters",type:"normal"},
+{d:31,topic:"ASP.NET Core (31-50) — Filters, Validation",count:"15 Qs",detail:"5 filter types, Authorization filter, Exception filter, Filter order, Custom filters, ServiceFilter vs TypeFilter, Model validation, Custom validation, Remote validation, Client vs Server validation",type:"normal"},
+{d:32,topic:"ASP.NET Core (51-70) — State, Areas, Session",count:"15 Qs",detail:"State management, Session, TempData, Cookies, ViewData/ViewBag, Areas, Health checks, Bundling, Tag Helpers, View Components, Partial views",type:"normal"},
+{d:33,topic:"ASP.NET Core (71-90) — Scenarios",count:"15 Qs",detail:"File upload, Pagination, Dropdown binding, AJAX calls, Return JSON, Error pages, PRG pattern, Multiple submit buttons, Cascading dropdowns, Role-based menu",type:"normal"},
+{d:34,topic:"ASP.NET Core (91-115) — Advanced + Caching",count:"15 Qs",detail:"MVC vs Web API, Controller vs ControllerBase, Middleware order, IOptions pattern, Exception handling/Serilog, Health checks, In-Memory vs Redis cache, Remaining questions",type:"normal"},
+{d:35,topic:"Coding revision — Redo hard ones",count:"10 Qs",detail:"Revisit coding problems you struggled with. Practice writing code without looking at answers.",type:"sun"},
+{d:36,topic:"MVC (1-15) — Pattern, Model, ViewModel",count:"15 Qs",detail:"MVC pattern, Model/View/Controller, Request flow, Why MVC, Advantages, SoC, MVC vs 3-tier, MVC vs MVVM, Model types, ViewModel vs DTO, Strongly typed views, AutoMapper, Data Annotations",type:"normal"},
+{d:37,topic:"MVC (16-30) — Views, Razor, Layout",count:"15 Qs",detail:"View, Razor engine, _Layout, _ViewStart, _ViewImports, Partial views, Html.Partial vs RenderPartial, View Components, Sections, HTML Helpers, Tag Helpers, Custom Tag Helpers, Client vs Server rendering",type:"normal"},
+{d:38,topic:"MVC (31-50) — Controller, Actions, Data passing",count:"15 Qs",detail:"Controller, Default controller, IActionResult, Action Result types, RedirectToAction, View vs PartialView, Pass data to View, ViewData vs ViewBag vs TempData, TempData internals, Keep vs Peek, HttpContext",type:"normal"},
+{d:39,topic:"MVC (51-70) — Model Binding, Validation",count:"15 Qs",detail:"Request lifecycle, Routing, Route table, Controller factory, Model Binding, Value Providers, Action methods, HttpGet vs HttpPost, HttpPut/Delete, async actions, [FromBody], Over-posting, ModelState",type:"normal"},
+{d:40,topic:"MVC (71-90) — Filters, Areas",count:"15 Qs",detail:"Filters, 5 types, Authorization filter, Action filter, Exception filter, Filter order, Custom filter, Global/Controller/Action level, ServiceFilter vs TypeFilter, Areas, Area routing, Links between areas",type:"normal"},
+{d:41,topic:"MVC (91-115) — Scenarios, State",count:"15 Qs",detail:"State management, Session config, Session vs TempData vs Cache, Cookies, Bundling, Scaffolding, MVC vs Web API, File upload, Search+pagination, Dropdown binding, AJAX, PRG pattern, Multiple buttons, Cascading dropdowns",type:"normal"},
+{d:42,topic:"JavaScript (1-12) + Git (1-4)",count:"16 Qs",detail:"var/let/const, Hoisting, Closures, Promises/async-await, ==/===, this keyword, Event delegation, Arrow functions, Spread/Rest/Destructuring, map/filter/reduce, Fetch API, null/undefined/NaN + Merge vs Rebase, Branching, Conflicts, PR process",type:"sun"},
+{d:43,topic:"FULL REVISION — Project + Tips + HR",count:"All",detail:"Re-read all Project Q&A. Practice 'Tell me about yourself' out loud. Review HR answers. Mock interview yourself (timer: 2 min per answer).",type:"rev"},
+{d:44,topic:"FULL REVISION — ★★★ from all topics",count:"Random",detail:"Pick random questions from each topic. Focus on ones you struggled with. Practice explaining without reading. You're READY!",type:"rev"}
+];
+
+function getProgress(){return JSON.parse(localStorage.getItem('studyplan')||'{}');}
+function setProgress(d){localStorage.setItem('studyplan',JSON.stringify(d));}
+
+function render(){
+const prog=getProgress();
+let doneCount=0;
+let html='';
+plan.forEach(p=>{
+    const checked=!!prog['day_'+p.d];
+    if(checked)doneCount++;
+    const typeClass=p.type==='sun'?'sun':p.type==='rev'?'rev':'blue';
+    html+=`<div class="day ${checked?'done':''}" id="day${p.d}">
+<div class="day-header" onclick="document.getElementById('day${p.d}').classList.toggle('open')">
+<input type="checkbox" class="day-check" ${checked?'checked':''} onclick="event.stopPropagation();toggleDay(${p.d})">
+<span class="day-num ${typeClass}">Day ${p.d}</span>
+<span class="day-topic">${p.topic}</span>
+<span class="day-count">${p.count}</span>
+</div>
+<div class="day-details">${p.detail}</div>
+</div>`;
+});
+document.getElementById('days').innerHTML=html;
+document.getElementById('doneCount').textContent=doneCount;
+const pct=Math.round(doneCount/plan.length*100);
+document.getElementById('progressBar').style.width=pct+'%';
+document.getElementById('percentText').textContent=pct+'%';
+}
+
+function toggleDay(d){
+const prog=getProgress();
+prog['day_'+d]=!prog['day_'+d];
+setProgress(prog);
+render();
+}
+
+render();
+</script>
+</body>
+</html>

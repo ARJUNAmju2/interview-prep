@@ -6,264 +6,168 @@
 <title>Study Timetable 📅</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847);color:#e2e8f0;min-height:100vh;font-size:15px}
-.container{max-width:850px;margin:0 auto;padding:16px}
-a.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500}
-h1{text-align:center;padding:14px 0;background:linear-gradient(135deg,#f59e0b,#ef4444,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}
-.info{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px;line-height:1.7}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:750px;margin:0 auto;padding:16px}
+a.back{color:#38bdf8;text-decoration:none;font-size:.85rem;font-weight:500}
+h1{text-align:center;padding:12px 0;background:linear-gradient(135deg,#f59e0b,#ef4444,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.info{text-align:center;color:#94a3b8;font-size:.8rem;margin-bottom:12px;line-height:1.7}
 .info b{color:#38bdf8}
-.overall{text-align:center;margin:8px 0 14px;font-size:.9rem;color:#94a3b8}
-.bar{height:8px;background:#1e3a5f;border-radius:6px;overflow:hidden;max-width:400px;margin:6px auto}
-.bar-fill{height:100%;border-radius:6px;transition:width .3s}
-.week{margin-bottom:16px;border-radius:12px;overflow:hidden;border:1px solid #1e3a5f}
-.week-head{padding:12px 16px;font-weight:700;font-size:.95rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#fff}
-.week-body{padding:0 8px 8px}
-.day{background:#fff;border-radius:10px;margin-bottom:6px;overflow:hidden;box-shadow:0 2px 6px rgba(0,0,0,.15)}
-.day-head{padding:10px 14px;font-weight:700;font-size:.9rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer;color:#1e293b}
-.day-head .time{font-size:.72rem;font-weight:500;opacity:.7}
-.slot{padding:7px 14px;border-top:1px solid #f0f0f0;display:flex;align-items:center;gap:8px;font-size:.85rem;color:#334155}
-.slot.done{opacity:.45;text-decoration:line-through}
-.slot-time{min-width:95px;font-weight:600;color:#0369a1;font-size:.78rem}
-.slot-sub{min-width:85px;padding:2px 8px;border-radius:6px;color:#fff;font-size:.7rem;font-weight:600;text-align:center}
-.slot-qs{flex:1;color:#1e293b;font-size:.8rem}
+.overall{text-align:center;margin:8px 0 14px}
+.overall span{font-size:.9rem;color:#94a3b8}
+.bar{height:10px;background:#1e3a5f;border-radius:6px;overflow:hidden;max-width:400px;margin:6px auto}
+.bar-fill{height:100%;border-radius:6px;transition:width .3s;background:linear-gradient(90deg,#10b981,#34d399)}
+.pct{text-align:center;font-size:1.1rem;font-weight:700;color:#10b981;margin:4px 0}
+.legend{display:flex;gap:10px;justify-content:center;margin-bottom:12px;font-size:.7rem;flex-wrap:wrap}
+.legend span{display:flex;align-items:center;gap:4px}
+.ldot{width:10px;height:10px;border-radius:3px;display:inline-block}
+.ldot.n{background:#0ea5e9}.ldot.s{background:#f59e0b}.ldot.r{background:#8b5cf6}
+.week{margin-bottom:12px;border-radius:10px;overflow:hidden;border:1px solid #1e3a5f}
+.week-head{padding:10px 14px;font-weight:700;font-size:.88rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;color:#fff}
+.week-body{padding:4px 6px 6px}
+.day{background:#fff;border-radius:8px;margin-bottom:5px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.12)}
+.day.done{opacity:.5;border-left:4px solid #10b981}
+.day-head{padding:10px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.day-head:hover{background:#f8fafc}
 .chk{width:18px;height:18px;cursor:pointer;accent-color:#10b981;flex-shrink:0}
-.sunday{background:linear-gradient(135deg,#fef3c7,#fde68a)!important}
-.sunday .day-head{color:#92400e!important}
-.stats{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:10px 0}
-.stat{background:#0f2847;border:1px solid #1e3a5f;border-radius:8px;padding:6px 10px;text-align:center;min-width:70px}
-.stat .num{font-size:1.1rem;font-weight:700;color:#38bdf8}
-.stat .lbl{font-size:.65rem;color:#64748b}
-.stat .prog{font-size:.6rem;color:#10b981}
-.btn-reset{background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.75rem;font-weight:600;margin:4px}
-.btn-pdf{background:#0ea5e9;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.75rem;font-weight:600;margin:4px}
-.pattern{text-align:center;margin:8px 0;font-size:.78rem;color:#64748b}
-.pattern span{display:inline-block;padding:2px 8px;border-radius:4px;color:#fff;font-size:.7rem;margin:2px;font-weight:600}
+.day-num{min-width:42px;font-size:.68rem;font-weight:700;color:#fff;padding:3px 7px;border-radius:5px;text-align:center;flex-shrink:0}
+.day-num.n{background:#0ea5e9}.day-num.s{background:#f59e0b}.day-num.r{background:#8b5cf6}
+.day-topic{font-weight:600;color:#1e293b;font-size:.82rem;flex:1}
+.day-count{font-size:.68rem;color:#64748b;background:#f1f5f9;padding:2px 7px;border-radius:4px;flex-shrink:0}
+.day-detail{font-size:.75rem;color:#64748b;padding:0 12px 8px 70px;display:none;line-height:1.6}
+.day.open .day-detail{display:block}
+.btns{text-align:center;margin-top:10px}
+.btn-reset{background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.72rem;font-weight:600;margin:3px}
+.btn-pdf{background:#0ea5e9;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.72rem;font-weight:600;margin:3px}
 </style>
 </head>
 <body>
 <div class="container">
 <a href="index.html" class="back">← Back to Routine</a>
-<a href="interview.html" style="float:right;color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500">🎯 Interview Prep →</a>
-<h1>📅 Study Timetable - 317 Questions</h1>
+<a href="interview.html" style="float:right;color:#38bdf8;text-decoration:none;font-size:.85rem;font-weight:500">🎯 Interview Prep →</a>
+<h1>📅 44-Day Interview Plan</h1>
 <div class="info">
-<b>Mon-Sat:</b> 5:30-6:30 AM (5 Qs) + 7:30-9:30 PM (5 Qs) = <b>10 Qs/day</b><br>
-<b>Sunday:</b> Revision of that week's topics<br>
-<b>Pattern:</b> 2 subjects/day, <b>rotating</b> — every subject repeats every 2-3 days!
+<b>Mon-Sat:</b> Morning (5 Qs) + Evening (5-10 Qs) = <b>10-15 Qs/day</b><br>
+<b>Sunday:</b> Coding questions only<br>
+<b>Deep topics:</b> 10 Qs/day | <b>Light topics:</b> 15 Qs/day
 </div>
-<div class="pattern" id="patternBar"></div>
 <div class="overall">
-<span id="ov">0/317 Completed</span>
-<div class="bar"><div class="bar-fill" id="ovBar" style="width:0%;background:linear-gradient(90deg,#f59e0b,#ef4444)"></div></div>
-<button class="btn-reset" onclick="if(confirm('Reset all progress?')){localStorage.removeItem('tt_prog');renderTT()}">Reset</button>
-<button class="btn-pdf" onclick="exportTTPDF()">📄 Print</button>
+<span id="ov">0/44 Days Completed</span>
+<div class="bar"><div class="bar-fill" id="ovBar" style="width:0%"></div></div>
+<div class="pct" id="pct">0%</div>
 </div>
-<div class="stats" id="stats"></div>
+<div class="legend">
+<span><span class="ldot n"></span> Regular</span>
+<span><span class="ldot s"></span> Sunday (Coding)</span>
+<span><span class="ldot r"></span> Revision</span>
+</div>
 <div id="weeks"></div>
+<div class="btns">
+<button class="btn-reset" onclick="if(confirm('Reset all progress?')){localStorage.removeItem('tt44');location.reload()}">Reset Progress</button>
+<button class="btn-pdf" onclick="printPlan()">📄 Print Plan</button>
+</div>
 </div>
 <script>
-const C={oops:'#ff6f00',csharp:'#764ba2',mvc:'#2196f3',sqlserver:'#e91e63',webapi:'#009688',javascript:'#f59e0b',plsql:'#4caf50'};
-const N={oops:'OOPs',csharp:'C#',mvc:'MVC',sqlserver:'SQL Server',webapi:'Web API',javascript:'JS/TS',plsql:'PL/SQL'};
-const TOTAL={oops:51,csharp:51,mvc:50,sqlserver:47,webapi:41,javascript:26,plsql:51};
-
-// Rotating pairs: each day gets 2 different subjects
-const PAIRS=[
-  ['oops','csharp'],      // Pattern A
-  ['mvc','sqlserver'],     // Pattern B
-  ['webapi','plsql'],      // Pattern C
-  ['javascript','oops'],   // Pattern D
-  ['csharp','mvc'],        // Pattern E
-  ['sqlserver','webapi'],  // Pattern F
+const P=[
+{d:1,t:"n",topic:"Project Q&A (1-15)",c:"15",det:"Architecture, Auth, Security, DAL, API, Roles, Middleware, Brute Force, Challenge, Logging, Email, Improvements"},
+{d:2,t:"n",topic:"Project Q&A (16-29) + Tips/HR",c:"14+HR",det:"Public vs Private API, Concurrent users, Deploy, File upload, DB design, API failures, Oracle, Config, SP, Session, Pagination, Patterns, DI issue + HR answers"},
+{d:3,t:"n",topic:"OOPs (1-10) — Pillars, Class, Constructor",c:"10",det:"What is OOP, 4 pillars, Procedural vs OOP, Class & Object, Difference, Constructor, Types, Overloading, Chaining, Destructor"},
+{d:4,t:"n",topic:"OOPs (11-22) — Encapsulation, Modifiers",c:"12",det:"Struct vs Class, Static/Partial/Sealed class, Encapsulation, Access Modifiers, Properties, Field vs Property, Auto-property, readonly vs const"},
+{d:5,t:"n",topic:"OOPs (23-31) — Inheritance, Composition",c:"10",det:"Inheritance, Types, No Multiple Inheritance, Interfaces for MI, base keyword, Constructor order, IS-A vs HAS-A, Composition vs Inheritance"},
+{d:6,t:"n",topic:"OOPs (32-44) — Polymorphism ★★★",c:"12",det:"Polymorphism, Compile/Runtime, Overloading/Overriding rules, virtual, override, new, virtual vs new — MOST ASKED TOPIC"},
+{d:7,t:"s",topic:"Coding (1-10)",c:"10",det:"Reverse string, Palindrome, Duplicates, Anagram, Fibonacci, Factorial, Prime, Array reverse, Second largest, Remove duplicates"},
+{d:8,t:"n",topic:"OOPs (45-58) — Abstraction, Interfaces",c:"14",det:"Abstraction, Abstract class/method, Constructor in abstract, Abstract vs Interface, When to use, Interface, Default methods, Explicit implementation"},
+{d:9,t:"n",topic:"OOPs (59-72) — Generics, Boxing",c:"14",det:"Interface inheritance, ISP, DI using interfaces, IDisposable, IEnumerable/ICollection/IList, this/static keyword, Extension method, Generics, Constraints, Boxing/Unboxing"},
+{d:10,t:"n",topic:"OOPs (73-88) — Delegates, Events",c:"15",det:"Value vs Ref type, Stack vs Heap, GC, Generations, Dispose pattern, Delegate, Multicast, Func/Action/Predicate, Lambda, Events, Publisher-Subscriber"},
+{d:11,t:"n",topic:"OOPs (89-104) — Exceptions, LINQ",c:"15",det:"Exception handling, try-catch-finally, throw vs throw ex, Custom exception, Array vs ArrayList, Dictionary, IEnumerable vs IQueryable, yield, LINQ methods"},
+{d:12,t:"n",topic:"C# (1-10) — Basics, Boxing, Struct",c:"10",det:"What is C#, Object, Managed/Unmanaged, Boxing, Struct vs Class, Interface vs Abstract, Enum, break vs continue, const vs readonly, ref vs out"},
+{d:13,t:"n",topic:"C# (11-22) — Properties, Extension",c:"12",det:"this in static, Properties, Extension methods, Dispose vs Finalize, String vs StringBuilder, Delegates, Sealed, Partial, IEnumerable, Late/Early binding"},
+{d:14,t:"s",topic:"Coding (11-20)",c:"10",det:"Sorting, Searching, Two sum, FizzBuzz, String compression, Count words, Matrix, Linked list, Stack, Queue"},
+{d:15,t:"n",topic:"C# (23-35) — Nullable, Singleton",c:"13",det:"Arrays, Copy vs Clone, Multiple catch, Singleton, throw vs throw ex, Indexers, Multicast delegate, == vs Equals, is vs as, Nullable, Overloading"},
+{d:16,t:"n",topic:"C# (36-50) — Virtual, Serialization",c:"15",det:"Access modifiers, Virtual method, Array vs ArrayList, Value vs Reference, Serialization, using statement, Jagged array, Multithreading, Anonymous types"},
+{d:17,t:"n",topic:"C# (51-70) — File, Hashtable",c:"15",det:"Hashtable, File handling, remaining C# questions from text file"},
+{d:18,t:"n",topic:"C# (71-85) — LINQ deep",c:"15",det:"Advanced LINQ, GroupBy aggregate, SelectMany vs Select, query vs method syntax, chaining"},
+{d:19,t:"n",topic:"C# (86-95) — async/await, .NET Core ★★★",c:"10",det:"async deadlock, Task vs Thread vs ValueTask, CancellationToken, Deferred execution, .NET Framework vs Core, Auth vs Authz"},
+{d:20,t:"n",topic:"SOLID (1-12) + DI (1-4)",c:"15",det:"SRP, OCP, LSP, ISP, DIP + Singleton, Repository, Factory, Strategy, Observer, Unit of Work + DI basics, Scoped/Transient/Singleton"},
+{d:21,t:"s",topic:"Coding (21-30)",c:"10",det:"Pattern printing, Number to words, Roman numeral, Power of 2, Missing number, Rotate array, Merge sorted, Intersection, Valid parentheses, Max subarray"},
+{d:22,t:"n",topic:"DI (5-8) + EF Core (1-6)",c:"10",det:"Multiple implementations, Captive dependency, Complete DI example, Unit testing + EF Core, Code First, Migrations, Lazy/Eager loading, DbContext, Fluent API"},
+{d:23,t:"n",topic:"EF Core (7-12) + Web API (1-5)",c:"11",det:"Change tracking, Repository, IEnumerable vs IQueryable, N+1, Query filters, Transactions + Web API, REST, Status Codes, JWT, Middleware"},
+{d:24,t:"n",topic:"Web API (6-15)",c:"10",det:"API Versioning, Content Negotiation, CORS, Exception handling, [ApiController], Rate Limiting, Swagger, HTTP Methods, FromBody/Query, async in API"},
+{d:25,t:"n",topic:"SQL (1-12) — Joins, Basics",c:"12",det:"SQL types, SELECT, WHERE, Joins (INNER/LEFT/RIGHT/FULL), GROUP BY, HAVING, Subqueries, UNION, ORDER BY, DISTINCT"},
+{d:26,t:"n",topic:"SQL (13-26) — SP, Functions",c:"14",det:"Stored procedures, Functions vs SP, Triggers, Views, Indexes, Constraints, PK/FK, Normalization, Transactions, ACID, Cursors"},
+{d:27,t:"n",topic:"SQL (27-40) — Advanced",c:"14",det:"CTEs, Recursive CTE, MERGE, PIVOT, Dynamic SQL, TRY-CATCH, Deadlocks, Isolation levels, EXISTS vs IN, COALESCE"},
+{d:28,t:"s",topic:"Coding (31-40) + SQL (41-52)",c:"10+12",det:"Sunday coding + Clustered vs Non-clustered, Optimize query, Nth salary, CTE vs Temp Table, SP vs Inline, Window functions"},
+{d:29,t:"n",topic:"ASP.NET Core (1-15) — Fundamentals",c:"15",det:"What is ASP.NET Core, Middleware, Pipeline, Startup, Program.cs, Kestrel, Routing, DI, Configuration, Environments, Logging"},
+{d:30,t:"n",topic:"ASP.NET Core (16-30) — Controllers",c:"15",det:"Controllers, Actions, IActionResult, Model binding, FromBody/Query/Route, Validation, ModelState, Data Annotations, Filters overview"},
+{d:31,t:"n",topic:"ASP.NET Core (31-50) — Filters",c:"15",det:"5 filter types, Auth filter, Exception filter, Filter order, Custom filters, ServiceFilter, Model validation, Custom validation, Remote validation"},
+{d:32,t:"n",topic:"ASP.NET Core (51-70) — State, Areas",c:"15",det:"State management, Session, TempData, Cookies, ViewData/ViewBag, Areas, Health checks, Tag Helpers, View Components, Partial views"},
+{d:33,t:"n",topic:"ASP.NET Core (71-90) — Scenarios",c:"15",det:"File upload, Pagination, Dropdown, AJAX, JSON, Error pages, PRG pattern, Multiple buttons, Cascading dropdowns, Role-based menu"},
+{d:34,t:"n",topic:"ASP.NET Core (91-115) — Advanced",c:"15",det:"MVC vs API, Controller vs ControllerBase, Middleware order, IOptions, Logging/Serilog, Health checks, Caching (Redis vs Memory)"},
+{d:35,t:"s",topic:"Coding revision — Redo hard ones",c:"10",det:"Revisit problems you struggled with. Write code without looking at answers."},
+{d:36,t:"n",topic:"MVC (1-15) — Pattern, Model",c:"15",det:"MVC pattern, Model/View/Controller, Request flow, Why MVC, Advantages, SoC, MVC vs 3-tier, ViewModel vs DTO, Data Annotations"},
+{d:37,t:"n",topic:"MVC (16-30) — Views, Razor, Layout",c:"15",det:"View, Razor engine, _Layout, _ViewStart, _ViewImports, Partial views, Html.Partial vs RenderPartial, View Components, Sections, Tag Helpers"},
+{d:38,t:"n",topic:"MVC (31-50) — Controller, Data passing",c:"15",det:"Controller, IActionResult, Action Results, RedirectToAction, ViewData vs ViewBag vs TempData, Keep vs Peek, HttpContext, Request lifecycle"},
+{d:39,t:"n",topic:"MVC (51-70) — Model Binding, Validation",c:"15",det:"Routing, Route table, Model Binding, Value Providers, HttpGet vs HttpPost, async actions, Over-posting, ModelState, Validation"},
+{d:40,t:"n",topic:"MVC (71-90) — Filters, Areas",c:"15",det:"Filters, 5 types, Auth filter, Action filter, Exception filter, Order, Global/Controller/Action, Areas, Area routing"},
+{d:41,t:"n",topic:"MVC (91-115) — Scenarios",c:"15",det:"Session, Cookies, Bundling, Scaffolding, MVC vs Web API, File upload, Pagination, AJAX, PRG, Multiple buttons, Cascading dropdowns"},
+{d:42,t:"s",topic:"JavaScript (1-12) + Git (1-4)",c:"16",det:"var/let/const, Hoisting, Closures, Promises, ==/===, this, Event delegation, Arrow functions, Spread/Rest, map/filter/reduce, Fetch + Git merge/rebase, branching, conflicts, PR"},
+{d:43,t:"r",topic:"REVISION — Project + Tips + HR",c:"All",det:"Re-read Project Q&A. Practice 'Tell me about yourself' out loud. Review HR answers. Timer: 2 min per answer."},
+{d:44,t:"r",topic:"REVISION — ★★★ from all topics",c:"Random",det:"Random questions from each topic. Focus on weak areas. Practice explaining without reading. YOU'RE READY! 🎯"}
 ];
 
-// Track how many Qs done per subject
-let subPos={oops:0,csharp:0,mvc:0,sqlserver:0,webapi:0,javascript:0,plsql:0};
+function gp(){return JSON.parse(localStorage.getItem('tt44')||'{}')}
+function sp(d){localStorage.setItem('tt44',JSON.stringify(d))}
+function tog(day){const p=gp();p['d'+day]=!p['d'+day];sp(p);render()}
 
-function buildSchedule(){
-  const weeks=[];
-  let pairIdx=0;
-  let weekNum=1;
-  let dayNum=1;
-  let allDone=false;
+function render(){
+const prog=gp();
+let done=0;
+P.forEach(p=>{if(prog['d'+p.d])done++});
+document.getElementById('ov').textContent=done+'/44 Days Completed';
+const pct=Math.round(done/44*100);
+document.getElementById('ovBar').style.width=pct+'%';
+document.getElementById('pct').textContent=pct+'%';
 
-  while(!allDone && weekNum<=8){
-    const week={week:weekNum,days:[]};
-    const weekTopics=[];
-    const DAYNAMES=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-
-    for(let di=0;di<6;di++){
-      // Find a pair that still has questions
-      let found=false;
-      let tries=0;
-      while(tries<PAIRS.length){
-        const pair=PAIRS[pairIdx%PAIRS.length];
-        const s1=pair[0],s2=pair[1];
-        const s1Left=TOTAL[s1]-subPos[s1];
-        const s2Left=TOTAL[s2]-subPos[s2];
-        if(s1Left>0||s2Left>0){
-          const slots=[];
-          // Morning slot
-          if(s1Left>0){
-            const take=Math.min(5,s1Left);
-            const from=subPos[s1]+1;
-            const to=subPos[s1]+take;
-            slots.push({time:'5:30-6:30 AM',sub:s1,from,to});
-            subPos[s1]+=take;
-            weekTopics.push(N[s1]+' Q'+from+'-'+to);
-          } else if(s2Left>0){
-            // s1 done, give both slots to s2
-            const take=Math.min(5,TOTAL[s2]-subPos[s2]);
-            const from=subPos[s2]+1;
-            const to=subPos[s2]+take;
-            slots.push({time:'5:30-6:30 AM',sub:s2,from,to});
-            subPos[s2]+=take;
-            weekTopics.push(N[s2]+' Q'+from+'-'+to);
-          }
-          // Evening slot
-          const s2LeftNow=TOTAL[s2]-subPos[s2];
-          const s1LeftNow=TOTAL[s1]-subPos[s1];
-          if(s2LeftNow>0){
-            const take=Math.min(5,s2LeftNow);
-            const from=subPos[s2]+1;
-            const to=subPos[s2]+take;
-            slots.push({time:'7:30-9:30 PM',sub:s2,from,to});
-            subPos[s2]+=take;
-            weekTopics.push(N[s2]+' Q'+from+'-'+to);
-          } else if(s1LeftNow>0){
-            const take=Math.min(5,s1LeftNow);
-            const from=subPos[s1]+1;
-            const to=subPos[s1]+take;
-            slots.push({time:'7:30-9:30 PM',sub:s1,from,to});
-            subPos[s1]+=take;
-            weekTopics.push(N[s1]+' Q'+from+'-'+to);
-          }
-
-          if(slots.length>0){
-            week.days.push({day:DAYNAMES[di],d:'Day '+dayNum,slots});
-            dayNum++;
-            found=true;
-          }
-          pairIdx++;
-          break;
-        }
-        pairIdx++;
-        tries++;
-      }
-      if(!found){
-        // Check if all subjects done
-        allDone=Object.keys(TOTAL).every(k=>subPos[k]>=TOTAL[k]);
-        if(allDone) break;
-      }
-    }
-    // Sunday revision
-    if(weekTopics.length>0){
-      const revText=weekTopics.join(', ');
-      week.days.push({day:'Sunday',d:'Revision',rev:'📖 Revise: '+revText});
-    }
-    if(week.days.length>1) weeks.push(week);
-    weekNum++;
-    allDone=Object.keys(TOTAL).every(k=>subPos[k]>=TOTAL[k]);
-  }
-  return weeks;
+// Group into weeks
+const weeks=[];
+for(let i=0;i<P.length;i+=7){
+  weeks.push(P.slice(i,i+7));
 }
 
-// Reset positions and build
-function getSchedule(){
-  Object.keys(subPos).forEach(k=>subPos[k]=0);
-  return buildSchedule();
-}
-
-const SCHEDULE=getSchedule();
-
-// Pattern bar
-let patHtml='<b>Daily Rotation:</b> ';
-PAIRS.forEach((p,i)=>{
-  patHtml+=`<span style="background:${C[p[0]]}">${N[p[0]]}</span> + <span style="background:${C[p[1]]}">${N[p[1]]}</span>`;
-  if(i<PAIRS.length-1) patHtml+=' → ';
+let html='';
+weeks.forEach((wk,wi)=>{
+  let wDone=0;
+  wk.forEach(d=>{if(prog['d'+d.d])wDone++});
+  const clr=wi<3?'#0ea5e9,#06b6d4':wi<5?'#8b5cf6,#7c3aed':'#f59e0b,#f97316';
+  html+=`<div class="week"><div class="week-head" style="background:linear-gradient(135deg,${clr})" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">📅 Week ${wi+1}<span>${wDone}/${wk.length} done</span></div><div class="week-body">`;
+  wk.forEach(d=>{
+    const checked=!!prog['d'+d.d];
+    html+=`<div class="day ${checked?'done':''}" id="dy${d.d}">
+<div class="day-head" onclick="document.getElementById('dy${d.d}').classList.toggle('open')">
+<input type="checkbox" class="chk" ${checked?'checked':''} onclick="event.stopPropagation();tog(${d.d})">
+<span class="day-num ${d.t}">Day ${d.d}</span>
+<span class="day-topic">${d.topic}</span>
+<span class="day-count">${d.c}</span>
+</div>
+<div class="day-detail">${d.det}</div>
+</div>`;
+  });
+  html+=`</div></div>`;
 });
-patHtml+=' → repeat 🔄';
-document.getElementById('patternBar').innerHTML=patHtml;
-
-function gp(){return JSON.parse(localStorage.getItem('tt_prog')||'{}')}
-function sp(p){localStorage.setItem('tt_prog',JSON.stringify(p))}
-function togSlot(key){const p=gp();p[key]=!p[key];sp(p);renderTT()}
-
-function renderTT(){
-  const p=gp();
-  let totalDone=0,totalAll=0;
-
-  // Stats per subject
-  let subCount={};Object.keys(N).forEach(k=>subCount[k]={total:TOTAL[k],done:0});
-
-  let html='';
-  SCHEDULE.forEach(w=>{
-    let wDone=0,wTotal=0;
-    let daysHtml='';
-    w.days.forEach(d=>{
-      if(d.rev){
-        daysHtml+=`<div class="day sunday"><div class="day-head" style="color:#92400e">☀️ ${d.day} - ${d.d}<span class="time">Full Day</span></div><div class="slot"><div class="slot-time">📖 All Day</div><div class="slot-qs" style="color:#92400e;font-weight:600;font-size:.75rem">${d.rev}</div></div></div>`;
-        return;
-      }
-      let slotsHtml='';
-      d.slots.forEach((s,si)=>{
-        const key=`w${w.week}_${d.d}_${si}`;
-        const cnt=s.to-s.from+1;
-        const done=!!p[key];
-        wTotal+=cnt;totalAll+=cnt;
-        if(done){wDone+=cnt;totalDone+=cnt;subCount[s.sub].done+=cnt;}
-        slotsHtml+=`<div class="slot ${done?'done':''}">
-          <input type="checkbox" class="chk" ${done?'checked':''} onchange="togSlot('${key}')">
-          <div class="slot-time">${s.time}</div>
-          <div class="slot-sub" style="background:${C[s.sub]}">${N[s.sub]}</div>
-          <div class="slot-qs">Q${s.from}-Q${s.to} (${cnt})</div>
-        </div>`;
-      });
-      const dayCnt=d.slots.reduce((a,s)=>a+(s.to-s.from+1),0);
-      daysHtml+=`<div class="day"><div class="day-head">📘 ${d.day} - ${d.d}<span class="time">${dayCnt} Qs</span></div>${slotsHtml}</div>`;
-    });
-    const wPct=wTotal?(wDone/wTotal*100):0;
-    const wClr=w.week<=3?'#0ea5e9,#06b6d4':'#8b5cf6,#7c3aed';
-    html+=`<div class="week">
-      <div class="week-head" style="background:linear-gradient(135deg,${wClr})" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
-        📅 Week ${w.week}
-        <span>${wDone}/${wTotal} (${Math.round(wPct)}%)</span>
-      </div>
-      <div class="week-body">${daysHtml}</div>
-    </div>`;
-  });
-
-  document.getElementById('weeks').innerHTML=html;
-  document.getElementById('ov').textContent=totalDone+'/317 Completed';
-  document.getElementById('ovBar').style.width=(totalDone/317*100)+'%';
-
-  // Stats
-  let statsHtml='';
-  Object.keys(N).forEach(k=>{
-    const pct=Math.round(subCount[k].done/subCount[k].total*100)||0;
-    statsHtml+=`<div class="stat"><div class="num">${subCount[k].done}/${subCount[k].total}</div><div class="lbl">${N[k]}</div><div class="prog">${pct}%</div></div>`;
-  });
-  document.getElementById('stats').innerHTML=statsHtml;
+document.getElementById('weeks').innerHTML=html;
 }
-renderTT();
+render();
 
-function exportTTPDF(){
-  const w=window.open('','_blank');
-  let html='';
-  SCHEDULE.forEach(wk=>{
-    html+=`<h3 style="color:#0369a1;margin-top:14px">Week ${wk.week}</h3><table style="width:100%;border-collapse:collapse;margin-bottom:8px;font-size:13px"><tr><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Day</th><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Morning 5:30-6:30</th><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Evening 7:30-9:30</th></tr>`;
-    wk.days.forEach(d=>{
-      if(d.rev){
-        html+=`<tr style="background:#fef3c7"><td style="border:1px solid #ddd;padding:5px;font-weight:700">☀️ ${d.day}</td><td colspan="2" style="border:1px solid #ddd;padding:5px;color:#92400e;font-size:11px">${d.rev}</td></tr>`;
-      } else {
-        html+=`<tr><td style="border:1px solid #ddd;padding:5px;font-weight:600">${d.day}</td>`;
-        d.slots.forEach(s=>{html+=`<td style="border:1px solid #ddd;padding:5px">${N[s.sub]} Q${s.from}-Q${s.to}</td>`;});
-        if(d.slots.length===1) html+=`<td style="border:1px solid #ddd;padding:5px">-</td>`;
-        html+=`</tr>`;
-      }
-    });
-    html+=`</table>`;
-  });
-  w.document.write(`<html><head><title>Study Timetable</title><style>body{font-family:Segoe UI,sans-serif;padding:20px}h1{color:#0369a1}</style></head><body><h1>📅 Interview Prep - 317 Questions in 6 Weeks</h1><p><b>Pattern:</b> 2 subjects/day rotating | Mon-Sat: 5:30-6:30 AM + 7:30-9:30 PM | Sunday: Revision</p>${html}<script>window.print();<\/script></body></html>`);
-  w.document.close();
+function printPlan(){
+const w=window.open('','_blank');
+let html='<table style="width:100%;border-collapse:collapse;font-size:12px">';
+html+='<tr><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Day</th><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Topic</th><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Qs</th><th style="background:#0ea5e9;color:#fff;padding:6px;border:1px solid #ddd">Details</th></tr>';
+P.forEach(d=>{
+  const bg=d.t==='s'?'#fef3c7':d.t==='r'?'#ede9fe':'#fff';
+  html+=`<tr style="background:${bg}"><td style="border:1px solid #ddd;padding:4px;font-weight:700;text-align:center">Day ${d.d}</td><td style="border:1px solid #ddd;padding:4px;font-weight:600">${d.topic}</td><td style="border:1px solid #ddd;padding:4px;text-align:center">${d.c}</td><td style="border:1px solid #ddd;padding:4px;font-size:11px;color:#555">${d.det}</td></tr>`;
+});
+html+='</table>';
+w.document.write(`<html><head><title>44-Day Study Plan</title><style>body{font-family:Segoe UI,sans-serif;padding:20px}h1{color:#0369a1;font-size:18px}</style></head><body><h1>📅 44-Day Interview Prep Plan (627 Questions)</h1><p style="font-size:12px;color:#555">Mon-Sat: 10-15 Qs/day | Sunday: Coding only | Last 2 days: Revision</p>${html}<script>window.print();<\/script></body></html>`);
+w.document.close();
 }
 </script>
 </body>
