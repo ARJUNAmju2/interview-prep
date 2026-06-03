@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Web API Interview Questions</title>
+<link href="https://fonts.googleapis.com/css2?family=Manjari&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
@@ -24,6 +25,7 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#f9731
 .q.open .q-title{background:#fff7ed;border-bottom:1px solid #fed7aa}
 .q-ans{display:none;padding:14px 16px;background:#fffcfa}
 .q.open .q-ans{display:block}
+.mal-btn{background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.72rem;cursor:pointer;font-weight:600;margin-bottom:10px;display:inline-block}.mal-btn:hover{background:linear-gradient(135deg,#7c3aed,#6d28d9)}.mal-btn.active{background:linear-gradient(135deg,#ef4444,#dc2626)}.mal-text{background:linear-gradient(135deg,#fef3c7,#fde68a);border:1px solid #f59e0b;border-radius:8px;padding:14px;margin-top:10px;font-size:.85rem;color:#78350f;line-height:2;font-family:"Manjari",sans-serif;display:none}
 .q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
 </style>
 </head>
@@ -660,6 +662,9 @@ When NOT to use:
 var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
 countEl.textContent=qs.length+" Questions";
 search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+
+qs.forEach(function(q,idx){var ans=q.querySelector('.q-ans');if(!ans)return;var btn=document.createElement('button');btn.className='mal-btn';btn.textContent='\u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02 Malayalam';btn.onclick=function(e){e.stopPropagation();translateMal(idx,btn)};var md=document.createElement('div');md.className='mal-text';md.id='mal_'+idx;ans.insertBefore(btn,ans.firstChild);ans.appendChild(md)});
+function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.style.display==='block'){md.style.display='none';btn.classList.remove('active');btn.textContent='\u0D2E\u0D32\u0D2F\u0D3E\u0D33\u0D02 Malayalam';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent.substring(0,4500);btn.textContent='Translating...';btn.classList.add('active');md.style.display='block';md.innerHTML='Translating...';fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=en&tl=ml&dt=t&q='+encodeURIComponent(text)).then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(d){var t='';if(d&&d[0])d[0].forEach(function(i){if(i[0])t+=i[0]});md.innerHTML=t.split(/\.\s+/).filter(function(l){return l.trim()}).map(function(l){return '<div style="margin:4px 0">\u2733\ufe0f '+l.trim()+'.</div>'}).join('');btn.textContent='\u274c Hide Malayalam';btn.classList.remove('active')}).catch(function(){md.innerHTML='<a href="https://translate.google.com/?sl=en&tl=ml&text='+encodeURIComponent(text.substring(0,2000))+'" target="_blank" style="color:#0369a1;font-weight:700">\u27a1 Open in Google Translate</a><br><small>Tip: Use Live Server for auto-translate</small>';btn.textContent='\u274c Hide';btn.classList.remove('active')})}
 </script>
 </body>
 </html>
