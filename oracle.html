@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Oracle Interview Questions</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Segoe UI",sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;font-size:15px}
+.container{max-width:900px;margin:0 auto;padding:20px}
+h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#f44336,#ff7043);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.8rem}
+.back{color:#38bdf8;text-decoration:none;font-size:.9rem;font-weight:500;display:inline-block;margin-bottom:12px}
+.back:hover{text-decoration:underline}
+.search{width:100%;padding:12px 16px;border-radius:8px;border:1px solid #1e3a5f;background:#0f2847;color:#e2e8f0;margin-bottom:12px;font-size:.95rem}
+.search::placeholder{color:#64748b}
+.count{text-align:center;color:#94a3b8;font-size:.85rem;margin-bottom:14px}
+.q{background:#fff;border-radius:10px;margin-bottom:8px;border-left:4px solid #f44336;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.q-title{padding:14px 16px;cursor:pointer;font-weight:600;color:#1e293b;font-size:.92rem;display:flex;align-items:center;gap:10px;transition:background .2s;user-select:none}
+.q-title:hover{background:#fef2f2}
+.q-title .num{min-width:30px;height:30px;border-radius:50%;background:#f44336;color:#fff;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;flex-shrink:0}
+.q-title .txt{flex:1}
+.q-title .arrow{transition:transform .3s;color:#f44336;font-size:1rem;flex-shrink:0}
+.q.open .q-title .arrow{transform:rotate(180deg)}
+.q.open .q-title{background:#fef2f2;border-bottom:1px solid #fecaca}
+.q-ans{display:none;padding:14px 16px;background:#fffbfb}
+.q.open .q-ans{display:block}
+
+.speak-btn{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.72rem;cursor:pointer;font-weight:600;margin-bottom:10px;margin-left:6px;display:inline-block}.speak-btn:hover{background:linear-gradient(135deg,#0284c7,#0369a1)}.speak-btn.active{background:linear-gradient(135deg,#ef4444,#dc2626)}.speak-text{background:linear-gradient(135deg,#f5f3ff,#ede9fe);border:1px solid #c4b5fd;border-radius:8px;padding:16px;margin-top:10px;font-size:.85rem;color:#3b0764;line-height:2.1;display:none;font-family:'Segoe UI',sans-serif}
+.q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
+.study-check{width:18px;height:18px;cursor:pointer;accent-color:#10b981;flex-shrink:0}
+.q.studied{opacity:.6;border-left-color:#10b981}
+.q.studied .q-title .txt{text-decoration:line-through;color:#64748b}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">&larr; Back to Topics</a>
+<h1>Oracle Interview Questions</h1>
+<input class="search" id="search" placeholder="Search questions...">
+<div class="count" id="count"></div>
+<div id="qlist">
+
+<div class="q" data-s="what is oracle database"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Oracle Database?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle Database is a multi-model relational database management system (RDBMS) by Oracle Corporation.
+
+Key Features:
+- ACID compliant transactions
+- PL/SQL procedural language
+- Real Application Clusters (RAC) for high availability
+- Partitioning for large tables
+- Advanced security (TDE, VPD, Auditing)
+- Flashback for point-in-time recovery
+
+Editions:
+- Enterprise Edition (full features)
+- Standard Edition (mid-range)
+- Express Edition (XE - free, limited)
+
+Architecture:
+- Instance: Memory (SGA) + Background processes
+- Database: Physical files (datafiles, redo logs, control files)
+- Tablespaces organize data storage
+- Schemas own database objects</pre></div></div>
+
+<div class="q" data-s="oracle vs sql server differences"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">Oracle vs SQL Server — Key Differences?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | Oracle                  | SQL Server              |
+|------------------|-------------------------|-------------------------|
+| NULL handling    | '' = NULL               | '' != NULL              |
+| Auto-increment   | Sequences / Identity 12c| IDENTITY                |
+| Top N rows       | ROWNUM / FETCH FIRST    | TOP N                   |
+| String concat    | ||                      | +                       |
+| Current date     | SYSDATE                 | GETDATE()               |
+| NULL replace     | NVL()                   | ISNULL()                |
+| Substring        | SUBSTR()                | SUBSTRING()             |
+| IF NULL logic    | NVL2()                  | IIF() / CASE            |
+| Outer join (old) | (+)                     | *= (deprecated)         |
+| Packages         | Yes                     | No                      |
+| Transactions     | Implicit (need COMMIT)  | Auto-commit by default  |
+| Data types       | NUMBER, VARCHAR2, DATE  | INT, VARCHAR, DATETIME  |
+
+Critical difference: In Oracle, empty string '' IS NULL!
+SELECT * FROM emp WHERE name IS NULL; -- catches '' too</pre></div></div>
+
+<div class="q" data-s="oracle data types number varchar2 date clob"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">Oracle Data Types?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>NUMERIC:
+NUMBER(p,s)     - Universal numeric (precision, scale)
+NUMBER(10)      - Integer up to 10 digits
+NUMBER(10,2)    - Decimal with 2 places
+NUMBER          - Any numeric value (no limit)
+
+CHARACTER:
+VARCHAR2(n)     - Variable length (up to 4000 bytes) - ALWAYS USE THIS
+CHAR(n)         - Fixed length, padded with spaces
+NVARCHAR2(n)    - Unicode variable length
+CLOB            - Character Large Object (unlimited text)
+
+DATE/TIME:
+DATE            - Stores date AND time (to seconds)
+TIMESTAMP       - Date + fractional seconds
+TIMESTAMP WITH TIME ZONE
+
+BINARY:
+BLOB            - Binary Large Object (files, images)
+RAW(n)          - Small binary data
+
+SPECIAL:
+ROWID           - Physical row address
+XMLTYPE         - XML data
+
+Note: Always use VARCHAR2 not VARCHAR (Oracle reserves VARCHAR for future use)</pre></div></div>
+
+<div class="q" data-s="nvl nvl2 coalesce decode oracle null handling"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">NVL, NVL2, COALESCE, DECODE — Oracle NULL handling?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>NVL(value, replacement):
+- Returns replacement if value IS NULL
+- Oracle equivalent of SQL Server's ISNULL
+SELECT NVL(Phone, 'N/A') FROM Employee;
+
+NVL2(value, if_not_null, if_null):
+- 3 parameters: check, return if NOT null, return if null
+SELECT NVL2(ManagerId, 'Has Manager', 'Top Level') FROM Employee;
+
+COALESCE(val1, val2, val3...):
+- Returns FIRST non-null value
+- ANSI standard (works in both Oracle and SQL Server)
+SELECT COALESCE(Phone, Mobile, Email, 'No Contact') FROM Employee;
+
+DECODE(expr, search1, result1, search2, result2, ..., default):
+- Oracle's inline CASE statement
+- Compact equality checks
+SELECT DECODE(Status, 'A', 'Active', 'I', 'Inactive', 'Unknown') FROM Employee;
+
+CASE (preferred for complex conditions):
+SELECT CASE 
+    WHEN Salary &gt; 100000 THEN 'High'
+    WHEN Salary &gt; 50000 THEN 'Medium'
+    ELSE 'Low'
+END AS SalaryBand FROM Employee;</pre></div></div>
+
+<div class="q" data-s="sequences oracle auto increment nextval currval"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What are Sequences in Oracle?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Sequences generate unique numeric values - used for Primary Key IDs.
+
+CREATE SEQUENCE seq_employee_id
+    START WITH 1
+    INCREMENT BY 1
+    NOCACHE
+    NOCYCLE;
+
+Usage:
+seq_employee_id.NEXTVAL  -- Get next value (increments)
+seq_employee_id.CURRVAL  -- Get current value (same session)
+
+INSERT INTO Employee (Id, Name) 
+VALUES (seq_employee_id.NEXTVAL, 'John');
+
+-- Get generated ID after insert:
+INSERT INTO Employee (Id, Name) 
+VALUES (seq_employee_id.NEXTVAL, 'John')
+RETURNING Id INTO v_new_id;
+
+Oracle 12c+ IDENTITY columns:
+CREATE TABLE Employee (
+    Id NUMBER GENERATED ALWAYS AS IDENTITY,
+    Name VARCHAR2(100)
+);
+
+Sequence vs Identity:
+- Sequences: Independent objects, reusable, explicit control
+- Identity: Table-bound, simpler syntax, newer feature
+- Most existing Oracle systems use Sequences</pre></div></div>
+
+<div class="q" data-s="rownum rowid row_number oracle pagination"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">ROWNUM vs ROWID vs ROW_NUMBER()?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>ROWNUM - Pseudo-column assigned as rows are RETURNED:
+- Assigned BEFORE ORDER BY
+- WHERE ROWNUM &gt; 5 returns NOTHING (first row always gets 1)
+- Only works with &lt;= or &lt;
+SELECT * FROM Employee WHERE ROWNUM &lt;= 10; -- First 10 rows (unordered!)
+
+ROWID - Physical address of row on disk:
+- Fastest way to access a specific row
+- Can change during table reorganization
+- Don't store permanently
+SELECT ROWID, Name FROM Employee WHERE Id = 5;
+
+ROW_NUMBER() - Analytic function with ORDER BY:
+- Respects ordering
+- Can use PARTITION BY
+- Modern approach for pagination and ranking
+SELECT * FROM (
+    SELECT e.*, ROW_NUMBER() OVER (ORDER BY Salary DESC) AS rn
+    FROM Employee e
+) WHERE rn BETWEEN 11 AND 20;
+
+Oracle 12c+ Pagination (OFFSET FETCH):
+SELECT * FROM Employee
+ORDER BY Salary DESC
+OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;</pre></div></div>
+
+<div class="q" data-s="plsql basics block structure variables"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">PL/SQL Basics — Block Structure?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>PL/SQL = Procedural Language/SQL (Oracle's programming language)
+
+Block Structure:
+DECLARE
+    -- Variable declarations
+    v_name VARCHAR2(100);
+    v_salary NUMBER(10,2) := 0;
+    v_hire_date DATE := SYSDATE;
+    v_emp Employee%ROWTYPE;        -- Entire row type
+    v_name Employee.Name%TYPE;     -- Column type anchor
+BEGIN
+    -- Executable statements
+    SELECT Name, Salary INTO v_name, v_salary
+    FROM Employee WHERE Id = 1;
+    
+    IF v_salary &gt; 50000 THEN
+        DBMS_OUTPUT.PUT_LINE('High earner: ' || v_name);
+    ELSIF v_salary &gt; 30000 THEN
+        DBMS_OUTPUT.PUT_LINE('Mid earner');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('Entry level');
+    END IF;
+    
+    -- Loops
+    FOR i IN 1..10 LOOP
+        DBMS_OUTPUT.PUT_LINE('Iteration: ' || i);
+    END LOOP;
+    
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        DBMS_OUTPUT.PUT_LINE('No employee found');
+    WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+END;
+/</pre></div></div>
+
+<div class="q" data-s="oracle stored procedure create in out parameters"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">Oracle Stored Procedures?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CREATE OR REPLACE PROCEDURE sp_get_employee(
+    p_id        IN  NUMBER,
+    p_name      OUT VARCHAR2,
+    p_salary    OUT NUMBER
+) IS
+BEGIN
+    SELECT Name, Salary INTO p_name, p_salary
+    FROM Employee WHERE Id = p_id;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        p_name := NULL;
+        p_salary := 0;
+END sp_get_employee;
+/
+
+-- Procedure with cursor output:
+CREATE OR REPLACE PROCEDURE sp_get_employees(
+    p_dept_id   IN  NUMBER,
+    p_cursor    OUT SYS_REFCURSOR
+) IS
+BEGIN
+    OPEN p_cursor FOR
+        SELECT Id, Name, Salary
+        FROM Employee
+        WHERE DepartmentId = p_dept_id
+        ORDER BY Name;
+END;
+/
+
+Parameter Modes:
+- IN:     Input only (default, read-only)
+- OUT:    Output only (returns value)
+- IN OUT: Both directions
+
+Calling:
+DECLARE
+    v_name VARCHAR2(100);
+    v_sal NUMBER;
+BEGIN
+    sp_get_employee(1, v_name, v_sal);
+    DBMS_OUTPUT.PUT_LINE(v_name || ': ' || v_sal);
+END;</pre></div></div>
+
+<div class="q" data-s="oracle function vs procedure difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">Oracle Functions vs Procedures?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature        | Procedure              | Function               |
+|----------------|------------------------|------------------------|
+| Return value   | Via OUT parameters     | MUST return one value  |
+| Used in SELECT | No                     | Yes                    |
+| DML allowed    | Yes                    | No (by convention)     |
+| Call syntax    | EXEC / BEGIN...END     | SELECT fn() FROM DUAL  |
+| Purpose        | Perform actions        | Calculate/return value |
+
+Function example:
+CREATE OR REPLACE FUNCTION fn_get_dept_name(
+    p_dept_id IN NUMBER
+) RETURN VARCHAR2
+IS
+    v_name VARCHAR2(100);
+BEGIN
+    SELECT DeptName INTO v_name
+    FROM Department WHERE Id = p_dept_id;
+    RETURN v_name;
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        RETURN 'Unknown';
+END;
+/
+
+-- Used in SQL:
+SELECT Name, fn_get_dept_name(DepartmentId) AS DeptName
+FROM Employee;
+
+-- Table-valued function (Pipelined):
+CREATE OR REPLACE FUNCTION fn_get_active_emps
+RETURN emp_table_type PIPELINED IS
+BEGIN
+    FOR rec IN (SELECT * FROM Employee WHERE IsActive = 1) LOOP
+        PIPE ROW(rec);
+    END LOOP;
+    RETURN;
+END;</pre></div></div>
+
+<div class="q" data-s="ref cursor sys_refcursor oracle return result set"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What is REF CURSOR / SYS_REFCURSOR?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>REF CURSOR returns result sets from procedures to calling applications.
+
+-- In SQL Server: procedure just does SELECT and results return
+-- In Oracle: must explicitly OPEN a cursor as OUT parameter
+
+CREATE OR REPLACE PROCEDURE sp_search_employees(
+    p_name      IN  VARCHAR2,
+    p_dept_id   IN  NUMBER,
+    p_cursor    OUT SYS_REFCURSOR,
+    p_count     OUT NUMBER
+) IS
+BEGIN
+    -- Get total count
+    SELECT COUNT(*) INTO p_count
+    FROM Employee
+    WHERE (p_name IS NULL OR UPPER(Name) LIKE '%' || UPPER(p_name) || '%')
+    AND (p_dept_id IS NULL OR DepartmentId = p_dept_id);
+    
+    -- Open cursor with results
+    OPEN p_cursor FOR
+        SELECT Id, Name, Salary, DepartmentId
+        FROM Employee
+        WHERE (p_name IS NULL OR UPPER(Name) LIKE '%' || UPPER(p_name) || '%')
+        AND (p_dept_id IS NULL OR DepartmentId = p_dept_id)
+        ORDER BY Name;
+END;
+/
+
+In .NET (ODP.NET):
+var cmd = new OracleCommand("sp_search_employees", conn);
+cmd.CommandType = CommandType.StoredProcedure;
+cmd.Parameters.Add("p_name", OracleDbType.Varchar2).Value = searchTerm;
+cmd.Parameters.Add("p_dept_id", OracleDbType.Int32).Value = deptId;
+cmd.Parameters.Add("p_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+cmd.Parameters.Add("p_count", OracleDbType.Int32).Direction = ParameterDirection.Output;
+
+var reader = cmd.ExecuteReader();
+while(reader.Read()) { /* map to DTO */ }</pre></div></div>
+
+<div class="q" data-s="oracle join old syntax ansi plus sign"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">Oracle Joins — Old (+) syntax vs ANSI?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>OLD Oracle syntax (avoid in new code):
+-- Inner Join:
+SELECT e.Name, d.DeptName
+FROM Employee e, Department d
+WHERE e.DeptId = d.Id;
+
+-- Left Outer Join (+ on RIGHT side):
+SELECT e.Name, d.DeptName
+FROM Employee e, Department d
+WHERE e.DeptId = d.Id(+);
+
+-- Right Outer Join (+ on LEFT side):
+SELECT e.Name, d.DeptName
+FROM Employee e, Department d
+WHERE e.DeptId(+) = d.Id;
+
+ANSI syntax (RECOMMENDED):
+-- Inner Join:
+SELECT e.Name, d.DeptName
+FROM Employee e
+INNER JOIN Department d ON e.DeptId = d.Id;
+
+-- Left Join:
+SELECT e.Name, d.DeptName
+FROM Employee e
+LEFT JOIN Department d ON e.DeptId = d.Id;
+
+-- Full Outer Join (impossible with old syntax!):
+SELECT e.Name, d.DeptName
+FROM Employee e
+FULL OUTER JOIN Department d ON e.DeptId = d.Id;
+
+Why ANSI is better:
+- Supports FULL OUTER JOIN
+- Separates join conditions from filter conditions
+- Portable across databases
+- Clearer intent</pre></div></div>
+
+<div class="q" data-s="connect by hierarchical query prior level oracle"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">CONNECT BY — Hierarchical Queries?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CONNECT BY queries hierarchical/tree data (org charts, categories).
+
+SELECT 
+    LEVEL,
+    LPAD(' ', (LEVEL-1)*4) || Name AS OrgChart,
+    ManagerId
+FROM Employee
+START WITH ManagerId IS NULL        -- Root node(s)
+CONNECT BY PRIOR Id = ManagerId     -- Parent-child relationship
+ORDER SIBLINGS BY Name;             -- Sort within same level
+
+Key keywords:
+- START WITH: Defines root rows (top of tree)
+- CONNECT BY PRIOR: Links parent to child
+- LEVEL: Depth pseudo-column (1=root, 2=direct reports...)
+- PRIOR: References parent row
+
+Useful functions:
+- SYS_CONNECT_BY_PATH(Name, '/') → /CEO/VP/Manager/Dev
+- CONNECT_BY_ROOT Name → Root node's name for any row
+- CONNECT_BY_ISLEAF → 1 if no children (leaf node)
+
+-- Find all subordinates under employee 5:
+SELECT Name FROM Employee
+START WITH Id = 5
+CONNECT BY PRIOR Id = ManagerId;
+
+-- Find management chain for employee 10:
+SELECT Name, LEVEL FROM Employee
+START WITH Id = 10
+CONNECT BY Id = PRIOR ManagerId;  -- Walk UP (reversed PRIOR)
+
+Alternative: Recursive CTE (Oracle 11gR2+):
+WITH emp_tree AS (
+    SELECT Id, Name, ManagerId, 1 AS lvl FROM Employee WHERE ManagerId IS NULL
+    UNION ALL
+    SELECT e.Id, e.Name, e.ManagerId, t.lvl+1
+    FROM Employee e JOIN emp_tree t ON e.ManagerId = t.Id
+)
+SELECT * FROM emp_tree;</pre></div></div>
+
+<div class="q" data-s="oracle analytic window functions over partition"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">13</span><span class="txt">Oracle Analytic (Window) Functions?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Analytic functions compute values across related rows WITHOUT grouping.
+
+Syntax: function() OVER (PARTITION BY col ORDER BY col)
+
+-- Ranking:
+SELECT Name, Department, Salary,
+    ROW_NUMBER() OVER (PARTITION BY Department ORDER BY Salary DESC) AS DeptRank,
+    DENSE_RANK() OVER (ORDER BY Salary DESC) AS OverallRank
+FROM Employee;
+
+-- Running totals:
+SELECT OrderDate, Amount,
+    SUM(Amount) OVER (ORDER BY OrderDate) AS RunningTotal,
+    SUM(Amount) OVER (PARTITION BY CustomerId ORDER BY OrderDate) AS CustRunning
+FROM Orders;
+
+-- Previous/Next row:
+SELECT Name, Salary,
+    LAG(Salary, 1) OVER (ORDER BY HireDate) AS PrevSalary,
+    LEAD(Salary, 1) OVER (ORDER BY HireDate) AS NextSalary
+FROM Employee;
+
+-- Percentage:
+SELECT Name, Salary,
+    ROUND(Salary / SUM(Salary) OVER () * 100, 2) AS PctOfTotal,
+    ROUND(Salary / SUM(Salary) OVER (PARTITION BY DeptId) * 100, 2) AS PctOfDept
+FROM Employee;
+
+-- Top 3 per department:
+SELECT * FROM (
+    SELECT e.*, DENSE_RANK() OVER (PARTITION BY DeptId ORDER BY Salary DESC) AS rnk
+    FROM Employee e
+) WHERE rnk &lt;= 3;</pre></div></div>
+
+<div class="q" data-s="oracle indexes btree bitmap function-based"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">14</span><span class="txt">Oracle Indexes — B-Tree, Bitmap, Function-Based?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>B-TREE INDEX (default):
+- Standard balanced tree structure
+- Good for high-cardinality columns (many unique values)
+- Best for equality and range queries
+CREATE INDEX idx_emp_name ON Employee(Name);
+
+BITMAP INDEX:
+- Bit arrays for each distinct value
+- Best for LOW cardinality (Gender, Status, Boolean)
+- Excellent for complex AND/OR conditions on multiple columns
+- BAD for heavy DML (locks entire bitmap segment)
+CREATE BITMAP INDEX idx_emp_status ON Employee(Status);
+
+FUNCTION-BASED INDEX:
+- Indexes the RESULT of a function
+- Enables index usage when functions are in WHERE clause
+CREATE INDEX idx_emp_upper_name ON Employee(UPPER(Name));
+-- Now this uses the index:
+SELECT * FROM Employee WHERE UPPER(Name) = 'JOHN';
+
+COMPOSITE INDEX:
+CREATE INDEX idx_emp_dept_sal ON Employee(DepartmentId, Salary);
+-- Leftmost prefix rule applies
+
+UNIQUE INDEX:
+CREATE UNIQUE INDEX idx_emp_email ON Employee(Email);
+
+INDEX-ORGANIZED TABLE (IOT):
+- Entire table stored as B-Tree (like SQL Server clustered index)
+CREATE TABLE Lookup (Code VARCHAR2(10), Name VARCHAR2(100))
+ORGANIZATION INDEX;</pre></div></div>
+
+<div class="q" data-s="oracle exception handling plsql raise_application_error"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">15</span><span class="txt">Exception Handling in PL/SQL?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>PREDEFINED EXCEPTIONS:
+- NO_DATA_FOUND: SELECT INTO returned no rows
+- TOO_MANY_ROWS: SELECT INTO returned multiple rows
+- DUP_VAL_ON_INDEX: Unique constraint violation
+- ZERO_DIVIDE: Division by zero
+- VALUE_ERROR: Type conversion failed
+- INVALID_CURSOR: Cursor operation error
+
+BEGIN
+    -- risky operation
+    SELECT Name INTO v_name FROM Employee WHERE Id = p_id;
+    
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        v_name := 'Not Found';
+    WHEN TOO_MANY_ROWS THEN
+        v_name := 'Multiple Found';
+    WHEN OTHERS THEN
+        -- Log error
+        INSERT INTO ErrorLog(ErrCode, ErrMsg, ErrDate)
+        VALUES(SQLCODE, SQLERRM, SYSDATE);
+        RAISE;  -- Re-raise to caller
+END;
+
+USER-DEFINED EXCEPTIONS:
+DECLARE
+    e_insufficient_balance EXCEPTION;
+BEGIN
+    IF v_balance &lt; v_amount THEN
+        RAISE e_insufficient_balance;
+    END IF;
+EXCEPTION
+    WHEN e_insufficient_balance THEN
+        DBMS_OUTPUT.PUT_LINE('Insufficient funds');
+END;
+
+RAISE_APPLICATION_ERROR (sends error to application):
+IF v_age &lt; 18 THEN
+    RAISE_APPLICATION_ERROR(-20001, 'Must be 18 or older');
+END IF;
+-- Error numbers: -20000 to -20999 (user-defined range)</pre></div></div>
+
+<div class="q" data-s="oracle packages specification body"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">16</span><span class="txt">Oracle Packages — Spec and Body?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Package = Group of related procedures, functions, types, variables.
+
+PACKAGE SPECIFICATION (public interface):
+CREATE OR REPLACE PACKAGE pkg_employee IS
+    -- Public procedure declarations
+    PROCEDURE get_employee(p_id IN NUMBER, p_cursor OUT SYS_REFCURSOR);
+    PROCEDURE create_employee(p_name IN VARCHAR2, p_salary IN NUMBER, p_id OUT NUMBER);
+    PROCEDURE update_salary(p_id IN NUMBER, p_new_salary IN NUMBER);
+    
+    -- Public function
+    FUNCTION get_employee_count(p_dept_id IN NUMBER) RETURN NUMBER;
+    
+    -- Public constant
+    c_max_salary CONSTANT NUMBER := 500000;
+END pkg_employee;
+/
+
+PACKAGE BODY (implementation):
+CREATE OR REPLACE PACKAGE BODY pkg_employee IS
+
+    -- Private variable (not in spec = hidden)
+    v_last_error VARCHAR2(500);
+
+    -- Private procedure (not in spec)
+    PROCEDURE log_action(p_action VARCHAR2) IS
+    BEGIN
+        INSERT INTO AuditLog(Action, ActionDate) VALUES(p_action, SYSDATE);
+    END;
+
+    -- Public procedure implementation
+    PROCEDURE create_employee(p_name IN VARCHAR2, p_salary IN NUMBER, p_id OUT NUMBER) IS
+    BEGIN
+        p_id := seq_employee_id.NEXTVAL;
+        INSERT INTO Employee(Id, Name, Salary) VALUES(p_id, p_name, p_salary);
+        log_action('Created employee: ' || p_id);
+        COMMIT;
+    EXCEPTION
+        WHEN OTHERS THEN
+            ROLLBACK;
+            RAISE;
+    END;
+    
+    -- ... other implementations
+END pkg_employee;
+/
+
+Calling: EXEC pkg_employee.create_employee('John', 50000, :new_id);</pre></div></div>
+
+<div class="q" data-s="oracle triggers before after instead of new old"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">17</span><span class="txt">Oracle Triggers?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>BEFORE INSERT (auto-populate fields):
+CREATE OR REPLACE TRIGGER trg_emp_before_insert
+BEFORE INSERT ON Employee
+FOR EACH ROW
+BEGIN
+    :NEW.Id := seq_employee_id.NEXTVAL;
+    :NEW.CreatedDate := SYSDATE;
+    :NEW.CreatedBy := SYS_CONTEXT('USERENV', 'SESSION_USER');
+END;
+/
+
+AFTER UPDATE (audit logging):
+CREATE OR REPLACE TRIGGER trg_emp_after_update
+AFTER UPDATE ON Employee
+FOR EACH ROW
+BEGIN
+    INSERT INTO Employee_Audit(EmpId, FieldName, OldValue, NewValue, ChangeDate)
+    SELECT :OLD.Id, 'SALARY', TO_CHAR(:OLD.Salary), TO_CHAR(:NEW.Salary), SYSDATE
+    FROM DUAL WHERE :OLD.Salary != :NEW.Salary;
+END;
+/
+
+INSTEAD OF (on views):
+CREATE OR REPLACE TRIGGER trg_emp_view_insert
+INSTEAD OF INSERT ON vw_employee_details
+FOR EACH ROW
+BEGIN
+    INSERT INTO Employee(Name, DeptId) VALUES(:NEW.Name, :NEW.DeptId);
+END;
+/
+
+Key points:
+- :NEW = new row values (INSERT/UPDATE)
+- :OLD = old row values (UPDATE/DELETE)
+- FOR EACH ROW = row-level trigger
+- Without FOR EACH ROW = statement-level
+- Mutating table error: row trigger can't query its own table</pre></div></div>
+
+<div class="q" data-s="oracle cursors explicit implicit for loop fetch"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">18</span><span class="txt">Oracle Cursors — Explicit, Implicit, FOR Loop?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IMPLICIT CURSOR (automatic for single-row):
+BEGIN
+    UPDATE Employee SET Salary = Salary * 1.1 WHERE DeptId = 10;
+    DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT || ' rows updated');
+    -- SQL%FOUND, SQL%NOTFOUND, SQL%ROWCOUNT
+END;
+
+EXPLICIT CURSOR (multi-row processing):
+DECLARE
+    CURSOR c_emp(p_dept NUMBER) IS
+        SELECT Id, Name, Salary FROM Employee WHERE DeptId = p_dept;
+    v_emp c_emp%ROWTYPE;
+BEGIN
+    OPEN c_emp(10);
+    LOOP
+        FETCH c_emp INTO v_emp;
+        EXIT WHEN c_emp%NOTFOUND;
+        DBMS_OUTPUT.PUT_LINE(v_emp.Name || ': ' || v_emp.Salary);
+    END LOOP;
+    CLOSE c_emp;
+END;
+
+CURSOR FOR LOOP (simplest - auto open/fetch/close):
+BEGIN
+    FOR rec IN (SELECT Name, Salary FROM Employee WHERE DeptId = 10) LOOP
+        DBMS_OUTPUT.PUT_LINE(rec.Name || ': ' || rec.Salary);
+    END LOOP;
+END;
+
+Cursor attributes:
+%FOUND     - Last fetch returned a row
+%NOTFOUND  - Last fetch returned nothing
+%ROWCOUNT  - Rows fetched so far
+%ISOPEN    - Cursor is open</pre></div></div>
+
+<div class="q" data-s="bulk collect forall oracle performance batch"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">19</span><span class="txt">BULK COLLECT and FORALL — Bulk Operations?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Problem: Row-by-row processing causes context switches between PL/SQL and SQL engines.
+
+BULK COLLECT - Fetch all rows at once:
+DECLARE
+    TYPE t_ids IS TABLE OF NUMBER;
+    TYPE t_names IS TABLE OF VARCHAR2(100);
+    v_ids t_ids;
+    v_names t_names;
+BEGIN
+    SELECT Id, Name BULK COLLECT INTO v_ids, v_names
+    FROM Employee WHERE DeptId = 10;
+    
+    -- Process collection
+    FOR i IN 1..v_ids.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(v_ids(i) || ': ' || v_names(i));
+    END LOOP;
+END;
+
+FORALL - Bulk DML (one context switch for all):
+DECLARE
+    TYPE t_ids IS TABLE OF NUMBER;
+    v_ids t_ids;
+BEGIN
+    SELECT Id BULK COLLECT INTO v_ids
+    FROM Employee WHERE Status = 'INACTIVE' AND TermDate &lt; SYSDATE - 365;
+    
+    FORALL i IN 1..v_ids.COUNT
+        DELETE FROM Employee WHERE Id = v_ids(i);
+    
+    DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT || ' deleted');
+    COMMIT;
+END;
+
+WITH LIMIT (memory-safe for large data):
+DECLARE
+    CURSOR c_emp IS SELECT Id FROM Employee WHERE Status = 'OLD';
+    TYPE t_ids IS TABLE OF NUMBER;
+    v_ids t_ids;
+BEGIN
+    OPEN c_emp;
+    LOOP
+        FETCH c_emp BULK COLLECT INTO v_ids LIMIT 1000;
+        EXIT WHEN v_ids.COUNT = 0;
+        
+        FORALL i IN 1..v_ids.COUNT
+            UPDATE Employee SET ArchiveFlag = 'Y' WHERE Id = v_ids(i);
+        COMMIT;
+    END LOOP;
+    CLOSE c_emp;
+END;
+
+Performance: BULK operations are 10-50x faster than row-by-row!</pre></div></div>
+
+<div class="q" data-s="oracle transactions commit rollback savepoint implicit"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">20</span><span class="txt">Oracle Transactions — COMMIT, ROLLBACK, SAVEPOINT?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle uses IMPLICIT transactions (no BEGIN TRANSACTION needed).
+Every DML starts a transaction. Must COMMIT or ROLLBACK explicitly.
+
+Basic:
+UPDATE Account SET Balance = Balance - 1000 WHERE Id = 1;
+UPDATE Account SET Balance = Balance + 1000 WHERE Id = 2;
+COMMIT;  -- Both changes permanent
+
+-- If error:
+ROLLBACK;  -- Both changes undone
+
+SAVEPOINT (partial rollback):
+INSERT INTO Orders(...) VALUES(...);
+SAVEPOINT after_order;
+
+INSERT INTO OrderItems(...) VALUES(...);  -- This fails
+ROLLBACK TO after_order;  -- Only undo items, keep order
+
+COMMIT;  -- Order is saved
+
+In Stored Procedures:
+CREATE OR REPLACE PROCEDURE sp_transfer(
+    p_from IN NUMBER, p_to IN NUMBER, p_amount IN NUMBER
+) IS
+BEGIN
+    UPDATE Account SET Balance = Balance - p_amount WHERE Id = p_from;
+    UPDATE Account SET Balance = Balance + p_amount WHERE Id = p_to;
+    COMMIT;
+EXCEPTION
+    WHEN OTHERS THEN
+        ROLLBACK;
+        RAISE_APPLICATION_ERROR(-20001, 'Transfer failed: ' || SQLERRM);
+END;
+
+Key differences from SQL Server:
+- Oracle: Implicit transaction, must COMMIT manually
+- SQL Server: Auto-commit each statement (unless BEGIN TRAN)
+- Oracle: Readers never block writers (MVCC)
+- Oracle: SELECT FOR UPDATE locks specific rows</pre></div></div>
+
+<div class="q" data-s="to_date to_char to_number oracle date format conversion"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">21</span><span class="txt">TO_DATE, TO_CHAR, TO_NUMBER — Type Conversion?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>TO_CHAR (Date/Number → String):
+SELECT TO_CHAR(SYSDATE, 'DD-Mon-YYYY HH24:MI:SS') FROM DUAL;
+-- Result: 15-Mar-2024 14:30:45
+
+SELECT TO_CHAR(1234567.89, '99,99,999.99') FROM DUAL;
+-- Result: 12,34,567.89
+
+TO_DATE (String → Date):
+SELECT TO_DATE('15-03-2024', 'DD-MM-YYYY') FROM DUAL;
+SELECT TO_DATE('2024-03-15 14:30', 'YYYY-MM-DD HH24:MI') FROM DUAL;
+
+TO_NUMBER (String → Number):
+SELECT TO_NUMBER('1,234.56', '9,999.99') FROM DUAL;
+
+Common Date Format Elements:
+YYYY  - 4-digit year       DD   - Day of month
+MM    - Month number        MON  - Abbreviated month (Jan)
+MONTH - Full month name     DY   - Abbreviated day (Mon)
+HH24  - 24-hour            HH   - 12-hour
+MI    - Minutes            SS   - Seconds
+
+Date Arithmetic:
+SYSDATE + 7              -- 7 days from now
+SYSDATE - 1              -- Yesterday
+ADD_MONTHS(SYSDATE, 3)   -- 3 months later
+MONTHS_BETWEEN(d1, d2)   -- Difference in months
+TRUNC(SYSDATE)           -- Today at midnight (removes time)
+LAST_DAY(SYSDATE)        -- Last day of current month
+NEXT_DAY(SYSDATE, 'MON') -- Next Monday</pre></div></div>
+
+<div class="q" data-s="oracle pagination offset fetch rownum row_number"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">22</span><span class="txt">Oracle Pagination — Different Approaches?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Method 1: OFFSET FETCH (Oracle 12c+, recommended):
+SELECT * FROM Employee
+ORDER BY Salary DESC
+OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;
+-- Skips 10, takes next 10 (page 2, size 10)
+
+-- Formula: OFFSET (page-1)*size ROWS FETCH NEXT size ROWS ONLY
+
+Method 2: ROW_NUMBER (works all versions):
+SELECT * FROM (
+    SELECT e.*, ROW_NUMBER() OVER (ORDER BY Salary DESC) AS rn
+    FROM Employee e
+) WHERE rn BETWEEN 11 AND 20;
+
+Method 3: ROWNUM subquery (old approach):
+SELECT * FROM (
+    SELECT a.*, ROWNUM rn FROM (
+        SELECT * FROM Employee ORDER BY Salary DESC
+    ) a WHERE ROWNUM &lt;= 20
+) WHERE rn &gt; 10;
+
+In Stored Procedure:
+CREATE OR REPLACE PROCEDURE sp_get_page(
+    p_page      IN NUMBER,
+    p_size      IN NUMBER,
+    p_cursor    OUT SYS_REFCURSOR,
+    p_total     OUT NUMBER
+) IS
+BEGIN
+    SELECT COUNT(*) INTO p_total FROM Employee;
+    
+    OPEN p_cursor FOR
+        SELECT Id, Name, Salary FROM Employee
+        ORDER BY Id
+        OFFSET (p_page - 1) * p_size ROWS
+        FETCH NEXT p_size ROWS ONLY;
+END;</pre></div></div>
+
+<div class="q" data-s="oracle performance tuning explain plan index hint"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">23</span><span class="txt">Oracle Performance Tuning?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>1. CHECK EXECUTION PLAN:
+EXPLAIN PLAN FOR SELECT * FROM Employee WHERE Name = 'John';
+SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
+
+Look for:
+- TABLE ACCESS FULL (bad for large tables)
+- INDEX RANGE SCAN (good)
+- INDEX UNIQUE SCAN (best)
+- HASH JOIN vs NESTED LOOPS
+
+2. ADD PROPER INDEXES:
+- Columns in WHERE, JOIN, ORDER BY
+- Function-based for UPPER/LOWER searches
+- Bitmap for low-cardinality filters
+
+3. AVOID COMMON MISTAKES:
+-- BAD: Function on indexed column
+WHERE TO_CHAR(hire_date, 'YYYY') = '2024'
+-- GOOD: Range condition
+WHERE hire_date &gt;= TO_DATE('2024-01-01','YYYY-MM-DD')
+  AND hire_date &lt; TO_DATE('2025-01-01','YYYY-MM-DD')
+
+4. USE BIND VARIABLES:
+-- BAD: Literal values (no plan reuse)
+SELECT * FROM Employee WHERE Id = 5;
+-- GOOD: Bind variables (plan cached and reused)
+SELECT * FROM Employee WHERE Id = :p_id;
+
+5. HINTS (use sparingly):
+SELECT /*+ INDEX(e idx_emp_name) */ * FROM Employee e WHERE Name = 'John';
+SELECT /*+ PARALLEL(e, 4) */ * FROM Employee e;
+
+6. GATHER STATISTICS:
+EXEC DBMS_STATS.GATHER_TABLE_STATS('SCHEMA', 'EMPLOYEE');
+
+7. AVOID SELECT * — fetch only needed columns</pre></div></div>
+
+<div class="q" data-s="oracle materialized view refresh on demand commit"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">24</span><span class="txt">Oracle Views and Materialized Views?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>REGULAR VIEW (virtual table, no storage):
+CREATE OR REPLACE VIEW vw_active_employees AS
+SELECT e.Id, e.Name, e.Salary, d.DeptName
+FROM Employee e
+JOIN Department d ON e.DeptId = d.Id
+WHERE e.IsActive = 1;
+
+-- Usage:
+SELECT * FROM vw_active_employees WHERE DeptName = 'IT';
+
+MATERIALIZED VIEW (physical storage, precomputed):
+CREATE MATERIALIZED VIEW mv_dept_summary
+BUILD IMMEDIATE
+REFRESH FAST ON DEMAND
+AS
+SELECT DeptId, COUNT(*) AS EmpCount, AVG(Salary) AS AvgSalary
+FROM Employee
+GROUP BY DeptId;
+
+Refresh options:
+- ON COMMIT:   Refreshes when base table commits (always fresh)
+- ON DEMAND:   Manual refresh: EXEC DBMS_MVIEW.REFRESH('mv_dept_summary')
+- Scheduled:   Using DBMS_SCHEDULER
+
+Refresh types:
+- COMPLETE: Rebuilds entirely (slow, always works)
+- FAST: Applies only changes (needs materialized view log)
+- FORCE: Tries FAST, falls back to COMPLETE
+
+-- Create MV log for fast refresh:
+CREATE MATERIALIZED VIEW LOG ON Employee WITH ROWID;
+
+When to use MVs:
+- Dashboard summaries on large tables
+- Complex aggregations queried frequently
+- Cross-database data caching
+- Reports that tolerate slight staleness</pre></div></div>
+
+<div class="q" data-s="merge upsert oracle insert update when matched"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">25</span><span class="txt">MERGE Statement (UPSERT)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>MERGE performs INSERT or UPDATE in a single atomic statement.
+"If row exists, update it. If not, insert it."
+
+MERGE INTO Employee e
+USING StagingEmployee s
+ON (e.EmployeeCode = s.EmployeeCode)
+WHEN MATCHED THEN
+    UPDATE SET
+        e.Name = s.Name,
+        e.Salary = s.Salary,
+        e.ModifiedDate = SYSDATE
+WHEN NOT MATCHED THEN
+    INSERT (Id, EmployeeCode, Name, Salary, CreatedDate)
+    VALUES (seq_emp.NEXTVAL, s.EmployeeCode, s.Name, s.Salary, SYSDATE);
+
+-- With DELETE clause:
+MERGE INTO Employee e
+USING StagingEmployee s
+ON (e.EmployeeCode = s.EmployeeCode)
+WHEN MATCHED THEN
+    UPDATE SET e.Name = s.Name
+    DELETE WHERE e.IsActive = 0   -- Remove inactive after update
+WHEN NOT MATCHED THEN
+    INSERT (...) VALUES (...);
+
+-- Using subquery as source:
+MERGE INTO Config c
+USING (SELECT 'APP_VERSION' AS Key, '2.0' AS Val FROM DUAL) src
+ON (c.Key = src.Key)
+WHEN MATCHED THEN UPDATE SET c.Value = src.Val
+WHEN NOT MATCHED THEN INSERT (Key, Value) VALUES (src.Key, src.Val);
+
+Benefits over separate INSERT/UPDATE:
+- Atomic (no race conditions)
+- Single pass through data (faster)
+- Cleaner code</pre></div></div>
+
+<div class="q" data-s="oracle partitioning range list hash performance"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">26</span><span class="txt">Oracle Partitioning?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Partitioning divides large tables into smaller manageable pieces.
+
+RANGE PARTITIONING (date-based, most common):
+CREATE TABLE AuditLog (
+    Id NUMBER, LogDate DATE, Message VARCHAR2(500)
+) PARTITION BY RANGE (LogDate) (
+    PARTITION p_2022 VALUES LESS THAN (TO_DATE('2023-01-01','YYYY-MM-DD')),
+    PARTITION p_2023 VALUES LESS THAN (TO_DATE('2024-01-01','YYYY-MM-DD')),
+    PARTITION p_2024 VALUES LESS THAN (TO_DATE('2025-01-01','YYYY-MM-DD')),
+    PARTITION p_future VALUES LESS THAN (MAXVALUE)
+);
+
+LIST PARTITIONING (by specific values):
+CREATE TABLE Employee (...) PARTITION BY LIST (Region) (
+    PARTITION p_north VALUES ('North', 'Northeast'),
+    PARTITION p_south VALUES ('South', 'Southeast'),
+    PARTITION p_west VALUES ('West')
+);
+
+HASH PARTITIONING (even distribution):
+CREATE TABLE Orders (...) PARTITION BY HASH (CustomerId)
+PARTITIONS 8;
+
+Benefits:
+- Partition pruning: Queries scan only relevant partitions
+- Easier maintenance: DROP PARTITION instead of DELETE millions
+- Independent backup per partition
+- Parallel operations
+
+-- Drop old data instantly:
+ALTER TABLE AuditLog DROP PARTITION p_2022;
+
+-- Add new partition:
+ALTER TABLE AuditLog ADD PARTITION p_2025 
+VALUES LESS THAN (TO_DATE('2026-01-01','YYYY-MM-DD'));</pre></div></div>
+
+<div class="q" data-s="oracle synonym database link dblink remote"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">27</span><span class="txt">Oracle Synonyms and Database Links?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SYNONYM (alias for database objects):
+-- Private synonym (current user only):
+CREATE SYNONYM Employee FOR HR_SCHEMA.TBL_EMPLOYEE;
+
+-- Public synonym (all users):
+CREATE PUBLIC SYNONYM Employee FOR HR_SCHEMA.TBL_EMPLOYEE;
+
+-- Usage: Just reference 'Employee' instead of 'HR_SCHEMA.TBL_EMPLOYEE'
+SELECT * FROM Employee;  -- Uses synonym
+
+Benefits:
+- Hide schema ownership from application code
+- If object moves to different schema, change synonym only
+- Simplify long object names
+
+DATABASE LINK (connect to remote database):
+CREATE DATABASE LINK remote_hr
+CONNECT TO remote_user IDENTIFIED BY password
+USING '(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=remote-server)(PORT=1521))(CONNECT_DATA=(SERVICE_NAME=HRDB)))';
+
+-- Query remote table:
+SELECT * FROM Employee@remote_hr WHERE DeptId = 10;
+
+-- Join local and remote:
+SELECT l.Name, r.DeptName
+FROM Employee l
+JOIN Department@remote_hr r ON l.DeptId = r.Id;
+
+Use cases:
+- Access data from another system
+- Distributed reporting
+- Data synchronization</pre></div></div>
+
+<div class="q" data-s="oracle collections plsql table nested varray associative"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">28</span><span class="txt">PL/SQL Collections — Associative Arrays, Nested Tables, VARRAYs?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>ASSOCIATIVE ARRAY (INDEX BY table):
+- Key-value pairs, indexed by integer or string
+- PL/SQL only (not in database)
+- Sparse (gaps allowed), unbounded
+
+DECLARE
+    TYPE t_salary_map IS TABLE OF NUMBER INDEX BY VARCHAR2(100);
+    v_salaries t_salary_map;
+BEGIN
+    v_salaries('John') := 50000;
+    v_salaries('Jane') := 60000;
+    DBMS_OUTPUT.PUT_LINE(v_salaries('John'));  -- 50000
+END;
+
+NESTED TABLE:
+- Can be stored in database columns
+- Dense initially, can become sparse
+- Unbounded
+
+TYPE t_numbers IS TABLE OF NUMBER;
+v_nums t_numbers := t_numbers(10, 20, 30);
+v_nums.EXTEND;  -- Add space
+v_nums(4) := 40;
+
+VARRAY (fixed max size):
+- Maximum size defined at creation
+- Always dense and ordered
+- Can be stored in database columns
+
+TYPE t_phones IS VARRAY(5) OF VARCHAR2(20);
+v_phones t_phones := t_phones('111-1111', '222-2222');
+
+BULK COLLECT into collection:
+DECLARE
+    TYPE t_emps IS TABLE OF Employee%ROWTYPE;
+    v_emps t_emps;
+BEGIN
+    SELECT * BULK COLLECT INTO v_emps FROM Employee WHERE DeptId = 10;
+    FOR i IN 1..v_emps.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(v_emps(i).Name);
+    END LOOP;
+END;
+
+Collection methods: COUNT, FIRST, LAST, NEXT, PRIOR, EXISTS, EXTEND, TRIM, DELETE</pre></div></div>
+
+<div class="q" data-s="oracle dbms_output dbms_lob utl_file dbms_stats packages"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">29</span><span class="txt">Important Oracle DBMS Packages?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DBMS_OUTPUT - Debug output:
+SET SERVEROUTPUT ON;
+DBMS_OUTPUT.PUT_LINE('Debug: value = ' || v_value);
+
+DBMS_LOB - Large Object operations:
+v_length := DBMS_LOB.GETLENGTH(v_clob);
+v_text := DBMS_LOB.SUBSTR(v_clob, 100, 1);  -- First 100 chars
+DBMS_LOB.APPEND(v_clob, ' additional text');
+
+UTL_FILE - Read/Write OS files:
+DECLARE
+    v_file UTL_FILE.FILE_TYPE;
+BEGIN
+    v_file := UTL_FILE.FOPEN('MY_DIR', 'export.csv', 'W');
+    UTL_FILE.PUT_LINE(v_file, 'Id,Name,Salary');
+    FOR rec IN (SELECT * FROM Employee) LOOP
+        UTL_FILE.PUT_LINE(v_file, rec.Id||','||rec.Name||','||rec.Salary);
+    END LOOP;
+    UTL_FILE.FCLOSE(v_file);
+END;
+
+DBMS_STATS - Gather optimizer statistics:
+EXEC DBMS_STATS.GATHER_TABLE_STATS('MY_SCHEMA', 'EMPLOYEE');
+EXEC DBMS_STATS.GATHER_SCHEMA_STATS('MY_SCHEMA');
+
+DBMS_SCHEDULER - Job scheduling:
+DBMS_SCHEDULER.CREATE_JOB(
+    job_name => 'NIGHTLY_CLEANUP',
+    job_type => 'STORED_PROCEDURE',
+    job_action => 'pkg_maintenance.cleanup_old_data',
+    start_date => SYSTIMESTAMP,
+    repeat_interval => 'FREQ=DAILY;BYHOUR=2;BYMINUTE=0'
+);
+
+DBMS_CRYPTO - Encryption:
+v_encrypted := DBMS_CRYPTO.ENCRYPT(UTL_RAW.CAST_TO_RAW(v_text), 
+    DBMS_CRYPTO.ENCRYPT_AES256 + DBMS_CRYPTO.CHAIN_CBC, v_key);</pre></div></div>
+
+<div class="q" data-s="odp.net oracle managed data access connection .net csharp"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">30</span><span class="txt">Connecting Oracle from .NET — ODP.NET?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle.ManagedDataAccess (NuGet) - Pure .NET driver, no Oracle Client needed.
+
+Connection String:
+"Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=server)(PORT=1521))
+(CONNECT_DATA=(SERVICE_NAME=mydb)));User Id=user;Password=pass;
+Min Pool Size=5;Max Pool Size=50;"
+
+-- Or with TNS alias:
+"Data Source=MYDB;User Id=user;Password=pass;"
+
+Calling Stored Procedure:
+using var conn = new OracleConnection(connStr);
+conn.Open();
+
+using var cmd = new OracleCommand("pkg_employee.get_employees", conn);
+cmd.CommandType = CommandType.StoredProcedure;
+cmd.BindByName = true;
+
+// Input parameter
+cmd.Parameters.Add("p_dept_id", OracleDbType.Int32).Value = deptId;
+
+// Output REF CURSOR
+cmd.Parameters.Add("p_cursor", OracleDbType.RefCursor).Direction = ParameterDirection.Output;
+
+// Output count
+cmd.Parameters.Add("p_count", OracleDbType.Int32).Direction = ParameterDirection.Output;
+
+// Execute and read
+using var reader = cmd.ExecuteReader();
+while (reader.Read())
+{
+    var emp = new EmployeeDto
+    {
+        Id = reader.GetInt32(0),
+        Name = reader.GetString(1),
+        Salary = reader.GetDecimal(2)
+    };
+    employees.Add(emp);
+}
+
+var totalCount = ((OracleDecimal)cmd.Parameters["p_count"].Value).ToInt32();
+
+// Connection automatically returns to pool on Dispose</pre></div></div>
+
+</div>
+</div>
+<script src="oracle_speak.js"></script>
+<script>
+var search=document.getElementById("search"),qs=document.querySelectorAll(".q"),countEl=document.getElementById("count");
+countEl.textContent=qs.length+" Questions";
+search.addEventListener("input",function(){var v=this.value.toLowerCase(),n=0;qs.forEach(function(q){var m=q.dataset.s.includes(v);q.style.display=m?"":"none";if(m)n++});countEl.textContent=n+"/"+qs.length+" Questions"});
+
+qs.forEach(function(q,idx){var ans=q.querySelector('.q-ans');if(!ans)return;var sbtn=document.createElement('button');sbtn.className='speak-btn';sbtn.textContent='\ud83d\udde3\ufe0f How to Speak';sbtn.onclick=function(e){e.stopPropagation();showSpeak(idx,sbtn)};var sd=document.createElement('div');sd.className='speak-text';sd.id='speak_'+idx;ans.insertBefore(sbtn,ans.firstChild);ans.appendChild(sd)});
+
+
+function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre=btn.parentElement.querySelector("pre");if(sd.style.display==="block"){sd.style.display="none";pre.style.display="block";btn.classList.remove("active");btn.textContent="\ud83d\udde3\ufe0f How to Speak";return}pre.style.display="none";btn.classList.add("active");sd.style.display="block";if(typeof SPEAK_DATA!=="undefined"&&SPEAK_DATA[idx]){sd.innerHTML=SPEAK_DATA[idx].replace(/\n/g,"<br>")}else{var text=pre.textContent;var lines=text.split("\n").filter(function(l){return l.trim()&&!l.startsWith("=")&&!l.startsWith("|")&&l.trim().length>5});var spoken="<b>\ud83c\udfaf Start with:</b> \"Sure, let me explain this.\"<br><br>";lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,"");if(line.length<5||line.startsWith("public ")||line.startsWith("//")||line.startsWith("{")||line.startsWith("}")||line.startsWith("using ")||line.startsWith("var ")||line.startsWith("int ")||line.startsWith("string ")||line.startsWith("class ")||line.startsWith("private ")||line.startsWith("protected "))return;if(line.includes(":")){var parts=line.split(":");spoken+="<b>"+parts[0].trim()+"</b> \u2014 "+parts.slice(1).join(":").trim()+"<br>"}else{spoken+=line+"<br>"}});spoken+="<br><b>\ud83d\udca1 End with:</b> \"Would you like a code example?\"";sd.innerHTML=spoken}btn.textContent="\u274c Hide Speaking Tips"}
+</script>
+<script src="study_check.js"></script>
+</body>
+</html>
