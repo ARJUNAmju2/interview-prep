@@ -981,7 +981,7 @@ function exportCodePDF() {
   });
   html += '</table>';
   const d = QS.filter((_,i) => p[i]).length;
-  w.document.write(`<html><head><title>OOPs Coding Report</title><style>body{font-family:Segoe UI,sans-serif;padding:30px}h1{color:#0369a1}pre{font-family:Consolas,monospace}</style></head><body><h1>\ud83d\udcbb OOPs Coding Questions Report</h1><p><b>Progress: ${d}/${QS.length}</b></p>${html}<script>window.print();<\/script></body></html>`);
+  w.document.write(`<html><head><title>OOPs Coding Report</title><style>body{font-family:Segoe UI,sans-serif;padding:30px}h1{color:#0369a1}pre{font-family:Consolas,monospace}</style></head><body><h1>\ud83d\udcbb OOPs Coding Questions Report</h1><p><b>Progress: ${d}/${QS.length}</b></p>${html}<script>window.print();<\/script><script src="theme-toggle.js"></script>`n</body></html>`);
   w.document.close();
 }
 
@@ -1006,7 +1006,7 @@ function exportCodeWord() {
     html += `<tr><td>${i+1}</td><td>${q.q}</td><td>${q.tagName}</td><td style="color:${done?'green':'red'};font-weight:700">${done?'Covered':'Pending'}</td></tr>`;
     html += `<tr><td colspan="4"><pre>${q.code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></td></tr>`;
   });
-  html += '</table></body></html>';
+  html += '</table><script src="theme-toggle.js"></script>`n</body></html>';
   const blob = new Blob([html], { type: 'application/msword' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -1014,5 +1014,5 @@ function exportCodeWord() {
   a.click();
 }
 </script>
-</body>
+<script src="theme-toggle.js"></script>`n</body>
 </html>

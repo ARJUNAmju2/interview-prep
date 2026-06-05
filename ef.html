@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -58,7 +58,7 @@ public class AppDbContext : DbContext
 - Full control over code
 - Preferred for new projects
 
-Flow: C# Classes → Migrations → Database
+Flow: C# Classes ? Migrations ? Database
 
 public class Product
 {
@@ -77,7 +77,7 @@ DATABASE FIRST:
 - Use Scaffold-DbContext command
 - Used for existing/legacy databases
 
-Flow: Database → Scaffold → C# Classes
+Flow: Database ? Scaffold ? C# Classes
 
 Command:
 dotnet ef dbcontext scaffold "ConnectionString" Microsoft.EntityFrameworkCore.SqlServer -o Models
@@ -191,12 +191,12 @@ builder.Services.AddDbContext&lt;AppDbContext&gt;(options =>
 // Default lifetime: Scoped
 
 Why SCOPED (not Singleton or Transient):
-- Scoped: One DbContext per request → tracks changes within request → disposed after
+- Scoped: One DbContext per request ? tracks changes within request ? disposed after
 - Singleton: DANGEROUS! Not thread-safe, stale data, memory leaks
-- Transient: New instance every injection → can't track changes across services
+- Transient: New instance every injection ? can't track changes across services
 
 Scoped behavior:
-Request 1: Controller → Service → Repository (ALL get SAME DbContext)
+Request 1: Controller ? Service ? Repository (ALL get SAME DbContext)
 Request 2: Gets a NEW DbContext
 
 Why this matters:
@@ -275,11 +275,11 @@ Use Data Annotations for simple validation ([Required], [MaxLength]).</pre></div
 <div class="q" data-s="change tracking savechanges add update delete"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">How does Change Tracking work in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Change Tracking monitors entity states and generates appropriate SQL on SaveChanges().
 
 Entity States:
-- Added      → INSERT
-- Modified   → UPDATE
-- Deleted    → DELETE
-- Unchanged  → No SQL
-- Detached   → Not tracked
+- Added      ? INSERT
+- Modified   ? UPDATE
+- Deleted    ? DELETE
+- Unchanged  ? No SQL
+- Detached   ? Not tracked
 
 Example:
 // Added state
@@ -370,13 +370,13 @@ Use Repository when: Multiple data sources, complex queries, need abstraction.</
 IEnumerable&lt;Product&gt; products = _context.Products;
 var expensive = products.Where(p => p.Price > 100).ToList();
 // SQL: SELECT * FROM Products (loads ALL rows)
-// Then filters in C# memory — SLOW for large tables!
+// Then filters in C# memory � SLOW for large tables!
 
 IQueryable (server-side filtering):
 IQueryable&lt;Product&gt; products = _context.Products;
 var expensive = products.Where(p => p.Price > 100).ToList();
 // SQL: SELECT * FROM Products WHERE Price > 100
-// Filters at database — FAST!
+// Filters at database � FAST!
 
 Key Rule:
 - Keep as IQueryable as long as possible
@@ -533,5 +533,5 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
-</body>
+<script src="theme-toggle.js"></script>`n</body>
 </html>

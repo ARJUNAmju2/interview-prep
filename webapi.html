@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -81,12 +81,12 @@ public class ProductsController : ControllerBase
 6. Code on Demand (optional): Server can send executable code
 
 RESTful URL Design:
-GET    /api/products        → Get all products
-GET    /api/products/5      → Get product by ID
-POST   /api/products        → Create new product
-PUT    /api/products/5      → Update entire product
-PATCH  /api/products/5      → Partial update
-DELETE /api/products/5      → Delete product
+GET    /api/products        ? Get all products
+GET    /api/products/5      ? Get product by ID
+POST   /api/products        ? Create new product
+PUT    /api/products/5      ? Update entire product
+PATCH  /api/products/5      ? Partial update
+DELETE /api/products/5      ? Delete product
 
 Rules:
 - Use NOUNS not verbs: /api/products (not /api/getProducts)
@@ -101,28 +101,28 @@ Rules:
 <div class="q-ans"><pre>HTTP Status Codes indicate the result of an HTTP request.
 
 2xx - SUCCESS:
-200 OK              → Request successful (GET, PUT)
-201 Created         → Resource created (POST)
-204 No Content      → Success but no body (DELETE)
+200 OK              ? Request successful (GET, PUT)
+201 Created         ? Resource created (POST)
+204 No Content      ? Success but no body (DELETE)
 
 3xx - REDIRECTION:
-301 Moved Permanently → URL changed permanently
-302 Found            → Temporary redirect
-304 Not Modified     → Use cached version
+301 Moved Permanently ? URL changed permanently
+302 Found            ? Temporary redirect
+304 Not Modified     ? Use cached version
 
 4xx - CLIENT ERROR:
-400 Bad Request      → Invalid input/validation failed
-401 Unauthorized     → Not authenticated (no/invalid token)
-403 Forbidden        → Authenticated but no permission
-404 Not Found        → Resource doesn't exist
-405 Method Not Allowed → Wrong HTTP method
-409 Conflict         → Duplicate/conflict (e.g., duplicate email)
-422 Unprocessable    → Validation error
+400 Bad Request      ? Invalid input/validation failed
+401 Unauthorized     ? Not authenticated (no/invalid token)
+403 Forbidden        ? Authenticated but no permission
+404 Not Found        ? Resource doesn't exist
+405 Method Not Allowed ? Wrong HTTP method
+409 Conflict         ? Duplicate/conflict (e.g., duplicate email)
+422 Unprocessable    ? Validation error
 
 5xx - SERVER ERROR:
-500 Internal Server Error → Unhandled exception
-502 Bad Gateway      → Upstream server error
-503 Service Unavailable → Server overloaded/maintenance
+500 Internal Server Error ? Unhandled exception
+502 Bad Gateway      ? Upstream server error
+503 Service Unavailable ? Server overloaded/maintenance
 
 In ASP.NET Core:
 return Ok(data);           // 200
@@ -149,7 +149,7 @@ eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIn0.dozjgNryP4J3jVmNHl0w5N_XgL0n3I9
 
 Flow:
 1. Client sends credentials (username/password) to /api/auth/login
-2. Server validates → generates JWT token → returns to client
+2. Server validates ? generates JWT token ? returns to client
 3. Client stores token (localStorage/cookie)
 4. Client sends token in header: Authorization: Bearer &lt;token&gt;
 5. Server validates token on each request
@@ -303,9 +303,9 @@ When to version:
 <div class="q-ans"><pre>Content Negotiation is the process where the server selects the best response format based on the client's Accept header.
 
 Client sends:
-Accept: application/json  → Server returns JSON
-Accept: application/xml   → Server returns XML
-Accept: text/plain        → Server returns plain text
+Accept: application/json  ? Server returns JSON
+Accept: application/xml   ? Server returns XML
+Accept: text/plain        ? Server returns plain text
 
 ASP.NET Core Setup:
 builder.Services.AddControllers(options =&gt;
@@ -446,9 +446,9 @@ builder.Services.AddControllers(options =&gt;
    - No need to check ModelState.IsValid manually
 
 2. Binding Source Inference:
-   - Complex types → [FromBody] (automatically)
-   - Simple types in route → [FromRoute]
-   - Simple types → [FromQuery]
+   - Complex types ? [FromBody] (automatically)
+   - Simple types in route ? [FromRoute]
+   - Simple types ? [FromQuery]
 
 3. Problem Details for errors:
    - Returns RFC 7807 standard error format
@@ -649,15 +649,15 @@ Why it matters:
 - Async: 100 concurrent DB calls = threads released during I/O = can handle more
 
 When to use async:
-✓ Database calls (EF Core)
-✓ HTTP calls (HttpClient)
-✓ File I/O
-✓ Any I/O-bound operation
+? Database calls (EF Core)
+? HTTP calls (HttpClient)
+? File I/O
+? Any I/O-bound operation
 
 When NOT to use:
-✗ CPU-bound calculations
-✗ Simple in-memory operations
-✗ When it adds no benefit</pre></div>
+? CPU-bound calculations
+? Simple in-memory operations
+? When it adds no benefit</pre></div>
 </div>
 
 </div>
@@ -674,5 +674,5 @@ function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre
 </script>
 <script src="webapi_speak.js"></script>
 <script src="study_check.js"></script>
-</body>
+<script src="theme-toggle.js"></script>`n</body>
 </html>

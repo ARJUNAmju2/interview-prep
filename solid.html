@@ -1,4 +1,4 @@
-ï»¿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -41,7 +41,7 @@ Real-world analogy:
 - ISP: Waiter doesn't need to know cooking
 - DIP: Restaurant depends on "cook" role, not specific person</pre></div></div>
 
-<div class="q" data-s="single responsibility principle srp"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Single Responsibility Principle (SRP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>A class should have only ONE reason to change â€” it should do only ONE thing.
+<div class="q" data-s="single responsibility principle srp"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Single Responsibility Principle (SRP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>A class should have only ONE reason to change — it should do only ONE thing.
 
 BAD (multiple responsibilities):
 public class Employee
@@ -51,7 +51,7 @@ public class Employee
     public void GenerateReport() { }     // Reporting
     public void SendEmail() { }          // Notification
 }
-// If email logic changes, you modify Employee class â€” wrong!
+// If email logic changes, you modify Employee class — wrong!
 
 GOOD (single responsibility each):
 public class SalaryCalculator
@@ -237,7 +237,7 @@ public interface IWorker
     void Design();
 }
 
-// Robot forced to implement Eat/Sleep â€” makes no sense!
+// Robot forced to implement Eat/Sleep — makes no sense!
 public class Robot : IWorker
 {
     public void Work() { }
@@ -266,7 +266,7 @@ public class Robot : IWorkable, ICodable
 {
     public void Work() { }
     public void Code() { }
-    // No Eat/Sleep â€” not forced!
+    // No Eat/Sleep — not forced!
 }
 
 public class Manager : IWorkable, IFeedable, IManageable
@@ -275,7 +275,7 @@ public class Manager : IWorkable, IFeedable, IManageable
     public void Eat() { }
     public void Sleep() { }
     public void Manage() { }
-    // No Code â€” not forced!
+    // No Code — not forced!
 }
 
 Real-world example:
@@ -330,8 +330,8 @@ public class OrderService
 
     public OrderService(IOrderRepository repo, IEmailService email)
     {
-        _repo = repo;    // Injected â€” can be any implementation
-        _email = email;  // Injected â€” can be any implementation
+        _repo = repo;    // Injected — can be any implementation
+        _email = email;  // Injected — can be any implementation
     }
 
     public async Task PlaceOrder(Order order)
@@ -476,7 +476,7 @@ public class NotificationFactory
 INotification notification = NotificationFactory.Create("email");
 notification.Send("Hello!");
 
-// Client doesn't know which class is created â€” just uses interface
+// Client doesn't know which class is created — just uses interface
 
 When to use:
 - Object creation logic is complex
@@ -545,7 +545,7 @@ IPaymentStrategy strategy = userChoice switch
 var service = new PaymentService(strategy);
 await service.Pay(999);
 
-This is OCP in action â€” add new payment without modifying existing code!</pre></div></div>
+This is OCP in action — add new payment without modifying existing code!</pre></div></div>
 
 <div class="q" data-s="observer pattern event"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">What is Observer Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Observer Pattern: When one object changes state, all dependent objects are notified automatically. (Publisher-Subscriber)
 
@@ -667,5 +667,5 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
-</body>
+<script src="theme-toggle.js"></script>`n</body>
 </html>

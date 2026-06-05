@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -96,7 +96,7 @@ OOP focuses on:
    - One interface, multiple implementations
    - Same method behaves differently based on object
    - Compile-time (overloading) and Runtime (overriding)
-   - Example: Shape.Draw() → Circle draws circle, Square draws square
+   - Example: Shape.Draw() ? Circle draws circle, Square draws square
 
 4. ABSTRACTION:
    - Hiding complex implementation, showing only essential features
@@ -1172,14 +1172,14 @@ Benefits:
 <div class="q-ans"><pre>1. SINGLE INHERITANCE:
    One child inherits from one parent.
    
-   Animal → Dog
+   Animal ? Dog
    
    class Dog : Animal { }
 
 2. MULTILEVEL INHERITANCE:
-   Chain of inheritance (grandparent → parent → child).
+   Chain of inheritance (grandparent ? parent ? child).
    
-   Animal → Dog → GoldenRetriever
+   Animal ? Dog ? GoldenRetriever
    
    class Animal { }
    class Dog : Animal { }
@@ -1188,9 +1188,9 @@ Benefits:
 3. HIERARCHICAL INHERITANCE:
    Multiple children inherit from same parent.
    
-   Animal → Dog
-   Animal → Cat
-   Animal → Bird
+   Animal ? Dog
+   Animal ? Cat
+   Animal ? Bird
    
    class Dog : Animal { }
    class Cat : Animal { }
@@ -1427,9 +1427,9 @@ public class C : B
 var obj = new C();
 
 // Output:
-// A constructor    ← Base first
-// B constructor    ← Then middle
-// C constructor    ← Then derived (last)
+// A constructor    ? Base first
+// B constructor    ? Then middle
+// C constructor    ? Then derived (last)
 
 With parameterized constructors:
 public class Person
@@ -1450,8 +1450,8 @@ public class Employee : Person
 
 var emp = new Employee("John", 1);
 // Output:
-// Person: John     ← base runs first
-// Employee: 1      ← derived runs second
+// Person: John     ? base runs first
+// Employee: 1      ? derived runs second
 
 Rule: If parent has no parameterless constructor, child MUST explicitly 
 call base() with required parameters.</pre></div>
@@ -1538,18 +1538,18 @@ class Car
 
 Examples:
 IS-A:
-- Dog IS-A Animal ✓
-- Car IS-A Vehicle ✓
-- Manager IS-A Employee ✓
+- Dog IS-A Animal ?
+- Car IS-A Vehicle ?
+- Manager IS-A Employee ?
 
 HAS-A:
-- Car HAS-A Engine ✓
-- Employee HAS-A Address ✓
-- Order HAS-A List&lt;OrderItem&gt; ✓
+- Car HAS-A Engine ?
+- Employee HAS-A Address ?
+- Order HAS-A List&lt;OrderItem&gt; ?
 
 Wrong usage:
-- Car IS-A Engine ✗ (Car is not a type of Engine)
-- Dog HAS-A Animal ✗ (Dog doesn't contain an Animal)</pre></div>
+- Car IS-A Engine ? (Car is not a type of Engine)
+- Dog HAS-A Animal ? (Dog doesn't contain an Animal)</pre></div>
 </div>
 <div class="q" data-s="q31. what is composition vs inheritance? when to use which?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -1627,7 +1627,7 @@ When to use Composition:
 - Need flexibility to swap behavior
 - Need multiple behaviors (can't multi-inherit)
 - Following SOLID principles
-- Most of the time — prefer composition!
+- Most of the time � prefer composition!
 
 
 
@@ -1641,12 +1641,12 @@ SECTION 4: POLYMORPHISM
 <span class="txt">Q32. What is Polymorphism?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>Polymorphism means "many forms" — same method/operator behaves differently 
+<div class="q-ans"><pre>Polymorphism means "many forms" � same method/operator behaves differently 
 based on the context or object type.
 
 Two types:
-1. Compile-time (Static) Polymorphism → Method Overloading, Operator Overloading
-2. Runtime (Dynamic) Polymorphism → Method Overriding (virtual/override)
+1. Compile-time (Static) Polymorphism ? Method Overloading, Operator Overloading
+2. Runtime (Dynamic) Polymorphism ? Method Overriding (virtual/override)
 
 Example:
 // Same method name "Draw" behaves differently based on object
@@ -1700,10 +1700,10 @@ public class Calculator
 }
 
 var calc = new Calculator();
-calc.Add(5, 3);          // Calls int version → 8
-calc.Add(5.5, 3.2);     // Calls double version → 8.7
-calc.Add(1, 2, 3);      // Calls 3-param version → 6
-calc.Add("Hi", " World"); // Calls string version → "Hi World"
+calc.Add(5, 3);          // Calls int version ? 8
+calc.Add(5.5, 3.2);     // Calls double version ? 8.7
+calc.Add(1, 2, 3);      // Calls 3-param version ? 6
+calc.Add("Hi", " World"); // Calls string version ? "Hi World"
 
 // Compiler knows at compile time which method to call
 // Based on number and type of arguments</pre></div>
@@ -2020,11 +2020,11 @@ public class Dog : Animal
 
 // Behavior:
 Dog dog = new Dog();
-dog.Speak();  // "Dog barks" (Dog reference → Dog's method)
+dog.Speak();  // "Dog barks" (Dog reference ? Dog's method)
 
 Animal animal = new Dog();
-animal.Speak();  // "Animal speaks" (Animal reference → Animal's method!)
-// ↑ This is the KEY difference from override!
+animal.Speak();  // "Animal speaks" (Animal reference ? Animal's method!)
+// ? This is the KEY difference from override!
 
 Without 'new' keyword, compiler gives a warning but behaves the same way.
 'new' explicitly tells compiler "I know I'm hiding, this is intentional."</pre></div>
@@ -2072,8 +2072,8 @@ public class Derived : Base
 
 Base obj = new Derived();
 
-obj.Method1();  // "Derived.Method1" ← override: object type wins
-obj.Method2();  // "Base.Method2"    ← new: reference type wins
+obj.Method1();  // "Derived.Method1" ? override: object type wins
+obj.Method2();  // "Base.Method2"    ? new: reference type wins
 
 Derived obj2 = new Derived();
 obj2.Method1();  // "Derived.Method1"
@@ -2231,8 +2231,8 @@ interface IConsumer&lt;in T&gt;
 }
 
 Summary:
-- Covariance (out): Child → Parent direction (more derived to less derived)
-- Contravariance (in): Parent → Child direction (less derived to more derived)
+- Covariance (out): Child ? Parent direction (more derived to less derived)
+- Contravariance (in): Parent ? Child direction (less derived to more derived)
 - Invariant: No conversion allowed (default for generic classes)
 
 
@@ -2535,9 +2535,9 @@ class Invoice : IPrintable, IExportable { }
 class Report : IPrintable { }
 
 RULE OF THUMB:
-- If you have shared CODE → Abstract class
-- If you have shared CONTRACT → Interface
-- When in doubt → Interface (more flexible)</pre></div>
+- If you have shared CODE ? Abstract class
+- If you have shared CONTRACT ? Interface
+- When in doubt ? Interface (more flexible)</pre></div>
 </div>
 <div class="q" data-s="q52. can we create an instance of abstract class?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -3119,7 +3119,7 @@ IList&lt;T&gt; (extends ICollection):
 - RemoveAt(index)
 - IndexOf
 
-Hierarchy: IEnumerable&lt;T&gt; → ICollection&lt;T&gt; → IList&lt;T&gt;
+Hierarchy: IEnumerable&lt;T&gt; ? ICollection&lt;T&gt; ? IList&lt;T&gt;
 
 | Feature      | IEnumerable&lt;T&gt; | ICollection&lt;T&gt; | IList&lt;T&gt;     |
 |--------------|----------------|----------------|--------------|
@@ -3451,12 +3451,12 @@ Benefits:
 </div>
 <div class="q-ans"><pre>Constraints restrict which types can be used as generic type arguments.
 
-where T : class       → T must be a reference type
-where T : struct      → T must be a value type
-where T : new()       → T must have parameterless constructor
-where T : BaseClass   → T must inherit from BaseClass
-where T : IInterface  → T must implement IInterface
-where T : notnull     → T must be non-nullable
+where T : class       ? T must be a reference type
+where T : struct      ? T must be a value type
+where T : new()       ? T must have parameterless constructor
+where T : BaseClass   ? T must inherit from BaseClass
+where T : IInterface  ? T must implement IInterface
+where T : notnull     ? T must be non-nullable
 
 Examples:
 // Must be reference type with parameterless constructor
@@ -3498,8 +3498,8 @@ public class Mapper&lt;TSource, TDest&gt;
 <span class="txt">Q72. What is Boxing and Unboxing?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>BOXING: Converting a VALUE type to REFERENCE type (stack → heap).
-UNBOXING: Converting a REFERENCE type back to VALUE type (heap → stack).
+<div class="q-ans"><pre>BOXING: Converting a VALUE type to REFERENCE type (stack ? heap).
+UNBOXING: Converting a REFERENCE type back to VALUE type (heap ? stack).
 
 // Boxing (implicit)
 int number = 42;
@@ -3517,14 +3517,14 @@ Boxing:
 Unboxing:
 1. Check if object contains the correct type
 2. Value copied from heap to stack
-3. If wrong type → InvalidCastException
+3. If wrong type ? InvalidCastException
 
 Performance issue:
 // BAD - boxing happens in loop (slow)
 ArrayList list = new ArrayList();
 for (int i = 0; i &lt; 1000000; i++)
 {
-    list.Add(i);  // Boxing int → object every iteration!
+    list.Add(i);  // Boxing int ? object every iteration!
 }
 
 // GOOD - no boxing (use generics)
@@ -3609,8 +3609,8 @@ Example:
 public void MyMethod()
 {
     int x = 10;              // Stack: x (value type)
-    string name = "John";   // Stack: name (reference) → Heap: "John" (object)
-    Employee emp = new Employee();  // Stack: emp (reference) → Heap: Employee object
+    string name = "John";   // Stack: name (reference) ? Heap: "John" (object)
+    Employee emp = new Employee();  // Stack: emp (reference) ? Heap: Employee object
     
     // When method exits:
     // Stack: x, name, emp automatically removed
@@ -3619,11 +3619,11 @@ public void MyMethod()
 
 Visual:
 STACK                    HEAP
-┌──────────┐            ┌──────────────────┐
-│ x = 10   │            │ Employee object  │ ← emp points here
-│ name ────────────────→│ "John"           │ ← name points here
-│ emp  ────────────────→│                  │
-└──────────┘            └──────────────────┘</pre></div>
++----------+            +------------------+
+� x = 10   �            � Employee object  � ? emp points here
+� name ----------------?� "John"           � ? name points here
+� emp  ----------------?�                  �
++----------+            +------------------+</pre></div>
 </div>
 <div class="q" data-s="q75. what is garbage collection in .net?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -3641,7 +3641,7 @@ How it works:
 4. GC frees memory of unreachable objects
 
 Employee emp = new Employee("John");  // Object on heap
-emp = null;  // Object now unreachable → eligible for GC
+emp = null;  // Object now unreachable ? eligible for GC
 // OR
 emp = new Employee("Jane");  // Old "John" object unreachable
 
@@ -3687,9 +3687,9 @@ Generation 2 (Long-lived):
 - Large Object Heap (LOH) for objects &gt; 85KB
 
 Flow:
-Object created → Gen 0
-Survives Gen 0 collection → Promoted to Gen 1
-Survives Gen 1 collection → Promoted to Gen 2
+Object created ? Gen 0
+Survives Gen 0 collection ? Promoted to Gen 1
+Survives Gen 1 collection ? Promoted to Gen 2
 
 Why generations?
 - Most objects die young (Gen 0 collection is fast)
@@ -4076,12 +4076,12 @@ Benefits:
 </div>
 <div class="q-ans"><pre>Constraints restrict which types can be used as generic type arguments.
 
-where T : class       → T must be a reference type
-where T : struct      → T must be a value type
-where T : new()       → T must have parameterless constructor
-where T : BaseClass   → T must inherit from BaseClass
-where T : IInterface  → T must implement IInterface
-where T : notnull     → T must be non-nullable
+where T : class       ? T must be a reference type
+where T : struct      ? T must be a value type
+where T : new()       ? T must have parameterless constructor
+where T : BaseClass   ? T must inherit from BaseClass
+where T : IInterface  ? T must implement IInterface
+where T : notnull     ? T must be non-nullable
 
 Examples:
 // Must be reference type with parameterless constructor
@@ -4123,8 +4123,8 @@ public class Mapper&lt;TSource, TDest&gt;
 <span class="txt">Q72. What is Boxing and Unboxing?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>BOXING: Converting a VALUE type to REFERENCE type (stack → heap).
-UNBOXING: Converting a REFERENCE type back to VALUE type (heap → stack).
+<div class="q-ans"><pre>BOXING: Converting a VALUE type to REFERENCE type (stack ? heap).
+UNBOXING: Converting a REFERENCE type back to VALUE type (heap ? stack).
 
 // Boxing (implicit)
 int number = 42;
@@ -4136,7 +4136,7 @@ int back = (int)obj;  // Unboxing: copied from heap back to stack
 Why it matters - PERFORMANCE:
 // BAD (boxing happens in ArrayList):
 ArrayList list = new ArrayList();
-list.Add(1);    // Boxing! int → object
+list.Add(1);    // Boxing! int ? object
 list.Add(2);    // Boxing!
 int val = (int)list[0];  // Unboxing!
 
@@ -4239,13 +4239,13 @@ public void MyMethod()
 
 Visual:
 STACK                    HEAP
-┌──────────┐            ┌──────────────────┐
-│ x = 10   │            │ Employee object   │
-│ emp →────│────────────│ { Name, Age... }  │
-│ name →───│──────┐     └──────────────────┘
-└──────────┘      │     ┌──────────────────┐
-                  └─────│ "John"            │
-                        └──────────────────┘</pre></div>
++----------+            +------------------+
+� x = 10   �            � Employee object   �
+� emp ?----�------------� { Name, Age... }  �
+� name ?---�------+     +------------------+
++----------+      �     +------------------+
+                  +-----� "John"            �
+                        +------------------+</pre></div>
 </div>
 <div class="q" data-s="q75. what is garbage collection in .net?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -4263,9 +4263,9 @@ How it works:
 4. Memory is compacted (defragmented)
 
 Employee emp = new Employee();  // Object on heap
-emp = null;  // Object now unreferenced → eligible for GC
+emp = null;  // Object now unreferenced ? eligible for GC
 // OR
-emp = new Employee();  // Old object unreferenced → eligible
+emp = new Employee();  // Old object unreferenced ? eligible
 
 GC.Collect();  // Force GC (avoid in production!)
 
@@ -4311,12 +4311,12 @@ Generation 2 (oldest):
 - Full collection
 
 Flow:
-Object created → Gen 0
-Survives Gen 0 collection → Promoted to Gen 1
-Survives Gen 1 collection → Promoted to Gen 2
+Object created ? Gen 0
+Survives Gen 0 collection ? Promoted to Gen 1
+Survives Gen 1 collection ? Promoted to Gen 2
 
 Why generations?
-- Most objects die young (Gen 0) → cheap to collect
+- Most objects die young (Gen 0) ? cheap to collect
 - Long-lived objects rarely need checking
 - Avoids scanning entire heap every time
 - 90%+ objects collected in Gen 0</pre></div>
@@ -4460,7 +4460,7 @@ SECTION 8: DELEGATES, EVENTS &amp; LAMBDA
 <span class="txt">Q80. What is a Delegate?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>A Delegate is a type-safe function pointer — it holds a reference to a method 
+<div class="q-ans"><pre>A Delegate is a type-safe function pointer � it holds a reference to a method 
 and can invoke it.
 
 Think of it as: a variable that stores a METHOD instead of data.
@@ -4545,12 +4545,12 @@ Note: All delegates in C# are multicast (inherit from MulticastDelegate).</pre><
 <span class="txt">Q82. What is Func, Action, Predicate?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>Built-in generic delegates — no need to declare custom delegate types.
+<div class="q-ans"><pre>Built-in generic delegates � no need to declare custom delegate types.
 
 ACTION&lt;T&gt; - Takes parameters, returns VOID:
-Action                        → void Method()
-Action&lt;int&gt;                   → void Method(int)
-Action&lt;string, int&gt;           → void Method(string, int)
+Action                        ? void Method()
+Action&lt;int&gt;                   ? void Method(int)
+Action&lt;string, int&gt;           ? void Method(string, int)
 
 Action&lt;string&gt; print = msg =&gt; Console.WriteLine(msg);
 print("Hello");
@@ -4559,9 +4559,9 @@ Action&lt;int, int&gt; showSum = (a, b) =&gt; Console.WriteLine(a + b);
 showSum(5, 3);  // 8
 
 FUNC&lt;T, TResult&gt; - Takes parameters, returns a VALUE:
-Func&lt;int&gt;                     → int Method()
-Func&lt;int, int&gt;                → int Method(int)
-Func&lt;int, int, int&gt;           → int Method(int, int)
+Func&lt;int&gt;                     ? int Method()
+Func&lt;int, int&gt;                ? int Method(int)
+Func&lt;int, int, int&gt;           ? int Method(int, int)
 // Last type parameter is always the RETURN type
 
 Func&lt;int, int, int&gt; add = (a, b) =&gt; a + b;
@@ -4624,7 +4624,7 @@ Func&lt;int, bool&gt; isAbove = delegate(int value)
 };
 
 Note: Anonymous methods are largely replaced by Lambda expressions (cleaner syntax).
-delegate(int x) { return x * 2; }  →  x =&gt; x * 2</pre></div>
+delegate(int x) { return x * 2; }  ?  x =&gt; x * 2</pre></div>
 </div>
 <div class="q" data-s="q84. what is a lambda expression?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -4986,7 +4986,7 @@ finally
 Rules:
 - try is required
 - catch or finally (or both) must follow try
-- Multiple catch blocks: specific → general order
+- Multiple catch blocks: specific ? general order
 - finally always runs (even after return in try/catch)
 - Cannot have catch(Exception) before catch(SpecificException)
 
@@ -5030,8 +5030,8 @@ catch (Exception ex)
     // Log the error
     _logger.LogError(ex, "Error occurred");
     
-    throw;      // Stack trace shows line 50 (original location) ✓
-    // throw ex; // Stack trace shows THIS line only (loses original) ✗
+    throw;      // Stack trace shows line 50 (original location) ?
+    // throw ex; // Stack trace shows THIS line only (loses original) ?
 }
 
 When to use throw ex:
@@ -5112,28 +5112,28 @@ Best practices:
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>System.Object
-  └── System.Exception                    (base for all exceptions)
-        ├── System.SystemException         (runtime/system errors)
-        │     ├── NullReferenceException
-        │     ├── IndexOutOfRangeException
-        │     ├── InvalidOperationException
-        │     ├── DivideByZeroException
-        │     ├── StackOverflowException
-        │     ├── OutOfMemoryException
-        │     ├── InvalidCastException
-        │     ├── FormatException
-        │     └── ArithmeticException
-        │           └── OverflowException
-        ├── System.ApplicationException    (deprecated, don't use)
-        ├── System.ArgumentException
-        │     ├── ArgumentNullException
-        │     └── ArgumentOutOfRangeException
-        ├── System.IO.IOException
-        │     ├── FileNotFoundException
-        │     └── DirectoryNotFoundException
-        └── Custom exceptions (yours)
+  +-- System.Exception                    (base for all exceptions)
+        +-- System.SystemException         (runtime/system errors)
+        �     +-- NullReferenceException
+        �     +-- IndexOutOfRangeException
+        �     +-- InvalidOperationException
+        �     +-- DivideByZeroException
+        �     +-- StackOverflowException
+        �     +-- OutOfMemoryException
+        �     +-- InvalidCastException
+        �     +-- FormatException
+        �     +-- ArithmeticException
+        �           +-- OverflowException
+        +-- System.ApplicationException    (deprecated, don't use)
+        +-- System.ArgumentException
+        �     +-- ArgumentNullException
+        �     +-- ArgumentOutOfRangeException
+        +-- System.IO.IOException
+        �     +-- FileNotFoundException
+        �     +-- DirectoryNotFoundException
+        +-- Custom exceptions (yours)
 
-Catching order (specific → general):
+Catching order (specific ? general):
 catch (ArgumentNullException ex) { }    // Most specific
 catch (ArgumentException ex) { }        // Parent
 catch (Exception ex) { }               // Catch-all (last)</pre></div>
@@ -5165,17 +5165,17 @@ finally
 }
 
 Does it ALWAYS execute? Almost always. Exceptions:
-- Environment.FailFast() → No
-- StackOverflowException → No (process terminates)
-- Power failure / kill process → No
-- Infinite loop in try/catch → Never reaches finally
+- Environment.FailFast() ? No
+- StackOverflowException ? No (process terminates)
+- Power failure / kill process ? No
+- Infinite loop in try/catch ? Never reaches finally
 
 Normal scenarios where finally RUNS:
-- After try completes normally ✓
-- After catch handles exception ✓
-- After throw/rethrow in catch ✓
-- After return in try ✓
-- After return in catch ✓
+- After try completes normally ?
+- After catch handles exception ?
+- After throw/rethrow in catch ?
+- After return in try ?
+- After return in catch ?
 
 Example:
 public int GetValue()
@@ -5204,7 +5204,7 @@ public int GetValue()
 
 System.ApplicationException:
 - Originally intended for application-specific exceptions
-- DEPRECATED — Microsoft no longer recommends using it
+- DEPRECATED � Microsoft no longer recommends using it
 - No additional functionality over Exception
 - Exists only for backward compatibility
 
@@ -5215,8 +5215,8 @@ public class MyException : ApplicationException { }  // Deprecated
 public class MyException : Exception { }  // Correct
 
 Historical intent:
-- SystemException → CLR/runtime errors
-- ApplicationException → Your app errors
+- SystemException ? CLR/runtime errors
+- ApplicationException ? Your app errors
 - In practice, this distinction was never useful
 - Microsoft now says: just inherit from Exception</pre></div>
 </div>
@@ -5258,7 +5258,7 @@ catch (Exception ex) when (ShouldHandle(ex))
     HandleException(ex);
 }
 
-// Logging without catching (when returns false → exception not caught)
+// Logging without catching (when returns false ? exception not caught)
 catch (Exception ex) when (LogException(ex))  // LogException returns false
 {
     // Never reaches here, but exception is logged
@@ -5299,12 +5299,12 @@ numbers[0] = 10;
 
 ARRAYLIST:
 - Dynamic size (grows automatically)
-- NOT type-safe (stores object — any type)
+- NOT type-safe (stores object � any type)
 - Boxing/unboxing for value types (slow)
 - From System.Collections (legacy)
 
 ArrayList list = new ArrayList();
-list.Add(1);          // Boxing (int → object)
+list.Add(1);          // Boxing (int ? object)
 list.Add("hello");    // Mixed types allowed!
 list.Add(true);       // No compile-time safety
 int val = (int)list[0];  // Unboxing + casting needed
@@ -5494,16 +5494,16 @@ Example showing the difference:
 IEnumerable&lt;Product&gt; products = _context.Products;
 var expensive = products.Where(p =&gt; p.Price &gt; 100).ToList();
 // SQL: SELECT * FROM Products (gets ALL)
-// Then C# filters in memory — SLOW for large tables!
+// Then C# filters in memory � SLOW for large tables!
 
 // IQueryable - builds query, executes on server
 IQueryable&lt;Product&gt; products = _context.Products;
 var expensive = products.Where(p =&gt; p.Price &gt; 100).ToList();
 // SQL: SELECT * FROM Products WHERE Price &gt; 100 (filtered at DB)
-// Only matching rows transferred — FAST!
+// Only matching rows transferred � FAST!
 
 When to use:
-- IQueryable: Database queries (EF Core) — filter at source
+- IQueryable: Database queries (EF Core) � filter at source
 - IEnumerable: In-memory collections, after data is loaded
 
 // Best practice with EF Core:
@@ -5705,11 +5705,11 @@ var report = orders
 
 TIPS:
 1. *** Questions: Practice explaining with CODE examples
-2. Polymorphism (virtual/override/new) — MOST asked topic
-3. Abstract class vs Interface — asked in EVERY interview
-4. Value type vs Reference type — understand deeply
+2. Polymorphism (virtual/override/new) � MOST asked topic
+3. Abstract class vs Interface � asked in EVERY interview
+4. Value type vs Reference type � understand deeply
 5. Be ready to write code for: Singleton, Repository, Custom Exception
-6. LINQ — practice writing queries fluently
+6. LINQ � practice writing queries fluently
 
 GOOD LUCK! 
 ================================================================================</pre></div>
@@ -5727,5 +5727,5 @@ qs.forEach(function(q,idx){var ans=q.querySelector('.q-ans');if(!ans)return;var 
 function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre=btn.parentElement.querySelector("pre");if(sd.style.display==="block"){sd.style.display="none";pre.style.display="block";btn.classList.remove("active");btn.textContent="\ud83d\udde3\ufe0f How to Speak";return}pre.style.display="none";btn.classList.add("active");sd.style.display="block";if(typeof SPEAK_DATA!=="undefined"&&SPEAK_DATA[idx]){sd.innerHTML=SPEAK_DATA[idx].replace(/\n/g,"<br>")}else{var text=pre.textContent;var lines=text.split("\n").filter(function(l){return l.trim()&&!l.startsWith("=")&&!l.startsWith("|")&&l.trim().length>5});var spoken="<b>\ud83c\udfaf Start with:</b> \"Sure, let me explain this.\"<br><br>";lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,"");if(line.length<5||line.startsWith("public ")||line.startsWith("//")||line.startsWith("{")||line.startsWith("}")||line.startsWith("using ")||line.startsWith("var ")||line.startsWith("int ")||line.startsWith("string ")||line.startsWith("class ")||line.startsWith("private ")||line.startsWith("protected "))return;if(line.includes(":")){var parts=line.split(":");spoken+="<b>"+parts[0].trim()+"</b> \u2014 "+parts.slice(1).join(":").trim()+"<br>"}else{spoken+=line+"<br>"}});spoken+="<br><b>\ud83d\udca1 End with:</b> \"Would you like a code example?\"";sd.innerHTML=spoken}btn.textContent="\u274c Hide Speaking Tips"}
 </script>
 <script src="study_check.js"></script>
-</body>
+<script src="theme-toggle.js"></script>`n</body>
 </html>

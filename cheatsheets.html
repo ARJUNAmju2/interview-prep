@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cheat Sheets</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{max-width:900px;margin:0 auto}
+a.back{color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500}
+h1{margin:10px 0 4px;background:linear-gradient(135deg,#f59e0b,#fbbf24);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.subtitle{color:#64748b;font-size:.75rem;margin-bottom:16px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.tab{padding:8px 14px;border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:.72rem;cursor:pointer;background:transparent;color:#94a3b8;transition:all .2s}
+.tab.active{background:#f59e0b;border-color:#f59e0b;color:#000;font-weight:700}
+.sheet{display:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px}
+.sheet.active{display:block}
+.sheet h2{font-size:1rem;color:#f59e0b;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.08);padding-bottom:8px}
+.sheet h3{font-size:.85rem;color:#38bdf8;margin:14px 0 8px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.item{background:#0d1b2a;border-radius:8px;padding:10px;font-size:.75rem;border:1px solid rgba(255,255,255,.06)}
+.item strong{color:#22d3ee;display:block;margin-bottom:3px;font-size:.72rem}
+.item span{color:#94a3b8}
+code{color:#22d3ee;font-family:'Cascadia Code',monospace;font-size:.72rem;background:rgba(34,211,238,.08);padding:1px 4px;border-radius:3px}
+.one-liner{font-size:.78rem;margin-bottom:6px;padding:6px 10px;background:#0d1b2a;border-radius:6px;border-left:3px solid #f59e0b}
+.one-liner strong{color:#fbbf24}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>📋 Cheat Sheets</h1>
+<p class="subtitle">Quick-reference one-pagers for last-minute revision</p>
+
+<div class="tabs">
+<div class="tab active" onclick="showSheet('csharp')">C#</div>
+<div class="tab" onclick="showSheet('sql')">SQL</div>
+<div class="tab" onclick="showSheet('oops')">OOPs</div>
+<div class="tab" onclick="showSheet('solid')">SOLID</div>
+<div class="tab" onclick="showSheet('aspnet')">ASP.NET</div>
+<div class="tab" onclick="showSheet('webapi')">Web API</div>
+<div class="tab" onclick="showSheet('ef')">EF Core</div>
+<div class="tab" onclick="showSheet('git')">Git</div>
+<div class="tab" onclick="showSheet('linq')">LINQ</div>
+</div>
+
+<!-- C# -->
+<div class="sheet active" id="sheet-csharp">
+<h2>C# Quick Reference</h2>
+<h3>Data Types</h3>
+<div class="row">
+<div class="item"><strong>Value Types (Stack)</strong><span>int, float, double, bool, char, struct, enum</span></div>
+<div class="item"><strong>Reference Types (Heap)</strong><span>string, class, array, delegate, interface, object</span></div>
+</div>
+<h3>Access Modifiers</h3>
+<div class="row">
+<div class="item"><strong>public</strong><span>Accessible everywhere</span></div>
+<div class="item"><strong>private</strong><span>Same class only</span></div>
+<div class="item"><strong>protected</strong><span>Same class + derived classes</span></div>
+<div class="item"><strong>internal</strong><span>Same assembly only</span></div>
+</div>
+<h3>Key Differences</h3>
+<div class="one-liner"><strong>String vs StringBuilder:</strong> String immutable (new object each change) | StringBuilder mutable (same object)</div>
+<div class="one-liner"><strong>== vs .Equals():</strong> == compares reference (default) | .Equals() compares value</div>
+<div class="one-liner"><strong>ref vs out:</strong> ref must be initialized before | out must be assigned inside method</div>
+<div class="one-liner"><strong>const vs readonly:</strong> const = compile-time, static | readonly = runtime, can set in constructor</div>
+<div class="one-liner"><strong>IEnumerable vs IQueryable:</strong> IEnumerable = in-memory | IQueryable = translates to SQL</div>
+<div class="one-liner"><strong>abstract vs virtual:</strong> abstract = no body, must override | virtual = has body, can override</div>
+<div class="one-liner"><strong>sealed:</strong> Prevents class inheritance or method overriding</div>
+<div class="one-liner"><strong>async/await:</strong> Non-blocking async operations. Returns Task/Task&lt;T&gt;</div>
+</div>
+
+<!-- SQL -->
+<div class="sheet" id="sheet-sql">
+<h2>SQL Quick Reference</h2>
+<h3>Execution Order</h3>
+<div class="one-liner"><strong>Order:</strong> FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY</div>
+<h3>JOINs</h3>
+<div class="row">
+<div class="item"><strong>INNER JOIN</strong><span>Only matching rows</span></div>
+<div class="item"><strong>LEFT JOIN</strong><span>All left + matching right</span></div>
+<div class="item"><strong>RIGHT JOIN</strong><span>All right + matching left</span></div>
+<div class="item"><strong>FULL JOIN</strong><span>All from both tables</span></div>
+</div>
+<h3>Key Concepts</h3>
+<div class="one-liner"><strong>WHERE vs HAVING:</strong> WHERE filters rows before GROUP BY | HAVING filters after GROUP BY</div>
+<div class="one-liner"><strong>DELETE vs TRUNCATE:</strong> DELETE = logged, rollback, triggers | TRUNCATE = minimal log, faster, resets identity</div>
+<div class="one-liner"><strong>ROW_NUMBER:</strong> Unique numbers | <strong>RANK:</strong> Skips on tie | <strong>DENSE_RANK:</strong> No skip</div>
+<div class="one-liner"><strong>Clustered Index:</strong> 1 per table, sorts data physically (PK)</div>
+<div class="one-liner"><strong>Non-Clustered:</strong> Multiple allowed, separate pointer structure</div>
+<div class="one-liner"><strong>UNION:</strong> Removes duplicates | <strong>UNION ALL:</strong> Keeps duplicates (faster)</div>
+<div class="one-liner"><strong>Primary Key:</strong> Unique + NOT NULL | <strong>Unique Key:</strong> Unique + allows one NULL</div>
+<div class="one-liner"><strong>CTE:</strong> WITH cte AS (query) — temporary named result set</div>
+</div>
+
+<!-- OOPs -->
+<div class="sheet" id="sheet-oops">
+<h2>OOPs Quick Reference</h2>
+<h3>4 Pillars</h3>
+<div class="row">
+<div class="item"><strong>Encapsulation</strong><span>Hide data using access modifiers + properties</span></div>
+<div class="item"><strong>Inheritance</strong><span>Child class reuses parent class code</span></div>
+<div class="item"><strong>Polymorphism</strong><span>Same method, different behavior</span></div>
+<div class="item"><strong>Abstraction</strong><span>Show only essential, hide complexity</span></div>
+</div>
+<h3>Key Concepts</h3>
+<div class="one-liner"><strong>Overloading:</strong> Same name, different parameters (compile-time)</div>
+<div class="one-liner"><strong>Overriding:</strong> Child redefines parent's virtual method (runtime)</div>
+<div class="one-liner"><strong>Abstract class:</strong> Can't instantiate, can have implementation, single inheritance</div>
+<div class="one-liner"><strong>Interface:</strong> Contract only (C#8+ allows default impl), multiple inheritance</div>
+<div class="one-liner"><strong>Constructor:</strong> Called when object created. Can be overloaded. No return type</div>
+<div class="one-liner"><strong>this:</strong> Current instance | <strong>base:</strong> Parent class reference</div>
+</div>
+
+<!-- SOLID -->
+<div class="sheet" id="sheet-solid">
+<h2>SOLID Principles</h2>
+<div class="one-liner"><strong>S — Single Responsibility:</strong> One class = one job = one reason to change</div>
+<div class="one-liner"><strong>O — Open/Closed:</strong> Open for extension, closed for modification</div>
+<div class="one-liner"><strong>L — Liskov Substitution:</strong> Child can replace parent without breaking</div>
+<div class="one-liner"><strong>I — Interface Segregation:</strong> Many small interfaces > one fat interface</div>
+<div class="one-liner"><strong>D — Dependency Inversion:</strong> Depend on abstractions, not concrete classes</div>
+<h3>Quick Examples</h3>
+<div class="one-liner"><strong>SRP Bad:</strong> Employee class handles salary + reports + DB save</div>
+<div class="one-liner"><strong>SRP Good:</strong> EmployeeService, EmployeeRepo, ReportGenerator (separate)</div>
+<div class="one-liner"><strong>DIP Bad:</strong> OrderService creates new SqlRepository() inside</div>
+<div class="one-liner"><strong>DIP Good:</strong> OrderService takes IRepository in constructor (DI)</div>
+</div>
+
+<!-- ASP.NET -->
+<div class="sheet" id="sheet-aspnet">
+<h2>ASP.NET Core Quick Reference</h2>
+<div class="one-liner"><strong>Middleware order:</strong> Exception → HTTPS → Static Files → Routing → Auth → Authorization → Endpoints</div>
+<div class="one-liner"><strong>Transient:</strong> New instance every injection</div>
+<div class="one-liner"><strong>Scoped:</strong> One per HTTP request (use for DbContext)</div>
+<div class="one-liner"><strong>Singleton:</strong> One for entire app lifetime</div>
+<div class="one-liner"><strong>Program.cs:</strong> Entry point. Configure services + middleware pipeline</div>
+<div class="one-liner"><strong>appsettings.json:</strong> Configuration file (connection strings, settings)</div>
+<div class="one-liner"><strong>[Authorize]:</strong> Requires authentication | <strong>[AllowAnonymous]:</strong> Bypasses auth</div>
+<div class="one-liner"><strong>Model Binding:</strong> Auto-maps request data (query, body, route) to action parameters</div>
+<div class="one-liner"><strong>Filters:</strong> Authorization → Resource → Action → Exception → Result</div>
+</div>
+
+<!-- Web API -->
+<div class="sheet" id="sheet-webapi">
+<h2>Web API Quick Reference</h2>
+<h3>HTTP Methods</h3>
+<div class="row">
+<div class="item"><strong>GET</strong><span>Read/retrieve data</span></div>
+<div class="item"><strong>POST</strong><span>Create new resource</span></div>
+<div class="item"><strong>PUT</strong><span>Update entire resource</span></div>
+<div class="item"><strong>DELETE</strong><span>Remove resource</span></div>
+</div>
+<h3>Status Codes</h3>
+<div class="row">
+<div class="item"><strong>200 OK</strong><span>Success</span></div>
+<div class="item"><strong>201 Created</strong><span>Resource created</span></div>
+<div class="item"><strong>204 No Content</strong><span>Success, no body</span></div>
+<div class="item"><strong>400 Bad Request</strong><span>Invalid input</span></div>
+<div class="item"><strong>401 Unauthorized</strong><span>Not authenticated</span></div>
+<div class="item"><strong>403 Forbidden</strong><span>No permission</span></div>
+<div class="item"><strong>404 Not Found</strong><span>Resource missing</span></div>
+<div class="item"><strong>500 Server Error</strong><span>Internal error</span></div>
+</div>
+<div class="one-liner"><strong>CORS:</strong> Cross-Origin Resource Sharing — allows other domains to call API</div>
+<div class="one-liner"><strong>JWT:</strong> JSON Web Token — stateless authentication (Header.Payload.Signature)</div>
+</div>
+
+<!-- EF Core -->
+<div class="sheet" id="sheet-ef">
+<h2>EF Core Quick Reference</h2>
+<div class="one-liner"><strong>Code-First:</strong> C# classes → Database (migrations)</div>
+<div class="one-liner"><strong>Database-First:</strong> Database → C# classes (Scaffold-DbContext)</div>
+<div class="one-liner"><strong>DbContext:</strong> Main class to interact with DB. Contains DbSet&lt;T&gt;</div>
+<div class="one-liner"><strong>Add-Migration:</strong> Creates migration file from model changes</div>
+<div class="one-liner"><strong>Update-Database:</strong> Applies pending migrations to DB</div>
+<div class="one-liner"><strong>Lazy Loading:</strong> Related data loaded when accessed (virtual + proxies)</div>
+<div class="one-liner"><strong>Eager Loading:</strong> .Include() — loads related data upfront</div>
+<div class="one-liner"><strong>Explicit Loading:</strong> .Entry().Collection().Load() — manual loading</div>
+<div class="one-liner"><strong>AsNoTracking():</strong> Read-only queries, better performance</div>
+<div class="one-liner"><strong>SaveChanges():</strong> Commits all tracked changes to DB in one transaction</div>
+</div>
+
+<!-- Git -->
+<div class="sheet" id="sheet-git">
+<h2>Git Quick Reference</h2>
+<h3>Common Commands</h3>
+<div class="one-liner"><strong>git init:</strong> Initialize new repo</div>
+<div class="one-liner"><strong>git clone [url]:</strong> Clone remote repo</div>
+<div class="one-liner"><strong>git add . :</strong> Stage all changes</div>
+<div class="one-liner"><strong>git commit -m "msg":</strong> Commit staged changes</div>
+<div class="one-liner"><strong>git push:</strong> Push to remote</div>
+<div class="one-liner"><strong>git pull:</strong> Fetch + merge from remote</div>
+<div class="one-liner"><strong>git branch [name]:</strong> Create branch</div>
+<div class="one-liner"><strong>git checkout [branch]:</strong> Switch branch</div>
+<div class="one-liner"><strong>git merge [branch]:</strong> Merge branch into current</div>
+<div class="one-liner"><strong>git stash:</strong> Save uncommitted changes temporarily</div>
+<h3>Key Differences</h3>
+<div class="one-liner"><strong>fetch vs pull:</strong> fetch downloads only | pull = fetch + merge</div>
+<div class="one-liner"><strong>merge vs rebase:</strong> merge creates merge commit | rebase replays commits linearly</div>
+<div class="one-liner"><strong>reset vs revert:</strong> reset removes commits | revert creates new undo commit</div>
+</div>
+
+<!-- LINQ -->
+<div class="sheet" id="sheet-linq">
+<h2>LINQ Quick Reference</h2>
+<h3>Most Used Methods</h3>
+<div class="one-liner"><strong>Where(x => condition):</strong> Filter elements</div>
+<div class="one-liner"><strong>Select(x => transform):</strong> Project/transform elements</div>
+<div class="one-liner"><strong>OrderBy() / OrderByDescending():</strong> Sort</div>
+<div class="one-liner"><strong>GroupBy(x => x.Key):</strong> Group elements</div>
+<div class="one-liner"><strong>First() / FirstOrDefault():</strong> Get first element</div>
+<div class="one-liner"><strong>Single() / SingleOrDefault():</strong> Expect exactly one</div>
+<div class="one-liner"><strong>Any(x => condition):</strong> Returns true if any match</div>
+<div class="one-liner"><strong>All(x => condition):</strong> Returns true if all match</div>
+<div class="one-liner"><strong>Count() / Sum() / Average() / Max() / Min():</strong> Aggregates</div>
+<div class="one-liner"><strong>Distinct():</strong> Remove duplicates</div>
+<div class="one-liner"><strong>Take(n) / Skip(n):</strong> Pagination</div>
+<div class="one-liner"><strong>Join():</strong> Join two collections</div>
+<div class="one-liner"><strong>SelectMany():</strong> Flatten nested collections</div>
+<div class="one-liner"><strong>ToList() / ToArray() / ToDictionary():</strong> Materialize query</div>
+</div>
+
+</div>
+
+<script>
+function showSheet(id) {
+    document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById('sheet-' + id).classList.add('active');
+    event.target.classList.add('active');
+}
+</script>
+<script src="theme-toggle.js"></script>
+</body>
+</html>

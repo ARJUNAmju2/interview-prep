@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Playground</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/sql-wasm.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{max-width:1000px;margin:0 auto}
+a.back{color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500}
+h1{margin:10px 0 4px;background:linear-gradient(135deg,#e91e63,#f06292);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.subtitle{color:#64748b;font-size:.75rem;margin-bottom:16px}
+.editor-wrap{background:#0d1b2a;border-radius:10px;border:1px solid rgba(255,255,255,.08);padding:14px;margin-bottom:12px}
+textarea{width:100%;height:160px;background:#0a1222;color:#22d3ee;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px;font-family:'Cascadia Code','Fira Code',monospace;font-size:.82rem;resize:vertical;outline:none}
+textarea:focus{border-color:#38bdf8}
+.btn-row{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap}
+.btn{padding:9px 18px;border:none;border-radius:8px;font-size:.78rem;font-weight:700;cursor:pointer;color:#fff;transition:transform .2s,opacity .2s}
+.btn:hover{transform:translateY(-1px);opacity:.9}
+.btn-run{background:linear-gradient(135deg,#10b981,#34d399)}
+.btn-reset{background:linear-gradient(135deg,#ef4444,#f87171)}
+.btn-sample{background:linear-gradient(135deg,#6366f1,#818cf8)}
+.result-wrap{background:#0d1b2a;border-radius:10px;border:1px solid rgba(255,255,255,.08);padding:14px;min-height:100px;margin-bottom:12px}
+.result-wrap h3{font-size:.85rem;color:#38bdf8;margin-bottom:10px}
+table{width:100%;border-collapse:collapse;font-size:.75rem}
+th{background:#1e3a5f;padding:8px 10px;text-align:left;color:#38bdf8;border:1px solid rgba(255,255,255,.1)}
+td{padding:7px 10px;border:1px solid rgba(255,255,255,.06);color:#cbd5e1}
+tr:nth-child(even){background:rgba(255,255,255,.02)}
+.error{color:#f87171;font-size:.8rem;padding:10px;background:rgba(239,68,68,.1);border-radius:8px}
+.success{color:#34d399;font-size:.8rem;padding:10px;background:rgba(16,185,129,.1);border-radius:8px}
+.tables-info{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px;margin-bottom:12px}
+.tables-info h3{font-size:.85rem;color:#f59e0b;margin-bottom:8px}
+.tables-info p{font-size:.75rem;color:#94a3b8;line-height:1.6}
+.samples{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.sample-btn{padding:8px 12px;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.3);border-radius:8px;color:#a5b4fc;font-size:.7rem;cursor:pointer;text-align:left;transition:background .2s}
+.sample-btn:hover{background:rgba(99,102,241,.25)}
+.loading{text-align:center;padding:40px;color:#64748b;font-size:.9rem}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="sql-practice.html" class="back">← Back to SQL Practice</a>
+<h1>⚡ SQL Playground</h1>
+<p class="subtitle">Write & run SQL queries directly in your browser — no setup needed</p>
+
+<div class="tables-info">
+<h3>📋 Pre-loaded Tables</h3>
+<p><strong>Departments:</strong> DeptId, DeptName<br>
+<strong>Employees:</strong> EmpId, Name, Email, Salary, DeptId, ManagerId, JoinDate</p>
+</div>
+
+<div class="editor-wrap">
+<textarea id="sqlInput" placeholder="Write multiple queries separated by semicolons (;)...">-- You can run multiple queries at once!
+SELECT * FROM Departments;
+
+SELECT Name, Salary FROM Employees WHERE DeptId = 1;</textarea>
+<div class="btn-row">
+<button class="btn btn-run" onclick="runSQL()">▶ Run Query</button>
+<button class="btn btn-reset" onclick="resetDB()">🔄 Reset Database</button>
+<button class="btn btn-sample" onclick="toggleSamples()">📝 Sample Queries</button>
+</div>
+</div>
+
+<div id="samplesPanel" style="display:none;margin-bottom:12px">
+<div class="samples">
+<div class="sample-btn" onclick="loadSample(0)">SELECT with JOIN</div>
+<div class="sample-btn" onclick="loadSample(1)">GROUP BY + HAVING</div>
+<div class="sample-btn" onclick="loadSample(2)">ROW_NUMBER / RANK</div>
+<div class="sample-btn" onclick="loadSample(3)">Nth Highest Salary</div>
+<div class="sample-btn" onclick="loadSample(4)">Find Duplicates</div>
+<div class="sample-btn" onclick="loadSample(5)">Delete Duplicates</div>
+<div class="sample-btn" onclick="loadSample(6)">Running Total</div>
+<div class="sample-btn" onclick="loadSample(7)">Self JOIN (Manager)</div>
+<div class="sample-btn" onclick="loadSample(8)">Subquery</div>
+<div class="sample-btn" onclick="loadSample(9)">CREATE TABLE</div>
+<div class="sample-btn" onclick="loadSample(10)">INSERT Data</div>
+<div class="sample-btn" onclick="loadSample(11)">UPDATE with condition</div>
+</div>
+</div>
+
+<div class="result-wrap">
+<h3>📊 Result</h3>
+<div id="result"><p style="color:#64748b;font-size:.8rem">Run a query to see results here...</p></div>
+</div>
+</div>
+
+<script>
+let db = null;
+
+const samples = [
+`-- JOIN: Employees with Department names
+SELECT e.Name, e.Salary, d.DeptName
+FROM Employees e
+INNER JOIN Departments d ON e.DeptId = d.DeptId
+ORDER BY e.Salary DESC;`,
+
+`-- GROUP BY + HAVING: Depts with more than 2 employees
+SELECT d.DeptName, COUNT(*) AS EmpCount, AVG(e.Salary) AS AvgSalary
+FROM Employees e
+JOIN Departments d ON e.DeptId = d.DeptId
+GROUP BY d.DeptName
+HAVING COUNT(*) >= 2;`,
+
+`-- ROW_NUMBER / RANK / DENSE_RANK
+SELECT Name, Salary, DeptId,
+    ROW_NUMBER() OVER (PARTITION BY DeptId ORDER BY Salary DESC) AS RowNum,
+    RANK() OVER (PARTITION BY DeptId ORDER BY Salary DESC) AS Rnk,
+    DENSE_RANK() OVER (PARTITION BY DeptId ORDER BY Salary DESC) AS DenseRnk
+FROM Employees;`,
+
+`-- 2nd Highest Salary using DENSE_RANK
+SELECT Name, Salary FROM (
+    SELECT Name, Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rnk
+    FROM Employees
+) t WHERE Rnk = 2;`,
+
+`-- Find Duplicate Emails
+SELECT Email, COUNT(*) AS Count
+FROM Employees
+GROUP BY Email
+HAVING COUNT(*) > 1;`,
+
+`-- Delete Duplicates (keep lowest EmpId)
+DELETE FROM Employees WHERE EmpId NOT IN (
+    SELECT MIN(EmpId) FROM Employees GROUP BY Email
+);
+SELECT * FROM Employees;`,
+
+`-- Running Total (Cumulative Sum)
+SELECT Name, Salary,
+    SUM(Salary) OVER (ORDER BY EmpId) AS RunningTotal
+FROM Employees;`,
+
+`-- Self JOIN: Employee and Manager
+SELECT e.Name AS Employee, m.Name AS Manager
+FROM Employees e
+LEFT JOIN Employees m ON e.ManagerId = m.EmpId;`,
+
+`-- Subquery: Earning more than average
+SELECT Name, Salary FROM Employees
+WHERE Salary > (SELECT AVG(Salary) FROM Employees)
+ORDER BY Salary DESC;`,
+
+`-- CREATE a new table
+CREATE TABLE Projects (
+    ProjectId INTEGER PRIMARY KEY AUTOINCREMENT,
+    ProjectName TEXT NOT NULL,
+    DeptId INTEGER,
+    Budget REAL
+);
+INSERT INTO Projects VALUES (1,'Website Redesign',1,50000);
+INSERT INTO Projects VALUES (2,'Mobile App',2,80000);
+SELECT * FROM Projects;`,
+
+`-- INSERT new employees
+INSERT INTO Employees (Name, Email, Salary, DeptId, ManagerId, JoinDate)
+VALUES ('New Employee', 'new@email.com', 58000, 2, 1, '2024-11-01');
+SELECT * FROM Employees ORDER BY EmpId DESC;`,
+
+`-- UPDATE: Give 10% raise to IT department
+UPDATE Employees SET Salary = Salary * 1.10 WHERE DeptId = 1;
+SELECT Name, Salary, DeptId FROM Employees WHERE DeptId = 1;`
+];
+
+function getInitSQL() {
+return `
+CREATE TABLE Departments (
+    DeptId INTEGER PRIMARY KEY AUTOINCREMENT,
+    DeptName TEXT NOT NULL
+);
+
+CREATE TABLE Employees (
+    EmpId INTEGER PRIMARY KEY AUTOINCREMENT,
+    Name TEXT NOT NULL,
+    Email TEXT,
+    Salary REAL,
+    DeptId INTEGER,
+    ManagerId INTEGER,
+    JoinDate TEXT,
+    FOREIGN KEY (DeptId) REFERENCES Departments(DeptId)
+);
+
+INSERT INTO Departments VALUES (1, 'IT');
+INSERT INTO Departments VALUES (2, 'HR');
+INSERT INTO Departments VALUES (3, 'Finance');
+INSERT INTO Departments VALUES (4, 'Marketing');
+
+INSERT INTO Employees VALUES (1, 'Rahul Sharma', 'rahul@email.com', 75000, 1, NULL, '2022-01-15');
+INSERT INTO Employees VALUES (2, 'Priya Patel', 'priya@email.com', 62000, 2, 1, '2022-03-20');
+INSERT INTO Employees VALUES (3, 'Amit Kumar', 'amit@email.com', 85000, 1, 1, '2021-06-10');
+INSERT INTO Employees VALUES (4, 'Sneha Reddy', 'sneha@email.com', 55000, 3, 1, '2023-02-01');
+INSERT INTO Employees VALUES (5, 'Vikram Singh', 'vikram@email.com', 70000, 2, 2, '2022-08-15');
+INSERT INTO Employees VALUES (6, 'Anita Desai', 'anita@email.com', 90000, 1, 1, '2020-11-20');
+INSERT INTO Employees VALUES (7, 'Karan Mehta', 'karan@email.com', 48000, 3, 4, '2023-07-10');
+INSERT INTO Employees VALUES (8, 'Deepa Nair', 'deepa@email.com', 67000, 4, 1, '2022-05-25');
+INSERT INTO Employees VALUES (9, 'Suresh Iyer', 'suresh@email.com', 72000, 1, 3, '2021-09-05');
+INSERT INTO Employees VALUES (10, 'Meera Joshi', 'meera@email.com', 58000, 2, 2, '2023-01-12');
+`;
+}
+
+async function initDB() {
+    const SQL = await initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.8.0/${file}` });
+    db = new SQL.Database();
+    db.run(getInitSQL());
+    document.getElementById('result').innerHTML = '<p class="success">✅ Database ready! Tables loaded with sample data.</p>';
+}
+
+function runSQL() {
+    const sql = document.getElementById('sqlInput').value.trim();
+    if (!sql) return;
+    try {
+        const results = db.exec(sql);
+        if (results.length === 0) {
+            document.getElementById('result').innerHTML = '<p class="success">✅ Query executed successfully (no rows returned).</p>';
+        } else {
+            let html = '';
+            results.forEach((r, i) => {
+                html += `<p style="color:#f59e0b;font-size:.75rem;font-weight:700;margin:8px 0 4px">Result ${i+1} (${r.values.length} rows)</p>`;
+                html += '<table><tr>' + r.columns.map(c => `<th>${c}</th>`).join('') + '</tr>';
+                r.values.forEach(row => {
+                    html += '<tr>' + row.map(v => `<td>${v === null ? 'NULL' : v}</td>`).join('') + '</tr>';
+                });
+                html += '</table><br>';
+            });
+            document.getElementById('result').innerHTML = html;
+        }
+    } catch (e) {
+        document.getElementById('result').innerHTML = `<p class="error">❌ ${e.message}</p>`;
+    }
+}
+
+function resetDB() {
+    db.close();
+    const SQL = db.constructor;
+    db = new SQL.Database();
+    db.run(getInitSQL());
+    document.getElementById('result').innerHTML = '<p class="success">🔄 Database reset! All tables restored to original state.</p>';
+}
+
+function toggleSamples() {
+    const panel = document.getElementById('samplesPanel');
+    panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
+
+function loadSample(i) {
+    document.getElementById('sqlInput').value = samples[i];
+    document.getElementById('samplesPanel').style.display = 'none';
+}
+
+// Ctrl+Enter to run
+document.addEventListener('keydown', e => {
+    if (e.ctrlKey && e.key === 'Enter') runSQL();
+});
+
+initDB();
+</script>
+<script src="theme-toggle.js"></script>
+</body>
+</html>

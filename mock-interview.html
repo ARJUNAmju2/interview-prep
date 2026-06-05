@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mock Interview</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{max-width:750px;margin:0 auto}
+a.back{color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500}
+h1{margin:10px 0 4px;background:linear-gradient(135deg,#f97316,#fb923c);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.subtitle{color:#64748b;font-size:.75rem;margin-bottom:16px}
+.config{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;margin-bottom:16px}
+.config h3{font-size:.85rem;color:#f59e0b;margin-bottom:12px}
+.topics{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.topic-btn{padding:7px 14px;border:1px solid rgba(255,255,255,.15);border-radius:20px;font-size:.72rem;cursor:pointer;background:transparent;color:#94a3b8;transition:all .2s}
+.topic-btn.active{background:#0ea5e9;border-color:#0ea5e9;color:#fff}
+.config-row{display:flex;gap:12px;align-items:center;margin-top:10px}
+.config-row label{font-size:.75rem;color:#94a3b8}
+.config-row select{background:#0d1b2a;border:1px solid rgba(255,255,255,.1);color:#e2e8f0;padding:6px 10px;border-radius:6px;font-size:.75rem}
+.btn{padding:10px 22px;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer;color:#fff;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-start{background:linear-gradient(135deg,#10b981,#34d399)}
+.btn-submit{background:linear-gradient(135deg,#6366f1,#818cf8)}
+.btn-next{background:linear-gradient(135deg,#0ea5e9,#38bdf8)}
+.btn-end{background:linear-gradient(135deg,#ef4444,#f87171)}
+.question-area{display:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:22px;margin-bottom:16px}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.q-number{font-size:.75rem;color:#64748b}
+.q-topic{font-size:.7rem;padding:3px 10px;border-radius:12px;background:rgba(14,165,233,.2);color:#38bdf8}
+.timer{font-size:1.4rem;font-weight:700;text-align:center;margin-bottom:14px}
+.timer.warning{color:#f59e0b}
+.timer.danger{color:#ef4444}
+.question-text{font-size:1.05rem;line-height:1.7;color:#e2e8f0;margin-bottom:16px;padding:16px;background:#0d1b2a;border-radius:8px;border-left:3px solid #f97316}
+textarea{width:100%;height:120px;background:#0a1222;color:#e2e8f0;border:1px solid rgba(255,255,255,.1);border-radius:8px;padding:12px;font-family:'Segoe UI',sans-serif;font-size:.82rem;resize:vertical;outline:none;margin-bottom:12px}
+textarea:focus{border-color:#6366f1}
+.eval-result{display:none;border-radius:10px;padding:16px;margin-bottom:14px}
+.eval-score{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.marks-badge{font-size:1.1rem;font-weight:700;padding:6px 14px;border-radius:8px}
+.marks-high{background:rgba(16,185,129,.15);color:#10b981;border:1px solid #10b981}
+.marks-med{background:rgba(245,158,11,.15);color:#f59e0b;border:1px solid #f59e0b}
+.marks-low{background:rgba(239,68,68,.15);color:#ef4444;border:1px solid #ef4444}
+.eval-feedback{font-size:.8rem;color:#94a3b8;margin-bottom:8px}
+.matched-keywords{font-size:.72rem;color:#10b981;margin-bottom:6px}
+.missed-keywords{font-size:.72rem;color:#ef4444;margin-bottom:10px}
+.correct-answer{background:#0d1b2a;border-radius:8px;padding:14px;border-left:3px solid #10b981;font-size:.82rem;line-height:1.7;color:#cbd5e1}
+.correct-answer strong{color:#10b981}
+.correct-label{font-size:.75rem;color:#10b981;font-weight:700;margin-bottom:6px}
+.btn-group{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.score-card{display:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;text-align:center}
+.score-card h2{font-size:1.3rem;color:#10b981;margin-bottom:10px}
+.final-score{font-size:3rem;font-weight:700;margin:10px 0}
+.final-score.high{color:#10b981}
+.final-score.med{color:#f59e0b}
+.final-score.low{color:#ef4444}
+.score-stat{display:flex;justify-content:center;gap:24px;margin:16px 0}
+.stat{text-align:center}
+.stat-num{font-size:1.5rem;font-weight:700;color:#38bdf8}
+.stat-label{font-size:.7rem;color:#64748b}
+.breakdown{text-align:left;background:#0d1b2a;border-radius:8px;padding:14px;margin-top:14px;max-height:300px;overflow-y:auto}
+.breakdown-item{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06);font-size:.78rem}
+.breakdown-item:last-child{border:none}
+.breakdown-q{color:#94a3b8;flex:1;margin-right:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.breakdown-mark{font-weight:700;min-width:50px;text-align:right}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>🎤 Mock Interview Simulator</h1>
+<p class="subtitle">Type your answer → Submit → Get evaluated with marks → See correct answer</p>
+
+<div class="config" id="configPanel">
+<h3>⚙️ Configure Your Session</h3>
+<div class="topics" id="topicBtns">
+<div class="topic-btn active" data-topic="all">All Topics</div>
+<div class="topic-btn" data-topic="oops">OOPs</div>
+<div class="topic-btn" data-topic="csharp">C#</div>
+<div class="topic-btn" data-topic="sql">SQL</div>
+<div class="topic-btn" data-topic="mvc">MVC</div>
+<div class="topic-btn" data-topic="aspnet">ASP.NET Core</div>
+<div class="topic-btn" data-topic="webapi">Web API</div>
+<div class="topic-btn" data-topic="ef">EF Core</div>
+<div class="topic-btn" data-topic="solid">SOLID</div>
+<div class="topic-btn" data-topic="di">DI</div>
+<div class="topic-btn" data-topic="git">Git</div>
+</div>
+<div class="config-row">
+<label>Questions:</label>
+<select id="qCount"><option>5</option><option selected>10</option><option>15</option><option>20</option></select>
+<label>Time per Q:</label>
+<select id="timeLimit"><option value="60">1 min</option><option value="120" selected>2 min</option><option value="180">3 min</option><option value="300">5 min</option></select>
+</div>
+<div style="margin-top:14px;text-align:center">
+<button class="btn btn-start" onclick="startInterview()">🚀 Start Mock Interview</button>
+</div>
+</div>
+
+<div class="question-area" id="questionArea">
+<div class="q-header">
+<span class="q-number" id="qNumber">Q 1/10</span>
+<span class="q-topic" id="qTopic">C#</span>
+</div>
+<div class="timer" id="timer">2:00</div>
+<div class="question-text" id="questionText"></div>
+<div id="answerWrap">
+<label style="font-size:.75rem;color:#64748b;display:block;margin-bottom:6px">✍️ Type your answer:</label>
+<textarea id="userAnswer" placeholder="Write your answer here..."></textarea>
+</div>
+<div class="eval-result" id="evalResult">
+<div class="eval-score">
+<span class="marks-badge" id="marksBadge">0/10</span>
+<span class="eval-feedback" id="evalFeedback"></span>
+</div>
+<div class="matched-keywords" id="matchedKeys"></div>
+<div class="missed-keywords" id="missedKeys"></div>
+<div class="correct-label">✅ Correct Answer:</div>
+<div class="correct-answer" id="correctAnswer"></div>
+</div>
+<div class="btn-group">
+<button class="btn btn-submit" id="submitBtn" onclick="submitAnswer()">📝 Submit Answer</button>
+<button class="btn btn-next" id="nextBtn" style="display:none" onclick="nextQuestion()">Next →</button>
+<button class="btn btn-end" onclick="endInterview()">⏹️ End</button>
+</div>
+</div>
+
+<div class="score-card" id="scoreCard">
+<h2>🎯 Interview Complete!</h2>
+<div class="final-score" id="finalScore">0/100</div>
+<div class="score-stat">
+<div class="stat"><div class="stat-num" id="totalQ">0</div><div class="stat-label">Questions</div></div>
+<div class="stat"><div class="stat-num" id="totalMarks">0</div><div class="stat-label">Marks Obtained</div></div>
+<div class="stat"><div class="stat-num" id="maxMarks">0</div><div class="stat-label">Total Marks</div></div>
+<div class="stat"><div class="stat-num" id="percentage">0%</div><div class="stat-label">Percentage</div></div>
+</div>
+<p id="scoreMsg" style="font-size:.9rem;margin:10px 0"></p>
+<div class="breakdown" id="breakdown"></div>
+<button class="btn btn-start" onclick="location.reload()" style="margin-top:14px">🔄 Try Again</button>
+</div>
+</div>
+
+<script>
+const questions = [
+// OOPs
+{topic:"oops",q:"What are the 4 pillars of OOP? Explain each briefly.",a:"<strong>1. Encapsulation:</strong> Bundling data & methods together, hiding internal details using access modifiers.<br><strong>2. Inheritance:</strong> A class inherits properties/methods from another class (code reuse).<br><strong>3. Polymorphism:</strong> Same method behaves differently (overloading & overriding).<br><strong>4. Abstraction:</strong> Showing only essential details, hiding complexity (abstract classes & interfaces).",keywords:["encapsulation","inheritance","polymorphism","abstraction","access modifier","data hiding","code reuse","overloading","overriding"]},
+{topic:"oops",q:"What is the difference between Abstract class and Interface?",a:"<strong>Abstract class:</strong> Can have constructors, fields, implemented methods. Single inheritance only.<br><strong>Interface:</strong> No constructors/fields (before C# 8), only method signatures. Multiple inheritance supported.<br>Use abstract when classes share common behavior. Use interface for capability contracts.",keywords:["constructor","single inheritance","multiple inheritance","method signature","fields","implemented methods","contract","abstract","interface"]},
+{topic:"oops",q:"What is Polymorphism? Explain with example.",a:"<strong>Polymorphism</strong> = many forms. Same method name, different behavior.<br><strong>Compile-time (Overloading):</strong> Same method name, different parameters.<br><strong>Runtime (Overriding):</strong> Child class overrides parent's virtual method using override keyword.",keywords:["many forms","overloading","overriding","compile-time","runtime","virtual","override","different parameters","same method"]},
+{topic:"oops",q:"What is the difference between Overloading and Overriding?",a:"<strong>Overloading:</strong> Same class, same method name, different parameters. Compile-time polymorphism.<br><strong>Overriding:</strong> Child class redefines parent's virtual method. Runtime polymorphism. Uses virtual/override keywords.",keywords:["same class","different parameters","compile-time","child class","parent","virtual","override","runtime","polymorphism"]},
+{topic:"oops",q:"What is Encapsulation and how do you achieve it in C#?",a:"<strong>Encapsulation</strong> = hiding internal state. Achieved via:<br>• Private fields + public Properties (getters/setters)<br>• Access modifiers (private, protected, internal, public)<br>• Prevents direct access to data, adds validation logic in setters.",keywords:["hiding","private","public","properties","getter","setter","access modifier","data","validation","protected","internal"]},
+
+// C#
+{topic:"csharp",q:"What is the difference between Value type and Reference type?",a:"<strong>Value types:</strong> Stored in stack, holds actual data. int, float, struct, enum.<br><strong>Reference types:</strong> Stored in heap, variable holds reference/pointer. class, string, array, delegate.<br>Value types are copied on assignment; reference types share the same object.",keywords:["stack","heap","value","reference","int","struct","class","string","copied","pointer","actual data"]},
+{topic:"csharp",q:"What are delegates and events in C#?",a:"<strong>Delegate:</strong> Type-safe function pointer. Holds reference to methods with matching signature.<br><strong>Event:</strong> A wrapper around delegate that restricts direct invocation from outside the class. Uses publisher-subscriber pattern.",keywords:["function pointer","type-safe","method signature","publisher","subscriber","event","delegate","invocation","wrapper"]},
+{topic:"csharp",q:"Explain async/await in C#.",a:"<strong>async:</strong> Marks method as asynchronous, allows use of await inside.<br><strong>await:</strong> Suspends execution until the awaited task completes, without blocking the thread.<br>Returns Task or Task&lt;T&gt;. Used for I/O operations (DB calls, API calls, file read). Improves responsiveness.",keywords:["asynchronous","non-blocking","task","thread","i/o","await","async","suspend","execution","responsiveness"]},
+{topic:"csharp",q:"What is the difference between String and StringBuilder?",a:"<strong>String:</strong> Immutable. Every modification creates a new object. Good for few concatenations.<br><strong>StringBuilder:</strong> Mutable. Modifies same object in memory. Use when doing many concatenations (loops).",keywords:["immutable","mutable","new object","memory","concatenation","string","stringbuilder","performance","loop"]},
+{topic:"csharp",q:"What is LINQ? Give examples of common LINQ methods.",a:"<strong>LINQ</strong> = Language Integrated Query. Query collections using C# syntax.<br>Common methods: Where(), Select(), OrderBy(), GroupBy(), FirstOrDefault(), Any(), Count(), Sum(), Join(), Distinct(), Take(), Skip().",keywords:["language integrated query","where","select","orderby","groupby","firstordefault","collection","query","any","count"]},
+{topic:"csharp",q:"What is the difference between IEnumerable and IQueryable?",a:"<strong>IEnumerable:</strong> In-memory queries. Fetches all data first, then filters in memory (LINQ to Objects).<br><strong>IQueryable:</strong> Translates to SQL, filters at database level. Better performance for large datasets.",keywords:["in-memory","database","sql","ienumerable","iqueryable","filter","performance","linq to objects","server side"]},
+{topic:"csharp",q:"What are Generics in C#? Why use them?",a:"<strong>Generics</strong> = type-safe, reusable code without specifying exact type.<br>Benefits: Type safety, no boxing/unboxing, code reuse.<br>Examples: List&lt;T&gt;, Dictionary&lt;K,V&gt;.",keywords:["type-safe","reusable","boxing","unboxing","list","dictionary","generic","type safety","code reuse","constraint"]},
+
+// SQL
+{topic:"sql",q:"What is the difference between WHERE and HAVING?",a:"<strong>WHERE:</strong> Filters rows BEFORE grouping. Cannot use aggregate functions.<br><strong>HAVING:</strong> Filters groups AFTER GROUP BY. Can use aggregate functions (COUNT, SUM, AVG).",keywords:["before","after","group by","aggregate","where","having","filter","rows","groups","count","sum"]},
+{topic:"sql",q:"Explain different types of JOINs.",a:"<strong>INNER JOIN:</strong> Returns matching rows from both tables.<br><strong>LEFT JOIN:</strong> All rows from left + matching from right (NULL if no match).<br><strong>RIGHT JOIN:</strong> All rows from right + matching from left.<br><strong>FULL JOIN:</strong> All rows from both tables.<br><strong>CROSS JOIN:</strong> Cartesian product.<br><strong>SELF JOIN:</strong> Table joined with itself.",keywords:["inner join","left join","right join","full join","cross join","self join","matching","null","cartesian","both tables"]},
+{topic:"sql",q:"What is the difference between DELETE, TRUNCATE, and DROP?",a:"<strong>DELETE:</strong> Removes specific rows (WHERE). Logged, can rollback. Fires triggers.<br><strong>TRUNCATE:</strong> Removes all rows. Minimal logging, faster. Resets identity.<br><strong>DROP:</strong> Removes entire table structure + data permanently.",keywords:["delete","truncate","drop","where","rollback","trigger","identity","logging","structure","permanent","faster"]},
+{topic:"sql",q:"What are indexes? Clustered vs Non-Clustered?",a:"<strong>Index:</strong> Data structure to speed up queries.<br><strong>Clustered:</strong> Physically sorts table data. Only 1 per table.<br><strong>Non-Clustered:</strong> Separate structure with pointers. Multiple allowed.",keywords:["speed","clustered","non-clustered","physical","pointer","one per table","multiple","sort","primary key","data structure"]},
+{topic:"sql",q:"Write a query to find the 2nd highest salary.",a:"<strong>Method 1:</strong><br>SELECT MAX(Salary) FROM Employees WHERE Salary < (SELECT MAX(Salary) FROM Employees);<br><br><strong>Method 2:</strong><br>SELECT Salary FROM (SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rnk FROM Employees) t WHERE Rnk = 2;",keywords:["max","subquery","dense_rank","rank","over","order by","salary","where","select","partition"]},
+
+// MVC
+{topic:"mvc",q:"What is the MVC pattern? Explain each component.",a:"<strong>Model:</strong> Data + business logic.<br><strong>View:</strong> UI/presentation layer.<br><strong>Controller:</strong> Handles user requests, returns view.<br>Flow: Request → Controller → Model → View → Response",keywords:["model","view","controller","request","response","data","business logic","ui","presentation","user"]},
+{topic:"mvc",q:"What are Action Filters in MVC?",a:"<strong>Action Filters:</strong> Attributes that execute logic before/after controller actions.<br>Types: Authorization, Action, Result, Exception filters.",keywords:["filter","before","after","action","authorization","exception","attribute","controller","logging","result"]},
+{topic:"mvc",q:"What is the difference between ViewBag, ViewData, and TempData?",a:"<strong>ViewData:</strong> Dictionary. Requires typecasting. Current request only.<br><strong>ViewBag:</strong> Dynamic wrapper. No typecasting.<br><strong>TempData:</strong> Uses session. Survives redirect.",keywords:["viewdata","viewbag","tempdata","dictionary","dynamic","typecast","session","redirect","current request","wrapper"]},
+
+// ASP.NET Core
+{topic:"aspnet",q:"What is Middleware in ASP.NET Core?",a:"<strong>Middleware:</strong> Components in the request pipeline that handle requests/responses.<br>Order matters! Common: UseAuthentication → UseAuthorization → UseEndpoints.",keywords:["pipeline","request","response","order","authentication","authorization","component","use","app.run","short-circuit"]},
+{topic:"aspnet",q:"What is Dependency Injection in ASP.NET Core?",a:"<strong>DI:</strong> Dependencies provided externally rather than created inside a class.<br>Built-in DI container.<br><strong>Lifetimes:</strong> Transient, Scoped, Singleton.",keywords:["dependency","injection","external","transient","scoped","singleton","container","constructor","loose coupling","interface"]},
+{topic:"aspnet",q:"What is the difference between AddTransient, AddScoped, and AddSingleton?",a:"<strong>Transient:</strong> New instance every time.<br><strong>Scoped:</strong> One instance per HTTP request.<br><strong>Singleton:</strong> One instance for entire app lifetime.",keywords:["transient","scoped","singleton","new instance","per request","lifetime","one instance","every time","dbcontext","app"]},
+
+// Web API
+{topic:"webapi",q:"What are HTTP methods and when to use each?",a:"<strong>GET:</strong> Retrieve data.<br><strong>POST:</strong> Create new resource.<br><strong>PUT:</strong> Update entire resource.<br><strong>PATCH:</strong> Partial update.<br><strong>DELETE:</strong> Remove resource.",keywords:["get","post","put","patch","delete","retrieve","create","update","resource","crud","rest"]},
+{topic:"webapi",q:"What is the difference between REST and SOAP?",a:"<strong>REST:</strong> Lightweight, HTTP methods, JSON, stateless.<br><strong>SOAP:</strong> Heavy, XML only, WSDL, WS-Security.",keywords:["rest","soap","lightweight","json","xml","stateless","wsdl","http","heavy","security"]},
+{topic:"webapi",q:"How do you handle exceptions in Web API?",a:"<strong>Methods:</strong> Try-catch, Exception filters, Global middleware, UseExceptionHandler().<br>Return appropriate status codes: 400, 404, 500.",keywords:["try-catch","exception","filter","middleware","global","status code","400","404","500","useexceptionhandler"]},
+
+// EF Core
+{topic:"ef",q:"What is Entity Framework Core? Code-First vs Database-First?",a:"<strong>EF Core:</strong> ORM for .NET. Maps C# classes to database tables.<br><strong>Code-First:</strong> C# classes → Database (migrations).<br><strong>Database-First:</strong> Database → C# classes (Scaffold-DbContext).",keywords:["orm","mapping","code-first","database-first","migration","scaffold","class","table","entity","dbcontext"]},
+{topic:"ef",q:"What are EF Core migrations?",a:"<strong>Migrations:</strong> Version control for database schema.<br>Commands: Add-Migration, Update-Database, Remove-Migration.",keywords:["migration","version control","schema","add-migration","update-database","remove-migration","dbcontext","change","track"]},
+
+// SOLID
+{topic:"solid",q:"Explain the SOLID principles.",a:"<strong>S:</strong> Single Responsibility<br><strong>O:</strong> Open/Closed<br><strong>L:</strong> Liskov Substitution<br><strong>I:</strong> Interface Segregation<br><strong>D:</strong> Dependency Inversion",keywords:["single responsibility","open","closed","liskov","substitution","interface segregation","dependency inversion","one reason","extension","abstraction"]},
+{topic:"solid",q:"What is Single Responsibility Principle with example?",a:"<strong>SRP:</strong> A class should have only ONE reason to change / one job.<br><strong>Good:</strong> Separate into EmployeeService, EmployeeRepository, ReportGenerator.",keywords:["one reason","one job","change","separate","class","responsibility","single","maintainable","testable","service","repository"]},
+
+// DI
+{topic:"di",q:"What is Dependency Injection? Why is it important?",a:"<strong>DI:</strong> Providing dependencies from outside rather than creating inside.<br><strong>Benefits:</strong> Loose coupling, testability, maintainability.<br><strong>Types:</strong> Constructor, Property, Method injection.",keywords:["dependency","injection","outside","loose coupling","testability","constructor","interface","maintainability","ioc","container"]},
+
+// Git
+{topic:"git",q:"What is the difference between git merge and git rebase?",a:"<strong>Merge:</strong> Creates merge commit. Preserves history.<br><strong>Rebase:</strong> Replays commits on top. Linear history. Don't rebase public branches.",keywords:["merge","rebase","commit","history","linear","replay","branch","preserve","public","feature"]},
+{topic:"git",q:"What is the difference between git pull and git fetch?",a:"<strong>git fetch:</strong> Downloads changes, doesn't merge.<br><strong>git pull:</strong> fetch + merge in one step.",keywords:["fetch","pull","download","merge","remote","working branch","inspect","one step","update","safe"]},
+];
+
+let selectedTopics = ['all'];
+let currentQuestions = [];
+let currentIndex = 0;
+let timerInterval = null;
+let timeLeft = 0;
+let questionScores = []; // {q, marks, max}
+
+// Topic selection
+document.querySelectorAll('.topic-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const topic = this.dataset.topic;
+        if (topic === 'all') {
+            document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            selectedTopics = ['all'];
+        } else {
+            document.querySelector('[data-topic="all"]').classList.remove('active');
+            this.classList.toggle('active');
+            selectedTopics = [...document.querySelectorAll('.topic-btn.active')].map(b => b.dataset.topic);
+            if (selectedTopics.length === 0) {
+                document.querySelector('[data-topic="all"]').classList.add('active');
+                selectedTopics = ['all'];
+            }
+        }
+    });
+});
+
+function startInterview() {
+    const count = parseInt(document.getElementById('qCount').value);
+    let pool = selectedTopics.includes('all') ? [...questions] : questions.filter(q => selectedTopics.includes(q.topic));
+    pool.sort(() => Math.random() - 0.5);
+    currentQuestions = pool.slice(0, count);
+    currentIndex = 0;
+    questionScores = [];
+
+    document.getElementById('configPanel').style.display = 'none';
+    document.getElementById('questionArea').style.display = 'block';
+    document.getElementById('scoreCard').style.display = 'none';
+    showQuestion();
+}
+
+function showQuestion() {
+    const q = currentQuestions[currentIndex];
+    document.getElementById('qNumber').textContent = `Q ${currentIndex + 1}/${currentQuestions.length}`;
+    document.getElementById('qTopic').textContent = q.topic.toUpperCase();
+    document.getElementById('questionText').textContent = q.q;
+    document.getElementById('userAnswer').value = '';
+    document.getElementById('answerWrap').style.display = 'block';
+    document.getElementById('evalResult').style.display = 'none';
+    document.getElementById('submitBtn').style.display = 'inline-block';
+    document.getElementById('nextBtn').style.display = 'none';
+    startTimer();
+}
+
+function startTimer() {
+    timeLeft = parseInt(document.getElementById('timeLimit').value);
+    updateTimerDisplay();
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        timeLeft--;
+        updateTimerDisplay();
+        if (timeLeft <= 0) {
+            clearInterval(timerInterval);
+            submitAnswer();
+        }
+    }, 1000);
+}
+
+function updateTimerDisplay() {
+    const min = Math.floor(timeLeft / 60);
+    const sec = timeLeft % 60;
+    const timer = document.getElementById('timer');
+    timer.textContent = `${min}:${sec.toString().padStart(2, '0')}`;
+    timer.className = 'timer' + (timeLeft <= 30 ? ' danger' : timeLeft <= 60 ? ' warning' : '');
+}
+
+function evaluateAnswer(userAns, keywords) {
+    const answer = userAns.toLowerCase().trim();
+    if (!answer) return { score: 0, matched: [], missed: keywords, total: keywords.length };
+
+    let matched = [];
+    let missed = [];
+
+    keywords.forEach(kw => {
+        // Check if keyword or close variation exists in user's answer
+        const kwLower = kw.toLowerCase();
+        const variations = [kwLower, kwLower.replace(/[- ]/g, ''), kwLower.replace(/[- ]/g, ' ')];
+        const found = variations.some(v => answer.includes(v));
+        if (found) matched.push(kw);
+        else missed.push(kw);
+    });
+
+    const score = Math.round((matched.length / keywords.length) * 10);
+    return { score, matched, missed, total: keywords.length };
+}
+
+function submitAnswer() {
+    clearInterval(timerInterval);
+    const q = currentQuestions[currentIndex];
+    const userAns = document.getElementById('userAnswer').value;
+
+    // Evaluate
+    const result = evaluateAnswer(userAns, q.keywords);
+
+    // Store score
+    questionScores.push({ q: q.q, marks: result.score, max: 10 });
+
+    // Display result
+    document.getElementById('answerWrap').style.display = 'none';
+    document.getElementById('submitBtn').style.display = 'none';
+    document.getElementById('evalResult').style.display = 'block';
+    document.getElementById('nextBtn').style.display = 'inline-block';
+    document.getElementById('nextBtn').textContent = currentIndex >= currentQuestions.length - 1 ? '🏆 See Final Score' : 'Next →';
+
+    // Marks badge
+    const badge = document.getElementById('marksBadge');
+    badge.textContent = `${result.score}/10`;
+    badge.className = 'marks-badge ' + (result.score >= 7 ? 'marks-high' : result.score >= 4 ? 'marks-med' : 'marks-low');
+
+    // Feedback
+    let feedback = '';
+    if (result.score >= 9) feedback = '🔥 Excellent! Almost perfect answer!';
+    else if (result.score >= 7) feedback = '👍 Good answer! You covered most key points.';
+    else if (result.score >= 4) feedback = '😐 Partial answer. You missed some important concepts.';
+    else if (result.score >= 1) feedback = '📚 Weak answer. Review this topic carefully.';
+    else feedback = '❌ No relevant points found. Study this topic.';
+    document.getElementById('evalFeedback').textContent = feedback;
+
+    // Keywords
+    document.getElementById('matchedKeys').innerHTML = result.matched.length > 0
+        ? `✅ Keywords matched: <strong>${result.matched.join(', ')}</strong>`
+        : '';
+    document.getElementById('missedKeys').innerHTML = result.missed.length > 0
+        ? `❌ Keywords missed: <strong>${result.missed.join(', ')}</strong>`
+        : '';
+
+    // Correct answer
+    document.getElementById('correctAnswer').innerHTML = q.a;
+}
+
+function nextQuestion() {
+    if (currentIndex >= currentQuestions.length - 1) {
+        endInterview();
+    } else {
+        currentIndex++;
+        showQuestion();
+    }
+}
+
+function endInterview() {
+    clearInterval(timerInterval);
+    document.getElementById('questionArea').style.display = 'none';
+    document.getElementById('scoreCard').style.display = 'block';
+
+    const totalMarks = questionScores.reduce((sum, s) => sum + s.marks, 0);
+    const maxMarks = questionScores.length * 10;
+    const percent = maxMarks > 0 ? Math.round((totalMarks / maxMarks) * 100) : 0;
+
+    document.getElementById('totalQ').textContent = questionScores.length;
+    document.getElementById('totalMarks').textContent = totalMarks;
+    document.getElementById('maxMarks').textContent = maxMarks;
+    document.getElementById('percentage').textContent = percent + '%';
+
+    const finalEl = document.getElementById('finalScore');
+    finalEl.textContent = `${totalMarks}/${maxMarks}`;
+    finalEl.className = 'final-score ' + (percent >= 70 ? 'high' : percent >= 40 ? 'med' : 'low');
+
+    let msg = '';
+    if (percent >= 80) msg = '🔥 Excellent! You are interview ready!';
+    else if (percent >= 60) msg = '👍 Good! Revise the topics you scored low on.';
+    else if (percent >= 40) msg = '📚 Average. Focus more on fundamentals.';
+    else msg = '💪 Keep practicing! Revise all topics and try again.';
+    document.getElementById('scoreMsg').textContent = msg;
+
+    // Breakdown
+    let html = '<div style="font-size:.8rem;color:#38bdf8;font-weight:700;margin-bottom:8px">📋 Question-wise Marks:</div>';
+    questionScores.forEach((s, i) => {
+        const color = s.marks >= 7 ? '#10b981' : s.marks >= 4 ? '#f59e0b' : '#ef4444';
+        html += `<div class="breakdown-item">
+            <span class="breakdown-q">Q${i+1}. ${s.q}</span>
+            <span class="breakdown-mark" style="color:${color}">${s.marks}/10</span>
+        </div>`;
+    });
+    document.getElementById('breakdown').innerHTML = html;
+}
+</script>
+<script src="theme-toggle.js"></script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Quiz Mode</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{max-width:700px;margin:0 auto}
+a.back{color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500}
+h1{margin:10px 0 4px;background:linear-gradient(135deg,#6366f1,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.subtitle{color:#64748b;font-size:.75rem;margin-bottom:16px}
+.config{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;margin-bottom:16px;text-align:center}
+.topics{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:14px}
+.topic-btn{padding:8px 14px;border:1px solid rgba(255,255,255,.15);border-radius:20px;font-size:.73rem;cursor:pointer;background:transparent;color:#94a3b8;transition:all .2s}
+.topic-btn.active{background:#6366f1;border-color:#6366f1;color:#fff}
+.btn{padding:10px 24px;border:none;border-radius:8px;font-size:.8rem;font-weight:700;cursor:pointer;color:#fff;transition:transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.btn-start{background:linear-gradient(135deg,#6366f1,#818cf8)}
+.quiz-area{display:none}
+.q-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.q-num{font-size:.8rem;color:#64748b}
+.q-score{font-size:.8rem;color:#10b981;font-weight:700}
+.question-box{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;margin-bottom:12px}
+.question-text{font-size:1rem;line-height:1.6;margin-bottom:16px}
+.options{display:flex;flex-direction:column;gap:10px}
+.option{padding:12px 16px;background:#0d1b2a;border:2px solid rgba(255,255,255,.1);border-radius:8px;cursor:pointer;font-size:.85rem;transition:all .2s;display:flex;align-items:center;gap:10px}
+.option:hover{border-color:#6366f1;background:rgba(99,102,241,.1)}
+.option.selected{border-color:#6366f1;background:rgba(99,102,241,.15)}
+.option.correct{border-color:#10b981;background:rgba(16,185,129,.15);color:#10b981}
+.option.wrong{border-color:#ef4444;background:rgba(239,68,68,.1);color:#ef4444}
+.option.reveal-correct{border-color:#10b981;background:rgba(16,185,129,.1)}
+.option-letter{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;flex-shrink:0}
+.explanation{display:none;background:rgba(16,185,129,.08);border-left:3px solid #10b981;padding:12px;border-radius:0 8px 8px 0;margin-top:12px;font-size:.8rem;color:#cbd5e1;line-height:1.5}
+.btn-row{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.btn-next{background:linear-gradient(135deg,#10b981,#34d399)}
+.result{display:none;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:24px;text-align:center}
+.result h2{font-size:1.4rem;margin-bottom:12px}
+.result-score{font-size:3rem;font-weight:700;margin:10px 0}
+.result-score.high{color:#10b981}
+.result-score.med{color:#f59e0b}
+.result-score.low{color:#ef4444}
+.result p{font-size:.85rem;color:#94a3b8;margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>❓ Quiz Mode</h1>
+<p class="subtitle">Test your knowledge with MCQs — "What's the output?" style questions</p>
+
+<div class="config" id="configPanel">
+<div class="topics" id="topicBtns">
+<div class="topic-btn active" data-topic="all">All Topics</div>
+<div class="topic-btn" data-topic="csharp">C#</div>
+<div class="topic-btn" data-topic="oops">OOPs</div>
+<div class="topic-btn" data-topic="sql">SQL</div>
+<div class="topic-btn" data-topic="aspnet">ASP.NET</div>
+<div class="topic-btn" data-topic="webapi">Web API</div>
+<div class="topic-btn" data-topic="ef">EF Core</div>
+</div>
+<button class="btn btn-start" onclick="startQuiz()">🚀 Start Quiz (10 Questions)</button>
+</div>
+
+<div class="quiz-area" id="quizArea">
+<div class="q-header">
+<span class="q-num" id="qNum">Q 1/10</span>
+<span class="q-score" id="qScore">Score: 0/0</span>
+</div>
+<div class="question-box">
+<div class="question-text" id="qText"></div>
+<div class="options" id="optionsDiv"></div>
+<div class="explanation" id="explanation"></div>
+</div>
+<div class="btn-row">
+<button class="btn btn-next" id="nextBtn" style="display:none" onclick="nextQ()">Next →</button>
+</div>
+</div>
+
+<div class="result" id="resultPanel">
+<h2>🏆 Quiz Complete!</h2>
+<div class="result-score" id="finalScore">0%</div>
+<p id="resultMsg"></p>
+<p id="resultDetail"></p>
+<button class="btn btn-start" onclick="location.reload()" style="margin-top:14px">🔄 Try Again</button>
+</div>
+</div>
+
+<script>
+const quizData = [
+// C#
+{topic:"csharp",q:"What is the output?\nstring s1 = \"Hello\";\nstring s2 = s1;\ns1 = \"World\";\nConsole.WriteLine(s2);",opts:["World","Hello","Error","null"],ans:1,exp:"Strings are immutable reference types. s2 still points to the original \"Hello\" object. Changing s1 creates a new string object."},
+{topic:"csharp",q:"Which collection does NOT allow duplicate keys?",opts:["List<T>","Dictionary<K,V>","HashSet<T>","Queue<T>"],ans:1,exp:"Dictionary<K,V> throws ArgumentException if you try to add a duplicate key. HashSet doesn't allow duplicate values but has no keys."},
+{topic:"csharp",q:"What is the default value of a bool in C#?",opts:["true","false","null","0"],ans:1,exp:"The default value of bool is false. Value types always have a default: int=0, bool=false, char='\\0'."},
+{topic:"csharp",q:"Which keyword is used to prevent a class from being inherited?",opts:["static","abstract","sealed","private"],ans:2,exp:"The 'sealed' keyword prevents inheritance. A sealed class cannot be used as a base class."},
+{topic:"csharp",q:"What is the output?\nint x = 5;\nobject obj = x;\nint y = (int)obj;\nConsole.WriteLine(x == y);",opts:["True","False","Error","0"],ans:0,exp:"This demonstrates boxing (int→object) and unboxing (object→int). The values are equal so x == y is True."},
+{topic:"csharp",q:"Which LINQ method returns the first element or default value if empty?",opts:["First()","Single()","FirstOrDefault()","Find()"],ans:2,exp:"FirstOrDefault() returns default(T) if collection is empty. First() throws exception if empty. Single() expects exactly one element."},
+{topic:"csharp",q:"What is the difference between 'ref' and 'out' parameters?",opts:["ref must be initialized before passing, out doesn't need to be","out must be initialized before passing, ref doesn't need to be","They are the same","Neither needs initialization"],ans:0,exp:"'ref' requires the variable to be initialized before passing. 'out' doesn't require initialization but must be assigned inside the method."},
+{topic:"csharp",q:"What does the 'yield' keyword do?",opts:["Stops execution permanently","Returns items one at a time (lazy evaluation)","Creates a new thread","Throws an exception"],ans:1,exp:"'yield return' creates an iterator that returns elements one at a time. It enables lazy evaluation — items are generated only when requested."},
+{topic:"csharp",q:"What is the output?\nint[] arr = {1,2,3};\nvar result = arr.Where(x => x > 1).Count();\nConsole.WriteLine(result);",opts:["1","2","3","Error"],ans:1,exp:"Where(x => x > 1) filters to {2, 3}, then Count() returns 2."},
+{topic:"csharp",q:"Which access modifier makes a member visible only within the same assembly?",opts:["private","protected","internal","public"],ans:2,exp:"'internal' makes members accessible within the same assembly (project). 'protected internal' is accessible in same assembly OR derived classes."},
+
+// OOPs
+{topic:"oops",q:"Which OOP concept is demonstrated by method overriding?",opts:["Encapsulation","Inheritance","Polymorphism","Abstraction"],ans:2,exp:"Method overriding is Runtime Polymorphism. The same method name behaves differently based on the object type at runtime."},
+{topic:"oops",q:"Can you create an instance of an abstract class?",opts:["Yes","No","Only with 'new' keyword","Only if it has a constructor"],ans:1,exp:"You cannot create an instance of an abstract class directly. You must inherit it and create an instance of the derived class."},
+{topic:"oops",q:"What is the output?\nclass A { public virtual void Show() { Console.Write(\"A \"); } }\nclass B : A { public override void Show() { Console.Write(\"B \"); } }\nA obj = new B(); obj.Show();",opts:["A","B","A B","Error"],ans:1,exp:"This is runtime polymorphism. Even though the reference type is A, the actual object is B. The overridden method in B is called."},
+{topic:"oops",q:"How many interfaces can a C# class implement?",opts:["Only 1","Maximum 5","Maximum 10","Unlimited"],ans:3,exp:"A C# class can implement unlimited interfaces. But it can inherit from only ONE base class (single inheritance for classes)."},
+{topic:"oops",q:"Which keyword is used to call the parent class constructor?",opts:["this","super","base","parent"],ans:2,exp:"In C#, 'base' keyword is used to call parent class constructor or access parent members. 'super' is used in Java, not C#."},
+
+// SQL
+{topic:"sql",q:"Which SQL clause is executed first?\nSELECT → FROM → WHERE → GROUP BY → ORDER BY",opts:["SELECT","FROM","WHERE","ORDER BY"],ans:1,exp:"SQL execution order: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY. FROM is processed first to identify the data source."},
+{topic:"sql",q:"What is the difference between RANK() and DENSE_RANK()?",opts:["No difference","RANK skips numbers after ties, DENSE_RANK doesn't","DENSE_RANK skips, RANK doesn't","RANK is faster"],ans:1,exp:"If two rows tie at rank 1: RANK gives next as 3 (skips 2). DENSE_RANK gives next as 2 (no skip)."},
+{topic:"sql",q:"Which JOIN returns all rows from both tables?",opts:["INNER JOIN","LEFT JOIN","RIGHT JOIN","FULL OUTER JOIN"],ans:3,exp:"FULL OUTER JOIN returns all rows from both tables. Unmatched rows get NULL values for the other table's columns."},
+{topic:"sql",q:"What does COALESCE() do?",opts:["Counts rows","Returns first non-NULL value","Combines strings","Creates index"],ans:1,exp:"COALESCE(a, b, c) returns the first non-NULL value from the list. Useful for handling NULL values in queries."},
+{topic:"sql",q:"Which is faster for removing all rows?",opts:["DELETE FROM table","TRUNCATE TABLE","DROP TABLE","Both are same speed"],ans:1,exp:"TRUNCATE is faster because it uses minimal logging and deallocates pages. DELETE logs each row deletion and fires triggers."},
+
+// ASP.NET
+{topic:"aspnet",q:"What is the correct order of middleware in ASP.NET Core?",opts:["Authorization → Authentication → Routing","Authentication → Authorization → Endpoints","Endpoints → Routing → Authentication","Routing → Endpoints → Authentication"],ans:1,exp:"Correct order: UseAuthentication() → UseAuthorization() → MapControllers(). Authentication must come before Authorization."},
+{topic:"aspnet",q:"Which lifetime creates a new instance for every HTTP request?",opts:["Transient","Scoped","Singleton","Static"],ans:1,exp:"Scoped creates one instance per HTTP request. Transient creates new instance every time it's injected. Singleton is one for entire app."},
+{topic:"aspnet",q:"What does [ApiController] attribute do?",opts:["Makes class static","Enables automatic model validation & binding","Creates REST API only","Disables views"],ans:1,exp:"[ApiController] enables: automatic 400 responses for invalid models, attribute routing requirement, binding source inference."},
+
+// Web API
+{topic:"webapi",q:"Which HTTP status code means 'Resource Created Successfully'?",opts:["200","201","204","301"],ans:1,exp:"201 Created = new resource created successfully. 200 = OK. 204 = No Content. 301 = Moved Permanently."},
+{topic:"webapi",q:"What is the purpose of CORS in Web API?",opts:["Compress responses","Allow cross-origin requests from browsers","Cache API responses","Encrypt data"],ans:1,exp:"CORS (Cross-Origin Resource Sharing) allows a server to specify which domains can access its API from a browser."},
+
+// EF Core
+{topic:"ef",q:"What is lazy loading in EF Core?",opts:["Loading all data at startup","Loading related data only when accessed","Loading data in background thread","Caching data locally"],ans:1,exp:"Lazy loading loads related entities only when you access the navigation property. Requires virtual keyword and proxies package."},
+{topic:"ef",q:"Which EF Core method generates SQL but executes at the database?",opts:["ToList()","AsEnumerable()","AsNoTracking()","IQueryable methods"],ans:3,exp:"IQueryable methods (Where, Select, etc.) build expression trees translated to SQL. ToList()/AsEnumerable() execute and bring data to memory."},
+];
+
+let selectedTopic = 'all';
+let currentQuiz = [];
+let currentIdx = 0;
+let score = 0;
+let answered = false;
+
+document.querySelectorAll('.topic-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.topic-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        selectedTopic = this.dataset.topic;
+    });
+});
+
+function startQuiz() {
+    let pool = selectedTopic === 'all' ? [...quizData] : quizData.filter(q => q.topic === selectedTopic);
+    pool.sort(() => Math.random() - 0.5);
+    currentQuiz = pool.slice(0, 10);
+    currentIdx = 0;
+    score = 0;
+    document.getElementById('configPanel').style.display = 'none';
+    document.getElementById('quizArea').style.display = 'block';
+    showQ();
+}
+
+function showQ() {
+    answered = false;
+    const q = currentQuiz[currentIdx];
+    document.getElementById('qNum').textContent = `Q ${currentIdx+1}/${currentQuiz.length}`;
+    document.getElementById('qScore').textContent = `Score: ${score}/${currentIdx}`;
+    document.getElementById('qText').innerHTML = q.q.replace(/\n/g, '<br>');
+    document.getElementById('explanation').style.display = 'none';
+    document.getElementById('nextBtn').style.display = 'none';
+
+    const letters = ['A','B','C','D'];
+    let html = '';
+    q.opts.forEach((opt, i) => {
+        html += `<div class="option" onclick="selectAnswer(${i})"><span class="option-letter">${letters[i]}</span><span>${opt}</span></div>`;
+    });
+    document.getElementById('optionsDiv').innerHTML = html;
+}
+
+function selectAnswer(idx) {
+    if (answered) return;
+    answered = true;
+    const q = currentQuiz[currentIdx];
+    const options = document.querySelectorAll('.option');
+
+    if (idx === q.ans) {
+        options[idx].classList.add('correct');
+        score++;
+    } else {
+        options[idx].classList.add('wrong');
+        options[q.ans].classList.add('reveal-correct');
+    }
+
+    document.getElementById('qScore').textContent = `Score: ${score}/${currentIdx+1}`;
+    document.getElementById('explanation').textContent = q.exp;
+    document.getElementById('explanation').style.display = 'block';
+    document.getElementById('nextBtn').style.display = 'inline-block';
+    document.getElementById('nextBtn').textContent = currentIdx >= currentQuiz.length - 1 ? '🏆 See Results' : 'Next →';
+}
+
+function nextQ() {
+    if (currentIdx >= currentQuiz.length - 1) {
+        showResult();
+    } else {
+        currentIdx++;
+        showQ();
+    }
+}
+
+function showResult() {
+    document.getElementById('quizArea').style.display = 'none';
+    document.getElementById('resultPanel').style.display = 'block';
+    const percent = Math.round((score / currentQuiz.length) * 100);
+    const scoreEl = document.getElementById('finalScore');
+    scoreEl.textContent = `${score}/${currentQuiz.length} (${percent}%)`;
+    scoreEl.className = 'result-score ' + (percent >= 70 ? 'high' : percent >= 40 ? 'med' : 'low');
+    document.getElementById('resultDetail').textContent = `Correct: ${score} | Wrong: ${currentQuiz.length - score}`;
+
+    let msg = '';
+    if (percent >= 90) msg = '🔥 Outstanding! You\'re ready!';
+    else if (percent >= 70) msg = '👍 Great job! Almost there!';
+    else if (percent >= 50) msg = '📚 Good effort! Revise weak areas.';
+    else msg = '💪 Keep studying! Practice makes perfect.';
+    document.getElementById('resultMsg').textContent = msg;
+}
+</script>
+<script src="theme-toggle.js"></script>
+</body>
+</html>

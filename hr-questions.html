@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Questions</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{max-width:850px;margin:0 auto}
+a.back{color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500}
+h1{margin:10px 0 4px;background:linear-gradient(135deg,#ec4899,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.subtitle{color:#64748b;font-size:.75rem;margin-bottom:16px}
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;margin-bottom:12px;overflow:hidden}
+.card-header{padding:14px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;transition:background .2s}
+.card-header:hover{background:rgba(255,255,255,.03)}
+.card-q{font-size:.9rem;font-weight:600;color:#f472b6}
+.card-arrow{color:#64748b;transition:transform .3s;font-size:1.2rem}
+.card-arrow.open{transform:rotate(180deg)}
+.card-body{display:none;padding:0 18px 16px;font-size:.82rem;line-height:1.7;color:#cbd5e1}
+.card-body.show{display:block}
+.template{background:#0d1b2a;border-radius:8px;padding:14px;margin:10px 0;border-left:3px solid #ec4899}
+.template p{margin-bottom:8px}
+.tip{background:rgba(245,158,11,.08);border-left:3px solid #f59e0b;padding:10px 12px;border-radius:0 8px 8px 0;font-size:.75rem;margin:10px 0;color:#fbbf24}
+.tag{display:inline-block;font-size:.65rem;padding:2px 8px;border-radius:12px;font-weight:700;margin-right:6px}
+.tag-must{background:#ef4444;color:#fff}
+.tag-freq{background:#f59e0b;color:#000}
+.tag-good{background:#10b981;color:#fff}
+.section-title{font-size:.85rem;color:#38bdf8;font-weight:700;margin:20px 0 10px;padding-left:10px;border-left:3px solid #38bdf8}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>🗣️ HR Questions & Answers</h1>
+<p class="subtitle">Common HR/behavioral questions with structured answer templates</p>
+
+<div class="section-title">📌 Most Asked (Every Interview)</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-must">Must</span> Tell me about yourself</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="tip">💡 Formula: Present → Past → Future (keep it 60-90 seconds)</div>
+<div class="template">
+<p><strong>Template:</strong></p>
+<p>"Hi, I'm [Name]. I'm a .NET Full Stack Developer with [X] years of experience working with C#, ASP.NET Core, SQL Server, and JavaScript.</p>
+<p>In my current/previous role at [Company], I worked on [Project Name] where I developed [specific feature/module] using [technologies]. I handled both backend APIs and frontend development.</p>
+<p>I'm passionate about writing clean, maintainable code and I'm looking for opportunities where I can grow technically and contribute to impactful projects."</p>
+</div>
+<div class="tip">⚠️ Don't: Recite your resume | Talk about personal life | Go beyond 90 seconds</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-must">Must</span> Why should we hire you?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Template:</strong></p>
+<p>"You should hire me because I bring a combination of technical skills and a problem-solving mindset.</p>
+<p>I have hands-on experience with the exact tech stack your team uses — C#, ASP.NET Core, SQL Server, and Web APIs. I've delivered [specific achievement: built APIs handling X requests, optimized queries reducing response time by Y%].</p>
+<p>I'm also a quick learner and team player who can start contributing from day one."</p>
+</div>
+<div class="tip">💡 Match your skills to their job description. Be specific with achievements.</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-must">Must</span> What are your strengths and weaknesses?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Strengths (pick 2-3):</strong></p>
+<p>• Problem-solving — I enjoy debugging complex issues and finding root causes</p>
+<p>• Quick learner — I picked up [technology] within [timeframe] for a project</p>
+<p>• Attention to detail — I write well-structured, tested code</p>
+</div>
+<div class="template">
+<p><strong>Weakness (honest but show improvement):</strong></p>
+<p>"Earlier I used to spend too much time making code perfect before moving on. I've learned to balance quality with delivery speed by following the 'ship and iterate' approach."</p>
+<p>OR: "I sometimes hesitate to ask for help, but I've been working on it by being more proactive in team discussions."</p>
+</div>
+<div class="tip">⚠️ Never say: "I'm a perfectionist" (cliché) | "I have no weakness" (not believable)</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-must">Must</span> Why are you leaving your current company?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Good answers:</strong></p>
+<p>• "I'm looking for more challenging work and growth opportunities in [specific area]."</p>
+<p>• "I want to work with modern technologies like .NET Core/microservices which my current role doesn't offer."</p>
+<p>• "I'm looking for a role where I can take more ownership and contribute to larger-scale projects."</p>
+</div>
+<div class="tip">⚠️ Never bad-mouth previous employer/manager. Keep it positive and growth-focused.</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-must">Must</span> Where do you see yourself in 5 years?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Template:</strong></p>
+<p>"In 5 years, I see myself as a Senior Developer / Tech Lead who can architect solutions and mentor junior developers. I want to deepen my expertise in cloud technologies and distributed systems while growing into a leadership role."</p>
+</div>
+<div class="tip">💡 Show ambition but keep it realistic and aligned with the company's growth path.</div>
+</div>
+</div>
+
+<div class="section-title">💼 Behavioral Questions</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-freq">Freq</span> Tell me about a challenging project you worked on</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="tip">💡 Use STAR method: Situation → Task → Action → Result</div>
+<div class="template">
+<p><strong>Template:</strong></p>
+<p><strong>Situation:</strong> "In my project [name], we faced [problem — e.g., performance issues with API response times exceeding 5 seconds]."</p>
+<p><strong>Task:</strong> "I was responsible for identifying the bottleneck and optimizing it."</p>
+<p><strong>Action:</strong> "I analyzed the SQL queries using execution plans, added proper indexes, implemented caching, and optimized LINQ queries."</p>
+<p><strong>Result:</strong> "Response time dropped from 5s to under 500ms, improving user experience significantly."</p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-freq">Freq</span> How do you handle pressure / tight deadlines?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Template:</strong></p>
+<p>"I handle pressure by breaking the task into smaller, manageable pieces and prioritizing based on impact. I communicate with the team about realistic timelines and focus on delivering the core functionality first.</p>
+<p>For example, in [project], we had a tight deadline for a client demo. I prioritized the critical features, worked efficiently, and we delivered on time."</p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-freq">Freq</span> Describe a conflict with a team member and how you resolved it</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Template:</strong></p>
+<p>"Once a colleague and I had different opinions on the database design approach. Instead of arguing, I suggested we both present our approaches with pros/cons to the team lead.</p>
+<p>We discussed it objectively and ended up using a combination of both ideas. It taught me the importance of collaboration and being open to different perspectives."</p>
+</div>
+<div class="tip">💡 Show maturity, communication skills, and willingness to compromise.</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-freq">Freq</span> How do you keep yourself updated with new technologies?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Answer:</strong></p>
+<p>"I follow Microsoft's official documentation and .NET blog for updates. I also:</p>
+<p>• Watch YouTube tutorials and conference talks</p>
+<p>• Practice on personal projects</p>
+<p>• Read articles on Medium and dev.to</p>
+<p>• Participate in online communities (Stack Overflow, Reddit)</p>
+<p>Recently I learned [specific technology] and built a small project with it."</p>
+</div>
+</div>
+</div>
+
+<div class="section-title">💰 Salary & Logistics</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-freq">Freq</span> What are your salary expectations?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Good responses:</strong></p>
+<p>• "Based on my experience and skills, and considering the market standards, I'm expecting [X to Y range]. However, I'm open to discussion based on the overall compensation package."</p>
+<p>• "I'm looking for a [X]% hike from my current CTC, which I believe aligns with market standards for this role."</p>
+</div>
+<div class="tip">💡 Research market salary on Glassdoor/LinkedIn before the interview. Always give a range, not a fixed number.</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-good">Good</span> What is your notice period? Can you join early?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Template:</strong></p>
+<p>"My current notice period is [X days/months]. I can try to negotiate with my current employer for an early release if needed. I'm flexible and willing to discuss the joining timeline."</p>
+</div>
+</div>
+</div>
+
+<div class="card">
+<div class="card-header" onclick="toggle(this)">
+<span class="card-q"><span class="tag tag-good">Good</span> Do you have any questions for us?</span>
+<span class="card-arrow">▼</span>
+</div>
+<div class="card-body">
+<div class="template">
+<p><strong>Always ask 2-3 questions! Good options:</strong></p>
+<p>• "What does the tech stack look like for the project I'd be working on?"</p>
+<p>• "How is the team structured? How many developers work on this project?"</p>
+<p>• "What does the growth path look like for this role?"</p>
+<p>• "What are the biggest challenges the team is currently facing?"</p>
+<p>• "How do you handle code reviews and knowledge sharing?"</p>
+</div>
+<div class="tip">⚠️ Never say "No, I have no questions" — it shows lack of interest. Never ask about leaves/WFH in the first interview.</div>
+</div>
+</div>
+
+</div>
+
+<script>
+function toggle(header) {
+    const body = header.nextElementSibling;
+    const arrow = header.querySelector('.card-arrow');
+    body.classList.toggle('show');
+    arrow.classList.toggle('open');
+}
+</script>
+<script src="theme-toggle.js"></script>
+</body>
+</html>

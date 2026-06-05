@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Revision Scheduler</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{max-width:850px;margin:0 auto}
+a.back{color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500}
+h1{margin:10px 0 4px;background:linear-gradient(135deg,#14b8a6,#5eead4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.subtitle{color:#64748b;font-size:.75rem;margin-bottom:16px}
+.info{background:rgba(20,184,166,.08);border-left:3px solid #14b8a6;padding:12px;border-radius:0 8px 8px 0;font-size:.75rem;margin-bottom:16px;color:#5eead4}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{padding:8px 16px;border:1px solid rgba(255,255,255,.1);border-radius:20px;font-size:.75rem;cursor:pointer;background:transparent;color:#94a3b8;transition:all .2s}
+.tab.active{background:#14b8a6;border-color:#14b8a6;color:#fff}
+.due-section{margin-bottom:16px}
+.due-title{font-size:.85rem;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.due-title .count{background:#ef4444;color:#fff;font-size:.65rem;padding:2px 8px;border-radius:10px}
+.topic-row{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 16px;margin-bottom:8px;transition:all .2s}
+.topic-row:hover{background:rgba(255,255,255,.06)}
+.topic-row.overdue{border-left:3px solid #ef4444}
+.topic-row.today{border-left:3px solid #f59e0b}
+.topic-row.upcoming{border-left:3px solid #10b981}
+.topic-info{flex:1}
+.topic-name{font-size:.85rem;font-weight:600;margin-bottom:2px}
+.topic-meta{font-size:.7rem;color:#64748b}
+.topic-actions{display:flex;gap:6px}
+.action-btn{padding:6px 12px;border:none;border-radius:6px;font-size:.7rem;font-weight:600;cursor:pointer;transition:transform .2s}
+.action-btn:hover{transform:scale(1.05)}
+.btn-done{background:#10b981;color:#fff}
+.btn-skip{background:#64748b;color:#fff}
+.empty{text-align:center;padding:30px;color:#64748b;font-size:.85rem}
+.legend{display:flex;gap:16px;justify-content:center;margin-bottom:16px;font-size:.7rem;color:#94a3b8}
+.legend span{display:flex;align-items:center;gap:4px}
+.dot{width:8px;height:8px;border-radius:50%}
+.dot-red{background:#ef4444}
+.dot-yellow{background:#f59e0b}
+.dot-green{background:#10b981}
+.reset-btn{display:block;margin:20px auto;padding:8px 20px;background:linear-gradient(135deg,#ef4444,#f87171);border:none;border-radius:8px;color:#fff;font-size:.75rem;font-weight:700;cursor:pointer}
+.schedule-info{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px;margin-bottom:16px;font-size:.75rem;color:#94a3b8}
+.schedule-info strong{color:#14b8a6}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>🔄 Revision Scheduler</h1>
+<p class="subtitle">Spaced repetition — revise at optimal intervals to remember forever</p>
+
+<div class="info">📖 Spaced Repetition: Revise after 1 day → 3 days → 7 days → 14 days → 30 days. Each successful revision pushes the next review further out.</div>
+
+<div class="schedule-info">
+<strong>How it works:</strong> Mark a topic as "Studied" → It schedules your next revision automatically. Complete all 5 levels to master a topic.
+<br>Levels: <strong>L1</strong> (1 day) → <strong>L2</strong> (3 days) → <strong>L3</strong> (7 days) → <strong>L4</strong> (14 days) → <strong>L5</strong> (30 days) → ✅ Mastered!
+</div>
+
+<div class="tabs">
+<div class="tab active" onclick="showTab('due')">📋 Due Today</div>
+<div class="tab" onclick="showTab('all')">📚 All Topics</div>
+<div class="tab" onclick="showTab('mastered')">✅ Mastered</div>
+</div>
+
+<div class="legend">
+<span><span class="dot dot-red"></span> Overdue</span>
+<span><span class="dot dot-yellow"></span> Due Today</span>
+<span><span class="dot dot-green"></span> Upcoming</span>
+</div>
+
+<div id="content"></div>
+
+<button class="reset-btn" onclick="resetAll()">🗑️ Reset All Data</button>
+</div>
+
+<script>
+const TOPICS = [
+    {id:'oops',name:'OOPs',icon:'🔷'},
+    {id:'csharp',name:'C#',icon:'💜'},
+    {id:'sql',name:'SQL',icon:'🛢️'},
+    {id:'mvc',name:'MVC',icon:'🔵'},
+    {id:'aspnet',name:'ASP.NET Core',icon:'🟢'},
+    {id:'webapi',name:'Web API',icon:'🟠'},
+    {id:'ef',name:'EF Core',icon:'🔹'},
+    {id:'solid',name:'SOLID',icon:'🩷'},
+    {id:'di',name:'DI',icon:'💠'},
+    {id:'git',name:'Git',icon:'🟣'},
+    {id:'js',name:'JavaScript',icon:'🟡'},
+    {id:'oracle',name:'Oracle',icon:'🔴'}
+];
+
+const INTERVALS = [1, 3, 7, 14, 30]; // days
+
+let currentTab = 'due';
+
+function getData() {
+    return JSON.parse(localStorage.getItem('revisionData') || '{}');
+}
+function saveData(d) { localStorage.setItem('revisionData', JSON.stringify(d)); }
+
+function getDueDate(topic) {
+    const data = getData();
+    const t = data[topic.id];
+    if (!t || !t.lastStudied) return null;
+    const level = t.level || 0;
+    if (level >= INTERVALS.length) return null; // mastered
+    const last = new Date(t.lastStudied);
+    last.setDate(last.getDate() + INTERVALS[level]);
+    return last;
+}
+
+function markStudied(topicId) {
+    const data = getData();
+    if (!data[topicId]) data[topicId] = { level: 0 };
+    data[topicId].lastStudied = new Date().toISOString();
+    data[topicId].level = (data[topicId].level || 0) + 1;
+    saveData(data);
+    render();
+}
+
+function startTopic(topicId) {
+    const data = getData();
+    data[topicId] = { level: 0, lastStudied: new Date().toISOString() };
+    saveData(data);
+    render();
+}
+
+function showTab(tab) {
+    currentTab = tab;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    event.target.classList.add('active');
+    render();
+}
+
+function render() {
+    const data = getData();
+    const content = document.getElementById('content');
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    let html = '';
+
+    if (currentTab === 'due') {
+        let overdue = [], dueToday = [], upcoming = [];
+
+        TOPICS.forEach(topic => {
+            const t = data[topic.id];
+            if (!t || !t.lastStudied) return;
+            if (t.level >= INTERVALS.length) return; // mastered
+
+            const dueDate = getDueDate(topic);
+            if (!dueDate) return;
+            const due = new Date(dueDate);
+            due.setHours(0,0,0,0);
+
+            const diff = Math.floor((due - today) / 86400000);
+
+            const item = { ...topic, level: t.level, dueDate: due, diff };
+            if (diff < 0) overdue.push(item);
+            else if (diff === 0) dueToday.push(item);
+            else if (diff <= 3) upcoming.push(item);
+        });
+
+        if (overdue.length === 0 && dueToday.length === 0 && upcoming.length === 0) {
+            html = '<div class="empty">🎉 No revisions due! Start studying topics from the "All Topics" tab.</div>';
+        }
+
+        if (overdue.length > 0) {
+            html += `<div class="due-section"><div class="due-title">⚠️ Overdue <span class="count">${overdue.length}</span></div>`;
+            overdue.forEach(t => { html += renderRow(t, 'overdue'); });
+            html += '</div>';
+        }
+        if (dueToday.length > 0) {
+            html += `<div class="due-section"><div class="due-title">📅 Due Today <span class="count">${dueToday.length}</span></div>`;
+            dueToday.forEach(t => { html += renderRow(t, 'today'); });
+            html += '</div>';
+        }
+        if (upcoming.length > 0) {
+            html += `<div class="due-section"><div class="due-title">🔜 Upcoming (next 3 days)</div>`;
+            upcoming.forEach(t => { html += renderRow(t, 'upcoming'); });
+            html += '</div>';
+        }
+    } else if (currentTab === 'all') {
+        TOPICS.forEach(topic => {
+            const t = data[topic.id];
+            const level = t ? t.level || 0 : 0;
+            const lastStudied = t && t.lastStudied ? new Date(t.lastStudied).toLocaleDateString() : 'Never';
+            const status = level >= INTERVALS.length ? '✅ Mastered' : `Level ${level}/${INTERVALS.length}`;
+
+            html += `<div class="topic-row">
+                <div class="topic-info">
+                    <div class="topic-name">${topic.icon} ${topic.name}</div>
+                    <div class="topic-meta">${status} | Last: ${lastStudied}</div>
+                </div>
+                <div class="topic-actions">
+                    ${!t ? `<button class="action-btn btn-done" onclick="startTopic('${topic.id}')">📖 Start</button>` :
+                    level < INTERVALS.length ? `<button class="action-btn btn-done" onclick="markStudied('${topic.id}')">✅ Revised</button>` :
+                    '<span style="color:#10b981;font-size:.75rem">Mastered!</span>'}
+                </div>
+            </div>`;
+        });
+    } else if (currentTab === 'mastered') {
+        let hasMastered = false;
+        TOPICS.forEach(topic => {
+            const t = data[topic.id];
+            if (t && t.level >= INTERVALS.length) {
+                hasMastered = true;
+                html += `<div class="topic-row" style="border-left:3px solid #10b981">
+                    <div class="topic-info">
+                        <div class="topic-name">${topic.icon} ${topic.name}</div>
+                        <div class="topic-meta">✅ All 5 revisions completed!</div>
+                    </div>
+                    <span style="font-size:1.2rem">🏆</span>
+                </div>`;
+            }
+        });
+        if (!hasMastered) html = '<div class="empty">No topics mastered yet. Keep revising! 💪</div>';
+    }
+
+    content.innerHTML = html;
+}
+
+function renderRow(t, type) {
+    const dueText = t.diff < 0 ? `${Math.abs(t.diff)} days overdue` : t.diff === 0 ? 'Due today' : `Due in ${t.diff} days`;
+    return `<div class="topic-row ${type}">
+        <div class="topic-info">
+            <div class="topic-name">${t.icon} ${t.name}</div>
+            <div class="topic-meta">Level ${t.level}/${INTERVALS.length} | ${dueText} | Next: Review #${t.level + 1}</div>
+        </div>
+        <div class="topic-actions">
+            <button class="action-btn btn-done" onclick="markStudied('${t.id}')">✅ Done</button>
+        </div>
+    </div>`;
+}
+
+function resetAll() {
+    if (confirm('Reset all revision data?')) {
+        localStorage.removeItem('revisionData');
+        render();
+    }
+}
+
+render();
+</script>
+<script src="theme-toggle.js"></script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -367,7 +367,7 @@ Console.WriteLine(Factorial(5));  // 120</pre></div>
 <span class="txt">Q13. Check Armstrong Number</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>// Armstrong: Sum of digits^n equals the number (e.g., 153 = 1³+5³+3³)
+<div class="q-ans"><pre>// Armstrong: Sum of digits^n equals the number (e.g., 153 = 1�+5�+3�)
 public static bool IsArmstrong(int number)
 {
     int original = number;
@@ -905,23 +905,23 @@ Console.WriteLine(ToTitleCase("hello world from csharp"));
                          QUICK REVISION - TOP 10 MOST ASKED
 ================================================================================
 
-1.  Reverse a string           → Two pointer swap (Q1)
-2.  Palindrome check           → Compare left &amp; right (Q2)
-3.  Fibonacci series           → a=0, b=1, loop (Q11)
-4.  FizzBuzz                   → % 15, % 3, % 5 (Q38)
-5.  Second largest in array    → Track first &amp; second (Q16)
-6.  Nth highest salary (SQL)   → DENSE_RANK + CTE (Q27)
-7.  Find duplicates (SQL)      → GROUP BY HAVING COUNT &gt; 1 (Q28)
-8.  Delete duplicates (SQL)    → ROW_NUMBER + PARTITION BY (Q29)
-9.  LINQ GroupBy               → .GroupBy().Select() (Q21)
-10. Singleton pattern          → Lazy&lt;T&gt; (Q36)
+1.  Reverse a string           ? Two pointer swap (Q1)
+2.  Palindrome check           ? Compare left &amp; right (Q2)
+3.  Fibonacci series           ? a=0, b=1, loop (Q11)
+4.  FizzBuzz                   ? % 15, % 3, % 5 (Q38)
+5.  Second largest in array    ? Track first &amp; second (Q16)
+6.  Nth highest salary (SQL)   ? DENSE_RANK + CTE (Q27)
+7.  Find duplicates (SQL)      ? GROUP BY HAVING COUNT &gt; 1 (Q28)
+8.  Delete duplicates (SQL)    ? ROW_NUMBER + PARTITION BY (Q29)
+9.  LINQ GroupBy               ? .GroupBy().Select() (Q21)
+10. Singleton pattern          ? Lazy&lt;T&gt; (Q36)
 
 ================================================================================
 TIPS:
 - Practice writing code on PAPER (no IntelliSense in interview!)
 - Explain your approach BEFORE coding
 - Handle edge cases (null, empty, single element)
-- Know time complexity (O(n), O(n²), etc.)
+- Know time complexity (O(n), O(n�), etc.)
 - If stuck, start with brute force then optimize
 ================================================================================</pre></div>
 </div>
@@ -1020,5 +1020,5 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
-</body>
+<script src="theme-toggle.js"></script>`n</body>
 </html>

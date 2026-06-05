@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -80,7 +80,7 @@ ASP.NET Core advantages:
 <span class="txt">Q2. What is the role of Program.cs and Startup.cs?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>In .NET 6+ (Minimal Hosting Model) — only Program.cs:
+<div class="q-ans"><pre>In .NET 6+ (Minimal Hosting Model) � only Program.cs:
 
 Program.cs handles EVERYTHING:
 var builder = WebApplication.CreateBuilder(args);
@@ -114,7 +114,7 @@ app.MapControllerRoute(
 
 app.Run();
 
-In .NET 5 and earlier — Program.cs + Startup.cs:
+In .NET 5 and earlier � Program.cs + Startup.cs:
 
 Program.cs (entry point, creates host):
 public class Program
@@ -159,21 +159,21 @@ public class Startup
 HTTP requests and responses in a specific order.
 
 Request Flow (top to bottom):
-┌─────────────────────────────────────┐
-│         HTTP REQUEST                 │
-├─────────────────────────────────────┤
-│  1. Exception Handler Middleware     │ ← Catches all exceptions
-│  2. HTTPS Redirection               │ ← Redirects HTTP to HTTPS
-│  3. Static Files Middleware          │ ← Serves CSS, JS, images
-│  4. Routing Middleware               │ ← Matches URL to endpoint
-│  5. CORS Middleware                  │ ← Cross-origin headers
-│  6. Authentication Middleware        │ ← Who are you?
-│  7. Authorization Middleware         │ ← Are you allowed?
-│  8. Session Middleware               │ ← Load session data
-│  9. Endpoint Middleware              │ ← Execute Controller/Action
-├─────────────────────────────────────┤
-│         HTTP RESPONSE                │
-└─────────────────────────────────────┘
++-------------------------------------+
+�         HTTP REQUEST                 �
++-------------------------------------�
+�  1. Exception Handler Middleware     � ? Catches all exceptions
+�  2. HTTPS Redirection               � ? Redirects HTTP to HTTPS
+�  3. Static Files Middleware          � ? Serves CSS, JS, images
+�  4. Routing Middleware               � ? Matches URL to endpoint
+�  5. CORS Middleware                  � ? Cross-origin headers
+�  6. Authentication Middleware        � ? Who are you?
+�  7. Authorization Middleware         � ? Are you allowed?
+�  8. Session Middleware               � ? Load session data
+�  9. Endpoint Middleware              � ? Execute Controller/Action
++-------------------------------------�
+�         HTTP RESPONSE                �
++-------------------------------------+
 
 Key concepts:
 - Each middleware can process request AND response
@@ -213,10 +213,10 @@ Key features:
 Deployment options:
 
 1. Kestrel only (edge server):
-Internet → Kestrel → ASP.NET Core App
+Internet ? Kestrel ? ASP.NET Core App
 
 2. Kestrel + Reverse Proxy (recommended for production):
-Internet → IIS/Nginx/Apache → Kestrel → ASP.NET Core App
+Internet ? IIS/Nginx/Apache ? Kestrel ? ASP.NET Core App
 
 Why use reverse proxy:
 - SSL termination
@@ -294,26 +294,26 @@ to clients (browsers).
 
 Contents:
 wwwroot/
-├── css/
-│   ├── site.css
-│   └── bootstrap.min.css
-├── js/
-│   ├── site.js
-│   └── jquery.min.js
-├── images/
-│   ├── logo.png
-│   └── banner.jpg
-├── lib/
-│   ├── bootstrap/
-│   └── jquery/
-├── uploads/        (user uploaded files)
-└── favicon.ico
++-- css/
+�   +-- site.css
+�   +-- bootstrap.min.css
++-- js/
+�   +-- site.js
+�   +-- jquery.min.js
++-- images/
+�   +-- logo.png
+�   +-- banner.jpg
++-- lib/
+�   +-- bootstrap/
+�   +-- jquery/
++-- uploads/        (user uploaded files)
++-- favicon.ico
 
 Key points:
 - ONLY files in wwwroot are accessible via URL
 - Files outside wwwroot are NOT accessible (secure by default)
 - Served by UseStaticFiles() middleware
-- URL maps directly: wwwroot/css/site.css → /css/site.css
+- URL maps directly: wwwroot/css/site.css ? /css/site.css
 - No "wwwroot" in the URL
 
 Access in code:
@@ -537,9 +537,9 @@ else
 }
 
 // Environment-specific config
-appsettings.Development.json → local DB, verbose logging
-appsettings.Staging.json → staging DB, moderate logging
-appsettings.Production.json → production DB, minimal logging
+appsettings.Development.json ? local DB, verbose logging
+appsettings.Staging.json ? staging DB, moderate logging
+appsettings.Production.json ? production DB, minimal logging
 
 Custom environments:
 app.Environment.IsEnvironment("QA")  // Check custom environment</pre></div>
@@ -641,7 +641,7 @@ Why DI is important:
 2. Testability: Easy to inject mocks for unit testing
 3. Maintainability: Change implementation without modifying consumers
 4. Single Responsibility: Class doesn't create its own dependencies
-5. Flexibility: Swap implementations easily (SQL → MongoDB)
+5. Flexibility: Swap implementations easily (SQL ? MongoDB)
 6. Lifetime Management: Container manages object creation and disposal
 
 Types of Injection:
@@ -649,10 +649,10 @@ Types of Injection:
 2. Method Injection (inject via method parameter)
 3. Property Injection (not supported by default in ASP.NET Core)</pre></div>
 </div>
-<div class="q" data-s="q12. what are the 3 service lifetimes — transient, scoped, singleton?">
+<div class="q" data-s="q12. what are the 3 service lifetimes � transient, scoped, singleton?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
 <span class="num">12</span>
-<span class="txt">Q12. What are the 3 service lifetimes — Transient, Scoped, Singleton?</span>
+<span class="txt">Q12. What are the 3 service lifetimes � Transient, Scoped, Singleton?</span>
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>TRANSIENT:
@@ -674,17 +674,17 @@ SINGLETON:
 - Registration: builder.Services.AddSingleton&lt;IService, Service&gt;();
 
 Visual example (3 requests):
-Request 1:  Transient → Instance A, Instance B (different each injection)
-            Scoped    → Instance C, Instance C (same within request)
-            Singleton → Instance D
+Request 1:  Transient ? Instance A, Instance B (different each injection)
+            Scoped    ? Instance C, Instance C (same within request)
+            Singleton ? Instance D
 
-Request 2:  Transient → Instance E, Instance F (new instances)
-            Scoped    → Instance G, Instance G (same within request)
-            Singleton → Instance D (SAME as Request 1!)
+Request 2:  Transient ? Instance E, Instance F (new instances)
+            Scoped    ? Instance G, Instance G (same within request)
+            Singleton ? Instance D (SAME as Request 1!)
 
-Request 3:  Transient → Instance H, Instance I (new instances)
-            Scoped    → Instance J, Instance J (same within request)
-            Singleton → Instance D (SAME as Request 1 &amp; 2!)</pre></div>
+Request 3:  Transient ? Instance H, Instance I (new instances)
+            Scoped    ? Instance J, Instance J (same within request)
+            Singleton ? Instance D (SAME as Request 1 &amp; 2!)</pre></div>
 </div>
 <div class="q" data-s="q13. when to use which lifetime?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -724,10 +724,10 @@ builder.Services.AddSingleton&lt;ICacheService, MemoryCacheService&gt;();
 builder.Services.AddSingleton&lt;IConfiguration&gt;(config);
 
 Rule of thumb:
-- DbContext → Scoped (always)
-- Business services → Scoped
-- Utility services → Transient
-- Cache/Config → Singleton</pre></div>
+- DbContext ? Scoped (always)
+- Business services ? Scoped
+- Utility services ? Transient
+- Cache/Config ? Singleton</pre></div>
 </div>
 <div class="q" data-s="q14. how to register and resolve services?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -737,7 +737,7 @@ Rule of thumb:
 </div>
 <div class="q-ans"><pre>REGISTRATION (in Program.cs):
 
-// Interface → Implementation
+// Interface ? Implementation
 builder.Services.AddTransient&lt;IEmailService, EmailService&gt;();
 builder.Services.AddScoped&lt;IProductService, ProductService&gt;();
 builder.Services.AddSingleton&lt;ICacheService, CacheService&gt;();
@@ -897,9 +897,9 @@ builder.Services.BuildServiceProvider(new ServiceProviderOptions
 });
 
 Valid combinations:
-Singleton → can inject → Singleton only
-Scoped    → can inject → Scoped + Singleton + Transient
-Transient → can inject → Transient + Scoped + Singleton
+Singleton ? can inject ? Singleton only
+Scoped    ? can inject ? Scoped + Singleton + Transient
+Transient ? can inject ? Transient + Scoped + Singleton
 
 Solution if Singleton needs Scoped:
 public class SingletonService : ISingletonService
@@ -1021,7 +1021,7 @@ public class TestController : Controller
     
     public IActionResult Test()
     {
-        // Transient:  _service1.Id ≠ _service2.Id (different instances)
+        // Transient:  _service1.Id ? _service2.Id (different instances)
         // Scoped:     _service1.Id == _service2.Id (same instance)
         // Singleton:  _service1.Id == _service2.Id (same instance, same across requests)
         return Content($"S1: {_service1.Id}, S2: {_service2.Id}");
@@ -1209,15 +1209,15 @@ app.Use(async (context, next) =&gt;
 });
 
 Built-in middleware examples:
-- UseExceptionHandler → Global error handling
-- UseHttpsRedirection → Redirect HTTP to HTTPS
-- UseStaticFiles → Serve static files (CSS, JS, images)
-- UseRouting → URL matching
-- UseAuthentication → Identify user
-- UseAuthorization → Check permissions
-- UseCors → Cross-origin resource sharing
-- UseSession → Session state
-- UseResponseCaching → Cache responses</pre></div>
+- UseExceptionHandler ? Global error handling
+- UseHttpsRedirection ? Redirect HTTP to HTTPS
+- UseStaticFiles ? Serve static files (CSS, JS, images)
+- UseRouting ? URL matching
+- UseAuthentication ? Identify user
+- UseAuthorization ? Check permissions
+- UseCors ? Cross-origin resource sharing
+- UseSession ? Session state
+- UseResponseCaching ? Cache responses</pre></div>
 </div>
 <div class="q" data-s="q22. how does the middleware pipeline work?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -1232,8 +1232,8 @@ Built-in middleware examples:
 4. Optionally processes the response on the way back
 
 Visual representation:
-Request →  [MW1] → [MW2] → [MW3] → [Endpoint]
-Response ← [MW1] ← [MW2] ← [MW3] ← [Endpoint]
+Request ?  [MW1] ? [MW2] ? [MW3] ? [Endpoint]
+Response ? [MW1] ? [MW2] ? [MW3] ? [Endpoint]
 
 Each middleware wraps the next one (like Russian dolls):
 
@@ -1446,8 +1446,8 @@ Why order matters:
 - CORS before Authentication (preflight requests need CORS headers)
 
 Wrong order example:
-app.UseAuthorization();    // ❌ Runs before knowing who the user is!
-app.UseAuthentication();   // ❌ Too late, authorization already failed</pre></div>
+app.UseAuthorization();    // ? Runs before knowing who the user is!
+app.UseAuthentication();   // ? Too late, authorization already failed</pre></div>
 </div>
 <div class="q" data-s="q26. what is short-circuiting in middleware?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -1657,8 +1657,8 @@ app.UseAuthentication();   // 2. Know WHO the user is
 app.UseAuthorization();    // 3. Check if user CAN access endpoint
 
 WRONG ORDER:
-app.UseAuthorization();    // ❌ Doesn't know who user is yet!
-app.UseAuthentication();   // ❌ Too late, already denied/allowed
+app.UseAuthorization();    // ? Doesn't know who user is yet!
+app.UseAuthentication();   // ? Too late, already denied/allowed
 
 What happens with wrong order:
 - Authorization runs but User is null/anonymous
@@ -1668,7 +1668,7 @@ What happens with wrong order:
 Another wrong order:
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseRouting();          // ❌ Authorization doesn't know which endpoint!
+app.UseRouting();          // ? Authorization doesn't know which endpoint!
 // Authorization can't check endpoint-specific policies</pre></div>
 </div>
 <div class="q" data-s="q30. how to add conditional middleware?">
@@ -1758,8 +1758,8 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// URL: /Product/Details/5 → ProductController.Details(5)
-// URL: /Home/Index → HomeController.Index()
+// URL: /Product/Details/5 ? ProductController.Details(5)
+// URL: /Home/Index ? HomeController.Index()
 
 ATTRIBUTE ROUTING:
 - Defined on Controller/Action using attributes
@@ -1806,7 +1806,7 @@ app.MapControllers();         // For attribute-routed controllers</pre></div>
 Step 1 - UseRouting(): Matches URL to an endpoint
 Step 2 - MapControllerRoute(): Executes the matched endpoint
 
-app.UseRouting();           // Matches URL → sets endpoint on HttpContext
+app.UseRouting();           // Matches URL ? sets endpoint on HttpContext
 app.UseAuthentication();    // Can now see which endpoint was matched
 app.UseAuthorization();     // Can check endpoint's [Authorize] attribute
 app.MapControllerRoute(...); // Executes the matched endpoint
@@ -1960,8 +1960,8 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
     //                  ^default    ^default
 
-// URL: / → controller=Home, action=Index
-// URL: /Product → controller=Product, action=Index
+// URL: / ? controller=Home, action=Index
+// URL: /Product ? controller=Product, action=Index
 
 [HttpGet("{page=1}")]
 public IActionResult List(int page)  // page defaults to 1
@@ -1973,16 +1973,16 @@ In attribute routing:
 [HttpGet("products/{category=all}/{page:int=1}")]
 public IActionResult Browse(string category, int page)
 {
-    // /products → category="all", page=1
-    // /products/electronics → category="electronics", page=1
-    // /products/electronics/3 → category="electronics", page=3
+    // /products ? category="all", page=1
+    // /products/electronics ? category="electronics", page=1
+    // /products/electronics/3 ? category="electronics", page=3
 }
 
 Catch-all parameter (* prefix):
 [HttpGet("files/{*filePath}")]
 public IActionResult GetFile(string filePath)
 {
-    // /files/docs/report/2024.pdf → filePath = "docs/report/2024.pdf"
+    // /files/docs/report/2024.pdf ? filePath = "docs/report/2024.pdf"
 }
 
 app.MapControllerRoute(
@@ -2140,10 +2140,10 @@ Example:
 [HttpGet("products/{name}")]       // 3rd priority (parameter)
 [HttpGet("products/{*path}")]      // 4th priority (catch-all)
 
-URL: /products/featured → matches literal "featured"
-URL: /products/5 → matches {id:int}
-URL: /products/phone → matches {name}
-URL: /products/a/b/c → matches {*path}
+URL: /products/featured ? matches literal "featured"
+URL: /products/5 ? matches {id:int}
+URL: /products/phone ? matches {name}
+URL: /products/a/b/c ? matches {*path}
 
 For conventional routes, FIRST defined wins:
 app.MapControllerRoute("blog", "blog/{slug}", ...);    // Checked first
@@ -2165,15 +2165,15 @@ public IActionResult GetById(int id) { }
 
 [HttpGet("{name}")]
 public IActionResult GetByName(string name) { }
-// Both match /products/5 — CONFLICT!
+// Both match /products/5 � CONFLICT!
 
 Solutions:
 
 1. Use route constraints:
-[HttpGet("{id:int}")]           // /products/5 → matches (int)
+[HttpGet("{id:int}")]           // /products/5 ? matches (int)
 public IActionResult GetById(int id) { }
 
-[HttpGet("{name:alpha}")]       // /products/phone → matches (alpha)
+[HttpGet("{name:alpha}")]       // /products/phone ? matches (alpha)
 public IActionResult GetByName(string name) { }
 
 2. Use different URL patterns:
@@ -2520,7 +2520,7 @@ Why Policy-based is better:
 - Applied at Controller or Action level
 
 [AllowAnonymous]:
-- Overrides [Authorize] — allows unauthenticated access
+- Overrides [Authorize] � allows unauthenticated access
 - Used on specific actions within an authorized controller
 
 Examples:
@@ -2696,9 +2696,9 @@ builder.Services.AddSingleton&lt;IAuthorizationHandler, AdminHandler&gt;();
 // Either handler succeeding = authorized (OR logic)
 
 Key methods:
-- context.Succeed(requirement) → Requirement satisfied
-- context.Fail() → Explicitly deny (overrides other handlers)
-- Do nothing → Requirement not met by this handler</pre></div>
+- context.Succeed(requirement) ? Requirement satisfied
+- context.Fail() ? Explicitly deny (overrides other handlers)
+- Do nothing ? Requirement not met by this handler</pre></div>
 </div>
 <div class="q" data-s="q49. what is identity framework?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -2746,9 +2746,9 @@ public class ApplicationUser : IdentityUser
 }
 
 Key services:
-- UserManager&lt;TUser&gt; → Create, find, update, delete users
-- SignInManager&lt;TUser&gt; → Sign in, sign out, password validation
-- RoleManager&lt;TRole&gt; → Create, manage roles
+- UserManager&lt;TUser&gt; ? Create, find, update, delete users
+- SignInManager&lt;TUser&gt; ? Sign in, sign out, password validation
+- RoleManager&lt;TRole&gt; ? Create, manage roles
 
 Usage:
 public class AccountController : Controller
@@ -2841,7 +2841,7 @@ Key concepts:
 <div class="q-ans"><pre>Refresh tokens allow getting new access tokens without re-authentication.
 
 Flow:
-1. User logs in → receives Access Token (short-lived) + Refresh Token (long-lived)
+1. User logs in ? receives Access Token (short-lived) + Refresh Token (long-lived)
 2. Access Token expires (e.g., 15 min)
 3. Client sends Refresh Token to get new Access Token
 4. Server validates Refresh Token, issues new pair
@@ -3064,8 +3064,8 @@ Remove-Migration
 
 What happens:
 1. You change your model (add property, new class, etc.)
-2. Run "add migration" → generates migration file with Up() and Down()
-3. Run "update database" → applies SQL changes to database
+2. Run "add migration" ? generates migration file with Up() and Down()
+3. Run "update database" ? applies SQL changes to database
 
 Migration file example:
 public partial class AddEmailToEmployee : Migration
@@ -3253,7 +3253,7 @@ ThenInclude():
 
 Example:
 // Entity relationships:
-// Order → OrderItems → Product → Category
+// Order ? OrderItems ? Product ? Category
 
 var orders = await _context.Orders
     .Include(o =&gt; o.Customer)              // Direct: Order.Customer
@@ -3265,11 +3265,11 @@ var orders = await _context.Orders
 
 // Multiple Include chains:
 var employees = await _context.Employees
-    .Include(e =&gt; e.Department)            // Employee → Department
-    .Include(e =&gt; e.Manager)               // Employee → Manager
-    .Include(e =&gt; e.Projects)              // Employee → Projects
-        .ThenInclude(p =&gt; p.Tasks)         // Project → Tasks
-            .ThenInclude(t =&gt; t.Assignee)  // Task → Assignee
+    .Include(e =&gt; e.Department)            // Employee ? Department
+    .Include(e =&gt; e.Manager)               // Employee ? Manager
+    .Include(e =&gt; e.Projects)              // Employee ? Projects
+        .ThenInclude(p =&gt; p.Tasks)         // Project ? Tasks
+            .ThenInclude(t =&gt; t.Assignee)  // Task ? Assignee
     .ToListAsync();
 
 Filtered Include (.NET 5+):
@@ -3316,7 +3316,7 @@ Console.WriteLine(entry.State);  // Modified
 // See what changed
 foreach (var prop in entry.Properties.Where(p =&gt; p.IsModified))
 {
-    Console.WriteLine($"{prop.Metadata.Name}: {prop.OriginalValue} → {prop.CurrentValue}");
+    Console.WriteLine($"{prop.Metadata.Name}: {prop.OriginalValue} ? {prop.CurrentValue}");
 }
 
 Disable tracking for read-only queries:
@@ -3394,8 +3394,8 @@ public async Task&lt;IActionResult&gt; Edit(ProductViewModel model)
 What happens:
 - User A reads product (RowVersion = 0x001)
 - User B reads product (RowVersion = 0x001)
-- User A saves → Success (RowVersion becomes 0x002)
-- User B saves → DbUpdateConcurrencyException (RowVersion 0x001 ≠ 0x002)</pre></div>
+- User A saves ? Success (RowVersion becomes 0x002)
+- User B saves ? DbUpdateConcurrencyException (RowVersion 0x001 ? 0x002)</pre></div>
 </div>
 <div class="q" data-s="q60. what is asnotracking() and when to use it?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -3815,15 +3815,15 @@ RESTful Principles:
 6. Resource-based: Everything is a resource with a unique URI
 
 RESTful URL Design:
-GET    /api/products          → Get all products
-GET    /api/products/5        → Get product by ID
-POST   /api/products          → Create new product
-PUT    /api/products/5        → Update entire product
-PATCH  /api/products/5        → Partial update
-DELETE /api/products/5        → Delete product
+GET    /api/products          ? Get all products
+GET    /api/products/5        ? Get product by ID
+POST   /api/products          ? Create new product
+PUT    /api/products/5        ? Update entire product
+PATCH  /api/products/5        ? Partial update
+DELETE /api/products/5        ? Delete product
 
-GET    /api/products/5/reviews     → Get reviews for product 5
-POST   /api/products/5/reviews     → Add review to product 5
+GET    /api/products/5/reviews     ? Get reviews for product 5
+POST   /api/products/5/reviews     ? Add review to product 5
 
 Best practices:
 - Use nouns (not verbs): /api/products NOT /api/getProducts
@@ -4009,8 +4009,8 @@ public class ProductsV2Controller : ControllerBase
     [HttpGet]
     public IActionResult GetAll() =&gt; Ok(new { version = "2.0", data = productsV2 });
 }
-// GET /api/v1/products → V1
-// GET /api/v2/products → V2
+// GET /api/v1/products ? V1
+// GET /api/v2/products ? V2
 
 Method 2: Query string versioning
 // GET /api/products?api-version=1.0
@@ -4593,27 +4593,27 @@ public async Task&lt;IActionResult&gt; LongOperation(CancellationToken ct)
 }
 
 DON'T:
-// ❌ Don't use .Result or .Wait() (causes deadlocks)
+// ? Don't use .Result or .Wait() (causes deadlocks)
 var products = _context.Products.ToListAsync().Result;  // DEADLOCK!
 _context.SaveChangesAsync().Wait();  // DEADLOCK!
 
-// ❌ Don't use async void (except event handlers)
+// ? Don't use async void (except event handlers)
 public async void DoWork() { }  // Exceptions are lost!
 
-// ❌ Don't wrap synchronous code in Task.Run in ASP.NET
+// ? Don't wrap synchronous code in Task.Run in ASP.NET
 public async Task&lt;IActionResult&gt; Index()
 {
     var result = await Task.Run(() =&gt; SyncMethod());  // Wastes thread!
     return View(result);
 }
 
-// ❌ Don't await in a loop (sequential, slow)
+// ? Don't await in a loop (sequential, slow)
 foreach (var id in ids)
 {
     var product = await _service.GetByIdAsync(id);  // One at a time!
 }
 
-// ✅ Do this instead (parallel)
+// ? Do this instead (parallel)
 var tasks = ids.Select(id =&gt; _service.GetByIdAsync(id));
 var products = await Task.WhenAll(tasks);</pre></div>
 </div>
@@ -4884,10 +4884,10 @@ Prevention in ASP.NET Core:
 
 1. Razor auto-encodes by default:
 @Model.UserInput  // Automatically HTML-encoded (safe!)
-// &lt;script&gt;alert('xss')&lt;/script&gt; → &amp;lt;script&amp;gt;alert('xss')&amp;lt;/script&amp;gt;
+// &lt;script&gt;alert('xss')&lt;/script&gt; ? &amp;lt;script&amp;gt;alert('xss')&amp;lt;/script&amp;gt;
 
 2. DON'T use Html.Raw with user input:
-@Html.Raw(Model.UserInput)  // ❌ DANGEROUS! No encoding!
+@Html.Raw(Model.UserInput)  // ? DANGEROUS! No encoding!
 @Html.Raw(Model.SafeHtmlFromAdmin)  // Only for trusted content
 
 3. Use AntiXSS for specific contexts:
@@ -4985,7 +4985,7 @@ builder.Services.AddAntiforgery(options =&gt;
 through user input.
 
 Vulnerable code (raw string concatenation):
-// ❌ NEVER DO THIS!
+// ? NEVER DO THIS!
 var query = "SELECT * FROM Users WHERE Username = '" + username + "' AND Password = '" + password + "'";
 // Input: username = "admin' OR '1'='1' --"
 // Becomes: SELECT * FROM Users WHERE Username = 'admin' OR '1'='1' --' AND Password = ''
@@ -5012,7 +5012,7 @@ var products = await _context.Products
     .ToListAsync();
 
 3. NEVER concatenate user input:
-// ❌ DANGEROUS!
+// ? DANGEROUS!
 var products = await _context.Products
     .FromSqlRaw("SELECT * FROM Products WHERE Name = '" + userInput + "'")
     .ToListAsync();
@@ -5033,7 +5033,7 @@ Additional protections:
 HSTS: Tells browser to ALWAYS use HTTPS for this domain.
 
 HTTPS Redirection:
-app.UseHttpsRedirection();  // Redirects HTTP → HTTPS (302)
+app.UseHttpsRedirection();  // Redirects HTTP ? HTTPS (302)
 
 // Configure
 builder.Services.AddHttpsRedirection(options =&gt;
@@ -5429,7 +5429,7 @@ Summary:
 
 Benefits:
 - Testability (mock IRepository)
-- Swappable data source (SQL → MongoDB)
+- Swappable data source (SQL ? MongoDB)
 - Centralized query logic
 - DRY (Don't Repeat Yourself)
 
@@ -5446,12 +5446,12 @@ Use Repository pattern for complex apps, skip for simple CRUD.</pre></div>
 from WRITE operations into different models.
 
 Traditional (single model for read + write):
-ProductService.GetAll()     → Same model
-ProductService.Create(dto)  → Same model
+ProductService.GetAll()     ? Same model
+ProductService.Create(dto)  ? Same model
 
 CQRS (separate models):
-Query (Read): ProductQueryService → ProductReadDto (optimized for display)
-Command (Write): ProductCommandService → CreateProductCommand (optimized for validation)
+Query (Read): ProductQueryService ? ProductReadDto (optimized for display)
+Command (Write): ProductCommandService ? CreateProductCommand (optimized for validation)
 
 With MediatR:
 // Query
@@ -5595,7 +5595,7 @@ public class ValidationBehavior&lt;TRequest, TResponse&gt; : IPipelineBehavior&l
 <div class="q-ans"><pre>Clean Architecture organizes code in concentric layers where dependencies 
 point INWARD (inner layers don't know about outer layers).
 
-Layers (inside → outside):
+Layers (inside ? outside):
 1. DOMAIN (innermost - no dependencies):
    - Entities (business objects)
    - Value Objects
@@ -5625,10 +5625,10 @@ Layers (inside → outside):
    - Program.cs
 
 Project structure:
-MyApp.Domain/           → Entities, Interfaces
-MyApp.Application/      → Services, DTOs, Commands, Queries
-MyApp.Infrastructure/   → EF Core, Repositories, External services
-MyApp.Web/              → Controllers, Views, Program.cs
+MyApp.Domain/           ? Entities, Interfaces
+MyApp.Application/      ? Services, DTOs, Commands, Queries
+MyApp.Infrastructure/   ? EF Core, Repositories, External services
+MyApp.Web/              ? Controllers, Views, Program.cs
 
 Dependency rule:
 - Domain depends on NOTHING
@@ -5643,16 +5643,16 @@ Benefits:
 - Business logic is protected in center
 - Easy to swap infrastructure</pre></div>
 </div>
-<div class="q" data-s="q96. what is solid principles — explain each with examples?">
+<div class="q" data-s="q96. what is solid principles � explain each with examples?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
 <span class="num">96</span>
-<span class="txt">Q96. What is SOLID principles — explain each with examples?</span>
+<span class="txt">Q96. What is SOLID principles � explain each with examples?</span>
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>S - Single Responsibility Principle:
 Each class should have ONE reason to change.
 
-// ❌ Bad: One class does everything
+// ? Bad: One class does everything
 public class Employee
 {
     public void CalculateSalary() { }
@@ -5661,7 +5661,7 @@ public class Employee
     public void GenerateReport() { }
 }
 
-// ✅ Good: Each class has one job
+// ? Good: Each class has one job
 public class SalaryCalculator { public decimal Calculate(Employee emp) { } }
 public class EmployeeRepository { public void Save(Employee emp) { } }
 public class EmailService { public void Send(string to, string body) { } }
@@ -5670,7 +5670,7 @@ public class ReportGenerator { public byte[] Generate(Employee emp) { } }
 O - Open/Closed Principle:
 Open for extension, closed for modification.
 
-// ❌ Bad: Must modify class to add new discount type
+// ? Bad: Must modify class to add new discount type
 public class DiscountCalculator
 {
     public decimal Calculate(string type, decimal price)
@@ -5681,7 +5681,7 @@ public class DiscountCalculator
     }
 }
 
-// ✅ Good: Extend without modifying
+// ? Good: Extend without modifying
 public interface IDiscountStrategy { decimal Calculate(decimal price); }
 public class SeasonalDiscount : IDiscountStrategy { public decimal Calculate(decimal price) =&gt; price * 0.1m; }
 public class ClearanceDiscount : IDiscountStrategy { public decimal Calculate(decimal price) =&gt; price * 0.5m; }
@@ -5690,7 +5690,7 @@ public class ClearanceDiscount : IDiscountStrategy { public decimal Calculate(de
 L - Liskov Substitution Principle:
 Subtypes must be substitutable for their base types.
 
-// ❌ Bad: Square breaks Rectangle behavior
+// ? Bad: Square breaks Rectangle behavior
 public class Rectangle { public virtual int Width { get; set; } public virtual int Height { get; set; } }
 public class Square : Rectangle
 {
@@ -5698,7 +5698,7 @@ public class Square : Rectangle
     // Breaks: setting Width also changes Height (unexpected!)
 }
 
-// ✅ Good: Use interface/abstract properly
+// ? Good: Use interface/abstract properly
 public interface IShape { double Area(); }
 public class Rectangle : IShape { public double Area() =&gt; Width * Height; }
 public class Square : IShape { public double Area() =&gt; Side * Side; }
@@ -5706,11 +5706,11 @@ public class Square : IShape { public double Area() =&gt; Side * Side; }
 I - Interface Segregation Principle:
 Clients shouldn't depend on interfaces they don't use.
 
-// ❌ Bad: Fat interface
+// ? Bad: Fat interface
 public interface IWorker { void Work(); void Eat(); void Sleep(); }
 // Robot can't Eat or Sleep!
 
-// ✅ Good: Segregated interfaces
+// ? Good: Segregated interfaces
 public interface IWorkable { void Work(); }
 public interface IFeedable { void Eat(); }
 public class Human : IWorkable, IFeedable { }
@@ -5719,13 +5719,13 @@ public class Robot : IWorkable { }  // Only implements what it needs
 D - Dependency Inversion Principle:
 High-level modules shouldn't depend on low-level modules. Both should depend on abstractions.
 
-// ❌ Bad: Controller depends on concrete class
+// ? Bad: Controller depends on concrete class
 public class OrderController
 {
     private readonly SqlOrderRepository _repo = new SqlOrderRepository();  // Tight coupling!
 }
 
-// ✅ Good: Depend on abstraction
+// ? Good: Depend on abstraction
 public class OrderController
 {
     private readonly IOrderRepository _repo;
@@ -6041,7 +6041,7 @@ Comparison:
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>Problem with direct HttpClient:
-// ❌ Bad: Socket exhaustion
+// ? Bad: Socket exhaustion
 public class MyService
 {
     public async Task&lt;string&gt; GetDataAsync()
@@ -6050,9 +6050,9 @@ public class MyService
         return await client.GetStringAsync("https://api.example.com/data");
     }
 }
-// Sockets aren't released immediately → port exhaustion under load
+// Sockets aren't released immediately ? port exhaustion under load
 
-// ❌ Also bad: Static HttpClient
+// ? Also bad: Static HttpClient
 private static readonly HttpClient _client = new HttpClient();
 // Doesn't respect DNS changes, stale connections
 
@@ -6126,7 +6126,7 @@ Use cases:
 How it works:
 1. Client establishes persistent connection to server
 2. Server can push messages to specific clients or groups
-3. Automatically chooses best transport (WebSocket → SSE → Long Polling)
+3. Automatically chooses best transport (WebSocket ? SSE ? Long Polling)
 
 Setup:
 builder.Services.AddSignalR();
@@ -6218,7 +6218,7 @@ public class NotificationController : Controller
    - Requires server support
 
 2. Server-Sent Events (SSE):
-   - Server → Client only (one-way)
+   - Server ? Client only (one-way)
    - Uses standard HTTP
    - Fallback when WebSocket unavailable
    - Not supported in IE
@@ -6229,7 +6229,7 @@ public class NotificationController : Controller
    - Works everywhere (last resort fallback)
    - Most resource-intensive
 
-SignalR tries in order: WebSocket → SSE → Long Polling
+SignalR tries in order: WebSocket ? SSE ? Long Polling
 
 Force specific transport:
 const connection = new signalR.HubConnectionBuilder()
@@ -6270,7 +6270,7 @@ Publish command:
 dotnet publish -c Release -r win-x64 --self-contained false -o ./publish
 
 Key settings:
-- Application Pool → .NET CLR Version = "No Managed Code"
+- Application Pool ? .NET CLR Version = "No Managed Code"
 - hostingModel="InProcess" (faster) or "OutOfProcess"</pre></div>
 </div>
 <div class="q" data-s="q106. what is in-process vs out-of-process hosting?">
@@ -6287,7 +6287,7 @@ Key settings:
 
 &lt;aspNetCore hostingModel="InProcess" /&gt;
 
-Flow: Internet → IIS → ASP.NET Core (same process)
+Flow: Internet ? IIS ? ASP.NET Core (same process)
 
 OUT-OF-PROCESS:
 - App runs in SEPARATE process (dotnet.exe)
@@ -6297,7 +6297,7 @@ OUT-OF-PROCESS:
 
 &lt;aspNetCore hostingModel="OutOfProcess" /&gt;
 
-Flow: Internet → IIS (proxy) → Kestrel → ASP.NET Core
+Flow: Internet ? IIS (proxy) ? Kestrel ? ASP.NET Core
 
 Comparison:
 | Feature        | In-Process           | Out-of-Process       |
@@ -6583,7 +6583,7 @@ TIPS FOR YOUR INTERVIEW (4.7 Years Experience):
 9. Know EF Core deeply: Migrations, Loading strategies, Change Tracking
 10. Be confident about DI lifetimes and when to use each
 
-GOOD LUCK WITH YOUR INTERVIEW! 🎯
+GOOD LUCK WITH YOUR INTERVIEW! ??
 ================================================================================</pre></div>
 </div>
 <div class="q" data-s="middleware order why matters pipeline"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">111</span><span class="txt">Why does Middleware order matter? What happens if wrong order?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Middleware executes in the ORDER you add them. Wrong order = broken app.
@@ -6861,5 +6861,5 @@ function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre
 </script>
 <script src="aspnet_speak.js"></script>
 <script src="study_check.js"></script>
-</body>
+<script src="theme-toggle.js"></script>`n</body>
 </html>

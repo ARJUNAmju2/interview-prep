@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Progress Tracker</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{max-width:900px;margin:0 auto}
+a.back{color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500}
+h1{margin:10px 0 4px;background:linear-gradient(135deg,#10b981,#34d399);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.subtitle{color:#64748b;font-size:.75rem;margin-bottom:16px}
+.overall{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;margin-bottom:16px;text-align:center}
+.overall h2{font-size:.9rem;color:#64748b;margin-bottom:12px}
+.progress-ring{position:relative;width:120px;height:120px;margin:0 auto 12px}
+.progress-ring svg{transform:rotate(-90deg)}
+.progress-ring circle{fill:none;stroke-width:10}
+.ring-bg{stroke:rgba(255,255,255,.08)}
+.ring-fill{stroke:#10b981;stroke-linecap:round;transition:stroke-dashoffset .8s ease}
+.ring-text{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.6rem;font-weight:700;color:#10b981}
+.stats-row{display:flex;justify-content:center;gap:30px;margin-top:12px}
+.stat-item{text-align:center}
+.stat-num{font-size:1.3rem;font-weight:700}
+.stat-num.green{color:#10b981}
+.stat-num.yellow{color:#f59e0b}
+.stat-num.red{color:#ef4444}
+.stat-label{font-size:.7rem;color:#64748b}
+.streak{font-size:.8rem;color:#f59e0b;margin-top:10px}
+.topics-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.topic-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:14px;transition:transform .2s}
+.topic-card:hover{transform:translateY(-2px)}
+.topic-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.topic-name{font-size:.85rem;font-weight:600}
+.topic-badge{font-size:.65rem;padding:2px 8px;border-radius:12px;font-weight:700}
+.badge-done{background:#10b981;color:#fff}
+.badge-progress{background:#f59e0b;color:#000}
+.badge-todo{background:#ef4444;color:#fff}
+.progress-bar{height:6px;background:rgba(255,255,255,.1);border-radius:3px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.fill-green{background:linear-gradient(90deg,#10b981,#34d399)}
+.fill-yellow{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+.fill-red{background:linear-gradient(90deg,#ef4444,#f87171)}
+.topic-meta{display:flex;justify-content:space-between;font-size:.7rem;color:#64748b}
+.confidence-btns{display:flex;gap:4px;margin-top:8px}
+.conf-btn{flex:1;padding:5px;border:none;border-radius:5px;font-size:.65rem;cursor:pointer;opacity:.6;transition:opacity .2s}
+.conf-btn:hover{opacity:1}
+.conf-btn.active{opacity:1;transform:scale(1.05)}
+.btn-low{background:#ef4444;color:#fff}
+.btn-med{background:#f59e0b;color:#000}
+.btn-high{background:#10b981;color:#fff}
+.reset-btn{display:block;margin:16px auto;padding:8px 20px;background:linear-gradient(135deg,#ef4444,#f87171);border:none;border-radius:8px;color:#fff;font-size:.75rem;font-weight:700;cursor:pointer}
+.last-studied{font-size:.65rem;color:#64748b;margin-top:4px}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>📊 Progress Tracker</h1>
+<p class="subtitle">Track your interview prep progress & confidence level</p>
+
+<div class="overall">
+<h2>Overall Readiness</h2>
+<div class="progress-ring">
+<svg width="120" height="120">
+<circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+<circle class="ring-fill" id="ringFill" cx="60" cy="60" r="52" stroke-dasharray="326.73" stroke-dashoffset="326.73"></circle>
+</svg>
+<div class="ring-text" id="overallPercent">0%</div>
+</div>
+<div class="stats-row">
+<div class="stat-item"><div class="stat-num green" id="highCount">0</div><div class="stat-label">Confident</div></div>
+<div class="stat-item"><div class="stat-num yellow" id="medCount">0</div><div class="stat-label">Moderate</div></div>
+<div class="stat-item"><div class="stat-num red" id="lowCount">0</div><div class="stat-label">Needs Work</div></div>
+</div>
+<div class="streak" id="streakText">🔥 Study streak: 0 days</div>
+</div>
+
+<div class="topics-grid" id="topicsGrid"></div>
+
+<button class="reset-btn" onclick="resetProgress()">🗑️ Reset All Progress</button>
+</div>
+
+<script>
+const topics = [
+    {id:'oops', name:'OOPs', icon:'🔷'},
+    {id:'csharp', name:'C#', icon:'💜'},
+    {id:'sql', name:'SQL', icon:'🛢️'},
+    {id:'mvc', name:'MVC', icon:'🔵'},
+    {id:'aspnet', name:'ASP.NET Core', icon:'🟢'},
+    {id:'webapi', name:'Web API', icon:'🟠'},
+    {id:'ef', name:'EF Core', icon:'🔹'},
+    {id:'solid', name:'SOLID', icon:'🩷'},
+    {id:'di', name:'DI', icon:'💠'},
+    {id:'git', name:'Git', icon:'🟣'},
+    {id:'js', name:'JavaScript', icon:'🟡'},
+    {id:'oracle', name:'Oracle', icon:'🔴'}
+];
+
+function getData() {
+    return JSON.parse(localStorage.getItem('progressData') || '{}');
+}
+
+function saveData(data) {
+    localStorage.setItem('progressData', JSON.stringify(data));
+}
+
+function updateStreak() {
+    const data = getData();
+    const today = new Date().toDateString();
+    if (data.lastStudyDate !== today) {
+        const yesterday = new Date(Date.now() - 86400000).toDateString();
+        if (data.lastStudyDate === yesterday) {
+            data.streak = (data.streak || 0) + 1;
+        } else if (data.lastStudyDate) {
+            data.streak = 1;
+        } else {
+            data.streak = 1;
+        }
+        data.lastStudyDate = today;
+        saveData(data);
+    }
+    document.getElementById('streakText').textContent = `🔥 Study streak: ${data.streak || 0} days`;
+}
+
+function setConfidence(topicId, level) {
+    const data = getData();
+    if (!data.topics) data.topics = {};
+    if (!data.topics[topicId]) data.topics[topicId] = {};
+    data.topics[topicId].confidence = level;
+    data.topics[topicId].lastStudied = new Date().toLocaleDateString();
+    data.lastStudyDate = new Date().toDateString();
+    if (!data.streak) data.streak = 1;
+    saveData(data);
+    render();
+}
+
+function render() {
+    const data = getData();
+    const grid = document.getElementById('topicsGrid');
+    grid.innerHTML = '';
+
+    let high = 0, med = 0, low = 0, total = 0;
+
+    topics.forEach(topic => {
+        const topicData = (data.topics && data.topics[topic.id]) || {};
+        const confidence = topicData.confidence || 'none';
+        const lastStudied = topicData.lastStudied || 'Not started';
+
+        if (confidence === 'high') { high++; total += 100; }
+        else if (confidence === 'med') { med++; total += 50; }
+        else if (confidence === 'low') { low++; total += 20; }
+
+        let badge = '', barClass = '', barWidth = '0%';
+        if (confidence === 'high') { badge = '<span class="topic-badge badge-done">✓ Ready</span>'; barClass = 'fill-green'; barWidth = '100%'; }
+        else if (confidence === 'med') { badge = '<span class="topic-badge badge-progress">~ In Progress</span>'; barClass = 'fill-yellow'; barWidth = '50%'; }
+        else if (confidence === 'low') { badge = '<span class="topic-badge badge-todo">✗ Weak</span>'; barClass = 'fill-red'; barWidth = '20%'; }
+        else { badge = '<span class="topic-badge" style="background:#334155;color:#94a3b8">○ Not Rated</span>'; barWidth = '0%'; }
+
+        grid.innerHTML += `
+        <div class="topic-card">
+            <div class="topic-header">
+                <span class="topic-name">${topic.icon} ${topic.name}</span>
+                ${badge}
+            </div>
+            <div class="progress-bar"><div class="progress-fill ${barClass}" style="width:${barWidth}"></div></div>
+            <div class="confidence-btns">
+                <button class="conf-btn btn-low ${confidence==='low'?'active':''}" onclick="setConfidence('${topic.id}','low')">Weak</button>
+                <button class="conf-btn btn-med ${confidence==='med'?'active':''}" onclick="setConfidence('${topic.id}','med')">Moderate</button>
+                <button class="conf-btn btn-high ${confidence==='high'?'active':''}" onclick="setConfidence('${topic.id}','high')">Confident</button>
+            </div>
+            <div class="last-studied">Last studied: ${lastStudied}</div>
+        </div>`;
+    });
+
+    // Overall
+    const rated = high + med + low;
+    const percent = rated > 0 ? Math.round(total / (topics.length * 100) * 100) : 0;
+    document.getElementById('overallPercent').textContent = percent + '%';
+    document.getElementById('highCount').textContent = high;
+    document.getElementById('medCount').textContent = med;
+    document.getElementById('lowCount').textContent = low;
+
+    // Ring animation
+    const circumference = 326.73;
+    const offset = circumference - (percent / 100) * circumference;
+    document.getElementById('ringFill').style.strokeDashoffset = offset;
+
+    updateStreak();
+}
+
+function resetProgress() {
+    if (confirm('Reset all progress? This cannot be undone.')) {
+        localStorage.removeItem('progressData');
+        render();
+    }
+}
+
+render();
+</script>
+<script src="theme-toggle.js"></script>
+</body>
+</html>

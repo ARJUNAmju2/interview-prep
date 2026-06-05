@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Practice</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{max-width:900px;margin:0 auto}
+a.back{color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500}
+h1{margin:10px 0 4px;background:linear-gradient(135deg,#e91e63,#f06292);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
+.subtitle{color:#64748b;font-size:.75rem;margin-bottom:20px}
+.section{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:18px;margin-bottom:16px}
+.section h2{font-size:1rem;margin-bottom:12px;color:#38bdf8}
+.section h3{font-size:.85rem;color:#f59e0b;margin:14px 0 8px}
+pre{background:#0d1b2a;border-radius:8px;padding:12px;font-size:.78rem;overflow-x:auto;margin-bottom:10px;border:1px solid rgba(255,255,255,.06)}
+code{color:#22d3ee;font-family:'Cascadia Code','Fira Code',monospace}
+.tag{display:inline-block;font-size:.65rem;padding:2px 8px;border-radius:20px;font-weight:700;margin-bottom:8px}
+.tag.must{background:#ef4444;color:#fff}
+.tag.freq{background:#f59e0b;color:#000}
+.tag.good{background:#10b981;color:#fff}
+p{font-size:.8rem;color:#94a3b8;margin-bottom:8px;line-height:1.5}
+.note{background:rgba(56,189,248,.08);border-left:3px solid #38bdf8;padding:10px 12px;border-radius:0 8px 8px 0;font-size:.75rem;margin:10px 0;color:#cbd5e1}
+</style>
+</head>
+<body>
+<div class="container">
+<a href="interview.html" class="back">← Back to Interview Prep</a>
+<h1>🛢️ SQL Practice</h1>
+<p class="subtitle">Hands-on queries & table design for interviews</p>
+<a href="sql-playground.html" style="display:inline-block;margin-bottom:16px;padding:10px 20px;background:linear-gradient(135deg,#10b981,#34d399);color:#fff;border-radius:8px;font-size:.8rem;font-weight:700;text-decoration:none">⚡ Open SQL Playground (Run queries live)</a>
+
+<!-- Table Creation & Design -->
+<div class="section">
+<h2>1. Table Creation & Design</h2>
+<span class="tag must">★★★ Must Know</span>
+
+<h3>Create Tables with Relationships</h3>
+<pre><code>CREATE TABLE Departments (
+    DeptId INT PRIMARY KEY IDENTITY(1,1),
+    DeptName VARCHAR(100) NOT NULL
+);
+
+CREATE TABLE Employees (
+    EmpId INT PRIMARY KEY IDENTITY(1,1),
+    Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(150) UNIQUE,
+    Salary DECIMAL(10,2),
+    DeptId INT FOREIGN KEY REFERENCES Departments(DeptId),
+    JoinDate DATE DEFAULT GETDATE()
+);</code></pre>
+
+<h3>Add Constraints Later</h3>
+<pre><code>ALTER TABLE Employees ADD CONSTRAINT CK_Salary CHECK (Salary > 0);
+ALTER TABLE Employees ADD CONSTRAINT DF_JoinDate DEFAULT GETDATE() FOR JoinDate;</code></pre>
+
+<div class="note">💡 Always define PRIMARY KEY, FOREIGN KEY, NOT NULL, UNIQUE, CHECK & DEFAULT constraints — interviewers check this.</div>
+</div>
+
+<!-- CRUD Operations -->
+<div class="section">
+<h2>2. CRUD Operations</h2>
+<span class="tag must">★★★ Must Know</span>
+
+<h3>INSERT</h3>
+<pre><code>INSERT INTO Employees (Name, Email, Salary, DeptId)
+VALUES ('Rahul', 'rahul@email.com', 55000, 1);
+
+-- Insert multiple rows
+INSERT INTO Employees (Name, Email, Salary, DeptId) VALUES
+('Priya', 'priya@email.com', 62000, 2),
+('Amit', 'amit@email.com', 48000, 1);</code></pre>
+
+<h3>UPDATE with condition</h3>
+<pre><code>UPDATE Employees SET Salary = Salary * 1.10 WHERE DeptId = 1;
+UPDATE Employees SET DeptId = 2 WHERE EmpId = 5;</code></pre>
+
+<h3>DELETE vs TRUNCATE</h3>
+<pre><code>DELETE FROM Employees WHERE EmpId = 3;  -- can rollback, fires triggers
+TRUNCATE TABLE Employees;               -- faster, resets identity, no rollback</code></pre>
+</div>
+
+<!-- JOINs & Subqueries -->
+<div class="section">
+<h2>3. JOINs & Subqueries</h2>
+<span class="tag must">★★★ Must Know</span>
+
+<h3>INNER JOIN</h3>
+<pre><code>SELECT e.Name, d.DeptName, e.Salary
+FROM Employees e
+INNER JOIN Departments d ON e.DeptId = d.DeptId;</code></pre>
+
+<h3>LEFT JOIN — Find employees without department</h3>
+<pre><code>SELECT e.Name
+FROM Employees e
+LEFT JOIN Departments d ON e.DeptId = d.DeptId
+WHERE d.DeptId IS NULL;</code></pre>
+
+<h3>Self JOIN — Find employees and their managers</h3>
+<pre><code>SELECT e.Name AS Employee, m.Name AS Manager
+FROM Employees e
+LEFT JOIN Employees m ON e.ManagerId = m.EmpId;</code></pre>
+
+<h3>Subquery — Employees earning more than average</h3>
+<pre><code>SELECT Name, Salary FROM Employees
+WHERE Salary > (SELECT AVG(Salary) FROM Employees);</code></pre>
+
+<h3>Correlated Subquery — Department wise max salary</h3>
+<pre><code>SELECT Name, Salary, DeptId FROM Employees e
+WHERE Salary = (SELECT MAX(Salary) FROM Employees WHERE DeptId = e.DeptId);</code></pre>
+</div>
+
+<!-- Aggregate & Ranking -->
+<div class="section">
+<h2>4. Aggregate & Ranking Functions</h2>
+<span class="tag must">★★★ Must Know</span>
+
+<h3>GROUP BY with HAVING</h3>
+<pre><code>-- Departments with more than 3 employees
+SELECT DeptId, COUNT(*) AS EmpCount
+FROM Employees
+GROUP BY DeptId
+HAVING COUNT(*) > 3;</code></pre>
+
+<h3>ROW_NUMBER / RANK / DENSE_RANK</h3>
+<pre><code>SELECT Name, Salary, DeptId,
+    ROW_NUMBER() OVER (PARTITION BY DeptId ORDER BY Salary DESC) AS RowNum,
+    RANK() OVER (PARTITION BY DeptId ORDER BY Salary DESC) AS Rnk,
+    DENSE_RANK() OVER (PARTITION BY DeptId ORDER BY Salary DESC) AS DenseRnk
+FROM Employees;</code></pre>
+
+<h3>Nth Highest Salary (Most Asked!)</h3>
+<pre><code>-- 2nd highest salary
+SELECT MAX(Salary) FROM Employees
+WHERE Salary < (SELECT MAX(Salary) FROM Employees);
+
+-- Nth highest using DENSE_RANK
+SELECT Salary FROM (
+    SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rnk
+    FROM Employees
+) t WHERE Rnk = 2;</code></pre>
+
+<div class="note">💡 ROW_NUMBER = unique numbers | RANK = skips on tie | DENSE_RANK = no skip on tie</div>
+</div>
+
+<!-- Stored Procedures & Functions -->
+<div class="section">
+<h2>5. Stored Procedures & Functions</h2>
+<span class="tag freq">★★ Frequent</span>
+
+<h3>Stored Procedure</h3>
+<pre><code>CREATE PROCEDURE GetEmployeesByDept
+    @DeptId INT
+AS
+BEGIN
+    SELECT Name, Salary FROM Employees WHERE DeptId = @DeptId;
+END;
+
+EXEC GetEmployeesByDept @DeptId = 1;</code></pre>
+
+<h3>Stored Procedure with OUTPUT</h3>
+<pre><code>CREATE PROCEDURE GetEmpCount
+    @DeptId INT,
+    @Count INT OUTPUT
+AS
+BEGIN
+    SELECT @Count = COUNT(*) FROM Employees WHERE DeptId = @DeptId;
+END;</code></pre>
+
+<h3>Scalar Function</h3>
+<pre><code>CREATE FUNCTION GetFullName(@FirstName VARCHAR(50), @LastName VARCHAR(50))
+RETURNS VARCHAR(100)
+AS
+BEGIN
+    RETURN @FirstName + ' ' + @LastName;
+END;</code></pre>
+
+<h3>Table-Valued Function</h3>
+<pre><code>CREATE FUNCTION GetHighEarners(@MinSalary DECIMAL(10,2))
+RETURNS TABLE
+AS
+RETURN (SELECT Name, Salary FROM Employees WHERE Salary > @MinSalary);</code></pre>
+</div>
+
+<!-- Scenario-Based Questions -->
+<div class="section">
+<h2>6. Scenario-Based (Interview Favorites)</h2>
+<span class="tag must">★★★ Must Know</span>
+
+<h3>Find Duplicate Records</h3>
+<pre><code>SELECT Email, COUNT(*) FROM Employees
+GROUP BY Email HAVING COUNT(*) > 1;</code></pre>
+
+<h3>Delete Duplicates (Keep one)</h3>
+<pre><code>WITH CTE AS (
+    SELECT *, ROW_NUMBER() OVER (PARTITION BY Email ORDER BY EmpId) AS Rn
+    FROM Employees
+)
+DELETE FROM CTE WHERE Rn > 1;</code></pre>
+
+<h3>Department-wise Top Earner</h3>
+<pre><code>WITH Ranked AS (
+    SELECT Name, Salary, DeptId,
+        RANK() OVER (PARTITION BY DeptId ORDER BY Salary DESC) AS Rnk
+    FROM Employees
+)
+SELECT * FROM Ranked WHERE Rnk = 1;</code></pre>
+
+<h3>Employees who joined in last 30 days</h3>
+<pre><code>SELECT * FROM Employees WHERE JoinDate >= DATEADD(DAY, -30, GETDATE());</code></pre>
+
+<h3>Cumulative/Running Total</h3>
+<pre><code>SELECT Name, Salary,
+    SUM(Salary) OVER (ORDER BY EmpId) AS RunningTotal
+FROM Employees;</code></pre>
+
+<h3>Pivot — Department wise salary summary</h3>
+<pre><code>SELECT * FROM (
+    SELECT DeptId, Salary FROM Employees
+) src
+PIVOT (SUM(Salary) FOR DeptId IN ([1],[2],[3])) AS pvt;</code></pre>
+</div>
+
+<!-- Indexes & Performance -->
+<div class="section">
+<h2>7. Indexes & Performance</h2>
+<span class="tag freq">★★ Frequent</span>
+
+<h3>Create Index</h3>
+<pre><code>CREATE INDEX IX_Emp_DeptId ON Employees(DeptId);
+CREATE UNIQUE INDEX IX_Emp_Email ON Employees(Email);</code></pre>
+
+<h3>Clustered vs Non-Clustered</h3>
+<p><strong>Clustered:</strong> Physically sorts data (only 1 per table, usually PK).<br>
+<strong>Non-Clustered:</strong> Separate structure pointing to data (can have multiple).</p>
+
+<div class="note">💡 Use indexes on columns used in WHERE, JOIN, ORDER BY. Avoid on columns with frequent INSERT/UPDATE.</div>
+</div>
+
+<!-- Triggers -->
+<div class="section">
+<h2>8. Triggers</h2>
+<span class="tag good">★ Good to Know</span>
+
+<pre><code>CREATE TRIGGER trg_AuditSalary
+ON Employees
+AFTER UPDATE
+AS
+BEGIN
+    INSERT INTO SalaryAudit (EmpId, OldSalary, NewSalary, ChangedDate)
+    SELECT d.EmpId, d.Salary, i.Salary, GETDATE()
+    FROM deleted d
+    JOIN inserted i ON d.EmpId = i.EmpId
+    WHERE d.Salary != i.Salary;
+END;</code></pre>
+</div>
+
+<!-- Transactions -->
+<div class="section">
+<h2>9. Transactions</h2>
+<span class="tag freq">★★ Frequent</span>
+
+<pre><code>BEGIN TRANSACTION;
+BEGIN TRY
+    UPDATE Employees SET Salary = Salary + 5000 WHERE EmpId = 1;
+    UPDATE Employees SET Salary = Salary - 5000 WHERE EmpId = 2;
+    COMMIT;
+END TRY
+BEGIN CATCH
+    ROLLBACK;
+    PRINT ERROR_MESSAGE();
+END CATCH;</code></pre>
+
+<div class="note">💡 ACID properties: Atomicity, Consistency, Isolation, Durability — frequently asked in theory rounds.</div>
+</div>
+
+</div>
+<script src="theme-toggle.js"></script>
+</body>
+</html>
