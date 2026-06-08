@@ -271,4 +271,11 @@
     // Apply saved theme on load
     const saved = localStorage.getItem('theme') || 'dark';
     if (saved === 'light') applyTheme('light');
+
+    // Track last visited page
+    const pageTitle = document.title;
+    if (pageTitle !== 'My Prep Hub') {
+        localStorage.setItem('lastVisitedPage', pageTitle);
+        localStorage.setItem('lastVisitedTime', new Date().toLocaleString('en-US', {hour:'2-digit',minute:'2-digit',month:'short',day:'numeric'}));
+    }
 })();

@@ -33,6 +33,7 @@ pre{background:#1e1e2e;border:1px solid #e2e8f0;border-radius:8px;padding:14px;m
 .tag{font-size:.7rem;padding:3px 10px;border-radius:10px;color:#fff;margin-left:8px;vertical-align:middle}
 .tag.enc{background:#4caf50}.tag.inh{background:#2196f3}.tag.pol{background:#ff9800}.tag.abs{background:#9c27b0}.tag.sol{background:#f44336}.tag.dp{background:#e91e63}.tag.gen{background:#00bcd4}.tag.del{background:#795548}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -981,7 +982,8 @@ function exportCodePDF() {
   });
   html += '</table>';
   const d = QS.filter((_,i) => p[i]).length;
-  w.document.write(`<html><head><title>OOPs Coding Report</title><style>body{font-family:Segoe UI,sans-serif;padding:30px}h1{color:#0369a1}pre{font-family:Consolas,monospace}</style></head><body><h1>\ud83d\udcbb OOPs Coding Questions Report</h1><p><b>Progress: ${d}/${QS.length}</b></p>${html}<script>window.print();<\/script><script src="theme-toggle.js"></script>`n</body></html>`);
+  w.document.write(`<html><head><title>OOPs Coding Report</title><style>body{font-family:Segoe UI,sans-serif;padding:30px}h1{color:#0369a1}pre{font-family:Consolas,monospace}</style><link rel="stylesheet" href="responsive.css">
+</head><body><h1>\ud83d\udcbb OOPs Coding Questions Report</h1><p><b>Progress: ${d}/${QS.length}</b></p>${html}<script>window.print();<\/script></body></html>`);
   w.document.close();
 }
 
@@ -1000,13 +1002,14 @@ function exportCodeExcel() {
 
 function exportCodeWord() {
   const p = gp();
-  let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>body{font-family:Segoe UI,sans-serif;padding:20px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:6px}th{background:#0ea5e9;color:#fff}h1{color:#0369a1}pre{background:#f0f0f0;padding:8px;border-radius:4px;font-size:11px;font-family:Consolas,monospace;white-space:pre-wrap}</style></head><body><h1>\ud83d\udcbb OOPs Coding Questions</h1><table><tr><th>#</th><th>Question</th><th>Concept</th><th>Status</th></tr>`;
+  let html = `<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word"><head><meta charset="utf-8"><style>body{font-family:Segoe UI,sans-serif;padding:20px}table{width:100%;border-collapse:collapse}th,td{border:1px solid #ccc;padding:6px}th{background:#0ea5e9;color:#fff}h1{color:#0369a1}pre{background:#f0f0f0;padding:8px;border-radius:4px;font-size:11px;font-family:Consolas,monospace;white-space:pre-wrap}</style><link rel="stylesheet" href="responsive.css">
+</head><body><h1>\ud83d\udcbb OOPs Coding Questions</h1><table><tr><th>#</th><th>Question</th><th>Concept</th><th>Status</th></tr>`;
   QS.forEach((q, i) => {
     const done = !!p[i];
     html += `<tr><td>${i+1}</td><td>${q.q}</td><td>${q.tagName}</td><td style="color:${done?'green':'red'};font-weight:700">${done?'Covered':'Pending'}</td></tr>`;
     html += `<tr><td colspan="4"><pre>${q.code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</pre></td></tr>`;
   });
-  html += '</table><script src="theme-toggle.js"></script>`n</body></html>';
+  html += '</table></body></html>';
   const blob = new Blob([html], { type: 'application/msword' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
@@ -1014,5 +1017,7 @@ function exportCodeWord() {
   a.click();
 }
 </script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="bookmark.js"></script>
+<script src="theme-toggle.js"></script>
+</body>
 </html>

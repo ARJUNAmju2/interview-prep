@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
 <title>My Prep Hub</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -17,7 +18,7 @@ h1{background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background
 .quote-author{color:#0ea5e9;font-size:.85rem;font-weight:600}
 .btn-refresh{background:none;border:1px solid #1e3a5f;color:#64748b;padding:6px 14px;border-radius:20px;cursor:pointer;font-size:.78rem;margin-top:10px;transition:all .2s}
 .btn-refresh:hover{border-color:#0ea5e9;color:#0ea5e9}
-.links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:30px}
+.links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:16px}
 .link-card{flex:1;min-width:220px;text-decoration:none;border-radius:16px;padding:28px 20px;transition:all .3s;position:relative;overflow:hidden}
 .link-card::before{content:'';position:absolute;inset:0;opacity:0;transition:opacity .3s}
 .link-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
@@ -34,6 +35,7 @@ h1{background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background
 .footer{color:#334155;font-size:.78rem;margin-top:20px}
 .time{color:#0ea5e9;font-size:.9rem;font-weight:500;margin-bottom:20px}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -52,21 +54,42 @@ h1{background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background
 <a href="interview.html" class="link-card link-interview">
 <span class="link-icon">🎯</span>
 <div class="link-title">Interview Prep</div>
-<div class="link-desc">OOPs, C#, SQL, MVC, PL/SQL, Web API & more</div>
+<div class="link-desc">OOPs, C#, SQL, MVC, Web API & more</div>
 </a>
 <a href="timetable.html" class="link-card link-timetable">
 <span class="link-icon">📅</span>
 <div class="link-title">Timetable</div>
-<div class="link-desc">Daily schedule & study planner</div>
+<div class="link-desc">44-day study planner</div>
 </a>
 <a href="english.html" class="link-card link-english">
 <span class="link-icon">🗣️</span>
 <div class="link-title">English Practice</div>
-<div class="link-desc">60-day communication improvement plan</div>
+<div class="link-desc">Communication improvement</div>
+</a>
+</div>
+
+<div class="links">
+<a href="studyplan.html" class="link-card" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);box-shadow:0 4px 20px rgba(139,92,246,.25)">
+<span class="link-icon">📖</span>
+<div class="link-title">Study Plan</div>
+<div class="link-desc">Detailed topic-wise plan</div>
+</a>
+<a href="assignment.html" class="link-card" style="background:linear-gradient(135deg,#ec4899,#db2777);box-shadow:0 4px 20px rgba(236,72,153,.25)">
+<span class="link-icon">📝</span>
+<div class="link-title">Assignments</div>
+<div class="link-desc">Practice tasks & exercises</div>
+</a>
+<a href="notes.html" class="link-card" style="background:linear-gradient(135deg,#64748b,#475569);box-shadow:0 4px 20px rgba(100,116,139,.25)">
+<span class="link-icon">🗒️</span>
+<div class="link-title">Notes</div>
+<div class="link-desc">Quick reference notes</div>
 </a>
 </div>
 
 <div class="footer">Keep pushing. Every day counts.</div>
+
+<div id="lastVisited" style="margin-top:16px;padding:12px 16px;background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:10px;font-size:.8rem;color:#94a3b8;display:none"></div>
+<div id="dailyGoal" style="margin-top:10px;padding:12px 16px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;font-size:.8rem;color:#f59e0b;display:none"></div>
 </div>
 
 <script>
@@ -115,6 +138,34 @@ document.getElementById('clock').textContent=date+' • '+time;
 }
 updateClock();
 setInterval(updateClock,60000);
+
+// Last visited tracker
+(function(){
+    const last = localStorage.getItem('lastVisitedPage');
+    const lastTime = localStorage.getItem('lastVisitedTime');
+    if(last && lastTime){
+        const el = document.getElementById('lastVisited');
+        el.style.display = 'block';
+        el.innerHTML = `📍 Last studied: <strong style="color:#38bdf8">${last}</strong> • ${lastTime}`;
+    }
+})();
+
+// Daily goal based on day
+(function(){
+    const goals = [
+        'Sunday: Coding practice day! Solve 10 problems 💻',
+        'Monday: Start fresh! Target 15 questions today 🚀',
+        'Tuesday: Deep dive into a topic. 10-15 Qs 📖',
+        'Wednesday: Mid-week push! 15 questions 💪',
+        'Thursday: Keep the momentum. 10-15 Qs 🔥',
+        'Friday: Almost there! 15 questions today 🎯',
+        'Saturday: Weekend revision. Redo weak topics 🔄'
+    ];
+    const day = new Date().getDay();
+    const el = document.getElementById('dailyGoal');
+    el.style.display = 'block';
+    el.innerHTML = `🎯 Today's Goal: ${goals[day]}`;
+})();
 </script>
 <script src="theme-toggle.js"></script>
 </body>

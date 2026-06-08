@@ -32,6 +32,7 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#00968
 .q.studied{opacity:.6;border-left-color:#10b981}
 .q.studied .q-title .txt{text-decoration:line-through;color:#64748b}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -80,7 +81,7 @@ ASP.NET Core advantages:
 <span class="txt">Q2. What is the role of Program.cs and Startup.cs?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>In .NET 6+ (Minimal Hosting Model) — only Program.cs:
+<div class="q-ans"><pre>In .NET 6+ (Minimal Hosting Model) ï¿½ only Program.cs:
 
 Program.cs handles EVERYTHING:
 var builder = WebApplication.CreateBuilder(args);
@@ -114,7 +115,7 @@ app.MapControllerRoute(
 
 app.Run();
 
-In .NET 5 and earlier — Program.cs + Startup.cs:
+In .NET 5 and earlier ï¿½ Program.cs + Startup.cs:
 
 Program.cs (entry point, creates host):
 public class Program
@@ -160,19 +161,19 @@ HTTP requests and responses in a specific order.
 
 Request Flow (top to bottom):
 +-------------------------------------+
-¦         HTTP REQUEST                 ¦
-+-------------------------------------¦
-¦  1. Exception Handler Middleware     ¦ ? Catches all exceptions
-¦  2. HTTPS Redirection               ¦ ? Redirects HTTP to HTTPS
-¦  3. Static Files Middleware          ¦ ? Serves CSS, JS, images
-¦  4. Routing Middleware               ¦ ? Matches URL to endpoint
-¦  5. CORS Middleware                  ¦ ? Cross-origin headers
-¦  6. Authentication Middleware        ¦ ? Who are you?
-¦  7. Authorization Middleware         ¦ ? Are you allowed?
-¦  8. Session Middleware               ¦ ? Load session data
-¦  9. Endpoint Middleware              ¦ ? Execute Controller/Action
-+-------------------------------------¦
-¦         HTTP RESPONSE                ¦
+ï¿½         HTTP REQUEST                 ï¿½
++-------------------------------------ï¿½
+ï¿½  1. Exception Handler Middleware     ï¿½ ? Catches all exceptions
+ï¿½  2. HTTPS Redirection               ï¿½ ? Redirects HTTP to HTTPS
+ï¿½  3. Static Files Middleware          ï¿½ ? Serves CSS, JS, images
+ï¿½  4. Routing Middleware               ï¿½ ? Matches URL to endpoint
+ï¿½  5. CORS Middleware                  ï¿½ ? Cross-origin headers
+ï¿½  6. Authentication Middleware        ï¿½ ? Who are you?
+ï¿½  7. Authorization Middleware         ï¿½ ? Are you allowed?
+ï¿½  8. Session Middleware               ï¿½ ? Load session data
+ï¿½  9. Endpoint Middleware              ï¿½ ? Execute Controller/Action
++-------------------------------------ï¿½
+ï¿½         HTTP RESPONSE                ï¿½
 +-------------------------------------+
 
 Key concepts:
@@ -295,17 +296,17 @@ to clients (browsers).
 Contents:
 wwwroot/
 +-- css/
-¦   +-- site.css
-¦   +-- bootstrap.min.css
+ï¿½   +-- site.css
+ï¿½   +-- bootstrap.min.css
 +-- js/
-¦   +-- site.js
-¦   +-- jquery.min.js
+ï¿½   +-- site.js
+ï¿½   +-- jquery.min.js
 +-- images/
-¦   +-- logo.png
-¦   +-- banner.jpg
+ï¿½   +-- logo.png
+ï¿½   +-- banner.jpg
 +-- lib/
-¦   +-- bootstrap/
-¦   +-- jquery/
+ï¿½   +-- bootstrap/
+ï¿½   +-- jquery/
 +-- uploads/        (user uploaded files)
 +-- favicon.ico
 
@@ -649,10 +650,10 @@ Types of Injection:
 2. Method Injection (inject via method parameter)
 3. Property Injection (not supported by default in ASP.NET Core)</pre></div>
 </div>
-<div class="q" data-s="q12. what are the 3 service lifetimes — transient, scoped, singleton?">
+<div class="q" data-s="q12. what are the 3 service lifetimes ï¿½ transient, scoped, singleton?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
 <span class="num">12</span>
-<span class="txt">Q12. What are the 3 service lifetimes — Transient, Scoped, Singleton?</span>
+<span class="txt">Q12. What are the 3 service lifetimes ï¿½ Transient, Scoped, Singleton?</span>
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>TRANSIENT:
@@ -2165,7 +2166,7 @@ public IActionResult GetById(int id) { }
 
 [HttpGet("{name}")]
 public IActionResult GetByName(string name) { }
-// Both match /products/5 — CONFLICT!
+// Both match /products/5 ï¿½ CONFLICT!
 
 Solutions:
 
@@ -2520,7 +2521,7 @@ Why Policy-based is better:
 - Applied at Controller or Action level
 
 [AllowAnonymous]:
-- Overrides [Authorize] — allows unauthenticated access
+- Overrides [Authorize] ï¿½ allows unauthenticated access
 - Used on specific actions within an authorized controller
 
 Examples:
@@ -5643,10 +5644,10 @@ Benefits:
 - Business logic is protected in center
 - Easy to swap infrastructure</pre></div>
 </div>
-<div class="q" data-s="q96. what is solid principles — explain each with examples?">
+<div class="q" data-s="q96. what is solid principles ï¿½ explain each with examples?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
 <span class="num">96</span>
-<span class="txt">Q96. What is SOLID principles — explain each with examples?</span>
+<span class="txt">Q96. What is SOLID principles ï¿½ explain each with examples?</span>
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>S - Single Responsibility Principle:
@@ -6861,5 +6862,8 @@ function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre
 </script>
 <script src="aspnet_speak.js"></script>
 <script src="study_check.js"></script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="bookmark.js"></script>
+<script src="priority-rating.js"></script>
+<script src="theme-toggle.js"></script>
+</body>
 </html>

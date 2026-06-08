@@ -10,6 +10,7 @@
 .speak-btn{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.72rem;cursor:pointer;font-weight:600;margin-bottom:10px;margin-left:6px;display:inline-block}.speak-btn:hover{background:linear-gradient(135deg,#0284c7,#0369a1)}.speak-btn.active{background:linear-gradient(135deg,#ef4444,#dc2626)}.speak-text{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #6ee7b7;border-radius:8px;padding:16px;margin-top:10px;font-size:.85rem;color:#065f46;line-height:2.1;display:none;font-family:'Segoe UI',sans-serif}
 .q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -85,7 +86,7 @@ var greet = function() {
     console.log("Hi");
 };
 
-Arrow functions — NOT hoisted:
+Arrow functions ï¿½ NOT hoisted:
 hello();  // TypeError
 const hello = () => console.log("Hello");
 
@@ -112,9 +113,9 @@ const counter = outer();  // outer() finishes, but count is NOT destroyed
 counter();  // 1
 counter();  // 2
 counter();  // 3
-// count is "closed over" — preserved in memory!
+// count is "closed over" ï¿½ preserved in memory!
 
-Practical example — Private variables:
+Practical example ï¿½ Private variables:
 function createBankAccount(initialBalance) {
     let balance = initialBalance;  // Private! Can't access directly
 
@@ -133,7 +134,7 @@ account.deposit(500);
 console.log(account.getBalance());  // 1500
 // account.balance ? undefined (private!)
 
-Common interview trap — Loop with var:
+Common interview trap ï¿½ Loop with var:
 for (var i = 0; i < 3; i++) {
     setTimeout(() => console.log(i), 1000);
 }
@@ -155,7 +156,7 @@ for (var i = 0; i < 3; i++) {
 
 <div class="q" data-s="promise async await callback"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What are Promises and async/await?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Promises handle asynchronous operations (API calls, timers, file reads).
 
-CALLBACK (old way — callback hell):
+CALLBACK (old way ï¿½ callback hell):
 getData(function(a) {
     getMore(a, function(b) {
         getEvenMore(b, function(c) {
@@ -176,7 +177,7 @@ promise
 // Promise states:
 // Pending ? Fulfilled (resolved) or Rejected
 
-ASYNC/AWAIT (best — clean, readable):
+ASYNC/AWAIT (best ï¿½ clean, readable):
 async function getProducts() {
     try {
         const response = await fetch('/api/products');
@@ -213,14 +214,14 @@ Key points:
 - Promise.all() for parallel operations
 - Promise.race() for first to complete</pre></div></div>
 
-<div class="q" data-s="== === equality strict"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is == vs === (Equality)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>== (Loose equality) — compares with TYPE COERCION:
+<div class="q" data-s="== === equality strict"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is == vs === (Equality)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>== (Loose equality) ï¿½ compares with TYPE COERCION:
 5 == "5"       // true (string "5" converted to number)
 0 == false     // true (false converted to 0)
 null == undefined  // true
 "" == false    // true
 [] == false    // true
 
-=== (Strict equality) — compares WITHOUT type coercion:
+=== (Strict equality) ï¿½ compares WITHOUT type coercion:
 5 === "5"      // false (different types)
 0 === false    // false
 null === undefined  // false
@@ -318,12 +319,12 @@ child.addEventListener("click", (e) => {
 EVENT DELEGATION:
 Instead of adding event listeners to EACH child element, add ONE listener to the parent and use event.target to identify which child was clicked.
 
-Without delegation (bad — 100 listeners):
+Without delegation (bad ï¿½ 100 listeners):
 document.querySelectorAll('.item').forEach(item => {
     item.addEventListener('click', handleClick);  // 100 listeners!
 });
 
-With delegation (good — 1 listener):
+With delegation (good ï¿½ 1 listener):
 document.getElementById('list').addEventListener('click', (e) => {
     if (e.target.classList.contains('item')) {
         handleClick(e.target);  // 1 listener handles all!
@@ -336,7 +337,7 @@ Benefits of delegation:
 - Cleaner code
 - Better performance
 
-Real example — dynamic table rows:
+Real example ï¿½ dynamic table rows:
 document.getElementById('table').addEventListener('click', (e) => {
     const btn = e.target.closest('.delete-btn');
     if (btn) {
@@ -391,7 +392,7 @@ const obj = {
     greet() { console.log(this.name); }  // "John"
 };</pre></div></div>
 
-<div class="q" data-s="spread rest destructuring es6"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">What is Spread, Rest, and Destructuring?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SPREAD (...) — Expands array/object:
+<div class="q" data-s="spread rest destructuring es6"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">What is Spread, Rest, and Destructuring?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SPREAD (...) ï¿½ Expands array/object:
 // Array spread:
 const arr1 = [1, 2, 3];
 const arr2 = [...arr1, 4, 5];  // [1, 2, 3, 4, 5]
@@ -403,7 +404,7 @@ const obj2 = { ...obj1, city: "NYC" };  // { name: "John", age: 30, city: "NYC" 
 // Function args:
 Math.max(...arr1);  // 3
 
-REST (...) — Collects remaining into array:
+REST (...) ï¿½ Collects remaining into array:
 // Function parameters:
 function sum(...numbers) {
     return numbers.reduce((a, b) => a + b, 0);
@@ -417,7 +418,7 @@ const [first, ...rest] = [1, 2, 3, 4];
 const { name, ...others } = { name: "John", age: 30, city: "NYC" };
 // name = "John", others = { age: 30, city: "NYC" }
 
-DESTRUCTURING — Extract values:
+DESTRUCTURING ï¿½ Extract values:
 // Array:
 const [a, b, c] = [1, 2, 3];
 
@@ -441,7 +442,7 @@ greet({ name: "John", age: 30 });</pre></div></div>
 
 <div class="q" data-s="map filter reduce array methods"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What are map, filter, reduce?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three essential array methods (functional programming):
 
-MAP — Transform each element (returns new array):
+MAP ï¿½ Transform each element (returns new array):
 const numbers = [1, 2, 3, 4, 5];
 const doubled = numbers.map(n => n * 2);
 // [2, 4, 6, 8, 10]
@@ -450,14 +451,14 @@ const users = [{name: "John"}, {name: "Jane"}];
 const names = users.map(u => u.name);
 // ["John", "Jane"]
 
-FILTER — Keep elements that pass condition (returns new array):
+FILTER ï¿½ Keep elements that pass condition (returns new array):
 const numbers = [1, 2, 3, 4, 5, 6];
 const evens = numbers.filter(n => n % 2 === 0);
 // [2, 4, 6]
 
 const adults = users.filter(u => u.age >= 18);
 
-REDUCE — Accumulate into single value:
+REDUCE ï¿½ Accumulate into single value:
 const numbers = [1, 2, 3, 4, 5];
 const sum = numbers.reduce((acc, curr) => acc + curr, 0);
 // 15
@@ -543,7 +544,7 @@ $.ajax({
     error: function(xhr) { console.error(xhr.statusText); }
 });</pre></div></div>
 
-<div class="q" data-s="null undefined nan difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is null vs undefined vs NaN?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>undefined — Variable declared but NOT assigned:
+<div class="q" data-s="null undefined nan difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is null vs undefined vs NaN?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>undefined ï¿½ Variable declared but NOT assigned:
 let x;
 console.log(x);  // undefined
 
@@ -553,11 +554,11 @@ test();  // undefined (no argument passed)
 const obj = {};
 console.log(obj.name);  // undefined (property doesn't exist)
 
-null — Intentionally empty/no value:
+null ï¿½ Intentionally empty/no value:
 let user = null;  // Explicitly set to "nothing"
 // Used to indicate "no object" or "empty"
 
-NaN — Not a Number (invalid math result):
+NaN ï¿½ Not a Number (invalid math result):
 parseInt("hello");  // NaN
 0 / 0;             // NaN
 Math.sqrt(-1);     // NaN
@@ -599,5 +600,8 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="bookmark.js"></script>
+<script src="priority-rating.js"></script>
+<script src="theme-toggle.js"></script>
+</body>
 </html>

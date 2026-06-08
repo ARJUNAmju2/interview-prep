@@ -30,6 +30,7 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#ff6f0
 .q.studied{opacity:.6;border-left-color:#10b981}
 .q.studied .q-title .txt{text-decoration:line-through;color:#64748b}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -1627,7 +1628,7 @@ When to use Composition:
 - Need flexibility to swap behavior
 - Need multiple behaviors (can't multi-inherit)
 - Following SOLID principles
-- Most of the time — prefer composition!
+- Most of the time ï¿½ prefer composition!
 
 
 
@@ -1641,7 +1642,7 @@ SECTION 4: POLYMORPHISM
 <span class="txt">Q32. What is Polymorphism?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>Polymorphism means "many forms" — same method/operator behaves differently 
+<div class="q-ans"><pre>Polymorphism means "many forms" ï¿½ same method/operator behaves differently 
 based on the context or object type.
 
 Two types:
@@ -3620,9 +3621,9 @@ public void MyMethod()
 Visual:
 STACK                    HEAP
 +----------+            +------------------+
-¦ x = 10   ¦            ¦ Employee object  ¦ ? emp points here
-¦ name ----------------?¦ "John"           ¦ ? name points here
-¦ emp  ----------------?¦                  ¦
+ï¿½ x = 10   ï¿½            ï¿½ Employee object  ï¿½ ? emp points here
+ï¿½ name ----------------?ï¿½ "John"           ï¿½ ? name points here
+ï¿½ emp  ----------------?ï¿½                  ï¿½
 +----------+            +------------------+</pre></div>
 </div>
 <div class="q" data-s="q75. what is garbage collection in .net?">
@@ -4240,11 +4241,11 @@ public void MyMethod()
 Visual:
 STACK                    HEAP
 +----------+            +------------------+
-¦ x = 10   ¦            ¦ Employee object   ¦
-¦ emp ?----¦------------¦ { Name, Age... }  ¦
-¦ name ?---¦------+     +------------------+
-+----------+      ¦     +------------------+
-                  +-----¦ "John"            ¦
+ï¿½ x = 10   ï¿½            ï¿½ Employee object   ï¿½
+ï¿½ emp ?----ï¿½------------ï¿½ { Name, Age... }  ï¿½
+ï¿½ name ?---ï¿½------+     +------------------+
++----------+      ï¿½     +------------------+
+                  +-----ï¿½ "John"            ï¿½
                         +------------------+</pre></div>
 </div>
 <div class="q" data-s="q75. what is garbage collection in .net?">
@@ -4460,7 +4461,7 @@ SECTION 8: DELEGATES, EVENTS &amp; LAMBDA
 <span class="txt">Q80. What is a Delegate?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>A Delegate is a type-safe function pointer — it holds a reference to a method 
+<div class="q-ans"><pre>A Delegate is a type-safe function pointer ï¿½ it holds a reference to a method 
 and can invoke it.
 
 Think of it as: a variable that stores a METHOD instead of data.
@@ -4545,7 +4546,7 @@ Note: All delegates in C# are multicast (inherit from MulticastDelegate).</pre><
 <span class="txt">Q82. What is Func, Action, Predicate?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>Built-in generic delegates — no need to declare custom delegate types.
+<div class="q-ans"><pre>Built-in generic delegates ï¿½ no need to declare custom delegate types.
 
 ACTION&lt;T&gt; - Takes parameters, returns VOID:
 Action                        ? void Method()
@@ -5114,23 +5115,23 @@ Best practices:
 <div class="q-ans"><pre>System.Object
   +-- System.Exception                    (base for all exceptions)
         +-- System.SystemException         (runtime/system errors)
-        ¦     +-- NullReferenceException
-        ¦     +-- IndexOutOfRangeException
-        ¦     +-- InvalidOperationException
-        ¦     +-- DivideByZeroException
-        ¦     +-- StackOverflowException
-        ¦     +-- OutOfMemoryException
-        ¦     +-- InvalidCastException
-        ¦     +-- FormatException
-        ¦     +-- ArithmeticException
-        ¦           +-- OverflowException
+        ï¿½     +-- NullReferenceException
+        ï¿½     +-- IndexOutOfRangeException
+        ï¿½     +-- InvalidOperationException
+        ï¿½     +-- DivideByZeroException
+        ï¿½     +-- StackOverflowException
+        ï¿½     +-- OutOfMemoryException
+        ï¿½     +-- InvalidCastException
+        ï¿½     +-- FormatException
+        ï¿½     +-- ArithmeticException
+        ï¿½           +-- OverflowException
         +-- System.ApplicationException    (deprecated, don't use)
         +-- System.ArgumentException
-        ¦     +-- ArgumentNullException
-        ¦     +-- ArgumentOutOfRangeException
+        ï¿½     +-- ArgumentNullException
+        ï¿½     +-- ArgumentOutOfRangeException
         +-- System.IO.IOException
-        ¦     +-- FileNotFoundException
-        ¦     +-- DirectoryNotFoundException
+        ï¿½     +-- FileNotFoundException
+        ï¿½     +-- DirectoryNotFoundException
         +-- Custom exceptions (yours)
 
 Catching order (specific ? general):
@@ -5204,7 +5205,7 @@ public int GetValue()
 
 System.ApplicationException:
 - Originally intended for application-specific exceptions
-- DEPRECATED — Microsoft no longer recommends using it
+- DEPRECATED ï¿½ Microsoft no longer recommends using it
 - No additional functionality over Exception
 - Exists only for backward compatibility
 
@@ -5299,7 +5300,7 @@ numbers[0] = 10;
 
 ARRAYLIST:
 - Dynamic size (grows automatically)
-- NOT type-safe (stores object — any type)
+- NOT type-safe (stores object ï¿½ any type)
 - Boxing/unboxing for value types (slow)
 - From System.Collections (legacy)
 
@@ -5494,16 +5495,16 @@ Example showing the difference:
 IEnumerable&lt;Product&gt; products = _context.Products;
 var expensive = products.Where(p =&gt; p.Price &gt; 100).ToList();
 // SQL: SELECT * FROM Products (gets ALL)
-// Then C# filters in memory — SLOW for large tables!
+// Then C# filters in memory ï¿½ SLOW for large tables!
 
 // IQueryable - builds query, executes on server
 IQueryable&lt;Product&gt; products = _context.Products;
 var expensive = products.Where(p =&gt; p.Price &gt; 100).ToList();
 // SQL: SELECT * FROM Products WHERE Price &gt; 100 (filtered at DB)
-// Only matching rows transferred — FAST!
+// Only matching rows transferred ï¿½ FAST!
 
 When to use:
-- IQueryable: Database queries (EF Core) — filter at source
+- IQueryable: Database queries (EF Core) ï¿½ filter at source
 - IEnumerable: In-memory collections, after data is loaded
 
 // Best practice with EF Core:
@@ -5705,11 +5706,11 @@ var report = orders
 
 TIPS:
 1. *** Questions: Practice explaining with CODE examples
-2. Polymorphism (virtual/override/new) — MOST asked topic
-3. Abstract class vs Interface — asked in EVERY interview
-4. Value type vs Reference type — understand deeply
+2. Polymorphism (virtual/override/new) ï¿½ MOST asked topic
+3. Abstract class vs Interface ï¿½ asked in EVERY interview
+4. Value type vs Reference type ï¿½ understand deeply
 5. Be ready to write code for: Singleton, Repository, Custom Exception
-6. LINQ — practice writing queries fluently
+6. LINQ ï¿½ practice writing queries fluently
 
 GOOD LUCK! 
 ================================================================================</pre></div>
@@ -5727,5 +5728,8 @@ qs.forEach(function(q,idx){var ans=q.querySelector('.q-ans');if(!ans)return;var 
 function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre=btn.parentElement.querySelector("pre");if(sd.style.display==="block"){sd.style.display="none";pre.style.display="block";btn.classList.remove("active");btn.textContent="\ud83d\udde3\ufe0f How to Speak";return}pre.style.display="none";btn.classList.add("active");sd.style.display="block";if(typeof SPEAK_DATA!=="undefined"&&SPEAK_DATA[idx]){sd.innerHTML=SPEAK_DATA[idx].replace(/\n/g,"<br>")}else{var text=pre.textContent;var lines=text.split("\n").filter(function(l){return l.trim()&&!l.startsWith("=")&&!l.startsWith("|")&&l.trim().length>5});var spoken="<b>\ud83c\udfaf Start with:</b> \"Sure, let me explain this.\"<br><br>";lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,"");if(line.length<5||line.startsWith("public ")||line.startsWith("//")||line.startsWith("{")||line.startsWith("}")||line.startsWith("using ")||line.startsWith("var ")||line.startsWith("int ")||line.startsWith("string ")||line.startsWith("class ")||line.startsWith("private ")||line.startsWith("protected "))return;if(line.includes(":")){var parts=line.split(":");spoken+="<b>"+parts[0].trim()+"</b> \u2014 "+parts.slice(1).join(":").trim()+"<br>"}else{spoken+=line+"<br>"}});spoken+="<br><b>\ud83d\udca1 End with:</b> \"Would you like a code example?\"";sd.innerHTML=spoken}btn.textContent="\u274c Hide Speaking Tips"}
 </script>
 <script src="study_check.js"></script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="bookmark.js"></script>
+<script src="priority-rating.js"></script>
+<script src="theme-toggle.js"></script>
+</body>
 </html>

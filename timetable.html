@@ -39,6 +39,7 @@ h1{text-align:center;padding:12px 0;background:linear-gradient(135deg,#f59e0b,#e
 .btn-reset{background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.72rem;font-weight:600;margin:3px}
 .btn-pdf{background:#0ea5e9;color:#fff;border:none;padding:5px 12px;border-radius:6px;cursor:pointer;font-size:.72rem;font-weight:600;margin:3px}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -166,9 +167,11 @@ P.forEach(d=>{
   html+=`<tr style="background:${bg}"><td style="border:1px solid #ddd;padding:4px;font-weight:700;text-align:center">Day ${d.d}</td><td style="border:1px solid #ddd;padding:4px;font-weight:600">${d.topic}</td><td style="border:1px solid #ddd;padding:4px;text-align:center">${d.c}</td><td style="border:1px solid #ddd;padding:4px;font-size:11px;color:#555">${d.det}</td></tr>`;
 });
 html+='</table>';
-w.document.write(`<html><head><title>44-Day Study Plan</title><style>body{font-family:Segoe UI,sans-serif;padding:20px}h1{color:#0369a1;font-size:18px}</style></head><body><h1>📅 44-Day Interview Prep Plan (627 Questions)</h1><p style="font-size:12px;color:#555">Mon-Sat: 10-15 Qs/day | Sunday: Coding only | Last 2 days: Revision</p>${html}<script>window.print();<\/script><script src="theme-toggle.js"></script>`n</body></html>`);
+w.document.write(`<html><head><title>44-Day Study Plan</title><style>body{font-family:Segoe UI,sans-serif;padding:20px}h1{color:#0369a1;font-size:18px}</style><link rel="stylesheet" href="responsive.css">
+</head><body><h1>📅 44-Day Interview Prep Plan (627 Questions)</h1><p style="font-size:12px;color:#555">Mon-Sat: 10-15 Qs/day | Sunday: Coding only | Last 2 days: Revision</p>${html}<script>window.print();<\/script></body></html>`);
 w.document.close();
 }
 </script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="theme-toggle.js"></script>
+</body>
 </html>

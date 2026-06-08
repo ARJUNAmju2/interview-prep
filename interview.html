@@ -3,23 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
 <title>Interview Prep</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;display:flex;align-items:center;justify-content:center}
-.container{text-align:center;padding:30px 20px;max-width:480px;width:100%}
+body{font-family:'Segoe UI',sans-serif;background:linear-gradient(160deg,#0a1628,#0f2847,#0a1e3d);color:#e2e8f0;min-height:100vh;padding:20px}
+.container{text-align:center;max-width:520px;width:100%;margin:0 auto}
 h1{margin-bottom:6px;background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:1.7rem}
 .subtitle{color:#64748b;font-size:.75rem;margin-bottom:20px}
-.buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
-.btn{padding:11px 8px;border:none;border-radius:9px;font-size:.75rem;font-weight:700;cursor:pointer;color:#fff;transition:transform .2s,box-shadow .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;text-align:center}
+.section{margin-bottom:18px}
+.section-title{font-size:.8rem;font-weight:700;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px}
+.section-title::before,.section-title::after{content:'';height:1px;flex:1;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent)}
+.buttons{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.btn{padding:11px 8px;border:none;border-radius:9px;font-size:.73rem;font-weight:700;cursor:pointer;color:#fff;transition:transform .2s,box-shadow .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;text-align:center}
 .btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.4)}
-.btn-oops{background:linear-gradient(135deg,#ff6f00,#ff9800)}
-.btn-csharp{background:linear-gradient(135deg,#764ba2,#9b59b6)}
-.btn-mvc{background:linear-gradient(135deg,#2196f3,#42a5f5)}
-.btn-coding{background:linear-gradient(135deg,#ff5722,#ff7043)}
-.btn-sql{background:linear-gradient(135deg,#e91e63,#f06292)}
-.btn-aspnet{background:linear-gradient(135deg,#009688,#4db6ac)}
-.btn-tips{background:linear-gradient(135deg,#8b5cf6,#a78bfa);grid-column:span 3;padding:10px;font-size:.78rem;margin-top:4px}
+.tools-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tool-btn{padding:12px 10px;border:none;border-radius:10px;font-size:.75rem;font-weight:700;cursor:pointer;color:#fff;transition:transform .2s,box-shadow .2s;text-decoration:none;display:flex;align-items:center;justify-content:center;text-align:center;gap:6px}
+.tool-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.4)}
+.btn-tips{background:linear-gradient(135deg,#8b5cf6,#a78bfa);grid-column:span 2;padding:11px;font-size:.78rem}
 .legend{display:flex;justify-content:center;gap:14px;margin-top:14px;font-size:.7rem}
 .legend span{display:flex;align-items:center;gap:4px}
 .dot{width:8px;height:8px;border-radius:50%;display:inline-block}
@@ -27,20 +28,30 @@ h1{margin-bottom:6px;background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);
 .dot.y{background:#f59e0b}
 .dot.g{background:#10b981}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
 <a href="index.html" style="color:#38bdf8;text-decoration:none;font-size:.8rem;font-weight:500">← Back to Routine</a>
 <h1>Interview Prep</h1>
 <p class="subtitle">C# / .NET Full Stack Developer</p>
+
+<!-- Search Bar -->
+<div style="margin-bottom:16px">
+<input type="text" id="searchBox" placeholder="🔍 Search any topic or question..." style="width:100%;padding:10px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.15);background:rgba(255,255,255,.05);color:#e2e8f0;font-size:.82rem;outline:none" oninput="searchTopics(this.value)">
+<div id="searchResults" style="display:none;margin-top:10px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px;max-height:250px;overflow-y:auto;text-align:left"></div>
+</div>
+
+<!-- Theory Section -->
+<div class="section">
+<div class="section-title">📚 Theory & Concepts</div>
 <div class="buttons">
-<a href="oops.html" class="btn btn-oops">OOPs</a>
-<a href="csharp.html" class="btn btn-csharp">C#</a>
-<a href="mvc.html" class="btn btn-mvc">MVC</a>
-<a href="coding.html" class="btn btn-coding">Coding</a>
-<a href="sql.html" class="btn btn-sql">SQL</a>
+<a href="oops.html" class="btn" style="background:linear-gradient(135deg,#ff6f00,#ff9800)">OOPs</a>
+<a href="csharp.html" class="btn" style="background:linear-gradient(135deg,#764ba2,#9b59b6)">C#</a>
+<a href="mvc.html" class="btn" style="background:linear-gradient(135deg,#2196f3,#42a5f5)">MVC</a>
+<a href="sql.html" class="btn" style="background:linear-gradient(135deg,#e91e63,#f06292)">SQL</a>
 <a href="oracle.html" class="btn" style="background:linear-gradient(135deg,#f44336,#ff7043)">Oracle</a>
-<a href="aspnet.html" class="btn btn-aspnet">ASP.NET Core</a>
+<a href="aspnet.html" class="btn" style="background:linear-gradient(135deg,#009688,#4db6ac)">ASP.NET Core</a>
 <a href="webapi.html" class="btn" style="background:linear-gradient(135deg,#f97316,#fb923c)">Web API</a>
 <a href="ef.html" class="btn" style="background:linear-gradient(135deg,#06b6d4,#22d3ee)">EF Core</a>
 <a href="solid.html" class="btn" style="background:linear-gradient(135deg,#ec4899,#f472b6)">SOLID</a>
@@ -48,22 +59,79 @@ h1{margin-bottom:6px;background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);
 <a href="git.html" class="btn" style="background:linear-gradient(135deg,#6366f1,#818cf8)">Git</a>
 <a href="js.html" class="btn" style="background:linear-gradient(135deg,#eab308,#facc15)">JavaScript</a>
 <a href="project.html" class="btn" style="background:linear-gradient(135deg,#f43f5e,#fb7185)">Project Q&A</a>
-<a href="csharp-playground.html" class="btn" style="background:linear-gradient(135deg,#764ba2,#9b59b6)">💻 C# Playground</a>
-<a href="sql-practice.html" class="btn" style="background:linear-gradient(135deg,#e91e63,#f06292)">🛢️ SQL Practice</a>
-<a href="mock-interview.html" class="btn" style="background:linear-gradient(135deg,#f97316,#fb923c)">🎤 Mock Interview</a>
-<a href="quiz.html" class="btn" style="background:linear-gradient(135deg,#6366f1,#818cf8)">❓ Quiz Mode</a>
-<a href="hr-questions.html" class="btn" style="background:linear-gradient(135deg,#ec4899,#f472b6)">🗣️ HR Questions</a>
-<a href="cheatsheets.html" class="btn" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">📋 Cheat Sheets</a>
-<a href="progress.html" class="btn" style="background:linear-gradient(135deg,#10b981,#34d399)">📊 Progress</a>
-<a href="revision.html" class="btn" style="background:linear-gradient(135deg,#14b8a6,#5eead4)">🔄 Revision</a>
-<a href="tips.html" class="btn btn-tips">💡 Interview Tips & Suggestions</a>
+<a href="tips.html" class="btn" style="background:linear-gradient(135deg,#8b5cf6,#a78bfa)">💡 Tips</a>
+<a href="notes.html" class="btn" style="background:linear-gradient(135deg,#64748b,#94a3b8)">📝 Notes</a>
 </div>
+</div>
+
+<!-- Practice & Tools Section -->
+<div class="section">
+<div class="section-title">🛠️ Practice & Tools</div>
+<div class="tools-grid">
+<a href="mock-interview.html" class="tool-btn" style="background:linear-gradient(135deg,#f97316,#fb923c)">🎤 Mock Interview</a>
+<a href="quiz.html" class="tool-btn" style="background:linear-gradient(135deg,#6366f1,#818cf8)">❓ Quiz Mode</a>
+<a href="coding.html" class="tool-btn" style="background:linear-gradient(135deg,#ff5722,#ff7043)">💻 Coding</a>
+<a href="oops-coding.html" class="tool-btn" style="background:linear-gradient(135deg,#ff6f00,#ff9800)">🧩 OOPs Coding</a>
+<a href="csharp-playground.html" class="tool-btn" style="background:linear-gradient(135deg,#764ba2,#9b59b6)">💻 C# Playground</a>
+<a href="sql-practice.html" class="tool-btn" style="background:linear-gradient(135deg,#e91e63,#f06292)">🛢️ SQL Practice</a>
+<a href="hr-questions.html" class="tool-btn" style="background:linear-gradient(135deg,#ec4899,#f472b6)">🗣️ HR Questions</a>
+<a href="cheatsheets.html" class="tool-btn" style="background:linear-gradient(135deg,#f59e0b,#fbbf24)">📋 Cheat Sheets</a>
+<a href="progress.html" class="tool-btn" style="background:linear-gradient(135deg,#10b981,#34d399)">📊 Progress</a>
+<a href="revision.html" class="tool-btn" style="background:linear-gradient(135deg,#14b8a6,#5eead4)">🔄 Revision</a>
+</div>
+</div>
+
 <div class="legend">
 <span><span class="dot r"></span> ★★★ Must Know</span>
 <span><span class="dot y"></span> ★★ Frequent</span>
 <span><span class="dot g"></span> ★ Good to Know</span>
 </div>
 </div>
+<script>
+const searchData = [
+    {topic:'OOPs',keywords:'encapsulation inheritance polymorphism abstraction overloading overriding virtual override abstract interface sealed class constructor destructor',page:'oops.html'},
+    {topic:'C#',keywords:'async await delegate event linq generics string stringbuilder value reference type boxing nullable collections dictionary list task thread',page:'csharp.html'},
+    {topic:'MVC',keywords:'model view controller viewbag viewdata tempdata routing filters action result razor partial layout tag helper',page:'mvc.html'},
+    {topic:'SQL',keywords:'join inner left right full group by having where index clustered stored procedure function trigger view cte union rank row_number',page:'sql.html'},
+    {topic:'Oracle',keywords:'oracle plsql cursor trigger package procedure function exception sequence synonym',page:'oracle.html'},
+    {topic:'ASP.NET Core',keywords:'middleware pipeline dependency injection transient scoped singleton kestrel configuration authentication authorization jwt',page:'aspnet.html'},
+    {topic:'Web API',keywords:'rest http get post put delete status code cors jwt versioning pagination rate limiting content negotiation',page:'webapi.html'},
+    {topic:'EF Core',keywords:'entity framework dbcontext migration code first database first lazy eager loading change tracking repository linq',page:'ef.html'},
+    {topic:'SOLID',keywords:'single responsibility open closed liskov substitution interface segregation dependency inversion principle',page:'solid.html'},
+    {topic:'DI',keywords:'dependency injection constructor ioc container transient scoped singleton service provider',page:'di.html'},
+    {topic:'Git',keywords:'git merge rebase pull push fetch branch commit stash cherry-pick reset conflict pull request',page:'git.html'},
+    {topic:'JavaScript',keywords:'var let const hoisting closure promise async await this arrow function event loop callback dom',page:'js.html'},
+    {topic:'Project Q&A',keywords:'project architecture authentication roles middleware logging deployment database design api',page:'project.html'},
+    {topic:'Coding',keywords:'reverse string palindrome fibonacci sorting searching array linked list duplicate pattern',page:'coding.html'},
+    {topic:'Mock Interview',keywords:'mock interview practice timer voice answer evaluate score',page:'mock-interview.html'},
+    {topic:'Quiz',keywords:'quiz mcq test output multiple choice',page:'quiz.html'},
+    {topic:'HR Questions',keywords:'tell about yourself strengths weaknesses salary why hire leave company 5 years',page:'hr-questions.html'},
+    {topic:'SQL Practice',keywords:'create table insert update delete join query practice hands-on',page:'sql-practice.html'},
+    {topic:'C# Playground',keywords:'run code compile execute csharp playground practice',page:'csharp-playground.html'},
+    {topic:'Cheat Sheets',keywords:'cheat sheet quick reference summary one page revision',page:'cheatsheets.html'},
+];
+
+function searchTopics(query) {
+    const results = document.getElementById('searchResults');
+    if (!query || query.length < 2) { results.style.display = 'none'; return; }
+    
+    const q = query.toLowerCase();
+    const matches = searchData.filter(item => 
+        item.topic.toLowerCase().includes(q) || item.keywords.includes(q)
+    );
+    
+    if (matches.length === 0) {
+        results.style.display = 'block';
+        results.innerHTML = '<p style="color:#64748b;font-size:.8rem">No results found. Try different keywords.</p>';
+        return;
+    }
+    
+    results.style.display = 'block';
+    results.innerHTML = matches.map(m => 
+        `<a href="${m.page}" style="display:block;padding:8px 12px;margin-bottom:6px;background:rgba(14,165,233,.08);border-radius:6px;text-decoration:none;color:#38bdf8;font-size:.8rem;font-weight:600;transition:background .2s" onmouseover="this.style.background='rgba(14,165,233,.15)'" onmouseout="this.style.background='rgba(14,165,233,.08)'">📌 ${m.topic}</a>`
+    ).join('');
+}
+</script>
 <script src="theme-toggle.js"></script>
 </body>
 </html>

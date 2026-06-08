@@ -32,6 +32,7 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#764ba
 .q.studied{opacity:.6;border-left-color:#10b981}
 .q.studied .q-title .txt{text-decoration:line-through;color:#64748b}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -153,7 +154,7 @@ public class Employee
     public string Name { get; set; }
 }
 var emp = new Employee();  // CLR manages memory
-// No need to free memory — GC handles it
+// No need to free memory ï¿½ GC handles it
 
 UNMANAGED CODE:
 Code that runs directly on the operating system, outside CLR control.
@@ -192,7 +193,7 @@ Interop (using unmanaged from managed):
 unsafe
 {
     int x = 10;
-    int* ptr = &amp;x;  // Pointer — unmanaged-style code in C#
+    int* ptr = &amp;x;  // Pointer ï¿½ unmanaged-style code in C#
 }</pre></div>
 </div>
 <div class="q" data-s="q4. what is boxing and unboxing in c#?">
@@ -815,7 +816,7 @@ Console.WriteLine(Settings.Version);  // Compiler puts literal 1 here
 // Assembly B STILL shows 1 (old value baked in at compile time!)
 // Assembly B must ALSO be recompiled!
 
-// With readonly — no problem:
+// With readonly ï¿½ no problem:
 public static readonly int Version = 1;
 // Assembly B always reads current value at runtime
 
@@ -1269,7 +1270,7 @@ builder.Services.AddCustomServices();</pre></div>
 </div>
 <div class="q-ans"><pre>DISPOSE:
 - Called by the DEVELOPER explicitly (or via 'using' statement)
-- Deterministic — YOU control WHEN it runs
+- Deterministic ï¿½ YOU control WHEN it runs
 - Implements IDisposable interface
 - Releases BOTH managed and unmanaged resources
 - Fast and predictable
@@ -1299,7 +1300,7 @@ using var db = new DatabaseConnection();
 
 FINALIZE (Destructor):
 - Called by the GARBAGE COLLECTOR automatically
-- Non-deterministic — you DON'T know WHEN it runs
+- Non-deterministic ï¿½ you DON'T know WHEN it runs
 - Uses destructor syntax (~ClassName)
 - Should release ONLY unmanaged resources
 - Slow (adds GC overhead)
@@ -1432,7 +1433,7 @@ for (int i = 0; i &lt; 10000; i++)
 {
     result += i.ToString();  // New string object EVERY iteration!
 }
-// Very slow! O(n²) — each += copies entire string
+// Very slow! O(nï¿½) ï¿½ each += copies entire string
 
 // GOOD - StringBuilder in loop (1 object):
 StringBuilder sb = new StringBuilder();
@@ -1973,7 +1974,7 @@ foreach (var n in query)  // NOW it executes
 List&lt;int&gt; result = query.ToList();  // Executes immediately
 
 4. ABSTRACTION (program to interface):
-// Method returns IEnumerable — caller doesn't know if it's List, Array, etc.
+// Method returns IEnumerable ï¿½ caller doesn't know if it's List, Array, etc.
 public IEnumerable&lt;Product&gt; GetProducts()
 {
     return _context.Products.Where(p =&gt; p.IsActive);
@@ -2124,7 +2125,7 @@ Early Binding:
 - Most everyday code
 
 Late Binding:
-- Polymorphism (virtual/override) — most common
+- Polymorphism (virtual/override) ï¿½ most common
 - Plugin architectures
 - COM interop
 - Reflection-based frameworks
@@ -2216,7 +2217,7 @@ DETAILED COMPARISON:
 EXPRESSION TREE vs DELEGATE:
 // IEnumerable uses delegates (compiled code):
 Func&lt;Product, bool&gt; filter = p =&gt; p.Price &gt; 100;
-// This is compiled C# code — cannot be translated to SQL
+// This is compiled C# code ï¿½ cannot be translated to SQL
 
 // IQueryable uses expression trees (data structure):
 Expression&lt;Func&lt;Product, bool&gt;&gt; filter = p =&gt; p.Price &gt; 100;
@@ -4873,7 +4874,7 @@ Task&lt;int&gt; task = Task.Run(() =&gt; Calculate());
 int result = await task;
 
 VALUETASK:
-- Struct (value type) — no heap allocation
+- Struct (value type) ï¿½ no heap allocation
 - Better performance when result is often available synchronously
 - Use when method frequently returns cached/immediate results
 
@@ -4938,7 +4939,7 @@ When to use:
 - Timeout scenarios
 - Background services that need graceful shutdown</pre></div></div>
 
-<div class="q" data-s="linq deferred immediate execution tolist"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">52</span><span class="txt">What is Deferred vs Immediate Execution in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DEFERRED EXECUTION (lazy — query NOT executed until iterated):
+<div class="q" data-s="linq deferred immediate execution tolist"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">52</span><span class="txt">What is Deferred vs Immediate Execution in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DEFERRED EXECUTION (lazy ï¿½ query NOT executed until iterated):
 var query = products.Where(p =&gt; p.Price &gt; 100);  // NOT executed yet!
 // Just builds expression tree
 
@@ -4949,7 +4950,7 @@ foreach (var p in query)  // NOW executes
 
 // If data changes between definition and iteration, you get NEW data!
 
-IMMEDIATE EXECUTION (eager — executes NOW):
+IMMEDIATE EXECUTION (eager ï¿½ executes NOW):
 var list = products.Where(p =&gt; p.Price &gt; 100).ToList();    // Executes NOW
 var count = products.Count(p =&gt; p.Price &gt; 100);            // Executes NOW
 var first = products.First(p =&gt; p.Price &gt; 100);            // Executes NOW
@@ -4971,12 +4972,12 @@ var results = GetExpensiveQuery().ToList();
 int count = results.Count;    // No re-execution
 var first = results.First();  // No re-execution</pre></div></div>
 
-<div class="q" data-s="selectmany vs select linq flatten"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">53</span><span class="txt">What is SelectMany vs Select in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SELECT — One-to-one mapping:
+<div class="q" data-s="selectmany vs select linq flatten"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">53</span><span class="txt">What is SelectMany vs Select in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SELECT ï¿½ One-to-one mapping:
 var orders = customers.Select(c =&gt; c.Orders);
 // Result: IEnumerable&lt;List&lt;Order&gt;&gt; (nested lists!)
 // [[Order1, Order2], [Order3], [Order4, Order5]]
 
-SELECTMANY — Flattens nested collections:
+SELECTMANY ï¿½ Flattens nested collections:
 var orders = customers.SelectMany(c =&gt; c.Orders);
 // Result: IEnumerable&lt;Order&gt; (flat list!)
 // [Order1, Order2, Order3, Order4, Order5]
@@ -4988,11 +4989,11 @@ var departments = new List&lt;Department&gt;
     new Department { Name = "HR", Employees = new[] { "Bob", "Alice" } }
 };
 
-// Select — nested:
+// Select ï¿½ nested:
 var nested = departments.Select(d =&gt; d.Employees);
 // [["John","Jane"], ["Bob","Alice"]]
 
-// SelectMany — flat:
+// SelectMany ï¿½ flat:
 var flat = departments.SelectMany(d =&gt; d.Employees);
 // ["John", "Jane", "Bob", "Alice"]
 
@@ -5064,8 +5065,8 @@ Why .NET Core:
 
 In my project:
 - Audit &amp; Inspection: ASP.NET Core 3.1 / 5.0
-- Helpdesk: ASP.NET Web Forms (.NET Framework) — legacy
-- Store: VB.NET WinForms (.NET Framework) — legacy
+- Helpdesk: ASP.NET Web Forms (.NET Framework) ï¿½ legacy
+- Store: VB.NET WinForms (.NET Framework) ï¿½ legacy
 
 Interview answer:
 "Our newer projects use ASP.NET Core for cross-platform support,
@@ -5125,5 +5126,8 @@ qs.forEach(function(q,idx){var ans=q.querySelector('.q-ans');if(!ans)return;var 
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);var pre=btn.parentElement.querySelector('pre');if(sd.style.display==='block'){sd.style.display='none';pre.style.display='block';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}pre.style.display='none';btn.classList.add('active');sd.style.display='block';if(typeof SPEAK_DATA!=="undefined"&&SPEAK_DATA[idx]){sd.innerHTML=SPEAK_DATA[idx].replace(/\n/g,'<br>')}else{var text=pre.textContent;var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken}btn.textContent='\u274c Hide Speaking Tips'}
 </script>
 <script src="study_check.js"></script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="bookmark.js"></script>
+<script src="priority-rating.js"></script>
+<script src="theme-toggle.js"></script>
+</body>
 </html>

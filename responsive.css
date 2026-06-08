@@ -1,0 +1,86 @@
+/* Mobile Responsiveness - shared across all pages */
+@media (max-width: 600px) {
+    body { padding: 12px !important; font-size: 14px !important; }
+    .container { padding: 12px 10px !important; }
+    h1 { font-size: 1.4rem !important; }
+    
+    /* Interview page grids */
+    .buttons { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+    .tools-grid { grid-template-columns: 1fr 1fr !important; gap: 8px !important; }
+    .btn, .tool-btn { padding: 10px 6px !important; font-size: .7rem !important; }
+    
+    /* Index page cards */
+    .links { flex-direction: column !important; gap: 12px !important; }
+    .link-card { min-width: 100% !important; padding: 20px 16px !important; }
+    .link-icon { font-size: 2rem !important; }
+    .link-title { font-size: 1rem !important; }
+    
+    /* Sections/cards */
+    .section, .card, .config, .question-area, .score-card,
+    .result-wrap, .editor-wrap, .tables-info, .overall,
+    .topic-card, .question-box, .schedule-info {
+        padding: 12px !important;
+    }
+    
+    /* Textareas */
+    textarea { height: 100px !important; font-size: .78rem !important; }
+    
+    /* Code blocks */
+    pre { font-size: .7rem !important; padding: 10px !important; }
+    
+    /* Tables */
+    table { font-size: .68rem !important; }
+    th, td { padding: 5px 6px !important; }
+    
+    /* Quiz options */
+    .options { gap: 8px !important; }
+    .option { padding: 10px 12px !important; font-size: .8rem !important; }
+    
+    /* Mock interview */
+    .timer { font-size: 1.2rem !important; }
+    .question-text { font-size: .9rem !important; padding: 12px !important; }
+    .btn-group { gap: 6px !important; }
+    .btn { padding: 8px 14px !important; font-size: .75rem !important; }
+    
+    /* Config row */
+    .config-row { flex-wrap: wrap !important; gap: 8px !important; }
+    .topics { gap: 6px !important; }
+    .topic-btn { padding: 6px 10px !important; font-size: .68rem !important; }
+    
+    /* Cheat sheets */
+    .row { grid-template-columns: 1fr !important; }
+    .tabs { flex-wrap: wrap !important; gap: 6px !important; }
+    .tab { padding: 6px 12px !important; font-size: .7rem !important; }
+    
+    /* Samples grid */
+    .samples { grid-template-columns: 1fr 1fr !important; gap: 6px !important; }
+    
+    /* Progress tracker */
+    .topics-grid { grid-template-columns: 1fr !important; }
+    .stats-row, .score-stat { gap: 16px !important; flex-wrap: wrap !important; }
+    
+    /* Legend */
+    .legend { flex-wrap: wrap !important; gap: 8px !important; justify-content: center !important; }
+    
+    /* HR cards */
+    .template { padding: 10px !important; }
+    
+    /* Breakdown */
+    .breakdown-q { max-width: 150px !important; }
+    
+    /* Section title */
+    .section-title { font-size: .72rem !important; }
+    
+    /* Quote box */
+    .quote-text { font-size: .95rem !important; }
+    
+    /* Eval result */
+    .eval-score { flex-wrap: wrap !important; }
+}
+
+@media (max-width: 380px) {
+    .buttons { grid-template-columns: 1fr 1fr !important; }
+    .tools-grid { grid-template-columns: 1fr !important; }
+    .samples { grid-template-columns: 1fr !important; }
+    .stats-row, .score-stat { flex-direction: column !important; gap: 12px !important; }
+}

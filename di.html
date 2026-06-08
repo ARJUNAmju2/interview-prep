@@ -10,6 +10,7 @@
 .speak-btn{background:linear-gradient(135deg,#0ea5e9,#0284c7);color:#fff;border:none;padding:5px 12px;border-radius:6px;font-size:.72rem;cursor:pointer;font-weight:600;margin-bottom:10px;margin-left:6px;display:inline-block}.speak-btn:hover{background:linear-gradient(135deg,#0284c7,#0369a1)}.speak-btn.active{background:linear-gradient(135deg,#ef4444,#dc2626)}.speak-text{background:linear-gradient(135deg,#ecfdf5,#d1fae5);border:1px solid #6ee7b7;border-radius:8px;padding:16px;margin-top:10px;font-size:.85rem;color:#065f46;line-height:2.1;display:none;font-family:'Segoe UI',sans-serif}
 .q-ans pre{background:#1e293b;color:#e2e8f0;padding:14px;border-radius:8px;font-size:.8rem;line-height:1.75;white-space:pre-wrap;word-wrap:break-word;font-family:"Cascadia Code",Consolas,monospace;overflow-x:auto}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -130,7 +131,7 @@ public class OrderService
         _logger = logger;
     }
 }
-// Dependencies are REQUIRED — class can't work without them
+// Dependencies are REQUIRED ï¿½ class can't work without them
 // Most common in ASP.NET Core
 
 2. METHOD INJECTION (via parameter):
@@ -279,7 +280,7 @@ builder.Services.AddScoped&lt;Func&lt;string, INotificationService&gt;&gt;(sp =&
 <div class="q" data-s="service lifetime mismatch captive dependency"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Captive Dependency problem?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Captive Dependency: When a longer-lived service captures a shorter-lived service, causing the shorter-lived one to live longer than intended.
 
 PROBLEM:
-// Singleton captures Scoped — BUG!
+// Singleton captures Scoped ï¿½ BUG!
 builder.Services.AddSingleton&lt;ICacheService, CacheService&gt;();
 builder.Services.AddScoped&lt;IDbContext, AppDbContext&gt;();
 
@@ -444,5 +445,8 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="bookmark.js"></script>
+<script src="priority-rating.js"></script>
+<script src="theme-toggle.js"></script>
+</body>
 </html>

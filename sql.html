@@ -32,6 +32,7 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#e91e6
 .q.studied{opacity:.6;border-left-color:#10b981}
 .q.studied .q-title .txt{text-decoration:line-through;color:#64748b}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -231,7 +232,7 @@ Rules:
 | Use when       | Need unique rows   | Need all rows        |
 
 Best practice: Use UNION ALL when you KNOW there are no duplicates 
-(or duplicates are acceptable) — better performance.</pre></div>
+(or duplicates are acceptable) ï¿½ better performance.</pre></div>
 </div>
 <div class="q" data-s="q5. what are aggregate functions?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -522,14 +523,14 @@ Result:
 <span class="txt">Q16. What is CROSS JOIN?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>Returns Cartesian Product — every row from first table combined with every 
+<div class="q-ans"><pre>Returns Cartesian Product ï¿½ every row from first table combined with every 
 row from second table. No ON condition needed.
 
 SELECT e.Name, d.DeptName
 FROM Employee e
 CROSS JOIN Department d;
 
-Result: 4 employees × 3 departments = 12 rows
+Result: 4 employees ï¿½ 3 departments = 12 rows
 | Name  | DeptName |
 |-------|----------|
 | John  | IT       |
@@ -546,8 +547,8 @@ Result: 4 employees × 3 departments = 12 rows
 | Alice | Finance  |
 
 Use cases:
-- Generate all combinations (sizes × colors)
-- Calendar generation (years × months)
+- Generate all combinations (sizes ï¿½ colors)
+- Calendar generation (years ï¿½ months)
 - Test data generation</pre></div>
 </div>
 <div class="q" data-s="q17. what is self join?">
@@ -824,10 +825,10 @@ SECTION 4: INDEXES
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>An Index is a database object that speeds up data retrieval. Like a book's 
-index — instead of reading every page, you look up the topic and go directly.
+index ï¿½ instead of reading every page, you look up the topic and go directly.
 
-Without index: Full Table Scan (reads every row) — SLOW for large tables
-With index: Index Seek (goes directly to matching rows) — FAST
+Without index: Full Table Scan (reads every row) ï¿½ SLOW for large tables
+With index: Index Seek (goes directly to matching rows) ï¿½ FAST
 
 -- Create index:
 CREATE INDEX IX_Employee_Name ON Employee(Name);
@@ -929,7 +930,7 @@ SELECT * FROM Employee WHERE DepartmentId = 1 AND Salary &gt; 50000;
 -- Does NOT help:
 SELECT * FROM Employee WHERE Salary &gt; 50000;  -- Missing leftmost column
 
-Rule: "Leftmost Prefix" — index is used only if query includes the 
+Rule: "Leftmost Prefix" ï¿½ index is used only if query includes the 
 leftmost column(s) of the composite index.
 
 Column order matters! Put most selective (most filtered) column first.</pre></div>
@@ -1157,7 +1158,7 @@ SECTION 6: VIEWS
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>A View is a virtual table based on a SELECT query. It doesn't store data 
-physically — it executes the query each time it's accessed.
+physically ï¿½ it executes the query each time it's accessed.
 
 CREATE VIEW vw_EmployeeDetails
 AS
@@ -1373,7 +1374,7 @@ Enrollments: | StudentId | CourseId | Grade |
 
 BAD:
 | EmpId | EmpName | DeptId | DeptName |
-DeptName depends on DeptId (not directly on EmpId) — transitive!
+DeptName depends on DeptId (not directly on EmpId) ï¿½ transitive!
 
 GOOD: Split:
 Employee: | EmpId | EmpName | DeptId |
@@ -1423,7 +1424,7 @@ ACID PROPERTIES:
 - Durability: Committed changes survive system failure
 
 DEADLOCK:
-Two transactions waiting for each other's locks — neither can proceed.
+Two transactions waiting for each other's locks ï¿½ neither can proceed.
 
 Transaction 1: Locks Table A, wants Table B
 Transaction 2: Locks Table B, wants Table A
@@ -1564,7 +1565,7 @@ FROM Employee;
 | Dave  | 70000  | 4          | 4    | 3          |
 
 Differences:
-- ROW_NUMBER: Always unique (1,2,3,4) — no ties
+- ROW_NUMBER: Always unique (1,2,3,4) ï¿½ no ties
 - RANK: Same rank for ties, SKIPS next (1,2,2,4)
 - DENSE_RANK: Same rank for ties, NO skip (1,2,2,3)</pre></div>
 </div>
@@ -1891,7 +1892,7 @@ INCLUDE (OrderDate, Total);  -- No need to go to table for these columns</pre></
    -- Use OFFSET-FETCH instead of loading all:
    ORDER BY Id OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
 
-7. AVOID CURSORS — Use set-based operations
+7. AVOID CURSORS ï¿½ Use set-based operations
 
 8. UPDATE STATISTICS:
    UPDATE STATISTICS TableName
@@ -1899,7 +1900,7 @@ INCLUDE (OrderDate, Total);  -- No need to go to table for these columns</pre></
 9. CHECK FOR PARAMETER SNIFFING:
    OPTION (RECOMPILE) -- Force new plan
 
-10. AVOID N+1 in application code — Use JOINs or batch queries</pre></div></div>
+10. AVOID N+1 in application code ï¿½ Use JOINs or batch queries</pre></div></div>
 
 <div class="q" data-s="nth highest salary second third"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">49</span><span class="txt">Write query to find Nth highest salary?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Method 1: Using DENSE_RANK (Best):
 SELECT Salary FROM (
@@ -1980,7 +1981,7 @@ SELECT * FROM @Results;
 | Statistics     | N/A            | Yes            | No             |
 | Transactions   | N/A            | Yes            | No rollback    |</pre></div></div>
 
-<div class="q" data-s="stored procedure vs inline query"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">51</span><span class="txt">Stored Procedure vs Inline Query — when to use?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>STORED PROCEDURE:
+<div class="q" data-s="stored procedure vs inline query"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">51</span><span class="txt">Stored Procedure vs Inline Query ï¿½ when to use?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>STORED PROCEDURE:
 - Pre-compiled SQL stored in database
 - Execution plan cached (faster repeated execution)
 - Security (grant EXECUTE without table access)
@@ -2034,25 +2035,25 @@ var orders = await _context.Orders
 
 <div class="q" data-s="window function row_number rank partition by"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">52</span><span class="txt">What are Window Functions (ROW_NUMBER, RANK, PARTITION BY)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Window Functions perform calculations across a set of rows related to current row WITHOUT grouping.
 
-ROW_NUMBER — Unique sequential number:
+ROW_NUMBER ï¿½ Unique sequential number:
 SELECT Name, Department, Salary,
     ROW_NUMBER() OVER (ORDER BY Salary DESC) AS RowNum
 FROM Employees;
 -- Result: 1, 2, 3, 4, 5 (no ties)
 
-RANK — Rank with gaps for ties:
+RANK ï¿½ Rank with gaps for ties:
 SELECT Name, Salary,
     RANK() OVER (ORDER BY Salary DESC) AS Rank
 FROM Employees;
 -- If two people have same salary: 1, 2, 2, 4, 5 (skips 3)
 
-DENSE_RANK — Rank without gaps:
+DENSE_RANK ï¿½ Rank without gaps:
 SELECT Name, Salary,
     DENSE_RANK() OVER (ORDER BY Salary DESC) AS DenseRank
 FROM Employees;
 -- If two people have same salary: 1, 2, 2, 3, 4 (no skip)
 
-PARTITION BY — Window per group:
+PARTITION BY ï¿½ Window per group:
 SELECT Name, Department, Salary,
     ROW_NUMBER() OVER (PARTITION BY Department ORDER BY Salary DESC) AS RankInDept
 FROM Employees;
@@ -2085,5 +2086,8 @@ qs.forEach(function(q,idx){var ans=q.querySelector('.q-ans');if(!ans)return;var 
 function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre=btn.parentElement.querySelector("pre");if(sd.style.display==="block"){sd.style.display="none";pre.style.display="block";btn.classList.remove("active");btn.textContent="\ud83d\udde3\ufe0f How to Speak";return}pre.style.display="none";btn.classList.add("active");sd.style.display="block";if(typeof SPEAK_DATA!=="undefined"&&SPEAK_DATA[idx]){sd.innerHTML=SPEAK_DATA[idx].replace(/\n/g,"<br>")}else{var text=pre.textContent;var lines=text.split("\n").filter(function(l){return l.trim()&&!l.startsWith("=")&&!l.startsWith("|")&&l.trim().length>5});var spoken="<b>\ud83c\udfaf Start with:</b> \"Sure, let me explain this.\"<br><br>";lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,"");if(line.length<5||line.startsWith("public ")||line.startsWith("//")||line.startsWith("{")||line.startsWith("}")||line.startsWith("using ")||line.startsWith("var ")||line.startsWith("int ")||line.startsWith("string ")||line.startsWith("class ")||line.startsWith("private ")||line.startsWith("protected "))return;if(line.includes(":")){var parts=line.split(":");spoken+="<b>"+parts[0].trim()+"</b> \u2014 "+parts.slice(1).join(":").trim()+"<br>"}else{spoken+=line+"<br>"}});spoken+="<br><b>\ud83d\udca1 End with:</b> \"Would you like a code example?\"";sd.innerHTML=spoken}btn.textContent="\u274c Hide Speaking Tips"}
 </script>
 <script src="study_check.js"></script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="bookmark.js"></script>
+<script src="priority-rating.js"></script>
+<script src="theme-toggle.js"></script>
+</body>
 </html>

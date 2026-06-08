@@ -32,6 +32,7 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#2196f
 .q.studied{opacity:.6;border-left-color:#10b981}
 .q.studied .q-title .txt{text-decoration:line-through;color:#64748b}
 </style>
+<link rel="stylesheet" href="responsive.css">
 </head>
 <body>
 <div class="container">
@@ -53,16 +54,16 @@ into three main interconnected components:
 - View: Represents the UI/presentation layer
 - Controller: Handles user input and acts as intermediary between Model and View
 
-The main goal is "Separation of Concerns" — each component has a single 
+The main goal is "Separation of Concerns" ï¿½ each component has a single 
 responsibility, making the application easier to develop, test, and maintain.
 
 Flow:
 User Request ? Controller ? Model (data) ? Controller ? View ? Response to User</pre></div>
 </div>
-<div class="q" data-s="q2. what is model, view, and controller — explain each with responsibilities?">
+<div class="q" data-s="q2. what is model, view, and controller ï¿½ explain each with responsibilities?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
 <span class="num">2</span>
-<span class="txt">Q2. What is Model, View, and Controller — explain each with responsibilities?</span>
+<span class="txt">Q2. What is Model, View, and Controller ï¿½ explain each with responsibilities?</span>
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>MODEL:
@@ -589,17 +590,17 @@ Key Points:
 Folder Structure:
 Views/
 +-- Home/
-¦   +-- Index.cshtml
-¦   +-- About.cshtml
+ï¿½   +-- Index.cshtml
+ï¿½   +-- About.cshtml
 +-- Product/
-¦   +-- Index.cshtml
-¦   +-- Create.cshtml
-¦   +-- Edit.cshtml
-¦   +-- Details.cshtml
+ï¿½   +-- Index.cshtml
+ï¿½   +-- Create.cshtml
+ï¿½   +-- Edit.cshtml
+ï¿½   +-- Details.cshtml
 +-- Shared/
-¦   +-- _Layout.cshtml
-¦   +-- _ValidationScriptsPartial.cshtml
-¦   +-- Error.cshtml
+ï¿½   +-- _Layout.cshtml
+ï¿½   +-- _ValidationScriptsPartial.cshtml
+ï¿½   +-- Error.cshtml
 +-- _ViewStart.cshtml
 +-- _ViewImports.cshtml</pre></div>
 </div>
@@ -739,8 +740,8 @@ Child View (Index.cshtml):
 }
 
 Key Points:
-- @RenderBody() — renders the child view content (required, only one)
-- @RenderSection() — renders named sections from child views
+- @RenderBody() ï¿½ renders the child view content (required, only one)
+- @RenderSection() ï¿½ renders named sections from child views
 - Multiple layouts possible (admin layout, public layout)
 - Can be nested (layout within layout)</pre></div>
 </div>
@@ -1014,7 +1015,7 @@ When to use View Components:
 @RenderBody():
 - Renders the MAIN content of the child view
 - Only ONE @RenderBody() per layout
-- Required — every layout must have it
+- Required ï¿½ every layout must have it
 - All content in child view (not in a section) goes here
 
 @RenderSection():
@@ -1493,7 +1494,7 @@ Role:
 - Handles landing/home page
 - Common static pages (About, Contact, Privacy)
 - Error handling page
-- Not mandatory — you can change the default route</pre></div>
+- Not mandatory ï¿½ you can change the default route</pre></div>
 </div>
 <div class="q" data-s="q35. what is iactionresult and why is it used?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -1507,7 +1508,7 @@ It allows returning DIFFERENT types of responses from the same action.
 Why use IActionResult:
 - Flexibility to return different response types
 - Can return View, JSON, Redirect, File, StatusCode, etc.
-- Polymorphism — one return type, multiple implementations
+- Polymorphism ï¿½ one return type, multiple implementations
 
 Example showing flexibility:
 public IActionResult Details(int id)
@@ -1679,7 +1680,7 @@ When to use PartialView:
 </div>
 <div class="q-ans"><pre>4 ways to pass data from Controller to View:
 
-1. MODEL (Strongly Typed) — RECOMMENDED:
+1. MODEL (Strongly Typed) ï¿½ RECOMMENDED:
 // Controller
 public IActionResult Index()
 {
@@ -2154,10 +2155,10 @@ The Action Invoker handles:
 - Actions with parameters: Method(int id, string name)
 - Actions with complex models: Method(CreateViewModel model)</pre></div>
 </div>
-<div class="q" data-s="q50. what is model binding — how does it work step by step?">
+<div class="q" data-s="q50. what is model binding ï¿½ how does it work step by step?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
 <span class="num">50</span>
-<span class="txt">Q50. What is Model Binding — how does it work step by step?</span>
+<span class="txt">Q50. What is Model Binding ï¿½ how does it work step by step?</span>
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>Model Binding is the process of mapping HTTP request data to action method 
@@ -2261,7 +2262,7 @@ public class CookieValueProvider : IValueProvider
 2. Route values (URL segments: /controller/action/{id})
 3. Query string (?param=value)
 
-Note: Headers and Body are NOT included by default — 
+Note: Headers and Body are NOT included by default ï¿½ 
 you must explicitly use [FromHeader] or [FromBody].
 
 Example demonstrating priority:
@@ -2941,7 +2942,7 @@ public class Employee
     public DateTime CreatedDate { get; set; }
 }
 
-Best Practice: Use ViewModels instead of [Bind] — cleaner and more maintainable.</pre></div>
+Best Practice: Use ViewModels instead of [Bind] ï¿½ cleaner and more maintainable.</pre></div>
 </div>
 <div class="q" data-s="q64. what is over-posting/mass assignment attack and how to prevent?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')">
@@ -2986,7 +2987,7 @@ public class CreateEmployeeViewModel
     public string Name { get; set; }
     [EmailAddress]
     public string Email { get; set; }
-    // No IsAdmin, No Salary — can't be over-posted!
+    // No IsAdmin, No Salary ï¿½ can't be over-posted!
 }
 
 [HttpPost]
@@ -4177,22 +4178,22 @@ Think of Areas as "mini-MVC applications" within the main application.
 Folder Structure:
 MyApp/
 +-- Areas/
-¦   +-- Admin/
-¦   ¦   +-- Controllers/
-¦   ¦   ¦   +-- DashboardController.cs
-¦   ¦   ¦   +-- UsersController.cs
-¦   ¦   +-- Views/
-¦   ¦   ¦   +-- Dashboard/
-¦   ¦   ¦   ¦   +-- Index.cshtml
-¦   ¦   ¦   +-- Users/
-¦   ¦   ¦   ¦   +-- Index.cshtml
-¦   ¦   ¦   +-- _ViewStart.cshtml
-¦   ¦   ¦   +-- _ViewImports.cshtml
-¦   ¦   +-- Models/
-¦   +-- Customer/
-¦   ¦   +-- Controllers/
-¦   ¦   +-- Views/
-¦   ¦   +-- Models/
+ï¿½   +-- Admin/
+ï¿½   ï¿½   +-- Controllers/
+ï¿½   ï¿½   ï¿½   +-- DashboardController.cs
+ï¿½   ï¿½   ï¿½   +-- UsersController.cs
+ï¿½   ï¿½   +-- Views/
+ï¿½   ï¿½   ï¿½   +-- Dashboard/
+ï¿½   ï¿½   ï¿½   ï¿½   +-- Index.cshtml
+ï¿½   ï¿½   ï¿½   +-- Users/
+ï¿½   ï¿½   ï¿½   ï¿½   +-- Index.cshtml
+ï¿½   ï¿½   ï¿½   +-- _ViewStart.cshtml
+ï¿½   ï¿½   ï¿½   +-- _ViewImports.cshtml
+ï¿½   ï¿½   +-- Models/
+ï¿½   +-- Customer/
+ï¿½   ï¿½   +-- Controllers/
+ï¿½   ï¿½   +-- Views/
+ï¿½   ï¿½   +-- Models/
 +-- Controllers/        (main area)
 +-- Views/              (main area)
 +-- Models/             (main area)
@@ -4355,7 +4356,7 @@ SECTION 10: STATE MANAGEMENT
 <span class="txt">Q87. What are different State Management techniques in MVC?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>HTTP is stateless — each request is independent. State management techniques 
+<div class="q-ans"><pre>HTTP is stateless ï¿½ each request is independent. State management techniques 
 help maintain data across requests.
 
 CLIENT-SIDE (stored on user's browser):
@@ -4869,7 +4870,7 @@ When to use:
 <span class="arrow">&#9660;</span>
 </div>
 <div class="q-ans"><pre>Scaffolding is automatic code generation that creates CRUD (Create, Read, 
-Update, Delete) operations — Controllers, Views, and database context code 
+Update, Delete) operations ï¿½ Controllers, Views, and database context code 
 based on a Model class.
 
 What it generates:
@@ -4956,7 +4957,7 @@ Template types available:
 <span class="txt">Q99. How to customize scaffolded code?</span>
 <span class="arrow">&#9660;</span>
 </div>
-<div class="q-ans"><pre>Scaffolded code is a STARTING POINT — you should customize it for production.
+<div class="q-ans"><pre>Scaffolded code is a STARTING POINT ï¿½ you should customize it for production.
 
 Common customizations:
 
@@ -5141,8 +5142,8 @@ Controllers/
 +-- HomeController.cs          // MVC (inherits Controller)
 +-- ProductController.cs       // MVC (inherits Controller)
 +-- Api/
-¦   +-- ProductsController.cs  // API (inherits ControllerBase)
-¦   +-- OrdersController.cs    // API (inherits ControllerBase)
+ï¿½   +-- ProductsController.cs  // API (inherits ControllerBase)
+ï¿½   +-- OrdersController.cs    // API (inherits ControllerBase)
 
 MVC Controller:
 public class ProductController : Controller
@@ -6206,5 +6207,8 @@ qs.forEach(function(q,idx){var ans=q.querySelector('.q-ans');if(!ans)return;var 
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);var pre=btn.parentElement.querySelector('pre');if(sd.style.display==='block'){sd.style.display='none';pre.style.display='block';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}pre.style.display='none';btn.classList.add('active');sd.style.display='block';if(typeof SPEAK_DATA!=="undefined"&&SPEAK_DATA[idx]){sd.innerHTML=SPEAK_DATA[idx].replace(/\n/g,'<br>')}else{var text=pre.textContent;var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken}btn.textContent='\u274c Hide Speaking Tips'}
 </script>
 <script src="study_check.js"></script>
-<script src="theme-toggle.js"></script>`n</body>
+<script src="bookmark.js"></script>
+<script src="priority-rating.js"></script>
+<script src="theme-toggle.js"></script>
+</body>
 </html>
