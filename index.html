@@ -61,34 +61,27 @@ h1{background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background
 <div class="link-title">Timetable</div>
 <div class="link-desc">44-day study planner</div>
 </a>
-<a href="english.html" class="link-card link-english">
-<span class="link-icon">🗣️</span>
-<div class="link-title">English Practice</div>
-<div class="link-desc">Communication improvement</div>
-</a>
 </div>
 
-<div class="links">
-<a href="studyplan.html" class="link-card" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed);box-shadow:0 4px 20px rgba(139,92,246,.25)">
-<span class="link-icon">📖</span>
-<div class="link-title">Study Plan</div>
-<div class="link-desc">Detailed topic-wise plan</div>
-</a>
-<a href="assignment.html" class="link-card" style="background:linear-gradient(135deg,#ec4899,#db2777);box-shadow:0 4px 20px rgba(236,72,153,.25)">
-<span class="link-icon">📝</span>
-<div class="link-title">Assignments</div>
-<div class="link-desc">Practice tasks & exercises</div>
-</a>
-<a href="notes.html" class="link-card" style="background:linear-gradient(135deg,#64748b,#475569);box-shadow:0 4px 20px rgba(100,116,139,.25)">
-<span class="link-icon">🗒️</span>
-<div class="link-title">Notes</div>
-<div class="link-desc">Quick reference notes</div>
-</a>
+<div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px">
+<a href="studyplan.html" style="padding:8px 14px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);border-radius:8px;color:#fff;text-decoration:none;font-size:.73rem;font-weight:600">📖 Study Plan</a>
+<a href="assignment.html" style="padding:8px 14px;background:linear-gradient(135deg,#ec4899,#db2777);border-radius:8px;color:#fff;text-decoration:none;font-size:.73rem;font-weight:600">📝 Assignments</a>
+<a href="notes.html" style="padding:8px 14px;background:linear-gradient(135deg,#64748b,#475569);border-radius:8px;color:#fff;text-decoration:none;font-size:.73rem;font-weight:600">🗒️ Notes</a>
 </div>
 
 <div class="footer">Keep pushing. Every day counts.</div>
 
-<div id="lastVisited" style="margin-top:16px;padding:12px 16px;background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:10px;font-size:.8rem;color:#94a3b8;display:none"></div>
+<!-- Progress Chart + Daily Report side by side -->
+<div style="display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap">
+<div style="flex:1;min-width:150px;background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #1e3a5f;border-radius:12px;padding:14px;text-align:center">
+<div style="font-size:.78rem;font-weight:700;color:#38bdf8;margin-bottom:8px">📊 Progress</div>
+<canvas id="progressChart" width="130" height="130"></canvas>
+<div id="chartLegend" style="text-align:left;font-size:.65rem;margin-top:8px"></div>
+</div>
+<div id="dailyProgress" style="flex:1.5;min-width:220px;background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #1e3a5f;border-radius:12px;padding:14px;text-align:left"></div>
+</div>
+
+<div id="lastVisited" style="margin-top:12px;padding:12px 16px;background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:10px;font-size:.8rem;color:#94a3b8;display:none"></div>
 <div id="dailyGoal" style="margin-top:10px;padding:12px 16px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;font-size:.8rem;color:#f59e0b;display:none"></div>
 </div>
 
@@ -138,6 +131,191 @@ document.getElementById('clock').textContent=date+' • '+time;
 }
 updateClock();
 setInterval(updateClock,60000);
+
+// Daily Progress Report from Timetable
+(function(){
+    const schedule=[
+{d:1,topic:"Project Q&A (1-15)",c:"15"},
+{d:2,topic:"Project Q&A (16-29) + Tips/HR",c:"14+HR"},
+{d:3,topic:"OOPs (1-10) — Pillars, Class, Constructor",c:"10"},
+{d:4,topic:"OOPs (11-22) — Encapsulation, Modifiers",c:"12"},
+{d:5,topic:"OOPs (23-31) — Inheritance, Composition",c:"10"},
+{d:6,topic:"OOPs (32-44) — Polymorphism ★★★",c:"12"},
+{d:7,topic:"Coding (1-10)",c:"10"},
+{d:8,topic:"OOPs (45-58) — Abstraction, Interfaces",c:"14"},
+{d:9,topic:"OOPs (59-72) — Generics, Boxing",c:"14"},
+{d:10,topic:"OOPs (73-88) — Delegates, Events",c:"15"},
+{d:11,topic:"OOPs (89-104) — Exceptions, LINQ",c:"15"},
+{d:12,topic:"C# (1-10) — Basics, Boxing, Struct",c:"10"},
+{d:13,topic:"C# (11-22) — Properties, Extension",c:"12"},
+{d:14,topic:"Coding (11-20)",c:"10"},
+{d:15,topic:"C# (23-35) — Nullable, Singleton",c:"13"},
+{d:16,topic:"C# (36-50) — Virtual, Serialization",c:"15"},
+{d:17,topic:"C# (51-70) — File, Hashtable",c:"15"},
+{d:18,topic:"C# (71-85) — LINQ deep",c:"15"},
+{d:19,topic:"C# (86-95) — async/await, .NET Core ★★★",c:"10"},
+{d:20,topic:"SOLID (1-12) + DI (1-4)",c:"15"},
+{d:21,topic:"Coding (21-30)",c:"10"},
+{d:22,topic:"DI (5-8) + EF Core (1-6)",c:"10"},
+{d:23,topic:"EF Core (7-12) + Web API (1-5)",c:"11"},
+{d:24,topic:"Web API (6-15)",c:"10"},
+{d:25,topic:"SQL (1-12) — Joins, Basics",c:"12"},
+{d:26,topic:"SQL (13-26) — SP, Functions",c:"14"},
+{d:27,topic:"SQL (27-40) — Advanced",c:"14"},
+{d:28,topic:"Coding (31-40) + SQL (41-52)",c:"10+12"},
+{d:29,topic:"ASP.NET Core (1-15) — Fundamentals",c:"15"},
+{d:30,topic:"ASP.NET Core (16-30) — Controllers",c:"15"},
+{d:31,topic:"ASP.NET Core (31-50) — Filters",c:"15"},
+{d:32,topic:"ASP.NET Core (51-70) — State, Areas",c:"15"},
+{d:33,topic:"ASP.NET Core (71-90) — Scenarios",c:"15"},
+{d:34,topic:"ASP.NET Core (91-115) — Advanced",c:"15"},
+{d:35,topic:"Coding revision — Redo hard ones",c:"10"},
+{d:36,topic:"MVC (1-15) — Pattern, Model",c:"15"},
+{d:37,topic:"MVC (16-30) — Views, Razor, Layout",c:"15"},
+{d:38,topic:"MVC (31-50) — Controller, Data passing",c:"15"},
+{d:39,topic:"MVC (51-70) — Model Binding, Validation",c:"15"},
+{d:40,topic:"MVC (71-90) — Filters, Areas",c:"15"},
+{d:41,topic:"MVC (91-115) — Scenarios",c:"15"},
+{d:42,topic:"JavaScript (1-12) + Git (1-4)",c:"16"},
+{d:43,topic:"REVISION — Project + Tips + HR",c:"All"},
+{d:44,topic:"REVISION — ★★★ from all topics",c:"Random"}
+    ];
+
+    const ttData = JSON.parse(localStorage.getItem('tt44') || '{}');
+    const completedDays = Object.keys(ttData).filter(k => ttData[k]).length;
+    const currentDay = completedDays + 1;
+    const el = document.getElementById('dailyProgress');
+
+    if (currentDay > 44) {
+        el.innerHTML = `<div style="text-align:center"><div style="font-size:1.5rem;margin-bottom:8px">🏆</div><div style="font-size:.9rem;font-weight:700;color:#10b981">All 44 Days Completed! You're interview ready! 🔥</div></div>`;
+        return;
+    }
+
+    const today = schedule[currentDay - 1];
+    const yesterday = currentDay > 1 ? schedule[currentDay - 2] : null;
+    const tomorrow = currentDay < 44 ? schedule[currentDay] : null;
+    const percent = Math.round((completedDays / 44) * 100);
+
+    let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <span style="font-size:.85rem;font-weight:700;color:#38bdf8">📊 Daily Progress</span>
+        <span style="font-size:.72rem;color:#64748b">${completedDays}/44 days • ${percent}%</span>
+    </div>
+    <div style="height:6px;background:#1e3a5f;border-radius:4px;overflow:hidden;margin-bottom:14px">
+        <div style="height:100%;width:${percent}%;background:linear-gradient(90deg,#10b981,#34d399);border-radius:4px"></div>
+    </div>`;
+
+    if (yesterday && ttData['d' + (currentDay-1)]) {
+        html += `<div style="padding:8px 12px;background:rgba(16,185,129,.08);border-left:3px solid #10b981;border-radius:0 6px 6px 0;margin-bottom:8px;font-size:.75rem">
+            <span style="color:#10b981">✅ Yesterday (Day ${currentDay-1}):</span> <span style="color:#94a3b8">${yesterday.topic}</span></div>`;
+    }
+
+    html += `<div style="padding:10px 12px;background:rgba(245,158,11,.08);border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;margin-bottom:8px;font-size:.8rem">
+        <div style="color:#f59e0b;font-weight:700;margin-bottom:4px">📖 Today — Day ${currentDay}</div>
+        <div style="color:#e2e8f0;font-weight:600">${today.topic}</div>
+        <div style="color:#64748b;font-size:.72rem;margin-top:4px">Questions: ${today.c}</div></div>`;
+
+    if (tomorrow) {
+        html += `<div style="padding:8px 12px;background:rgba(99,102,241,.06);border-left:3px solid #6366f1;border-radius:0 6px 6px 0;font-size:.75rem">
+            <span style="color:#818cf8">🔜 Tomorrow (Day ${currentDay+1}):</span> <span style="color:#94a3b8">${tomorrow.topic}</span></div>`;
+    }
+    el.innerHTML = html;
+
+    // Draw Doughnut Chart
+    drawChart(completedDays);
+})();
+
+function drawChart(completed) {
+    const canvas = document.getElementById('progressChart');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const centerX = 65, centerY = 65, radius = 55, lineWidth = 15;
+    const remaining = 44 - completed;
+
+    // Topic-wise breakdown from timetable
+    const topics = [
+        {name:'OOPs', days:9, color:'#f97316'},
+        {name:'C#', days:8, color:'#a855f7'},
+        {name:'SQL', days:4, color:'#ec4899'},
+        {name:'ASP.NET', days:6, color:'#14b8a6'},
+        {name:'MVC', days:6, color:'#3b82f6'},
+        {name:'Coding', days:5, color:'#ef4444'},
+        {name:'Others', days:6, color:'#6366f1'}
+    ];
+
+    // Calculate completed per topic
+    const ttData = JSON.parse(localStorage.getItem('tt44') || '{}');
+    const topicRanges = [
+        {name:'OOPs',start:3,end:11,color:'#f97316'},
+        {name:'C#',start:12,end:19,color:'#a855f7'},
+        {name:'SQL',start:25,end:28,color:'#ec4899'},
+        {name:'ASP.NET',start:29,end:34,color:'#14b8a6'},
+        {name:'MVC',start:36,end:41,color:'#3b82f6'},
+        {name:'Coding',start:7,end:7,color:'#ef4444',extra:[14,21,28,35]},
+        {name:'Others',start:1,end:2,color:'#6366f1',extra:[20,22,23,24,42,43,44]}
+    ];
+
+    // Clear canvas
+    ctx.clearRect(0, 0, 130, 130);
+
+    // Draw background ring
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+    ctx.strokeStyle = '#1e3a5f';
+    ctx.lineWidth = lineWidth;
+    ctx.stroke();
+
+    // Draw segments
+    let startAngle = -Math.PI / 2;
+    const total = 44;
+
+    topics.forEach(function(topic) {
+        const angle = (topic.days / total) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, startAngle, startAngle + angle);
+        ctx.strokeStyle = topic.color;
+        ctx.lineWidth = lineWidth;
+        ctx.lineCap = 'butt';
+        ctx.stroke();
+        startAngle += angle;
+    });
+
+    // Draw center hole (for doughnut effect)
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius - lineWidth, 0, Math.PI * 2);
+    ctx.fillStyle = '#0f172a';
+    ctx.fill();
+
+    // Center text
+    const percent = Math.round((completed / 44) * 100);
+    ctx.fillStyle = '#10b981';
+    ctx.font = 'bold 18px Segoe UI';
+    ctx.textAlign = 'center';
+    ctx.fillText(percent + '%', centerX, centerY + 2);
+    ctx.fillStyle = '#64748b';
+    ctx.font = '9px Segoe UI';
+    ctx.fillText(completed + '/44 days', centerX, centerY + 16);
+
+    // Draw completed overlay (grey out remaining)
+    if (completed < 44) {
+        const completedAngle = (completed / 44) * Math.PI * 2;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, -Math.PI/2 + completedAngle, -Math.PI/2 + Math.PI*2);
+        ctx.strokeStyle = 'rgba(30,58,95,.7)';
+        ctx.lineWidth = lineWidth;
+        ctx.stroke();
+    }
+
+    // Legend
+    const legend = document.getElementById('chartLegend');
+    if (legend) {
+        legend.innerHTML = topics.map(t => 
+            `<div style="display:flex;align-items:center;gap:6px;margin-bottom:5px">
+                <span style="width:10px;height:10px;border-radius:2px;background:${t.color};display:inline-block"></span>
+                <span style="color:#94a3b8">${t.name} (${t.days}d)</span>
+            </div>`
+        ).join('');
+    }
+}
 
 // Last visited tracker
 (function(){
