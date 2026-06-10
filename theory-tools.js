@@ -82,40 +82,48 @@
     function generateShortAnswer(text) {
         if (!text || text.trim().length < 20) return '<span style="color:#64748b">No content.</span>';
         var lines = text.split('\n').map(function(l){return l.trim()}).filter(function(l){return l.length > 0});
-        var definition = '';
         var keyPoints = [];
-
         for (var i = 0; i < lines.length; i++) {
             var line = lines[i];
-            if (isCodeLine(line) || line.startsWith('|') || line.startsWith('+--') || line.startsWith('===') || line.match(/^[\s{}();]+$/)) continue;
-            if (!definition && line.length > 15 && !line.startsWith('-') && !line.startsWith('//')) {
-                definition = line.replace(/[:]\s*$/, '');
-                continue;
-            }
-            if (line.startsWith('- ') && keyPoints.length < 5) {
-                var point = line.substring(2).trim();
-                if (point.length > 10 && point.length < 150 && !isCodeLine(point)) keyPoints.push(point);
-            } else if (line.includes(':') && !line.includes('//') && !line.includes('=>') && !line.includes('http') && line.indexOf(':') < 25 && keyPoints.length < 5) {
+            if (line.match(/^[\s{}();,\[\]]+$/) || line.startsWith('+--') || line.startsWith('===')) continue;
+            if (line.startsWith('using ') || line.startsWith('namespace') || line.match(/^\w+\.\w+\(/)) continue;
+            if (line.match(/^(public|private|protected|static|void|class|interface|abstract)\s+\w/) && (line.includes('{') || line.includes('('))) continue;
+            if (line.startsWith('Console.') || line.startsWith('return ') || line.match(/^\s*\/\//)) continue;
+            if (line.startsWith('{') || line.startsWith('}') || line.match(/^\s*\}\s*$/)) continue;
+            if (line.startsWith('var ') || line.startsWith('int ') || line.startsWith('string ') || line.startsWith('bool ') || line.startsWith('decimal ')) continue;
+            if (line.match(/^\w+\s*[=<>]/) && !line.includes(':')) continue;
+            keyPoints.push(line);
+        }
+        var html = '<div style="border-left:3px solid #0ea5e9;padding-left:12px;margin-bottom:10px">';
+        html += '<div style="font-size:.7rem;color:#0369a1;font-weight:700;margin-bottom:8px">\ud83c\udfaf INTERVIEW ANSWER (No Code):</div>';
+        keyPoints.forEach(function(line) {
+            if (line.match(/^[A-Z][A-Z\s]{3,}:?$/) || line.match(/^[A-Z][A-Z\s&]+:/)) {
+                html += '<div style="color:#0369a1;font-weight:700;margin-top:10px;margin-bottom:4px;font-size:.8rem">' + line + '</div>';
+            } else if (line.startsWith('- ')) {
+                var content = line.substring(2);
+                if (content.includes(':') && content.indexOf(':') < 30) {
+                    var parts = content.split(':');
+                    html += '<div style="padding:3px 0 3px 10px;border-left:2px solid rgba(14,165,233,.3);margin-bottom:3px"><span style="color:#059669;font-weight:600">\u25b8 ' + parts[0].trim() + '</span>: <span style="color:#334155">' + parts.slice(1).join(':').trim() + '</span></div>';
+                } else {
+                    html += '<div style="padding:3px 0 3px 10px;color:#334155;border-left:2px solid rgba(14,165,233,.2);margin-bottom:3px"><span style="color:#059669">\u25b8</span> ' + content + '</div>';
+                }
+            } else if (line.startsWith('|')) {
+                html += '<div style="padding:2px 0;color:#475569;font-family:monospace;font-size:.72rem">' + line.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>';
+            } else if (line.includes(':') && !line.includes('//') && !line.includes('=>') && line.indexOf(':') < 30 && line.indexOf(':') > 2) {
                 var parts = line.split(':');
                 var key = parts[0].trim();
                 var val = parts.slice(1).join(':').trim();
-                if (key.length > 2 && key.length < 25 && val.length > 5 && val.length < 120 && !isCodeLine(key) && !isCodeLine(val))
-                    keyPoints.push('<strong>' + key + '</strong>: ' + val);
-            } else if (line.length > 20 && line.length < 150 && !isCodeLine(line) && !line.startsWith('-') && keyPoints.length < 4 && line !== definition) {
-                if (line.match(/^[A-Z]/) && !line.match(/^[A-Z]{3,}/)) keyPoints.push(line);
+                if (key.length < 30 && val.length > 0) {
+                    html += '<div style="padding:3px 0 3px 10px;border-left:2px solid rgba(14,165,233,.2);margin-bottom:3px"><span style="color:#0369a1;font-weight:600">' + key + '</span>: <span style="color:#334155">' + val + '</span></div>';
+                } else {
+                    html += '<div style="padding:3px 0;color:#334155">' + line + '</div>';
+                }
+            } else {
+                html += '<div style="padding:3px 0;color:#334155">' + line + '</div>';
             }
-        }
-
-        var html = '<div style="border-left:3px solid #0ea5e9;padding-left:12px;margin-bottom:10px">';
-        html += '<div style="font-size:.7rem;color:#0369a1;font-weight:700;margin-bottom:6px">\ud83c\udfaf INTERVIEW ANSWER:</div>';
-        if (definition) html += '<div style="color:#1e293b;margin-bottom:8px">' + definition + '</div>';
-        if (keyPoints.length > 0) {
-            keyPoints.slice(0, 4).forEach(function(point) {
-                html += '<div style="padding:3px 0 3px 10px;color:#334155;border-left:2px solid rgba(14,165,233,.3);margin-bottom:4px"><span style="color:#059669;margin-right:4px">\u25b8</span>' + point + '</div>';
-            });
-        }
+        });
         html += '</div>';
-        html += '<div style="font-size:.7rem;color:#64748b;margin-top:8px;font-style:italic">\ud83d\udca1 Keep it under 60 seconds. If interviewer wants more, they\'ll ask.</div>';
+        html += '<div style="font-size:.7rem;color:#64748b;margin-top:8px;font-style:italic">\ud83d\udca1 Full concept without code. Click "Full Answer" for code examples.</div>';
         return html;
     }
 
