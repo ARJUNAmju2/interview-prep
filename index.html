@@ -69,8 +69,6 @@ h1{background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background
 <a href="notes.html" style="padding:8px 14px;background:linear-gradient(135deg,#64748b,#475569);border-radius:8px;color:#fff;text-decoration:none;font-size:.73rem;font-weight:600">🗒️ Notes</a>
 </div>
 
-<div class="footer">Keep pushing. Every day counts.</div>
-
 <!-- Progress Chart + Daily Report side by side -->
 <div style="display:flex;gap:14px;margin-bottom:16px;flex-wrap:wrap">
 <div style="flex:1;min-width:150px;background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #1e3a5f;border-radius:12px;padding:14px;text-align:center">
@@ -81,7 +79,11 @@ h1{background:linear-gradient(135deg,#38bdf8,#06b6d4,#22d3ee);-webkit-background
 <div id="dailyProgress" style="flex:1.5;min-width:220px;background:linear-gradient(135deg,#1e293b,#0f172a);border:1px solid #1e3a5f;border-radius:12px;padding:14px;text-align:left"></div>
 </div>
 
+<div class="footer">Keep pushing. Every day counts.</div>
+
 <div id="lastVisited" style="margin-top:12px;padding:12px 16px;background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:10px;font-size:.8rem;color:#94a3b8;display:none"></div>
+<div id="weakTopics" style="margin-top:10px;padding:12px 16px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.2);border-radius:10px;font-size:.8rem;color:#f87171;display:none"></div>
+<div id="countdown" style="margin-top:10px;padding:12px 16px;background:rgba(139,92,246,.08);border:1px solid rgba(139,92,246,.2);border-radius:10px;font-size:.8rem;color:#a78bfa;display:none"></div>
 <div id="dailyGoal" style="margin-top:10px;padding:12px 16px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2);border-radius:10px;font-size:.8rem;color:#f59e0b;display:none"></div>
 </div>
 
@@ -186,50 +188,94 @@ setInterval(updateClock,60000);
     const currentDay = completedDays + 1;
     const el = document.getElementById('dailyProgress');
 
-    if (currentDay > 44) {
-        el.innerHTML = `<div style="text-align:center"><div style="font-size:1.5rem;margin-bottom:8px">🏆</div><div style="font-size:.9rem;font-weight:700;color:#10b981">All 44 Days Completed! You're interview ready! 🔥</div></div>`;
-        return;
+    // Count questions studied per topic from localStorage
+    function getStudiedCount(pageKey) {
+        let count = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith(pageKey + '_q_') && localStorage.getItem(key) === '1') {
+                count++;
+            }
+        }
+        return count;
     }
 
+    const topicPages = [
+        {name:'OOPs', key:'oops_interview_questions', total:104},
+        {name:'C#', key:'c#_interview_questions', total:95},
+        {name:'SQL', key:'sql_interview_questions', total:52},
+        {name:'MVC', key:'mvc_interview_questions', total:115},
+        {name:'ASP.NET', key:'asp.net_core_interview_questions', total:115},
+        {name:'Web API', key:'web_api_interview_questions', total:15},
+        {name:'EF Core', key:'ef_core_interview_questions', total:12},
+        {name:'SOLID', key:'solid_principles', total:12},
+        {name:'DI', key:'dependency_injection', total:8},
+        {name:'Git', key:'git_interview_questions', total:12},
+        {name:'JS', key:'javascript_interview_questions', total:12},
+        {name:'Oracle', key:'oracle_interview_questions', total:30},
+        {name:'Coding', key:'coding_interview_questions', total:40}
+    ];
+
+    let totalStudied = 0;
+    let totalQuestions = 0;
+    let topicProgress = [];
+
+    topicPages.forEach(function(t) {
+        const studied = getStudiedCount(t.key);
+        totalStudied += studied;
+        totalQuestions += t.total;
+        topicProgress.push({name: t.name, studied: studied, total: t.total});
+    });
+
+    const qPercent = totalQuestions > 0 ? Math.round((totalStudied / totalQuestions) * 100) : 0;
+
+    if (currentDay > 44) {
+        el.innerHTML = `<div style="text-align:center"><div style="font-size:1.5rem;margin-bottom:8px">🏆</div><div style="font-size:.9rem;font-weight:700;color:#10b981">All 44 Days Completed! You're interview ready! 🔥</div></div>`;
+    } else {
+
     const today = schedule[currentDay - 1];
-    const yesterday = currentDay > 1 ? schedule[currentDay - 2] : null;
-    const tomorrow = currentDay < 44 ? schedule[currentDay] : null;
-    const percent = Math.round((completedDays / 44) * 100);
 
     let html = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <span style="font-size:.85rem;font-weight:700;color:#38bdf8">📊 Daily Progress</span>
-        <span style="font-size:.72rem;color:#64748b">${completedDays}/44 days • ${percent}%</span>
+        <span style="font-size:.72rem;color:#64748b">Day ${currentDay}/44 • ${completedDays} days done</span>
     </div>
-    <div style="height:6px;background:#1e3a5f;border-radius:4px;overflow:hidden;margin-bottom:14px">
-        <div style="height:100%;width:${percent}%;background:linear-gradient(90deg,#10b981,#34d399);border-radius:4px"></div>
-    </div>`;
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <span style="font-size:.75rem;color:#94a3b8">Questions Covered</span>
+        <span style="font-size:.82rem;font-weight:700;color:#10b981">${totalStudied}/${totalQuestions} (${qPercent}%)</span>
+    </div>
+    <div style="height:8px;background:#1e3a5f;border-radius:4px;overflow:hidden;margin-bottom:14px">
+        <div style="height:100%;width:${qPercent}%;background:linear-gradient(90deg,#10b981,#34d399);border-radius:4px;transition:width .5s"></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px">`;
 
-    if (yesterday && ttData['d' + (currentDay-1)]) {
-        html += `<div style="padding:8px 12px;background:rgba(16,185,129,.08);border-left:3px solid #10b981;border-radius:0 6px 6px 0;margin-bottom:8px;font-size:.75rem">
-            <span style="color:#10b981">✅ Yesterday (Day ${currentDay-1}):</span> <span style="color:#94a3b8">${yesterday.topic}</span></div>`;
-    }
+    topicProgress.forEach(function(t) {
+        const pct = t.total > 0 ? Math.round((t.studied / t.total) * 100) : 0;
+        const color = pct >= 80 ? '#10b981' : pct >= 40 ? '#f59e0b' : '#64748b';
+        html += `<div style="background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:4px 8px;font-size:.65rem">
+            <span style="color:${color};font-weight:700">${t.name}</span> <span style="color:#64748b">${t.studied}/${t.total}</span>
+        </div>`;
+    });
 
-    html += `<div style="padding:10px 12px;background:rgba(245,158,11,.08);border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;margin-bottom:8px;font-size:.8rem">
+    html += '</div>';
+
+    // Today's schedule
+    html += `<div style="padding:10px 12px;background:rgba(245,158,11,.08);border-left:3px solid #f59e0b;border-radius:0 6px 6px 0;font-size:.8rem">
         <div style="color:#f59e0b;font-weight:700;margin-bottom:4px">📖 Today — Day ${currentDay}</div>
         <div style="color:#e2e8f0;font-weight:600">${today.topic}</div>
         <div style="color:#64748b;font-size:.72rem;margin-top:4px">Questions: ${today.c}</div></div>`;
 
-    if (tomorrow) {
-        html += `<div style="padding:8px 12px;background:rgba(99,102,241,.06);border-left:3px solid #6366f1;border-radius:0 6px 6px 0;font-size:.75rem">
-            <span style="color:#818cf8">🔜 Tomorrow (Day ${currentDay+1}):</span> <span style="color:#94a3b8">${tomorrow.topic}</span></div>`;
-    }
     el.innerHTML = html;
+    } // end else
 
-    // Draw Doughnut Chart
-    drawChart(completedDays);
+    // Always draw chart based on questions covered
+    drawChart(completedDays, totalStudied, totalQuestions);
 })();
 
-function drawChart(completed) {
+function drawChart(completedDays, totalStudied, totalQuestions) {
     const canvas = document.getElementById('progressChart');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     const centerX = 65, centerY = 65, radius = 55, lineWidth = 15;
-    const remaining = 44 - completed;
 
     // Topic-wise breakdown from timetable
     const topics = [
@@ -286,18 +332,19 @@ function drawChart(completed) {
     ctx.fill();
 
     // Center text
-    const percent = Math.round((completed / 44) * 100);
+    const percent = totalQuestions > 0 ? Math.round((totalStudied / totalQuestions) * 100) : 0;
     ctx.fillStyle = '#10b981';
     ctx.font = 'bold 18px Segoe UI';
     ctx.textAlign = 'center';
     ctx.fillText(percent + '%', centerX, centerY + 2);
     ctx.fillStyle = '#64748b';
     ctx.font = '9px Segoe UI';
-    ctx.fillText(completed + '/44 days', centerX, centerY + 16);
+    ctx.fillText(totalStudied + '/' + totalQuestions + ' Qs', centerX, centerY + 16);
 
     // Draw completed overlay (grey out remaining)
-    if (completed < 44) {
-        const completedAngle = (completed / 44) * Math.PI * 2;
+    const qPercent2 = totalQuestions > 0 ? totalStudied / totalQuestions : 0;
+    if (qPercent2 < 1) {
+        const completedAngle = qPercent2 * Math.PI * 2;
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, -Math.PI/2 + completedAngle, -Math.PI/2 + Math.PI*2);
         ctx.strokeStyle = 'rgba(30,58,95,.7)';
@@ -327,6 +374,73 @@ function drawChart(completed) {
         el.innerHTML = `📍 Last studied: <strong style="color:#38bdf8">${last}</strong> • ${lastTime}`;
     }
 })();
+
+// Weak Topics indicator
+(function(){
+    function getStudiedCount(pageKey) {
+        let count = 0;
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key && key.startsWith(pageKey + '_q_') && localStorage.getItem(key) === '1') count++;
+        }
+        return count;
+    }
+    const topics = [
+        {name:'OOPs', key:'oops_interview_questions', total:104},
+        {name:'C#', key:'c#_interview_questions', total:95},
+        {name:'SQL', key:'sql_interview_questions', total:52},
+        {name:'MVC', key:'mvc_interview_questions', total:115},
+        {name:'ASP.NET', key:'asp.net_core_interview_questions', total:115},
+        {name:'Web API', key:'web_api_interview_questions', total:15},
+        {name:'EF Core', key:'ef_core_interview_questions', total:12},
+        {name:'SOLID', key:'solid_principles', total:12},
+        {name:'DI', key:'dependency_injection', total:8},
+        {name:'Git', key:'git_interview_questions', total:12},
+        {name:'JS', key:'javascript_interview_questions', total:12},
+        {name:'Oracle', key:'oracle_interview_questions', total:30}
+    ];
+    const weak = topics.filter(t => {
+        const pct = (getStudiedCount(t.key) / t.total) * 100;
+        return pct < 30;
+    }).map(t => t.name);
+    if (weak.length > 0 && weak.length < topics.length) {
+        const el = document.getElementById('weakTopics');
+        el.style.display = 'block';
+        el.innerHTML = `⚠️ <strong>Weak Topics:</strong> ${weak.join(', ')} — <span style="color:#94a3b8">Less than 30% covered. Focus here!</span>`;
+    }
+})();
+
+// Interview Countdown Timer
+(function(){
+    let interviewDate = localStorage.getItem('interviewDate');
+    const el = document.getElementById('countdown');
+    
+    if (!interviewDate) {
+        el.style.display = 'block';
+        el.innerHTML = `⏰ <a href="#" onclick="setInterviewDate();return false" style="color:#a78bfa;text-decoration:underline">Set your interview date</a> to see countdown`;
+    } else {
+        const diff = Math.ceil((new Date(interviewDate) - new Date()) / (1000*60*60*24));
+        el.style.display = 'block';
+        if (diff > 0) {
+            const color = diff <= 7 ? '#ef4444' : diff <= 14 ? '#f59e0b' : '#a78bfa';
+            el.innerHTML = `⏰ <strong style="color:${color}">${diff} days</strong> until interview (${new Date(interviewDate).toLocaleDateString('en-US',{month:'short',day:'numeric'})}) <a href="#" onclick="setInterviewDate();return false" style="color:#64748b;font-size:.7rem;margin-left:8px">change</a>`;
+        } else if (diff === 0) {
+            el.innerHTML = `🔥 <strong style="color:#ef4444">TODAY is your interview!</strong> You've got this! 💪`;
+        } else {
+            el.innerHTML = `✅ Interview date passed. <a href="#" onclick="setInterviewDate();return false" style="color:#a78bfa;text-decoration:underline">Set new date</a>`;
+        }
+    }
+})();
+
+function setInterviewDate() {
+    const date = prompt('Enter your interview date (YYYY-MM-DD):');
+    if (date && !isNaN(new Date(date).getTime())) {
+        localStorage.setItem('interviewDate', date);
+        location.reload();
+    } else if (date) {
+        alert('Invalid date format. Use YYYY-MM-DD (e.g., 2025-02-15)');
+    }
+}
 
 // Daily goal based on day
 (function(){

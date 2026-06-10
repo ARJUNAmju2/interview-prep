@@ -5,11 +5,11 @@
     font-family: 'Segoe UI', sans-serif !important;
     font-size: .88rem !important;
     line-height: 1.9 !important;
-    color: #e2e8f0 !important;
-    background: #0d1b2a !important;
+    color: #1e293b !important;
+    background: linear-gradient(135deg, #f0f9ff, #e0f2fe) !important;
     padding: 18px !important;
     border-radius: 10px !important;
-    border: 1px solid rgba(255,255,255,.06) !important;
+    border: 1px solid #bae6fd !important;
     white-space: pre-wrap !important;
     word-wrap: break-word !important;
 }
@@ -52,7 +52,7 @@ font[style*="background-color"] {
 
 /* Light theme override */
 body.light .q-ans pre {
-    background: #f8fafc !important;
+    background: linear-gradient(135deg, #ffffff, #f8fafc) !important;
     color: #1e293b !important;
     border-color: #e2e8f0 !important;
 }
