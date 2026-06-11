@@ -391,18 +391,35 @@
             btn.className = 'ai-btn';
             btn.textContent = '\ud83e\udd16';
             btn.title = 'Ask AI';
-            btn.style.cssText = 'cursor:pointer;margin-left:4px;font-size:.9rem;opacity:.4';
+            btn.style.cssText = 'cursor:pointer;margin-left:4px;font-size:.9rem;opacity:.4;position:relative';
             btn.onmouseover = function() { this.style.opacity = '1'; };
-            btn.onmouseout = function() { this.style.opacity = '.4'; };
+            btn.onmouseout = function() { if(!this.querySelector('.ai-popup')) this.style.opacity = '.4'; };
             btn.onclick = function(e) {
                 e.stopPropagation();
-                var topic = document.title.replace(' Interview Questions', '');
-                window.open('https://www.google.com/search?q=' + encodeURIComponent(txt + ' ' + topic + ' interview answer'), '_blank');
+                var existing = this.querySelector('.ai-popup');
+                if (existing) { existing.remove(); this.style.opacity = '.4'; return; }
+                // Remove other popups
+                document.querySelectorAll('.ai-popup').forEach(function(p){p.remove();});
+                var topic = document.title.replace(' Interview Questions', '').replace(' Principles', '');
+                var query = txt + ' ' + topic + ' interview answer';
+                var popup = document.createElement('div');
+                popup.className = 'ai-popup';
+                popup.style.cssText = 'position:absolute;top:24px;right:0;background:#1e293b;border:1px solid #475569;border-radius:8px;padding:8px;display:flex;gap:6px;z-index:9999;box-shadow:0 4px 15px rgba(0,0,0,.5)';
+                popup.innerHTML = '<a href="https://chat.openai.com/?q=' + encodeURIComponent(query) + '" target="_blank" style="background:#10a37f;color:#fff;padding:5px 10px;border-radius:5px;font-size:.7rem;font-weight:600;text-decoration:none;white-space:nowrap">ChatGPT</a>' +
+                    '<a href="https://www.google.com/search?q=' + encodeURIComponent(query) + '" target="_blank" style="background:#4285f4;color:#fff;padding:5px 10px;border-radius:5px;font-size:.7rem;font-weight:600;text-decoration:none;white-space:nowrap">Google</a>';
+                this.appendChild(popup);
+                this.style.opacity = '1';
             };
             var arrow = title.querySelector('.arrow');
             if (arrow) title.insertBefore(btn, arrow);
             else title.appendChild(btn);
         });
     }
+    // Close popup on outside click
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.ai-btn')) {
+            document.querySelectorAll('.ai-popup').forEach(function(p){p.remove();});
+        }
+    });
     setTimeout(addAI, 1000);
 })();

@@ -5,6 +5,7 @@ var qs=document.querySelectorAll('.q');
 var countEl=document.getElementById('count');
 
 function updateCount(){
+    if(!countEl)return;
     var total=0,checked=0,visible=0;
     qs.forEach(function(q){
         total++;
@@ -60,14 +61,13 @@ resetBtn.style.cssText='background:linear-gradient(135deg,#ef4444,#dc2626);color
 
 filterBtn.onclick=function(){
     qs.forEach(function(q){q.style.display=q.classList.contains('studied')?'none':''});
-    var v=0;qs.forEach(function(q){if(q.style.display!=='none')v++});
-    countEl.textContent=v+'/'+qs.length+' Questions | ✅ Studied: '+document.querySelectorAll('.q.studied').length+'/'+qs.length;
+    if(countEl){var v=0;qs.forEach(function(q){if(q.style.display!=='none')v++});countEl.textContent=v+'/'+qs.length+' Questions | ✅ Studied: '+document.querySelectorAll('.q.studied').length+'/'+qs.length;}
 };
 showAllBtn.onclick=function(){
     qs.forEach(function(q){q.style.display=''});
-    searchEl.value='';
+    if(searchEl)searchEl.value='';
     updateCount();
-    countEl.textContent=qs.length+' Questions | ✅ Studied: '+document.querySelectorAll('.q.studied').length+'/'+qs.length;
+    if(countEl)countEl.textContent=qs.length+' Questions | ✅ Studied: '+document.querySelectorAll('.q.studied').length+'/'+qs.length;
 };
 resetBtn.onclick=function(){
     if(!confirm('Reset all studied marks for this page?'))return;
@@ -82,5 +82,5 @@ resetBtn.onclick=function(){
 filterDiv.appendChild(filterBtn);
 filterDiv.appendChild(showAllBtn);
 filterDiv.appendChild(resetBtn);
-searchEl.after(filterDiv);
+if(searchEl){searchEl.after(filterDiv);}else{var ct=document.querySelector('.container');if(ct)ct.insertBefore(filterDiv,ct.querySelector('.q'));}
 })();
