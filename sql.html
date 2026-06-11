@@ -1823,7 +1823,7 @@ TIPS:
 GOOD LUCK!
 ================================================================================</pre></div>
 </div>
-<div class="q" data-s="clustered non-clustered index difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">47</span><span class="txt">What is Clustered vs Non-Clustered Index?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CLUSTERED INDEX:
+<div class="q" data-s="q47. what is clustered vs non-clustered index?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">47</span><span class="txt">What is Clustered vs Non-Clustered Index?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CLUSTERED INDEX:
 - Physically sorts and stores data rows in the table
 - Only ONE per table (like a phone book sorted by name)
 - Primary Key creates clustered index by default
@@ -1859,7 +1859,7 @@ Covering Index (includes all needed columns):
 CREATE INDEX IX_Order_Cover ON Orders(CustomerId)
 INCLUDE (OrderDate, Total);  -- No need to go to table for these columns</pre></div></div>
 
-<div class="q" data-s="optimize slow query execution plan performance"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">48</span><span class="txt">How to optimize a slow SQL query?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Step-by-step approach:
+<div class="q" data-s="q48. how to optimize a slow sql query?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">48</span><span class="txt">How to optimize a slow SQL query?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Step-by-step approach:
 
 1. CHECK EXECUTION PLAN:
    - SET STATISTICS IO ON
@@ -1903,7 +1903,7 @@ INCLUDE (OrderDate, Total);  -- No need to go to table for these columns</pre></
 
 10. AVOID N+1 in application code � Use JOINs or batch queries</pre></div></div>
 
-<div class="q" data-s="nth highest salary second third"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">49</span><span class="txt">Write query to find Nth highest salary?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Method 1: Using DENSE_RANK (Best):
+<div class="q" data-s="q49. write query to find nth highest salary?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">49</span><span class="txt">Write query to find Nth highest salary?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Method 1: Using DENSE_RANK (Best):
 SELECT Salary FROM (
     SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS Rank
     FROM Employees
@@ -1934,7 +1934,7 @@ DENSE_RANK vs ROW_NUMBER vs RANK:
 
 For salary questions, use DENSE_RANK (handles duplicate salaries correctly).</pre></div></div>
 
-<div class="q" data-s="cte temp table table variable difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">50</span><span class="txt">What is CTE vs Temp Table vs Table Variable?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CTE (Common Table Expression):
+<div class="q" data-s="q50. what is cte vs temp table vs table variable?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">50</span><span class="txt">What is CTE vs Temp Table vs Table Variable?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CTE (Common Table Expression):
 - Temporary named result set within a single query
 - Exists only during that query execution
 - Good for readability and recursive queries
@@ -1982,7 +1982,7 @@ SELECT * FROM @Results;
 | Statistics     | N/A            | Yes            | No             |
 | Transactions   | N/A            | Yes            | No rollback    |</pre></div></div>
 
-<div class="q" data-s="stored procedure vs inline query"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">51</span><span class="txt">Stored Procedure vs Inline Query � when to use?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>STORED PROCEDURE:
+<div class="q" data-s="q51. stored procedure vs inline query - when to use?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">51</span><span class="txt">Stored Procedure vs Inline Query � when to use?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>STORED PROCEDURE:
 - Pre-compiled SQL stored in database
 - Execution plan cached (faster repeated execution)
 - Security (grant EXECUTE without table access)
@@ -2034,7 +2034,7 @@ var orders = await _context.Orders
     .FromSqlRaw("EXEC GetOrdersByCustomer @p0, @p1", customerId, fromDate)
     .ToListAsync();</pre></div></div>
 
-<div class="q" data-s="window function row_number rank partition by"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">52</span><span class="txt">What are Window Functions (ROW_NUMBER, RANK, PARTITION BY)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Window Functions perform calculations across a set of rows related to current row WITHOUT grouping.
+<div class="q" data-s="q52. what are window functions (row_number, rank, partition by)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">52</span><span class="txt">What are Window Functions (ROW_NUMBER, RANK, PARTITION BY)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Window Functions perform calculations across a set of rows related to current row WITHOUT grouping.
 
 ROW_NUMBER � Unique sequential number:
 SELECT Name, Department, Salary,
@@ -2088,6 +2088,8 @@ function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre
 </script>
 <script src="study_check.js"></script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>

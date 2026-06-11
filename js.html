@@ -21,7 +21,7 @@
 <div class="count" id="count"></div>
 <div id="qlist">
 
-<div class="q" data-s="var let const difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is the difference between var, let, and const?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature    | var            | let            | const          |
+<div class="q" data-s="q1. what is the difference between var, let, and const?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is the difference between var, let, and const?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature    | var            | let            | const          |
 |------------|----------------|----------------|----------------|
 | Scope      | Function       | Block          | Block          |
 | Hoisting   | Yes (undefined)| Yes (TDZ)      | Yes (TDZ)      |
@@ -57,7 +57,7 @@ arr.push(4);  // OK! Array modified, reference unchanged
 
 Best Practice: Use const by default, let when you need to reassign, never var.</pre></div></div>
 
-<div class="q" data-s="hoisting javascript"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Hoisting?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Hoisting is JavaScript's behavior of moving declarations to the top of their scope BEFORE code execution.
+<div class="q" data-s="q2. what is hoisting?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Hoisting?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Hoisting is JavaScript's behavior of moving declarations to the top of their scope BEFORE code execution.
 
 var hoisting (initialized as undefined):
 console.log(x);  // undefined (not error!)
@@ -97,7 +97,7 @@ Summary:
 - function declaration: Fully hoisted (can call before declaration)
 - function expression/arrow: NOT hoisted</pre></div></div>
 
-<div class="q" data-s="closure what is closure"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What is a Closure?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>A Closure is a function that remembers and accesses variables from its outer scope even after the outer function has finished executing.
+<div class="q" data-s="q3. what is a closure?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What is a Closure?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>A Closure is a function that remembers and accesses variables from its outer scope even after the outer function has finished executing.
 
 function outer() {
     let count = 0;  // Outer variable
@@ -155,7 +155,7 @@ for (var i = 0; i < 3; i++) {
 }
 // Output: 0, 1, 2</pre></div></div>
 
-<div class="q" data-s="promise async await callback"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What are Promises and async/await?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Promises handle asynchronous operations (API calls, timers, file reads).
+<div class="q" data-s="q4. what are promises and async/await?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What are Promises and async/await?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Promises handle asynchronous operations (API calls, timers, file reads).
 
 CALLBACK (old way � callback hell):
 getData(function(a) {
@@ -215,7 +215,7 @@ Key points:
 - Promise.all() for parallel operations
 - Promise.race() for first to complete</pre></div></div>
 
-<div class="q" data-s="== === equality strict"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is == vs === (Equality)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>== (Loose equality) � compares with TYPE COERCION:
+<div class="q" data-s="q5. what is == vs === (equality)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is == vs === (Equality)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>== (Loose equality) � compares with TYPE COERCION:
 5 == "5"       // true (string "5" converted to number)
 0 == false     // true (false converted to 0)
 null == undefined  // true
@@ -244,7 +244,7 @@ Best Practice:
 - Use Number.isNaN() to check NaN
 - Use === null or === undefined explicitly</pre></div></div>
 
-<div class="q" data-s="this keyword context"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is 'this' keyword in JavaScript?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>'this' refers to the object that is executing the current function. Its value depends on HOW the function is called.
+<div class="q" data-s="q6. what is 'this' keyword in javascript?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is 'this' keyword in JavaScript?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>'this' refers to the object that is executing the current function. Its value depends on HOW the function is called.
 
 1. Global context:
 console.log(this);  // window (browser) / global (Node)
@@ -298,7 +298,7 @@ Rule of thumb:
 - Regular function: this = whoever CALLS it
 - Arrow function: this = wherever it was DEFINED</pre></div></div>
 
-<div class="q" data-s="event delegation bubbling capturing"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">What is Event Delegation and Event Bubbling?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>EVENT BUBBLING:
+<div class="q" data-s="q7. what is event delegation and event bubbling?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">What is Event Delegation and Event Bubbling?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>EVENT BUBBLING:
 When an event occurs on an element, it first runs handlers on that element, then on its parent, then all the way up to document.
 
 &lt;div id="parent"&gt;
@@ -347,7 +347,7 @@ document.getElementById('table').addEventListener('click', (e) => {
     }
 });</pre></div></div>
 
-<div class="q" data-s="arrow function regular function difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">Arrow Function vs Regular Function?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | Regular Function       | Arrow Function         |
+<div class="q" data-s="q8. arrow function vs regular function?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">Arrow Function vs Regular Function?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | Regular Function       | Arrow Function         |
 |------------------|------------------------|------------------------|
 | Syntax           | function() {}          | () => {}               |
 | this             | Dynamic (caller)       | Lexical (parent scope) |
@@ -393,7 +393,7 @@ const obj = {
     greet() { console.log(this.name); }  // "John"
 };</pre></div></div>
 
-<div class="q" data-s="spread rest destructuring es6"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">What is Spread, Rest, and Destructuring?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SPREAD (...) � Expands array/object:
+<div class="q" data-s="q9. what is spread, rest, and destructuring?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">What is Spread, Rest, and Destructuring?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SPREAD (...) � Expands array/object:
 // Array spread:
 const arr1 = [1, 2, 3];
 const arr2 = [...arr1, 4, 5];  // [1, 2, 3, 4, 5]
@@ -441,7 +441,7 @@ function greet({ name, age }) {
 }
 greet({ name: "John", age: 30 });</pre></div></div>
 
-<div class="q" data-s="map filter reduce array methods"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What are map, filter, reduce?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three essential array methods (functional programming):
+<div class="q" data-s="q10. what are map, filter, reduce?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What are map, filter, reduce?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three essential array methods (functional programming):
 
 MAP � Transform each element (returns new array):
 const numbers = [1, 2, 3, 4, 5];
@@ -485,7 +485,7 @@ const result = products
 
 Key: These DON'T modify original array (immutable).</pre></div></div>
 
-<div class="q" data-s="fetch api ajax call"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">How to make API calls (Fetch API)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>// GET request:
+<div class="q" data-s="q11. how to make api calls (fetch api)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">How to make API calls (Fetch API)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>// GET request:
 async function getProducts() {
     const response = await fetch('/api/products');
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -545,7 +545,7 @@ $.ajax({
     error: function(xhr) { console.error(xhr.statusText); }
 });</pre></div></div>
 
-<div class="q" data-s="null undefined nan difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is null vs undefined vs NaN?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>undefined � Variable declared but NOT assigned:
+<div class="q" data-s="q12. what is null vs undefined vs nan?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is null vs undefined vs NaN?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>undefined � Variable declared but NOT assigned:
 let x;
 console.log(x);  // undefined
 
@@ -602,6 +602,8 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>

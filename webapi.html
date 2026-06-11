@@ -43,7 +43,7 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#f9731
 <div class="count" id="count"></div>
 <div id="qlist">
 
-<div class="q" data-s="what is web api">
+<div class="q" data-s="q1. what is web api? how is it different from mvc?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Web API? How is it different from MVC?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>Web API is a framework for building HTTP-based services that can be consumed by any client (browser, mobile, desktop, IoT).
 
@@ -70,7 +70,7 @@ public class ProductsController : ControllerBase
 }</pre></div>
 </div>
 
-<div class="q" data-s="what is rest restful">
+<div class="q" data-s="q2. what is rest? what are restful principles?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is REST? What are RESTful principles?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>REST (Representational State Transfer) is an architectural style for designing networked applications.
 
@@ -98,7 +98,7 @@ Rules:
 - Use query params for filtering: /api/products?category=electronics</pre></div>
 </div>
 
-<div class="q" data-s="http status codes">
+<div class="q" data-s="q3. what are http status codes?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What are HTTP Status Codes? List important ones.</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>HTTP Status Codes indicate the result of an HTTP request.
 
@@ -137,7 +137,7 @@ return NotFound();         // 404
 return StatusCode(500);    // 500</pre></div>
 </div>
 
-<div class="q" data-s="what is jwt json web token authentication">
+<div class="q" data-s="q4. what is jwt authentication?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is JWT (JSON Web Token)? How does authentication work?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>JWT is a compact, self-contained token used for securely transmitting information between parties as a JSON object.
 
@@ -197,7 +197,7 @@ public IActionResult GetProfile() { }
 public IActionResult Delete(int id) { }</pre></div>
 </div>
 
-<div class="q" data-s="what is middleware pipeline">
+<div class="q" data-s="q5. what is middleware? explain the request pipeline.">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is Middleware? Explain the request pipeline.</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>Middleware is software that's assembled into an application pipeline to handle requests and responses. Each middleware can:
 - Process the request
@@ -244,7 +244,7 @@ public class RequestLoggingMiddleware
 app.UseMiddleware&lt;RequestLoggingMiddleware&gt;();</pre></div>
 </div>
 
-<div class="q" data-s="api versioning">
+<div class="q" data-s="q6. what is api versioning?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is API Versioning? How to implement it?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>API Versioning allows you to maintain multiple versions of your API simultaneously without breaking existing clients.
 
@@ -300,7 +300,7 @@ When to version:
 - Changing business logic significantly</pre></div>
 </div>
 
-<div class="q" data-s="content negotiation accept header json xml">
+<div class="q" data-s="q7. what is content negotiation?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">What is Content Negotiation?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>Content Negotiation is the process where the server selects the best response format based on the client's Accept header.
 
@@ -326,7 +326,7 @@ builder.Services.AddControllers(options =&gt;
 });</pre></div>
 </div>
 
-<div class="q" data-s="cors cross origin resource sharing">
+<div class="q" data-s="q8. what is cors? how to enable it?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">What is CORS? How to enable it?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>CORS (Cross-Origin Resource Sharing) is a security mechanism that allows/restricts web pages from making requests to a different domain.
 
@@ -367,7 +367,7 @@ public class ProductsController : ControllerBase { }
 public IActionResult Delete(int id) { }</pre></div>
 </div>
 
-<div class="q" data-s="action filter exception handling global error">
+<div class="q" data-s="q9. how to handle exceptions globally in web api?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">How to handle exceptions globally in Web API?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>3 Approaches:
 
@@ -439,7 +439,7 @@ builder.Services.AddControllers(options =&gt;
     options.Filters.Add&lt;ApiExceptionFilter&gt;());</pre></div>
 </div>
 
-<div class="q" data-s="apicontroller attribute model validation automatic">
+<div class="q" data-s="q10. what does [apicontroller] attribute do?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What does [ApiController] attribute do?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>[ApiController] adds several conventions automatically:
 
@@ -478,7 +478,7 @@ public IActionResult Create(ProductDto dto)
 }</pre></div>
 </div>
 
-<div class="q" data-s="rate limiting throttling">
+<div class="q" data-s="q11. what is rate limiting in web api?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">What is Rate Limiting in Web API?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>Rate Limiting restricts the number of requests a client can make in a given time period. Prevents abuse and ensures fair usage.
 
@@ -516,7 +516,7 @@ Common strategies:
 - Concurrency: Limit simultaneous requests</pre></div>
 </div>
 
-<div class="q" data-s="swagger openapi documentation">
+<div class="q" data-s="q12. what is swagger/openapi?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is Swagger/OpenAPI?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>Swagger (OpenAPI) is a tool for documenting and testing REST APIs. It generates interactive API documentation automatically.
 
@@ -558,7 +558,7 @@ Benefits:
 - Team collaboration (share API spec)</pre></div>
 </div>
 
-<div class="q" data-s="httpget httppost httpput httpdelete patch methods">
+<div class="q" data-s="q13. explain http methods (get, post, put, patch, delete)">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">13</span><span class="txt">Explain HTTP Methods (GET, POST, PUT, PATCH, DELETE)</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>| Method | Purpose          | Idempotent | Body | Example                    |
 |--------|------------------|------------|------|----------------------------|
@@ -593,7 +593,7 @@ ASP.NET Core:
 [HttpDelete("{id}")]public IActionResult Delete(int id) { }</pre></div>
 </div>
 
-<div class="q" data-s="frombody fromquery fromroute fromheader model binding">
+<div class="q" data-s="q14. what is [frombody], [fromquery], [fromroute], [fromheader]?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">14</span><span class="txt">What is [FromBody], [FromQuery], [FromRoute], [FromHeader]?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>These attributes specify WHERE the model binder should look for data.
 
@@ -625,7 +625,7 @@ Rules:
 - Simple types default to [FromQuery] or [FromRoute]</pre></div>
 </div>
 
-<div class="q" data-s="async await task web api performance">
+<div class="q" data-s="q15. why use async/await in web api?">
 <div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">15</span><span class="txt">Why use async/await in Web API?</span><span class="arrow">&#9660;</span></div>
 <div class="q-ans"><pre>async/await makes API non-blocking, improving scalability.
 
@@ -677,6 +677,8 @@ function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre
 
 <script src="study_check.js"></script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>

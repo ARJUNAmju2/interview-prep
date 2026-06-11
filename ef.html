@@ -21,7 +21,7 @@
 <div class="count" id="count"></div>
 <div id="qlist">
 
-<div class="q" data-s="what is entity framework core orm"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Entity Framework Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Entity Framework Core (EF Core) is a lightweight, cross-platform ORM (Object-Relational Mapper) for .NET that allows developers to work with databases using C# objects instead of writing raw SQL.
+<div class="q" data-s="q1. what is entity framework core?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Entity Framework Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Entity Framework Core (EF Core) is a lightweight, cross-platform ORM (Object-Relational Mapper) for .NET that allows developers to work with databases using C# objects instead of writing raw SQL.
 
 Key Features:
 - Maps C# classes to database tables
@@ -53,7 +53,7 @@ public class AppDbContext : DbContext
     }
 }</pre></div></div>
 
-<div class="q" data-s="code first database first approach"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Code First vs Database First approach?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CODE FIRST:
+<div class="q" data-s="q2. what is code first vs database first approach?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Code First vs Database First approach?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CODE FIRST:
 - You write C# classes FIRST
 - EF Core generates database from your classes
 - Use Migrations to update database schema
@@ -88,7 +88,7 @@ When to use:
 - Code First: New projects, full control, team collaboration
 - Database First: Legacy databases, DBA-managed schemas</pre></div></div>
 
-<div class="q" data-s="migrations add update remove"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What are Migrations? How to use them?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Migrations are version control for your database schema. They track changes to your model and generate SQL to update the database.
+<div class="q" data-s="q3. what are migrations? how to use them?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What are Migrations? How to use them?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Migrations are version control for your database schema. They track changes to your model and generate SQL to update the database.
 
 Common Commands:
 dotnet ef migrations add AddProductTable     // Create migration
@@ -133,7 +133,7 @@ Best Practices:
 - Use dotnet ef migrations script for production deployments
 - Never edit applied migrations</pre></div></div>
 
-<div class="q" data-s="lazy loading eager loading explicit loading"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is Lazy Loading vs Eager Loading vs Explicit Loading?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three strategies for loading related data:
+<div class="q" data-s="q4. what is lazy loading vs eager loading vs explicit loading?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is Lazy Loading vs Eager Loading vs Explicit Loading?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three strategies for loading related data:
 
 EAGER LOADING (Include) - Load related data WITH the query:
 var orders = await _context.Orders
@@ -185,7 +185,7 @@ await _context.Entry(order)
 
 Best Practice: Use Eager Loading (Include) in most cases.</pre></div></div>
 
-<div class="q" data-s="dbcontext lifetime scoped transient singleton"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is DbContext lifetime? Why Scoped?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DbContext should be registered as SCOPED (one instance per HTTP request).
+<div class="q" data-s="q5. what is dbcontext lifetime? why scoped?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is DbContext lifetime? Why Scoped?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DbContext should be registered as SCOPED (one instance per HTTP request).
 
 Registration:
 builder.Services.AddDbContext&lt;AppDbContext&gt;(options =>
@@ -220,7 +220,7 @@ DbContext is NOT thread-safe:
 using var scope = _serviceProvider.CreateScope();
 var context = scope.ServiceProvider.GetRequiredService&lt;AppDbContext&gt;();</pre></div></div>
 
-<div class="q" data-s="fluent api data annotations configuration"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Fluent API vs Data Annotations?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Both configure how EF Core maps classes to database. Fluent API is more powerful.
+<div class="q" data-s="q6. what is fluent api vs data annotations?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Fluent API vs Data Annotations?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Both configure how EF Core maps classes to database. Fluent API is more powerful.
 
 DATA ANNOTATIONS (on model class):
 public class Product
@@ -274,7 +274,7 @@ Fluent API can do MORE:
 Best Practice: Use Fluent API for relationships and complex config.
 Use Data Annotations for simple validation ([Required], [MaxLength]).</pre></div></div>
 
-<div class="q" data-s="change tracking savechanges add update delete"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">How does Change Tracking work in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Change Tracking monitors entity states and generates appropriate SQL on SaveChanges().
+<div class="q" data-s="q7. how does change tracking work in ef core?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">How does Change Tracking work in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Change Tracking monitors entity states and generates appropriate SQL on SaveChanges().
 
 Entity States:
 - Added      ? INSERT
@@ -310,7 +310,7 @@ var products = await _context.Products
 // - API GET endpoints
 // - When you don't need to update the data</pre></div></div>
 
-<div class="q" data-s="repository pattern unit of work"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">What is Repository Pattern with EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Repository Pattern abstracts data access logic behind an interface.
+<div class="q" data-s="q8. what is repository pattern with ef core?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">What is Repository Pattern with EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Repository Pattern abstracts data access logic behind an interface.
 
 Interface:
 public interface IRepository&lt;T&gt; where T : class
@@ -368,7 +368,7 @@ Benefits:
 Debate: Some argue DbContext IS already a repository + unit of work.
 Use Repository when: Multiple data sources, complex queries, need abstraction.</pre></div></div>
 
-<div class="q" data-s="ienumerable iqueryable difference performance"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">IEnumerable vs IQueryable in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IEnumerable (client-side filtering):
+<div class="q" data-s="q9. ienumerable vs iqueryable in ef core?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">IEnumerable vs IQueryable in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IEnumerable (client-side filtering):
 IEnumerable&lt;Product&gt; products = _context.Products;
 var expensive = products.Where(p => p.Price > 100).ToList();
 // SQL: SELECT * FROM Products (loads ALL rows)
@@ -404,7 +404,7 @@ public List&lt;Product&gt; GetProducts()
 }
 // Caller can't add efficient DB filters anymore!</pre></div></div>
 
-<div class="q" data-s="n+1 query problem performance"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What is N+1 Query Problem?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>N+1 Problem: 1 query to get parent records + N queries to get child records for each parent.
+<div class="q" data-s="q10. what is n+1 query problem?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What is N+1 Query Problem?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>N+1 Problem: 1 query to get parent records + N queries to get child records for each parent.
 
 Problem:
 var orders = await _context.Orders.ToListAsync();  // 1 query (get 100 orders)
@@ -442,7 +442,7 @@ builder.Services.AddDbContext&lt;AppDbContext&gt;(options =>
            .LogTo(Console.WriteLine, LogLevel.Information)
            .EnableSensitiveDataLogging());</pre></div></div>
 
-<div class="q" data-s="global query filter soft delete"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">What are Global Query Filters (Soft Delete)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Global Query Filters automatically apply a WHERE clause to all queries for an entity.
+<div class="q" data-s="q11. what are global query filters (soft delete)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">What are Global Query Filters (Soft Delete)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Global Query Filters automatically apply a WHERE clause to all queries for an entity.
 
 Common use: Soft Delete (mark as deleted instead of actually deleting)
 
@@ -482,7 +482,7 @@ Other uses:
 - Multi-tenancy: .HasQueryFilter(p => p.TenantId == currentTenantId)
 - Active records: .HasQueryFilter(p => p.IsActive)</pre></div></div>
 
-<div class="q" data-s="transactions savechanges multiple operations"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">How to handle Transactions in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SaveChanges() is already a transaction (all or nothing).
+<div class="q" data-s="q12. how to handle transactions in ef core?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">How to handle Transactions in EF Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SaveChanges() is already a transaction (all or nothing).
 
 For multiple SaveChanges or cross-context operations, use explicit transactions:
 
@@ -536,6 +536,8 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>

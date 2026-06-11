@@ -6588,7 +6588,7 @@ TIPS FOR YOUR INTERVIEW (4.7 Years Experience):
 GOOD LUCK WITH YOUR INTERVIEW! ??
 ================================================================================</pre></div>
 </div>
-<div class="q" data-s="middleware order why matters pipeline"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">111</span><span class="txt">Why does Middleware order matter? What happens if wrong order?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Middleware executes in the ORDER you add them. Wrong order = broken app.
+<div class="q" data-s="q111. why does middleware order matter?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">111</span><span class="txt">Why does Middleware order matter? What happens if wrong order?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Middleware executes in the ORDER you add them. Wrong order = broken app.
 
 CORRECT ORDER:
 app.UseExceptionHandler("/Error");  // 1. Catch all exceptions
@@ -6620,7 +6620,7 @@ app.UseExceptionHandler();  // Won't catch exceptions in UseRouting!
 
 Rule: Exception handling FIRST, Static files BEFORE auth, Auth BEFORE authorization.</pre></div></div>
 
-<div class="q" data-s="ioptions iconfiguration appsettings configuration"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">112</span><span class="txt">What is IOptions pattern for configuration?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IOptions pattern binds appsettings.json sections to strongly-typed C# classes.
+<div class="q" data-s="q112. what is ioptions pattern for configuration?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">112</span><span class="txt">What is IOptions pattern for configuration?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IOptions pattern binds appsettings.json sections to strongly-typed C# classes.
 
 appsettings.json:
 {
@@ -6676,7 +6676,7 @@ When to use:
 - IOptionsSnapshot: Settings that may change (re-read per request)
 - IOptionsMonitor: Need to react to config changes (hot reload)</pre></div></div>
 
-<div class="q" data-s="global exception handling logging serilog"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">113</span><span class="txt">How do you handle exceptions and logging in your project?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>GLOBAL EXCEPTION HANDLING:
+<div class="q" data-s="q113. how do you handle exceptions and logging in your project?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">113</span><span class="txt">How do you handle exceptions and logging in your project?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>GLOBAL EXCEPTION HANDLING:
 
 // Custom Exception Middleware:
 public class ExceptionMiddleware
@@ -6745,7 +6745,7 @@ public class OrderService
 
 Log Levels: Trace &lt; Debug &lt; Information &lt; Warning &lt; Error &lt; Critical</pre></div></div>
 
-<div class="q" data-s="health check endpoint monitoring"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">114</span><span class="txt">What are Health Checks in ASP.NET Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Health Checks report the health of your app and its dependencies (DB, cache, external APIs).
+<div class="q" data-s="q114. what are health checks in asp.net core?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">114</span><span class="txt">What are Health Checks in ASP.NET Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Health Checks report the health of your app and its dependencies (DB, cache, external APIs).
 
 Setup:
 builder.Services.AddHealthChecks()
@@ -6785,7 +6785,7 @@ Use cases:
 - Monitoring dashboards
 - Auto-restart unhealthy containers</pre></div></div>
 
-<div class="q" data-s="caching inmemory distributed redis"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">115</span><span class="txt">What is In-Memory Cache vs Distributed Cache (Redis)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IN-MEMORY CACHE (IMemoryCache):
+<div class="q" data-s="q115. what is in-memory cache vs distributed cache (redis)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">115</span><span class="txt">What is In-Memory Cache vs Distributed Cache (Redis)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IN-MEMORY CACHE (IMemoryCache):
 - Stored in application's memory
 - Fast (no network call)
 - Lost on app restart
@@ -6864,6 +6864,8 @@ function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre
 
 <script src="study_check.js"></script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>

@@ -21,7 +21,7 @@
 <div class="count" id="count"></div>
 <div id="qlist">
 
-<div class="q" data-s="what is dependency injection di"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Dependency Injection (DI)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Dependency Injection is a design pattern where an object receives its dependencies from OUTSIDE rather than creating them itself.
+<div class="q" data-s="q1. what is dependency injection (di)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Dependency Injection (DI)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Dependency Injection is a design pattern where an object receives its dependencies from OUTSIDE rather than creating them itself.
 
 WITHOUT DI (tight coupling):
 public class OrderService
@@ -69,7 +69,7 @@ Benefits:
 - Swappable (change implementation without changing service)
 - Follows SOLID principles (DIP)</pre></div></div>
 
-<div class="q" data-s="scoped transient singleton lifetime"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Scoped vs Transient vs Singleton?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three service lifetimes in ASP.NET Core DI:
+<div class="q" data-s="q2. what is scoped vs transient vs singleton?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Scoped vs Transient vs Singleton?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Three service lifetimes in ASP.NET Core DI:
 
 TRANSIENT (AddTransient):
 - NEW instance every time it's requested
@@ -118,7 +118,7 @@ IMPORTANT RULE:
 // Singleton service injecting Scoped service = BUG!
 // The scoped service never gets disposed!</pre></div></div>
 
-<div class="q" data-s="constructor injection method property"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What are types of Dependency Injection?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>3 Types of DI:
+<div class="q" data-s="q3. what are types of dependency injection?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What are types of Dependency Injection?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>3 Types of DI:
 
 1. CONSTRUCTOR INJECTION (Recommended in ASP.NET Core):
 public class OrderService
@@ -173,7 +173,7 @@ public IActionResult Index([FromServices] IProductService service)
 
 Best Practice: Always use Constructor Injection in ASP.NET Core.</pre></div></div>
 
-<div class="q" data-s="di container service provider ioc"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is DI Container / IoC Container?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DI Container (IoC Container) is a framework that manages object creation and lifetime automatically.
+<div class="q" data-s="q4. what is di container / ioc container?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is DI Container / IoC Container?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DI Container (IoC Container) is a framework that manages object creation and lifetime automatically.
 
 ASP.NET Core has BUILT-IN DI container (IServiceProvider).
 
@@ -223,7 +223,7 @@ Built-in vs Autofac:
 
 For most projects, built-in container is sufficient.</pre></div></div>
 
-<div class="q" data-s="register multiple implementations interface"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">How to register multiple implementations of same interface?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>When you have multiple classes implementing the same interface:
+<div class="q" data-s="q5. how to register multiple implementations of same interface?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">How to register multiple implementations of same interface?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>When you have multiple classes implementing the same interface:
 
 public interface INotificationService { void Send(string msg); }
 public class EmailNotification : INotificationService { ... }
@@ -278,7 +278,7 @@ builder.Services.AddScoped&lt;Func&lt;string, INotificationService&gt;&gt;(sp =&
     };
 });</pre></div></div>
 
-<div class="q" data-s="service lifetime mismatch captive dependency"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Captive Dependency problem?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Captive Dependency: When a longer-lived service captures a shorter-lived service, causing the shorter-lived one to live longer than intended.
+<div class="q" data-s="q6. what is captive dependency problem?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Captive Dependency problem?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Captive Dependency: When a longer-lived service captures a shorter-lived service, causing the shorter-lived one to live longer than intended.
 
 PROBLEM:
 // Singleton captures Scoped � BUG!
@@ -329,7 +329,7 @@ builder.Services.BuildServiceProvider(new ServiceProviderOptions
     ValidateScopes = true
 });</pre></div></div>
 
-<div class="q" data-s="how di works asp.net core program.cs"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">How does DI work in ASP.NET Core? Show complete example.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Complete DI flow in ASP.NET Core:
+<div class="q" data-s="q7. how does di work in asp.net core?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">How does DI work in ASP.NET Core? Show complete example.</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Complete DI flow in ASP.NET Core:
 
 // 1. Define interfaces:
 public interface IProductService
@@ -386,7 +386,7 @@ public class ProductController : Controller
 //   ? ILogger ? Logger
 // ALL automatic!</pre></div></div>
 
-<div class="q" data-s="unit testing mock di"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">How does DI help in Unit Testing?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DI makes code testable by allowing you to inject MOCK objects instead of real ones.
+<div class="q" data-s="q8. how does di help in unit testing?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">How does DI help in Unit Testing?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DI makes code testable by allowing you to inject MOCK objects instead of real ones.
 
 Without DI (untestable):
 public class OrderService
@@ -447,6 +447,8 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>

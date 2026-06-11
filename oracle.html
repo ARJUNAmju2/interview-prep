@@ -43,7 +43,7 @@ h1{text-align:center;margin-bottom:16px;background:linear-gradient(135deg,#f4433
 <div class="count" id="count"></div>
 <div id="qlist">
 
-<div class="q" data-s="what is oracle database"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Oracle Database?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle Database is a multi-model relational database management system (RDBMS) by Oracle Corporation.
+<div class="q" data-s="q1. what is oracle database?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What is Oracle Database?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle Database is a multi-model relational database management system (RDBMS) by Oracle Corporation.
 
 Key Features:
 - ACID compliant transactions
@@ -64,7 +64,7 @@ Architecture:
 - Tablespaces organize data storage
 - Schemas own database objects</pre></div></div>
 
-<div class="q" data-s="oracle vs sql server differences"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">Oracle vs SQL Server — Key Differences?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | Oracle                  | SQL Server              |
+<div class="q" data-s="q2. oracle vs sql server key differences?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">Oracle vs SQL Server — Key Differences?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | Oracle                  | SQL Server              |
 |------------------|-------------------------|-------------------------|
 | NULL handling    | '' = NULL               | '' != NULL              |
 | Auto-increment   | Sequences / Identity 12c| IDENTITY                |
@@ -82,7 +82,7 @@ Architecture:
 Critical difference: In Oracle, empty string '' IS NULL!
 SELECT * FROM emp WHERE name IS NULL; -- catches '' too</pre></div></div>
 
-<div class="q" data-s="oracle data types number varchar2 date clob"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">Oracle Data Types?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>NUMERIC:
+<div class="q" data-s="q3. oracle data types?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">Oracle Data Types?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>NUMERIC:
 NUMBER(p,s)     - Universal numeric (precision, scale)
 NUMBER(10)      - Integer up to 10 digits
 NUMBER(10,2)    - Decimal with 2 places
@@ -109,7 +109,7 @@ XMLTYPE         - XML data
 
 Note: Always use VARCHAR2 not VARCHAR (Oracle reserves VARCHAR for future use)</pre></div></div>
 
-<div class="q" data-s="nvl nvl2 coalesce decode oracle null handling"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">NVL, NVL2, COALESCE, DECODE — Oracle NULL handling?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>NVL(value, replacement):
+<div class="q" data-s="q4. nvl, nvl2, coalesce, decode - oracle null handling?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">NVL, NVL2, COALESCE, DECODE — Oracle NULL handling?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>NVL(value, replacement):
 - Returns replacement if value IS NULL
 - Oracle equivalent of SQL Server's ISNULL
 SELECT NVL(Phone, 'N/A') FROM Employee;
@@ -135,7 +135,7 @@ SELECT CASE
     ELSE 'Low'
 END AS SalaryBand FROM Employee;</pre></div></div>
 
-<div class="q" data-s="sequences oracle auto increment nextval currval"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What are Sequences in Oracle?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Sequences generate unique numeric values - used for Primary Key IDs.
+<div class="q" data-s="q5. what are sequences in oracle?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What are Sequences in Oracle?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Sequences generate unique numeric values - used for Primary Key IDs.
 
 CREATE SEQUENCE seq_employee_id
     START WITH 1
@@ -166,7 +166,7 @@ Sequence vs Identity:
 - Identity: Table-bound, simpler syntax, newer feature
 - Most existing Oracle systems use Sequences</pre></div></div>
 
-<div class="q" data-s="rownum rowid row_number oracle pagination"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">ROWNUM vs ROWID vs ROW_NUMBER()?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>ROWNUM - Pseudo-column assigned as rows are RETURNED:
+<div class="q" data-s="q6. rownum vs rowid vs row_number()?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">ROWNUM vs ROWID vs ROW_NUMBER()?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>ROWNUM - Pseudo-column assigned as rows are RETURNED:
 - Assigned BEFORE ORDER BY
 - WHERE ROWNUM &gt; 5 returns NOTHING (first row always gets 1)
 - Only works with &lt;= or &lt;
@@ -192,7 +192,7 @@ SELECT * FROM Employee
 ORDER BY Salary DESC
 OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;</pre></div></div>
 
-<div class="q" data-s="plsql basics block structure variables"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">PL/SQL Basics — Block Structure?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>PL/SQL = Procedural Language/SQL (Oracle's programming language)
+<div class="q" data-s="q7. pl/sql basics - block structure?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">PL/SQL Basics — Block Structure?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>PL/SQL = Procedural Language/SQL (Oracle's programming language)
 
 Block Structure:
 DECLARE
@@ -228,7 +228,7 @@ EXCEPTION
 END;
 /</pre></div></div>
 
-<div class="q" data-s="oracle stored procedure create in out parameters"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">Oracle Stored Procedures?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CREATE OR REPLACE PROCEDURE sp_get_employee(
+<div class="q" data-s="q8. oracle stored procedures?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">Oracle Stored Procedures?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CREATE OR REPLACE PROCEDURE sp_get_employee(
     p_id        IN  NUMBER,
     p_name      OUT VARCHAR2,
     p_salary    OUT NUMBER
@@ -271,7 +271,7 @@ BEGIN
     DBMS_OUTPUT.PUT_LINE(v_name || ': ' || v_sal);
 END;</pre></div></div>
 
-<div class="q" data-s="oracle function vs procedure difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">Oracle Functions vs Procedures?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature        | Procedure              | Function               |
+<div class="q" data-s="q9. oracle functions vs procedures?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">Oracle Functions vs Procedures?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature        | Procedure              | Function               |
 |----------------|------------------------|------------------------|
 | Return value   | Via OUT parameters     | MUST return one value  |
 | Used in SELECT | No                     | Yes                    |
@@ -309,7 +309,7 @@ BEGIN
     RETURN;
 END;</pre></div></div>
 
-<div class="q" data-s="ref cursor sys_refcursor oracle return result set"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What is REF CURSOR / SYS_REFCURSOR?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>REF CURSOR returns result sets from procedures to calling applications.
+<div class="q" data-s="q10. what is ref cursor / sys_refcursor?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What is REF CURSOR / SYS_REFCURSOR?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>REF CURSOR returns result sets from procedures to calling applications.
 
 -- In SQL Server: procedure just does SELECT and results return
 -- In Oracle: must explicitly OPEN a cursor as OUT parameter
@@ -348,7 +348,7 @@ cmd.Parameters.Add("p_count", OracleDbType.Int32).Direction = ParameterDirection
 var reader = cmd.ExecuteReader();
 while(reader.Read()) { /* map to DTO */ }</pre></div></div>
 
-<div class="q" data-s="oracle join old syntax ansi plus sign"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">Oracle Joins — Old (+) syntax vs ANSI?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>OLD Oracle syntax (avoid in new code):
+<div class="q" data-s="q11. oracle joins - old (+) syntax vs ansi?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">Oracle Joins — Old (+) syntax vs ANSI?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>OLD Oracle syntax (avoid in new code):
 -- Inner Join:
 SELECT e.Name, d.DeptName
 FROM Employee e, Department d
@@ -386,7 +386,7 @@ Why ANSI is better:
 - Portable across databases
 - Clearer intent</pre></div></div>
 
-<div class="q" data-s="connect by hierarchical query prior level oracle"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">CONNECT BY — Hierarchical Queries?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CONNECT BY queries hierarchical/tree data (org charts, categories).
+<div class="q" data-s="q12. connect by - hierarchical queries?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">CONNECT BY — Hierarchical Queries?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CONNECT BY queries hierarchical/tree data (org charts, categories).
 
 SELECT 
     LEVEL,
@@ -427,7 +427,7 @@ WITH emp_tree AS (
 )
 SELECT * FROM emp_tree;</pre></div></div>
 
-<div class="q" data-s="oracle analytic window functions over partition"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">13</span><span class="txt">Oracle Analytic (Window) Functions?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Analytic functions compute values across related rows WITHOUT grouping.
+<div class="q" data-s="q13. oracle analytic (window) functions?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">13</span><span class="txt">Oracle Analytic (Window) Functions?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Analytic functions compute values across related rows WITHOUT grouping.
 
 Syntax: function() OVER (PARTITION BY col ORDER BY col)
 
@@ -461,7 +461,7 @@ SELECT * FROM (
     FROM Employee e
 ) WHERE rnk &lt;= 3;</pre></div></div>
 
-<div class="q" data-s="oracle indexes btree bitmap function-based"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">14</span><span class="txt">Oracle Indexes — B-Tree, Bitmap, Function-Based?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>B-TREE INDEX (default):
+<div class="q" data-s="q14. oracle indexes - b-tree, bitmap, function-based?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">14</span><span class="txt">Oracle Indexes — B-Tree, Bitmap, Function-Based?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>B-TREE INDEX (default):
 - Standard balanced tree structure
 - Good for high-cardinality columns (many unique values)
 - Best for equality and range queries
@@ -493,7 +493,7 @@ INDEX-ORGANIZED TABLE (IOT):
 CREATE TABLE Lookup (Code VARCHAR2(10), Name VARCHAR2(100))
 ORGANIZATION INDEX;</pre></div></div>
 
-<div class="q" data-s="oracle exception handling plsql raise_application_error"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">15</span><span class="txt">Exception Handling in PL/SQL?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>PREDEFINED EXCEPTIONS:
+<div class="q" data-s="q15. exception handling in pl/sql?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">15</span><span class="txt">Exception Handling in PL/SQL?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>PREDEFINED EXCEPTIONS:
 - NO_DATA_FOUND: SELECT INTO returned no rows
 - TOO_MANY_ROWS: SELECT INTO returned multiple rows
 - DUP_VAL_ON_INDEX: Unique constraint violation
@@ -535,7 +535,7 @@ IF v_age &lt; 18 THEN
 END IF;
 -- Error numbers: -20000 to -20999 (user-defined range)</pre></div></div>
 
-<div class="q" data-s="oracle packages specification body"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">16</span><span class="txt">Oracle Packages — Spec and Body?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Package = Group of related procedures, functions, types, variables.
+<div class="q" data-s="q16. oracle packages - spec and body?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">16</span><span class="txt">Oracle Packages — Spec and Body?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Package = Group of related procedures, functions, types, variables.
 
 PACKAGE SPECIFICATION (public interface):
 CREATE OR REPLACE PACKAGE pkg_employee IS
@@ -583,7 +583,7 @@ END pkg_employee;
 
 Calling: EXEC pkg_employee.create_employee('John', 50000, :new_id);</pre></div></div>
 
-<div class="q" data-s="oracle triggers before after instead of new old"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">17</span><span class="txt">Oracle Triggers?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>BEFORE INSERT (auto-populate fields):
+<div class="q" data-s="q17. oracle triggers?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">17</span><span class="txt">Oracle Triggers?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>BEFORE INSERT (auto-populate fields):
 CREATE OR REPLACE TRIGGER trg_emp_before_insert
 BEFORE INSERT ON Employee
 FOR EACH ROW
@@ -621,7 +621,7 @@ Key points:
 - Without FOR EACH ROW = statement-level
 - Mutating table error: row trigger can't query its own table</pre></div></div>
 
-<div class="q" data-s="oracle cursors explicit implicit for loop fetch"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">18</span><span class="txt">Oracle Cursors — Explicit, Implicit, FOR Loop?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IMPLICIT CURSOR (automatic for single-row):
+<div class="q" data-s="q18. oracle cursors - explicit, implicit, for loop?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">18</span><span class="txt">Oracle Cursors — Explicit, Implicit, FOR Loop?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>IMPLICIT CURSOR (automatic for single-row):
 BEGIN
     UPDATE Employee SET Salary = Salary * 1.1 WHERE DeptId = 10;
     DBMS_OUTPUT.PUT_LINE(SQL%ROWCOUNT || ' rows updated');
@@ -656,7 +656,7 @@ Cursor attributes:
 %ROWCOUNT  - Rows fetched so far
 %ISOPEN    - Cursor is open</pre></div></div>
 
-<div class="q" data-s="bulk collect forall oracle performance batch"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">19</span><span class="txt">BULK COLLECT and FORALL — Bulk Operations?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Problem: Row-by-row processing causes context switches between PL/SQL and SQL engines.
+<div class="q" data-s="q19. bulk collect and forall - bulk operations?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">19</span><span class="txt">BULK COLLECT and FORALL — Bulk Operations?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Problem: Row-by-row processing causes context switches between PL/SQL and SQL engines.
 
 BULK COLLECT - Fetch all rows at once:
 DECLARE
@@ -709,7 +709,7 @@ END;
 
 Performance: BULK operations are 10-50x faster than row-by-row!</pre></div></div>
 
-<div class="q" data-s="oracle transactions commit rollback savepoint implicit"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">20</span><span class="txt">Oracle Transactions — COMMIT, ROLLBACK, SAVEPOINT?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle uses IMPLICIT transactions (no BEGIN TRANSACTION needed).
+<div class="q" data-s="q20. oracle transactions - commit, rollback, savepoint?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">20</span><span class="txt">Oracle Transactions — COMMIT, ROLLBACK, SAVEPOINT?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle uses IMPLICIT transactions (no BEGIN TRANSACTION needed).
 Every DML starts a transaction. Must COMMIT or ROLLBACK explicitly.
 
 Basic:
@@ -749,7 +749,7 @@ Key differences from SQL Server:
 - Oracle: Readers never block writers (MVCC)
 - Oracle: SELECT FOR UPDATE locks specific rows</pre></div></div>
 
-<div class="q" data-s="to_date to_char to_number oracle date format conversion"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">21</span><span class="txt">TO_DATE, TO_CHAR, TO_NUMBER — Type Conversion?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>TO_CHAR (Date/Number → String):
+<div class="q" data-s="q21. to_date, to_char, to_number - type conversion?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">21</span><span class="txt">TO_DATE, TO_CHAR, TO_NUMBER — Type Conversion?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>TO_CHAR (Date/Number → String):
 SELECT TO_CHAR(SYSDATE, 'DD-Mon-YYYY HH24:MI:SS') FROM DUAL;
 -- Result: 15-Mar-2024 14:30:45
 
@@ -779,7 +779,7 @@ TRUNC(SYSDATE)           -- Today at midnight (removes time)
 LAST_DAY(SYSDATE)        -- Last day of current month
 NEXT_DAY(SYSDATE, 'MON') -- Next Monday</pre></div></div>
 
-<div class="q" data-s="oracle pagination offset fetch rownum row_number"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">22</span><span class="txt">Oracle Pagination — Different Approaches?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Method 1: OFFSET FETCH (Oracle 12c+, recommended):
+<div class="q" data-s="q22. oracle pagination - different approaches?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">22</span><span class="txt">Oracle Pagination — Different Approaches?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Method 1: OFFSET FETCH (Oracle 12c+, recommended):
 SELECT * FROM Employee
 ORDER BY Salary DESC
 OFFSET 10 ROWS FETCH NEXT 10 ROWS ONLY;
@@ -817,7 +817,7 @@ BEGIN
         FETCH NEXT p_size ROWS ONLY;
 END;</pre></div></div>
 
-<div class="q" data-s="oracle performance tuning explain plan index hint"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">23</span><span class="txt">Oracle Performance Tuning?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>1. CHECK EXECUTION PLAN:
+<div class="q" data-s="q23. oracle performance tuning?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">23</span><span class="txt">Oracle Performance Tuning?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>1. CHECK EXECUTION PLAN:
 EXPLAIN PLAN FOR SELECT * FROM Employee WHERE Name = 'John';
 SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);
 
@@ -854,7 +854,7 @@ EXEC DBMS_STATS.GATHER_TABLE_STATS('SCHEMA', 'EMPLOYEE');
 
 7. AVOID SELECT * — fetch only needed columns</pre></div></div>
 
-<div class="q" data-s="oracle materialized view refresh on demand commit"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">24</span><span class="txt">Oracle Views and Materialized Views?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>REGULAR VIEW (virtual table, no storage):
+<div class="q" data-s="q24. oracle views and materialized views?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">24</span><span class="txt">Oracle Views and Materialized Views?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>REGULAR VIEW (virtual table, no storage):
 CREATE OR REPLACE VIEW vw_active_employees AS
 SELECT e.Id, e.Name, e.Salary, d.DeptName
 FROM Employee e
@@ -892,7 +892,7 @@ When to use MVs:
 - Cross-database data caching
 - Reports that tolerate slight staleness</pre></div></div>
 
-<div class="q" data-s="merge upsert oracle insert update when matched"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">25</span><span class="txt">MERGE Statement (UPSERT)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>MERGE performs INSERT or UPDATE in a single atomic statement.
+<div class="q" data-s="q25. merge statement (upsert)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">25</span><span class="txt">MERGE Statement (UPSERT)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>MERGE performs INSERT or UPDATE in a single atomic statement.
 "If row exists, update it. If not, insert it."
 
 MERGE INTO Employee e
@@ -929,7 +929,7 @@ Benefits over separate INSERT/UPDATE:
 - Single pass through data (faster)
 - Cleaner code</pre></div></div>
 
-<div class="q" data-s="oracle partitioning range list hash performance"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">26</span><span class="txt">Oracle Partitioning?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Partitioning divides large tables into smaller manageable pieces.
+<div class="q" data-s="q26. oracle partitioning?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">26</span><span class="txt">Oracle Partitioning?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Partitioning divides large tables into smaller manageable pieces.
 
 RANGE PARTITIONING (date-based, most common):
 CREATE TABLE AuditLog (
@@ -965,7 +965,7 @@ ALTER TABLE AuditLog DROP PARTITION p_2022;
 ALTER TABLE AuditLog ADD PARTITION p_2025 
 VALUES LESS THAN (TO_DATE('2026-01-01','YYYY-MM-DD'));</pre></div></div>
 
-<div class="q" data-s="oracle synonym database link dblink remote"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">27</span><span class="txt">Oracle Synonyms and Database Links?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SYNONYM (alias for database objects):
+<div class="q" data-s="q27. oracle synonyms and database links?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">27</span><span class="txt">Oracle Synonyms and Database Links?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SYNONYM (alias for database objects):
 -- Private synonym (current user only):
 CREATE SYNONYM Employee FOR HR_SCHEMA.TBL_EMPLOYEE;
 
@@ -998,7 +998,7 @@ Use cases:
 - Distributed reporting
 - Data synchronization</pre></div></div>
 
-<div class="q" data-s="oracle collections plsql table nested varray associative"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">28</span><span class="txt">PL/SQL Collections — Associative Arrays, Nested Tables, VARRAYs?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>ASSOCIATIVE ARRAY (INDEX BY table):
+<div class="q" data-s="q28. pl/sql collections - associative arrays, nested tables, varrays?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">28</span><span class="txt">PL/SQL Collections — Associative Arrays, Nested Tables, VARRAYs?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>ASSOCIATIVE ARRAY (INDEX BY table):
 - Key-value pairs, indexed by integer or string
 - PL/SQL only (not in database)
 - Sparse (gaps allowed), unbounded
@@ -1043,7 +1043,7 @@ END;
 
 Collection methods: COUNT, FIRST, LAST, NEXT, PRIOR, EXISTS, EXTEND, TRIM, DELETE</pre></div></div>
 
-<div class="q" data-s="oracle dbms_output dbms_lob utl_file dbms_stats packages"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">29</span><span class="txt">Important Oracle DBMS Packages?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DBMS_OUTPUT - Debug output:
+<div class="q" data-s="q29. important oracle dbms packages?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">29</span><span class="txt">Important Oracle DBMS Packages?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DBMS_OUTPUT - Debug output:
 SET SERVEROUTPUT ON;
 DBMS_OUTPUT.PUT_LINE('Debug: value = ' || v_value);
 
@@ -1081,7 +1081,7 @@ DBMS_CRYPTO - Encryption:
 v_encrypted := DBMS_CRYPTO.ENCRYPT(UTL_RAW.CAST_TO_RAW(v_text), 
     DBMS_CRYPTO.ENCRYPT_AES256 + DBMS_CRYPTO.CHAIN_CBC, v_key);</pre></div></div>
 
-<div class="q" data-s="odp.net oracle managed data access connection .net csharp"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">30</span><span class="txt">Connecting Oracle from .NET — ODP.NET?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle.ManagedDataAccess (NuGet) - Pure .NET driver, no Oracle Client needed.
+<div class="q" data-s="q30. connecting oracle from .net - odp.net?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">30</span><span class="txt">Connecting Oracle from .NET — ODP.NET?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Oracle.ManagedDataAccess (NuGet) - Pure .NET driver, no Oracle Client needed.
 
 Connection String:
 "Data Source=(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=server)(PORT=1521))
@@ -1140,6 +1140,8 @@ function showSpeak(idx,btn){var sd=document.getElementById("speak_"+idx);var pre
 </script>
 <script src="study_check.js"></script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>

@@ -4816,7 +4816,7 @@ Best practices:
 - Use Path.Combine for file paths (cross-platform)
   string path = Path.Combine("folder", "subfolder", "file.txt");</pre></div>
 </div>
-<div class="q" data-s="async await deadlock .result .wait"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">49</span><span class="txt">What happens if you forget await? What is async deadlock?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>FORGETTING AWAIT:
+<div class="q" data-s="q49. what happens if you forget await? what is async deadlock?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">49</span><span class="txt">What happens if you forget await? What is async deadlock?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>FORGETTING AWAIT:
 async Task&lt;string&gt; GetDataAsync()
 {
     var result = GetFromApiAsync();  // Missing await!
@@ -4852,7 +4852,7 @@ Rules:
 - Use await all the way (async all the way down)
 - If you MUST call async from sync: use .GetAwaiter().GetResult() (last resort)</pre></div></div>
 
-<div class="q" data-s="task thread valuetask difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">50</span><span class="txt">What is Task vs Thread vs ValueTask?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>THREAD:
+<div class="q" data-s="q50. what is task vs thread vs valuetask?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">50</span><span class="txt">What is Task vs Thread vs ValueTask?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>THREAD:
 - OS-level unit of execution
 - Heavy (1MB stack each)
 - Manual management (start, join, synchronize)
@@ -4894,7 +4894,7 @@ public ValueTask&lt;int&gt; GetCountAsync()
 | async/await| No             | Yes            | Yes            |
 | Use when   | Rarely         | I/O operations | Hot path/cache |</pre></div></div>
 
-<div class="q" data-s="cancellationtoken cancel async operation"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">51</span><span class="txt">What is CancellationToken? How to cancel async operations?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CancellationToken allows you to cancel long-running async operations gracefully.
+<div class="q" data-s="q51. what is cancellationtoken? how to cancel async operations?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">51</span><span class="txt">What is CancellationToken? How to cancel async operations?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>CancellationToken allows you to cancel long-running async operations gracefully.
 
 In ASP.NET Core Controller:
 [HttpGet]
@@ -4940,7 +4940,7 @@ When to use:
 - Timeout scenarios
 - Background services that need graceful shutdown</pre></div></div>
 
-<div class="q" data-s="linq deferred immediate execution tolist"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">52</span><span class="txt">What is Deferred vs Immediate Execution in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DEFERRED EXECUTION (lazy � query NOT executed until iterated):
+<div class="q" data-s="q52. what is deferred vs immediate execution in linq?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">52</span><span class="txt">What is Deferred vs Immediate Execution in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>DEFERRED EXECUTION (lazy � query NOT executed until iterated):
 var query = products.Where(p =&gt; p.Price &gt; 100);  // NOT executed yet!
 // Just builds expression tree
 
@@ -4973,7 +4973,7 @@ var results = GetExpensiveQuery().ToList();
 int count = results.Count;    // No re-execution
 var first = results.First();  // No re-execution</pre></div></div>
 
-<div class="q" data-s="selectmany vs select linq flatten"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">53</span><span class="txt">What is SelectMany vs Select in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SELECT � One-to-one mapping:
+<div class="q" data-s="q53. what is selectmany vs select in linq?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">53</span><span class="txt">What is SelectMany vs Select in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SELECT � One-to-one mapping:
 var orders = customers.Select(c =&gt; c.Orders);
 // Result: IEnumerable&lt;List&lt;Order&gt;&gt; (nested lists!)
 // [[Order1, Order2], [Order3], [Order4, Order5]]
@@ -5004,7 +5004,7 @@ var result = departments.SelectMany(
 );
 // [{Dept:"IT", Employee:"John"}, {Dept:"IT", Employee:"Jane"}, ...]</pre></div></div>
 
-<div class="q" data-s="groupby linq having aggregate"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">54</span><span class="txt">How to write GroupBy with aggregate in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SQL equivalent:
+<div class="q" data-s="q54. how to write groupby with aggregate in linq?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">54</span><span class="txt">How to write GroupBy with aggregate in LINQ?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SQL equivalent:
 SELECT Department, COUNT(*) as Count, AVG(Salary) as AvgSalary
 FROM Employees
 GROUP BY Department
@@ -5040,7 +5040,7 @@ GroupBy with lookup:
 var lookup = employees.ToLookup(e =&gt; e.Department);
 var itEmployees = lookup["IT"];  // All IT employees</pre></div></div>
 
-<div class="q" data-s=".net framework vs .net core difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">55</span><span class="txt">What is the difference between .NET Framework and .NET Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | .NET Framework         | .NET Core / .NET 5+    |
+<div class="q" data-s="q55. what is the difference between .net framework and .net core?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">55</span><span class="txt">What is the difference between .NET Framework and .NET Core?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>| Feature          | .NET Framework         | .NET Core / .NET 5+    |
 |------------------|------------------------|------------------------|
 | Platform         | Windows only           | Cross-platform (Win/Linux/Mac) |
 | Open source      | No                     | Yes (GitHub)           |
@@ -5074,7 +5074,7 @@ Interview answer:
 better performance, and built-in DI. Legacy projects are on .NET
 Framework which we maintain but don't add new features to."</pre></div></div>
 
-<div class="q" data-s="authentication vs authorization difference"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">56</span><span class="txt">What is the difference between Authentication and Authorization?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>AUTHENTICATION = WHO are you? (Identity verification)
+<div class="q" data-s="q56. what is the difference between authentication and authorization?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">56</span><span class="txt">What is the difference between Authentication and Authorization?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>AUTHENTICATION = WHO are you? (Identity verification)
 - Verifying user's identity (login)
 - Username + Password / JWT token / OAuth
 - Happens FIRST
@@ -5128,6 +5128,8 @@ function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);var pre
 </script>
 <script src="study_check.js"></script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>

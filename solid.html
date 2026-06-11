@@ -21,7 +21,7 @@
 <div class="count" id="count"></div>
 <div id="qlist">
 
-<div class="q" data-s="what is solid principles"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What are SOLID Principles?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SOLID is a set of 5 design principles for writing clean, maintainable, scalable OOP code.
+<div class="q" data-s="q1. what are solid principles?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">1</span><span class="txt">What are SOLID Principles?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>SOLID is a set of 5 design principles for writing clean, maintainable, scalable OOP code.
 
 S - Single Responsibility Principle (SRP)
 O - Open/Closed Principle (OCP)
@@ -43,7 +43,7 @@ Real-world analogy:
 - ISP: Waiter doesn't need to know cooking
 - DIP: Restaurant depends on "cook" role, not specific person</pre></div></div>
 
-<div class="q" data-s="single responsibility principle srp"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Single Responsibility Principle (SRP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>A class should have only ONE reason to change � it should do only ONE thing.
+<div class="q" data-s="q2. what is single responsibility principle (srp)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">2</span><span class="txt">What is Single Responsibility Principle (SRP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>A class should have only ONE reason to change � it should do only ONE thing.
 
 BAD (multiple responsibilities):
 public class Employee
@@ -98,7 +98,7 @@ public class OrderRepository      // Saves to DB
 public class EmailService         // Sends email
 public class InventoryService     // Updates stock</pre></div></div>
 
-<div class="q" data-s="open closed principle ocp"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What is Open/Closed Principle (OCP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Classes should be OPEN for extension but CLOSED for modification.
+<div class="q" data-s="q3. what is open/closed principle (ocp)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">3</span><span class="txt">What is Open/Closed Principle (OCP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Classes should be OPEN for extension but CLOSED for modification.
 Add new behavior WITHOUT changing existing code.
 
 BAD (modifying existing code for new feature):
@@ -152,7 +152,7 @@ How to achieve OCP:
 - Dependency Injection
 - Polymorphism</pre></div></div>
 
-<div class="q" data-s="liskov substitution principle lsp"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is Liskov Substitution Principle (LSP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Derived classes must be substitutable for their base classes without breaking the program.
+<div class="q" data-s="q4. what is liskov substitution principle (lsp)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">4</span><span class="txt">What is Liskov Substitution Principle (LSP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Derived classes must be substitutable for their base classes without breaking the program.
 
 If you replace a parent with a child, everything should still work correctly.
 
@@ -225,7 +225,7 @@ r.Area();  // Expected 15, got 9! LSP violated!
 
 Rule: If it looks like a duck but needs batteries, you have wrong abstraction.</pre></div></div>
 
-<div class="q" data-s="interface segregation principle isp"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is Interface Segregation Principle (ISP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Clients should not be forced to depend on interfaces they don't use.
+<div class="q" data-s="q5. what is interface segregation principle (isp)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">5</span><span class="txt">What is Interface Segregation Principle (ISP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Clients should not be forced to depend on interfaces they don't use.
 Split large interfaces into smaller, focused ones.
 
 BAD (fat interface):
@@ -297,7 +297,7 @@ public interface IReadRepository&lt;T&gt; { T GetById(int id); IEnumerable&lt;T&
 public interface IWriteRepository&lt;T&gt; { void Add(T entity); void Update(T entity); void Delete(T entity); }
 public interface IRepository&lt;T&gt; : IReadRepository&lt;T&gt;, IWriteRepository&lt;T&gt; { }</pre></div></div>
 
-<div class="q" data-s="dependency inversion principle dip"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Dependency Inversion Principle (DIP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>High-level modules should NOT depend on low-level modules. Both should depend on ABSTRACTIONS (interfaces).
+<div class="q" data-s="q6. what is dependency inversion principle (dip)?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">6</span><span class="txt">What is Dependency Inversion Principle (DIP)?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>High-level modules should NOT depend on low-level modules. Both should depend on ABSTRACTIONS (interfaces).
 
 BAD (depends on concrete class):
 public class OrderService
@@ -358,7 +358,7 @@ Benefits:
 - Easy to swap implementations
 - Follows DI pattern in ASP.NET Core</pre></div></div>
 
-<div class="q" data-s="singleton design pattern"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">What is Singleton Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Singleton ensures only ONE instance of a class exists throughout the application.
+<div class="q" data-s="q7. what is singleton pattern?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">7</span><span class="txt">What is Singleton Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Singleton ensures only ONE instance of a class exists throughout the application.
 
 Implementation (Thread-safe with Lazy):
 public sealed class Logger
@@ -395,7 +395,7 @@ When NOT to use:
 - When it makes testing difficult
 - When DI can handle it (prefer DI in ASP.NET Core)</pre></div></div>
 
-<div class="q" data-s="repository pattern"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">What is Repository Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Repository Pattern abstracts data access behind an interface, separating business logic from database operations.
+<div class="q" data-s="q8. what is repository pattern?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">8</span><span class="txt">What is Repository Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Repository Pattern abstracts data access behind an interface, separating business logic from database operations.
 
 Interface:
 public interface IProductRepository
@@ -437,7 +437,7 @@ Benefits:
 - Centralized data access logic
 - Single Responsibility</pre></div></div>
 
-<div class="q" data-s="factory pattern"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">What is Factory Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Factory Pattern creates objects without exposing creation logic. Client uses interface, factory decides which class to instantiate.
+<div class="q" data-s="q9. what is factory pattern?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">9</span><span class="txt">What is Factory Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Factory Pattern creates objects without exposing creation logic. Client uses interface, factory decides which class to instantiate.
 
 public interface INotification
 {
@@ -486,7 +486,7 @@ When to use:
 - Need to decouple creation from usage
 - Multiple implementations of same interface</pre></div></div>
 
-<div class="q" data-s="strategy pattern"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What is Strategy Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime.
+<div class="q" data-s="q10. what is strategy pattern?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">10</span><span class="txt">What is Strategy Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Strategy Pattern defines a family of algorithms, encapsulates each one, and makes them interchangeable at runtime.
 
 public interface IPaymentStrategy
 {
@@ -549,7 +549,7 @@ await service.Pay(999);
 
 This is OCP in action � add new payment without modifying existing code!</pre></div></div>
 
-<div class="q" data-s="observer pattern event"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">What is Observer Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Observer Pattern: When one object changes state, all dependent objects are notified automatically. (Publisher-Subscriber)
+<div class="q" data-s="q11. what is observer pattern?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">11</span><span class="txt">What is Observer Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Observer Pattern: When one object changes state, all dependent objects are notified automatically. (Publisher-Subscriber)
 
 public interface IObserver
 {
@@ -605,7 +605,7 @@ In C#, Events are built-in Observer pattern:
 public event Action&lt;string&gt; OrderPlaced;
 OrderPlaced?.Invoke("Order placed!");</pre></div></div>
 
-<div class="q" data-s="unit of work pattern"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is Unit of Work Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Unit of Work maintains a list of objects affected by a business transaction and coordinates writing out changes as ONE atomic operation.
+<div class="q" data-s="q12. what is unit of work pattern?"><div class="q-title" onclick="this.parentElement.classList.toggle('open')"><span class="num">12</span><span class="txt">What is Unit of Work Pattern?</span><span class="arrow">&#9660;</span></div><div class="q-ans"><pre>Unit of Work maintains a list of objects affected by a business transaction and coordinates writing out changes as ONE atomic operation.
 
 public interface IUnitOfWork : IDisposable
 {
@@ -670,6 +670,8 @@ function translateMal(idx,btn){var md=document.getElementById('mal_'+idx);if(md.
 function showSpeak(idx,btn){var sd=document.getElementById('speak_'+idx);if(sd.style.display==='block'){sd.style.display='none';btn.classList.remove('active');btn.textContent='\ud83d\udde3\ufe0f How to Speak';return}var pre=btn.parentElement.querySelector('pre');var text=pre.textContent;btn.classList.add('active');btn.textContent='Loading...';sd.style.display='block';var lines=text.split('\n').filter(function(l){return l.trim()&&!l.startsWith('=')&&!l.startsWith('|')&&l.trim().length>5});var spoken='<b>\ud83c\udfaf Start with:</b> "Sure, let me explain this."<br><br>';lines.forEach(function(line){line=line.trim().replace(/^[\-\*\d\.]+\s*/,'');if(line.length<5||line.startsWith('public ')||line.startsWith('//')||line.startsWith('{')||line.startsWith('}')||line.startsWith('using ')||line.startsWith('var ')||line.startsWith('int ')||line.startsWith('string ')||line.startsWith('class ')||line.startsWith('private ')||line.startsWith('protected ')||line.startsWith('return ')||line.startsWith('if (')||line.startsWith('else')||line.startsWith('Console.')||line.startsWith('await ')||line.startsWith('SELECT ')||line.startsWith('FROM ')||line.startsWith('WHERE ')||line.startsWith('INSERT ')||line.startsWith('UPDATE ')||line.startsWith('DELETE ')||line.startsWith('CREATE ')||line.startsWith('ALTER '))return;if(line.includes(':')){var parts=line.split(':');spoken+='<b>'+parts[0].trim()+'</b> \u2014 '+parts.slice(1).join(':').trim()+'<br>';}else{spoken+=line+'<br>';}});spoken+='<br><b>\ud83d\udca1 End with:</b> "That\'s how I understand it. Would you like me to explain with a code example?"';sd.innerHTML=spoken;btn.textContent='\u274c Hide Speaking Tips';btn.classList.remove('active')}
 </script>
 <script src="readable.js"></script>
+<script src="interview-answers.js"></script>
+<script src="config.js"></script>
 <script src="theory-tools.js"></script>
 <script src="theme-toggle.js"></script>
 </body>
