@@ -1,120 +1,109 @@
 // ============================================
-// THEORY TOOLS - Combined JS for theory pages
+// THEORY TOOLS v2 - Clean Implementation
+// Features: Interview Answer, Highlighter, Quick Revision
 // ============================================
 
-// === SHORT ANSWER ===
+// === INTERVIEW ANSWER BUTTON ===
 (function(){
-    function addShortAnswerButtons() {
+    function addInterviewButtons() {
         document.querySelectorAll('.q-ans').forEach(function(ans, idx) {
-            if (ans.querySelector('.short-ans-btn')) return;
+            if (ans.querySelector('.interview-ans-btn')) return;
             
-            const btn = document.createElement('button');
-            btn.className = 'short-ans-btn';
-            btn.textContent = '\ud83d\udcdd Short Answer';
-            btn.style.cssText = 'background:linear-gradient(135deg,#0ea5e9,#38bdf8);color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:.73rem;font-weight:600;cursor:pointer;margin-right:8px;margin-bottom:10px';
+            var btn = document.createElement('button');
+            btn.className = 'interview-ans-btn';
+            btn.textContent = '\ud83c\udfaf Test Yourself';
+            btn.style.cssText = 'background:linear-gradient(135deg,#059669,#10b981);color:#fff;border:none;padding:7px 14px;border-radius:6px;font-size:.74rem;font-weight:600;cursor:pointer;margin-right:8px;margin-bottom:10px';
             
-            const shortDiv = document.createElement('div');
-            shortDiv.className = 'short-ans-text';
-            shortDiv.style.cssText = 'display:none;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #86efac;border-radius:10px;padding:14px;margin-bottom:12px;font-size:.84rem;line-height:1.8;color:#1e293b';
+            var interviewDiv = document.createElement('div');
+            interviewDiv.className = 'interview-ans-text';
+            interviewDiv.style.cssText = 'display:none;background:linear-gradient(135deg,#f0fdf4,#dcfce7);border:1px solid #86efac;border-radius:10px;padding:16px;margin-bottom:12px;font-size:.84rem;line-height:1.8;color:#1e293b';
             
             btn.onclick = function(e) {
                 e.stopPropagation();
-                const pre = ans.querySelector('pre');
-                if (shortDiv.style.display === 'block') {
-                    shortDiv.style.display = 'none';
+                var pre = ans.querySelector('pre');
+                if (interviewDiv.style.display === 'block') {
+                    interviewDiv.style.display = 'none';
                     if (pre) pre.style.display = 'block';
-                    btn.textContent = '\ud83d\udcdd Short Answer';
-                    btn.style.background = 'linear-gradient(135deg,#0ea5e9,#38bdf8)';
+                    btn.textContent = '\ud83c\udfaf Test Yourself';
+                    btn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
                 } else {
                     if (pre) pre.style.display = 'none';
-                    shortDiv.style.display = 'block';
-                    btn.textContent = '\ud83d\udcd6 Full Answer';
+                    interviewDiv.style.display = 'block';
+                    btn.textContent = '\ud83d\udcd6 Back to Detailed';
                     btn.style.background = 'linear-gradient(135deg,#6366f1,#818cf8)';
-                    if (!shortDiv.dataset.generated) {
-                        var page = document.title.replace(/[^a-zA-Z0-9]/g,'');
-                        var savedKey = 'custom_short_' + page + '_' + idx;
-                        var saved = localStorage.getItem(savedKey);
-                        if (saved) {
-                            shortDiv.innerHTML = '<div style="border-left:3px solid #0ea5e9;padding-left:12px"><div style="font-size:.7rem;color:#0369a1;font-weight:700;margin-bottom:6px">\ud83c\udfaf MY ANSWER:</div><div style="color:#1e293b">' + saved.replace(/\n/g,'<br>') + '</div></div>';
-                        } else {
-                            shortDiv.innerHTML = generateShortAnswer(pre ? pre.textContent : '');
-                        }
-                        // Add Edit button
-                        var editWrap = document.createElement('div');
-                        editWrap.style.cssText = 'margin-top:10px;display:flex;gap:6px';
-                        var editBtn = document.createElement('button');
-                        editBtn.textContent = '\u270f\ufe0f Edit My Answer';
-                        editBtn.style.cssText = 'background:#f59e0b;color:#000;border:none;padding:5px 12px;border-radius:5px;font-size:.7rem;cursor:pointer;font-weight:600';
-                        editBtn.onclick = function(ev) {
-                            ev.stopPropagation();
-                            var current = localStorage.getItem(savedKey) || '';
-                            var newAns = prompt('Write your short interview answer (2-4 lines):', current);
-                            if (newAns !== null && newAns.trim()) {
-                                localStorage.setItem(savedKey, newAns.trim());
-                                shortDiv.innerHTML = '<div style="border-left:3px solid #0ea5e9;padding-left:12px"><div style="font-size:.7rem;color:#0369a1;font-weight:700;margin-bottom:6px">\ud83c\udfaf MY ANSWER:</div><div style="color:#1e293b">' + newAns.trim().replace(/\n/g,'<br>') + '</div></div>';
-                                shortDiv.dataset.generated = 'true';
-                            }
-                        };
-                        editWrap.appendChild(editBtn);
-                        if (saved) {
-                            var resetBtn = document.createElement('button');
-                            resetBtn.textContent = '\ud83d\uddd1\ufe0f Reset';
-                            resetBtn.style.cssText = 'background:#ef4444;color:#fff;border:none;padding:5px 12px;border-radius:5px;font-size:.7rem;cursor:pointer';
-                            resetBtn.onclick = function(ev) {
-                                ev.stopPropagation();
-                                if (!confirm('Reset to auto-generated?')) return;
-                                localStorage.removeItem(savedKey);
-                                shortDiv.dataset.generated = '';
-                                shortDiv.innerHTML = generateShortAnswer(pre ? pre.textContent : '');
-                            };
-                            editWrap.appendChild(resetBtn);
-                        }
-                        shortDiv.appendChild(editWrap);
-                        shortDiv.dataset.generated = 'true';
+                    
+                    if (!interviewDiv.dataset.generated) {
+                        var answerText = pre ? pre.textContent : '';
+                        var keywords = extractKeywords(answerText);
+                        
+                        var html = '<div style="margin-bottom:12px">';
+                        html += '<div style="font-size:.75rem;color:#047857;font-weight:700;margin-bottom:8px">\ud83c\udfaf Write your answer (as you would say in interview):</div>';
+                        html += '<textarea id="selfTest_'+idx+'" placeholder="Type your answer here... then click Evaluate" style="width:100%;height:100px;background:#fff;color:#1e293b;border:1px solid #86efac;border-radius:8px;padding:10px;font-family:Segoe UI,sans-serif;font-size:.82rem;resize:vertical;outline:none"></textarea>';
+                        html += '<div style="display:flex;gap:8px;margin-top:8px">';
+                        html += '<button onclick="evaluateSelfTest('+idx+')" style="background:linear-gradient(135deg,#059669,#10b981);color:#fff;border:none;padding:7px 16px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer">\ud83d\udcdd Evaluate</button>';
+                        html += '<button onclick="showCorrectAnswer('+idx+')" style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;padding:7px 16px;border-radius:6px;font-size:.75rem;font-weight:600;cursor:pointer">\ud83d\udc41 Show Answer</button>';
+                        html += '</div></div>';
+                        html += '<div id="evalResult_'+idx+'" style="display:none"></div>';
+                        html += '<div id="correctAns_'+idx+'" style="display:none"></div>';
+                        
+                        interviewDiv.innerHTML = html;
+                        interviewDiv.dataset.keywords = JSON.stringify(keywords);
+                        interviewDiv.dataset.answertext = answerText;
+                        interviewDiv.dataset.generated = 'true';
                     }
                 }
             };
-            ans.insertBefore(shortDiv, ans.querySelector('pre'));
-            ans.insertBefore(btn, shortDiv);
+            
+            ans.insertBefore(interviewDiv, ans.querySelector('pre'));
+            ans.insertBefore(btn, interviewDiv);
         });
     }
 
-    function generateShortAnswer(text) {
+    function buildCustomHTML(text) {
+        return '<div style="border-left:3px solid #059669;padding-left:12px"><div style="font-size:.7rem;color:#047857;font-weight:700;margin-bottom:6px">\ud83c\udfaf MY INTERVIEW ANSWER:</div><div style="color:#1e293b;line-height:1.9">' + text.replace(/\n/g,'<br>') + '</div></div>';
+    }
+
+    function generateInterviewAnswer(text) {
         if (!text || text.trim().length < 20) return '<span style="color:#64748b">No content.</span>';
         var lines = text.split('\n').map(function(l){return l.trim()}).filter(function(l){return l.length > 0});
-        var keyPoints = [];
+        var points = [];
         for (var i = 0; i < lines.length; i++) {
             var line = lines[i];
-            if (line.match(/^[\s{}();,\[\]]+$/) || line.startsWith('+--') || line.startsWith('===')) continue;
-            if (line.startsWith('using ') || line.startsWith('namespace') || line.match(/^\w+\.\w+\(/)) continue;
-            if (line.match(/^(public|private|protected|static|void|class|interface|abstract)\s+\w/) && (line.includes('{') || line.includes('('))) continue;
-            if (line.startsWith('Console.') || line.startsWith('return ') || line.match(/^\s*\/\//)) continue;
-            if (line.startsWith('{') || line.startsWith('}') || line.match(/^\s*\}\s*$/)) continue;
-            if (line.startsWith('var ') || line.startsWith('int ') || line.startsWith('string ') || line.startsWith('bool ') || line.startsWith('decimal ')) continue;
-            if (line.match(/^\w+\s*[=<>]/) && !line.includes(':')) continue;
-            keyPoints.push(line);
+            if (line.match(/^[\s{}();,\[\]]+$/)) continue;
+            if (line.startsWith('===') || line.startsWith('+--')) continue;
+            if (line.startsWith('using ') || line.startsWith('namespace')) continue;
+            if (line.match(/^(public|private|protected|static|void|class|interface|abstract|override|virtual|sealed)\s+\w/) && (line.includes('{') || line.includes('(') || line.includes(';'))) continue;
+            if (line.startsWith('Console.') || line.match(/^\s*\/\//)) continue;
+            if (line === '{' || line === '}' || line.match(/^\s*[{}]\s*$/)) continue;
+            if (line.match(/^(var|int|string|bool|decimal|double|float|char|long)\s+\w+\s*[=;]/)) continue;
+            if (line.match(/^\w+\.\w+\(/) || line.match(/^new \w/) || line.startsWith('await ')) continue;
+            if (line.match(/^(try|catch|finally|throw|if|else|foreach|for|while|switch|case|break|continue|return)\b/) && (line.includes('{') || line.includes('(') || line.includes(';') || line.length < 15)) continue;
+            if (line.match(/^(List|Dictionary|HashSet|Task|Action|Func|IEnumerable|Array)(<|\[)/)) continue;
+            if (line.match(/^\w+\s*=\s*/) && !line.includes(':')) continue;
+            if (line.match(/^\w+\s*\+=/) || line.match(/^\w+\s*-=/)) continue;
+            points.push(line);
         }
-        var html = '<div style="border-left:3px solid #0ea5e9;padding-left:12px;margin-bottom:10px">';
-        html += '<div style="font-size:.7rem;color:#0369a1;font-weight:700;margin-bottom:8px">\ud83c\udfaf INTERVIEW ANSWER (No Code):</div>';
-        keyPoints.forEach(function(line) {
+        var html = '<div style="border-left:3px solid #059669;padding-left:12px">';
+        html += '<div style="font-size:.72rem;color:#047857;font-weight:700;margin-bottom:8px">\ud83c\udfaf INTERVIEW ANSWER (Full concept, no code):</div>';
+        points.forEach(function(line) {
             if (line.match(/^[A-Z][A-Z\s]{3,}:?$/) || line.match(/^[A-Z][A-Z\s&]+:/)) {
-                html += '<div style="color:#0369a1;font-weight:700;margin-top:10px;margin-bottom:4px;font-size:.8rem">' + line + '</div>';
+                html += '<div style="color:#047857;font-weight:700;margin-top:10px;margin-bottom:4px;font-size:.82rem">' + line + '</div>';
             } else if (line.startsWith('- ')) {
                 var content = line.substring(2);
-                if (content.includes(':') && content.indexOf(':') < 30) {
+                if (content.includes(':') && content.indexOf(':') < 30 && !content.includes('//') && !content.includes('=>')) {
                     var parts = content.split(':');
-                    html += '<div style="padding:3px 0 3px 10px;border-left:2px solid rgba(14,165,233,.3);margin-bottom:3px"><span style="color:#059669;font-weight:600">\u25b8 ' + parts[0].trim() + '</span>: <span style="color:#334155">' + parts.slice(1).join(':').trim() + '</span></div>';
+                    html += '<div style="padding:3px 0 3px 10px;border-left:2px solid #86efac;margin-bottom:3px"><span style="color:#047857;font-weight:600">\u25b8 ' + parts[0].trim() + '</span>: <span style="color:#334155">' + parts.slice(1).join(':').trim() + '</span></div>';
                 } else {
-                    html += '<div style="padding:3px 0 3px 10px;color:#334155;border-left:2px solid rgba(14,165,233,.2);margin-bottom:3px"><span style="color:#059669">\u25b8</span> ' + content + '</div>';
+                    html += '<div style="padding:3px 0 3px 10px;color:#334155;border-left:2px solid #86efac;margin-bottom:3px"><span style="color:#047857">\u25b8</span> ' + content + '</div>';
                 }
             } else if (line.startsWith('|')) {
                 html += '<div style="padding:2px 0;color:#475569;font-family:monospace;font-size:.72rem">' + line.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>';
-            } else if (line.includes(':') && !line.includes('//') && !line.includes('=>') && line.indexOf(':') < 30 && line.indexOf(':') > 2) {
+            } else if (line.includes(':') && !line.includes('//') && !line.includes('=>') && !line.includes('http') && line.indexOf(':') > 2 && line.indexOf(':') < 30) {
                 var parts = line.split(':');
                 var key = parts[0].trim();
                 var val = parts.slice(1).join(':').trim();
                 if (key.length < 30 && val.length > 0) {
-                    html += '<div style="padding:3px 0 3px 10px;border-left:2px solid rgba(14,165,233,.2);margin-bottom:3px"><span style="color:#0369a1;font-weight:600">' + key + '</span>: <span style="color:#334155">' + val + '</span></div>';
+                    html += '<div style="padding:3px 0 3px 10px;border-left:2px solid #86efac;margin-bottom:3px"><span style="color:#047857;font-weight:600">' + key + '</span>: <span style="color:#334155">' + val + '</span></div>';
                 } else {
                     html += '<div style="padding:3px 0;color:#334155">' + line + '</div>';
                 }
@@ -123,273 +112,30 @@
             }
         });
         html += '</div>';
-        html += '<div style="font-size:.7rem;color:#64748b;margin-top:8px;font-style:italic">\ud83d\udca1 Full concept without code. Click "Full Answer" for code examples.</div>';
+        html += '<div style="margin-top:10px;padding:8px 12px;background:rgba(5,150,105,.08);border-radius:6px;font-size:.7rem;color:#047857">\ud83d\udca1 <strong>Tip:</strong> Explain concept clearly. Say "For example..." if they ask for depth.</div>';
         return html;
     }
 
-    function isCodeLine(line) {
-        var starts = ['public ','private ','protected ','//','{ ','}','using ','var ','int ','string ','class ','return ','if (','if(','else','Console.','await ','SELECT ','FROM ','WHERE ','INSERT ','UPDATE ','DELETE ','CREATE ','ALTER ','namespace','static ','void ','new ','try','catch','finally','throw ','decimal ','bool ','foreach','for (','while','switch','List<','Dictionary<','Task<'];
-        for (var i = 0; i < starts.length; i++) { if (line.startsWith(starts[i])) return true; }
-        if (line.match(/^[\s{}();,\[\]]+$/)) return true;
-        return false;
-    }
-
+    // Init
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() { setTimeout(addShortAnswerButtons, 600); });
+        document.addEventListener('DOMContentLoaded', function() { setTimeout(addInterviewButtons, 600); });
     } else {
-        setTimeout(addShortAnswerButtons, 600);
+        setTimeout(addInterviewButtons, 600);
     }
     document.addEventListener('click', function(e) {
-        if (e.target.closest('.q-title')) setTimeout(addShortAnswerButtons, 200);
+        if (e.target.closest('.q-title')) setTimeout(addInterviewButtons, 200);
     });
 })();
 
-// === SPEAK ENHANCED ===
-setTimeout(function(){
-    window.showSpeak = function(idx, btn) {
-        var sd = document.getElementById('speak_' + idx);
-        var pre = btn.parentElement.querySelector('pre');
-        if (sd.style.display === 'block') {
-            sd.style.display = 'none';
-            if (pre) pre.style.display = 'block';
-            btn.classList.remove('active');
-            btn.textContent = '\ud83d\udde3\ufe0f How to Speak';
-            return;
-        }
-        if (pre) pre.style.display = 'none';
-        btn.classList.add('active');
-        sd.style.display = 'block';
-
-        if (typeof SPEAK_DATA !== 'undefined' && SPEAK_DATA[idx]) {
-            sd.innerHTML = formatSpeak(SPEAK_DATA[idx]);
-            btn.textContent = '\u274c Hide Speaking Tips';
-            return;
-        }
-
-        var text = pre ? pre.textContent : '';
-        var lines = text.split('\n').filter(function(l) { return l.trim() && !l.startsWith('=') && !l.startsWith('|') && !l.startsWith('+--') && l.trim().length > 3; });
-        var html = '<div style="background:#0d1b2a;border-radius:10px;padding:16px;border:1px solid rgba(255,255,255,.08)">';
-        html += '<div style="background:rgba(56,189,248,.08);border-left:3px solid #38bdf8;padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:14px;font-size:.82rem;color:#38bdf8">\ud83c\udfaf <strong>How to explain:</strong></div>';
-        html += '<div style="font-size:.84rem;line-height:1.8;color:#e2e8f0">';
-        var count = 0;
-        lines.forEach(function(line) {
-            line = line.trim();
-            if (line.length < 4) return;
-            var codeStarts = ['public ','private ','protected ','//','{ ','}','using ','var ','int ','string ','class ','return ','Console.','await ','static ','void ','namespace','foreach','for ('];
-            for (var i = 0; i < codeStarts.length; i++) { if (line.startsWith(codeStarts[i])) return; }
-            if (line.match(/^[A-Z][A-Z\s]{3,}:?$/)) { html += '<div style="color:#f59e0b;font-weight:700;margin-top:10px">\ud83d\udccc ' + line + '</div>'; count = 0; return; }
-            if (line.startsWith('- ')) { html += '<div style="padding:3px 0 3px 12px;color:#cbd5e1"><span style="color:#10b981">\u25b8</span> ' + line.substring(2) + '</div>'; return; }
-            if (count++ < 12) html += '<div style="padding:3px 0;color:#cbd5e1">' + line + '</div>';
-        });
-        html += '</div><div style="background:rgba(16,185,129,.08);border-left:3px solid #10b981;padding:10px 14px;border-radius:0 8px 8px 0;margin-top:14px;font-size:.82rem;color:#10b981">\ud83d\udca1 <strong>End:</strong> "Would you like a code example?"</div></div>';
-        sd.innerHTML = html;
-        btn.textContent = '\u274c Hide Speaking Tips';
-    };
-
-    function formatSpeak(text) {
-        var paragraphs = text.split('\n\n').filter(function(p) { return p.trim().length > 0; });
-        var html = '<div style="background:#0d1b2a;border-radius:10px;padding:16px;border:1px solid rgba(255,255,255,.08)">';
-        html += '<div style="background:rgba(56,189,248,.08);border-left:3px solid #38bdf8;padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:14px;font-size:.82rem;color:#38bdf8">\ud83c\udfaf <strong>How to explain:</strong></div>';
-        html += '<div style="font-size:.84rem;line-height:1.8;color:#e2e8f0">';
-        paragraphs.forEach(function(para) {
-            para = para.trim();
-            var sentences = para.split(/(?<=\.)\s+/).filter(function(s) { return s.trim().length > 5; });
-            if (sentences.length > 1) {
-                html += '<div style="margin:8px 0">';
-                sentences.forEach(function(s) { html += '<div style="padding:4px 0 4px 12px;border-left:2px solid rgba(16,185,129,.2);margin-bottom:3px"><span style="color:#10b981">\u25b8</span> ' + s.trim() + '</div>'; });
-                html += '</div>';
-            } else {
-                html += '<div style="padding:6px 0;color:#cbd5e1;border-bottom:1px solid rgba(255,255,255,.04)">' + para + '</div>';
-            }
-        });
-        var wordCount = text.split(' ').length; var timeEst = Math.ceil(wordCount / 130 * 60); html += '</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;gap:10px"><div style="background:rgba(16,185,129,.08);border-left:3px solid #10b981;padding:10px 14px;border-radius:0 8px 8px 0;font-size:.82rem;color:#10b981;flex:1">\ud83d\udca1 <strong>Tip:</strong> Keep under 60 seconds.</div><div style="text-align:center"><div style="font-size:.68rem;color:#64748b">\u23f1 ~' + timeEst + 's</div><button onclick="startSpeakTimer(this)" style="margin-top:3px;background:#6366f1;color:#fff;border:none;padding:5px 10px;border-radius:5px;font-size:.68rem;cursor:pointer;font-weight:600">\ud83c\udfa4 60s Timer</button></div></div></div>';
-        return html;
-    }
-}, 1000);
-
-// === HIGHLIGHTER ===
-(function(){
-    const page = document.title.replace(/[^a-zA-Z0-9]/g,'');
-    function getHighlights() { return JSON.parse(localStorage.getItem('hl_' + page) || '[]'); }
-    function saveHighlights(data) { localStorage.setItem('hl_' + page, JSON.stringify(data)); }
-
-    const toolbar = document.createElement('div');
-    toolbar.id = 'hlToolbar';
-    toolbar.innerHTML = '<span style="font-size:.68rem;color:#ccc;margin-right:6px">Mark:</span><span class="hlc" data-c="#b45309" style="background:#b45309"></span><span class="hlc" data-c="#047857" style="background:#047857"></span><span class="hlc" data-c="#be123c" style="background:#be123c"></span><span class="hlc" data-c="#1d4ed8" style="background:#1d4ed8"></span><span id="hlClear" style="color:#ff6b6b;font-size:.8rem;cursor:pointer;margin-left:6px" title="Remove">\u2715</span>';
-    toolbar.style.cssText = 'display:none;position:absolute;z-index:99999;background:#1e293b;border:1px solid #475569;border-radius:8px;padding:6px 10px;box-shadow:0 4px 20px rgba(0,0,0,.5);align-items:center;gap:6px';
-
-    const style = document.createElement('style');
-    style.textContent = '.hlc{width:22px;height:22px;border-radius:50%;cursor:pointer;display:inline-block;border:2px solid #fff3;transition:transform .15s}.hlc:hover{transform:scale(1.2);border-color:#fff}mark.hl,font[style*="background"]{color:#fff!important;font-weight:700!important;padding:1px 3px!important;border-radius:2px!important;cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,.5)!important}pre font,pre span[style*="background"],pre mark{color:#fff!important;font-weight:700!important;text-shadow:0 1px 2px rgba(0,0,0,.5)!important}';
-    document.head.appendChild(style);
-    document.body.appendChild(toolbar);
-
-    document.addEventListener('mouseup', function(e) {
-        if (e.target.closest('#hlToolbar')) return;
-        setTimeout(function() {
-            const sel = window.getSelection();
-            const text = sel.toString().trim();
-            if (text.length > 1) {
-                const range = sel.getRangeAt(0);
-                const rect = range.getBoundingClientRect();
-                toolbar.style.display = 'flex';
-                toolbar.style.top = (window.scrollY + rect.top - 40) + 'px';
-                toolbar.style.left = (rect.left + rect.width/2 - 100) + 'px';
-            } else { toolbar.style.display = 'none'; }
-        }, 50);
-    });
-
-    toolbar.querySelectorAll('.hlc').forEach(function(btn) {
-        btn.addEventListener('mousedown', function(e) {
-            e.preventDefault();
-            const color = this.dataset.c;
-            const sel = window.getSelection();
-            const text = sel.toString().trim();
-            if (!text || !sel.rangeCount) return;
-            try {
-                const range = sel.getRangeAt(0);
-                const mark = document.createElement('mark');
-                mark.className = 'hl';
-                mark.setAttribute('data-hl-text', text);
-                mark.style.cssText = 'background-color:' + color + '!important;color:#fff!important;font-weight:700!important;padding:1px 3px;border-radius:2px;cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,.5)';
-                range.surroundContents(mark);
-            } catch(err) {}
-            const highlights = getHighlights();
-            highlights.push({ text: text, color: color });
-            saveHighlights(highlights);
-            updateCounter();
-            sel.removeAllRanges();
-            toolbar.style.display = 'none';
-        });
-    });
-
-    document.getElementById('hlClear').addEventListener('mousedown', function(e) {
-        e.preventDefault();
-        const sel = window.getSelection();
-        const text = sel.toString().trim();
-        document.querySelectorAll('.hl').forEach(function(el) {
-            if (text && (el.textContent.includes(text) || text.includes(el.textContent))) {
-                el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
-                el.parentNode.normalize();
-            }
-        });
-        const highlights = getHighlights().filter(function(h) { return !text || (!text.includes(h.text) && !h.text.includes(text)); });
-        saveHighlights(highlights);
-        updateCounter();
-        toolbar.style.display = 'none';
-    });
-
-    document.addEventListener('click', function(e) {
-        if (e.target.classList && e.target.classList.contains('hl')) {
-            if (confirm('Remove highlight?')) {
-                const text = e.target.getAttribute('data-hl-text') || e.target.textContent;
-                e.target.parentNode.replaceChild(document.createTextNode(e.target.textContent), e.target);
-                e.target.parentNode && e.target.parentNode.normalize && e.target.parentNode.normalize();
-                const highlights = getHighlights().filter(function(h) { return h.text !== text; });
-                saveHighlights(highlights);
-                updateCounter();
-            }
-        }
-    });
-
-    function updateCounter() {
-        const highlights = getHighlights();
-        let counter = document.getElementById('hlCounter');
-        if (!counter) {
-            counter = document.createElement('div');
-            counter.id = 'hlCounter';
-            counter.style.cssText = 'position:fixed;bottom:15px;left:15px;background:#fbbf24;color:#000;padding:7px 14px;border-radius:20px;font-size:.72rem;font-weight:700;z-index:998;box-shadow:0 4px 12px rgba(0,0,0,.2);cursor:pointer';
-            counter.onclick = function() {
-                if (confirm('Remove ALL highlights?')) {
-                    document.querySelectorAll('.hl').forEach(function(el) { el.parentNode.replaceChild(document.createTextNode(el.textContent), el); });
-                    saveHighlights([]);
-                    updateCounter();
-                }
-            };
-            document.body.appendChild(counter);
-        }
-        counter.textContent = '\ud83d\udd8d\ufe0f ' + highlights.length + ' marked';
-        counter.style.display = highlights.length > 0 ? 'block' : 'none';
-    }
-
-    function restoreHighlights() {
-        const highlights = getHighlights();
-        if (!highlights.length) return;
-        highlights.forEach(function(h) {
-            var exists = false;
-            document.querySelectorAll('.hl').forEach(function(el) { if (el.textContent === h.text) exists = true; });
-            if (exists) return;
-            const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
-            while (walker.nextNode()) {
-                const node = walker.currentNode;
-                const idx = node.textContent.indexOf(h.text);
-                if (idx >= 0 && !node.parentElement.classList.contains('hl') && !node.parentElement.closest('.hl')) {
-                    try {
-                        const range = document.createRange();
-                        range.setStart(node, idx);
-                        range.setEnd(node, idx + h.text.length);
-                        const mark = document.createElement('mark');
-                        mark.className = 'hl';
-                        mark.setAttribute('data-hl-text', h.text);
-                        mark.style.cssText = 'background-color:' + h.color + '!important;color:#fff!important;font-weight:700!important;padding:1px 3px;border-radius:2px;cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,.5)';
-                        range.surroundContents(mark);
-                    } catch(e) {}
-                    break;
-                }
-            }
-        });
-    }
-
-    setTimeout(function() { restoreHighlights(); updateCounter(); }, 1500);
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.q-title')) setTimeout(function() { restoreHighlights(); updateCounter(); }, 300);
-    });
-})();
-
-
-// === SPEAKING TIMER ===
-function startSpeakTimer(btn) {
-    var parent = btn.parentElement;
-    var existing = parent.querySelector('.timer-display');
-    if (existing) { existing.remove(); btn.textContent = '\ud83c\udfa4 60s Timer'; return; }
-    
-    var timerEl = document.createElement('div');
-    timerEl.className = 'timer-display';
-    timerEl.style.cssText = 'font-size:1.2rem;font-weight:700;color:#10b981;margin-top:6px';
-    timerEl.textContent = '60';
-    parent.appendChild(timerEl);
-    btn.textContent = '\u23f9 Stop';
-    
-    var seconds = 60;
-    var interval = setInterval(function() {
-        seconds--;
-        timerEl.textContent = seconds + 's';
-        if (seconds <= 10) timerEl.style.color = '#ef4444';
-        else if (seconds <= 30) timerEl.style.color = '#f59e0b';
-        if (seconds <= 0) {
-            clearInterval(interval);
-            timerEl.textContent = '\u23f0 Time!';
-            timerEl.style.color = '#ef4444';
-            btn.textContent = '\ud83c\udfa4 60s Timer';
-        }
-    }, 1000);
-    
-    btn.onclick = function() {
-        clearInterval(interval);
-        timerEl.remove();
-        btn.textContent = '\ud83c\udfa4 60s Timer';
-        btn.onclick = function() { startSpeakTimer(btn); };
-    };
-}
-
-// === SHOW ALL SHORT ANSWERS (Quick Revision Mode) ===
+// === QUICK REVISION MODE ===
 (function(){
     setTimeout(function() {
         var container = document.querySelector('.container');
         if (!container || !document.querySelector('.q-ans')) return;
         
         var revBtn = document.createElement('button');
-        revBtn.textContent = '\ud83d\udcda Quick Revision (All Short Answers)';
-        revBtn.style.cssText = 'display:block;margin:10px auto;background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer';
+        revBtn.textContent = '\ud83d\udcda Quick Revision (Interview Answers Only)';
+        revBtn.style.cssText = 'display:block;margin:10px auto;background:linear-gradient(135deg,#059669,#10b981);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:.75rem;font-weight:600;cursor:pointer';
         var isRevMode = false;
         
         revBtn.onclick = function() {
@@ -399,21 +145,20 @@ function startSpeakTimer(btn) {
                 revBtn.style.background = 'linear-gradient(135deg,#ef4444,#dc2626)';
                 document.querySelectorAll('.q').forEach(function(q) { q.classList.add('open'); });
                 setTimeout(function() {
-                    document.querySelectorAll('.short-ans-btn').forEach(function(btn) {
-                        if (btn.textContent.includes('Short')) btn.click();
+                    document.querySelectorAll('.interview-ans-btn').forEach(function(btn) {
+                        if (btn.textContent.includes('Interview')) btn.click();
                     });
                 }, 300);
             } else {
-                revBtn.textContent = '\ud83d\udcda Quick Revision (All Short Answers)';
-                revBtn.style.background = 'linear-gradient(135deg,#10b981,#059669)';
-                document.querySelectorAll('.short-ans-btn').forEach(function(btn) {
-                    if (btn.textContent.includes('Full')) btn.click();
+                revBtn.textContent = '\ud83d\udcda Quick Revision (Interview Answers Only)';
+                revBtn.style.background = 'linear-gradient(135deg,#059669,#10b981)';
+                document.querySelectorAll('.interview-ans-btn').forEach(function(btn) {
+                    if (btn.textContent.includes('Back')) btn.click();
                 });
                 document.querySelectorAll('.q').forEach(function(q) { q.classList.remove('open'); });
             }
         };
         
-        // Insert after search or at top of container
         var searchEl = document.getElementById('search');
         if (searchEl) {
             searchEl.insertAdjacentElement('afterend', revBtn);
@@ -424,55 +169,538 @@ function startSpeakTimer(btn) {
     }, 1000);
 })();
 
-// === EXPORT ALL HIGHLIGHTS AS PDF ===
+// === HIGHLIGHTER ===
 (function(){
-    setTimeout(function() {
-        var counter = document.getElementById('hlCounter');
-        if (!counter) return;
+    var page = document.title.replace(/[^a-zA-Z0-9]/g,'');
+    function getHL() { return JSON.parse(localStorage.getItem('hl_' + page) || '[]'); }
+    function saveHL(d) { localStorage.setItem('hl_' + page, JSON.stringify(d)); }
+
+    var toolbar = document.createElement('div');
+    toolbar.id = 'hlToolbar';
+    toolbar.innerHTML = '<span style="font-size:.68rem;color:#ccc;margin-right:6px">Mark:</span><span class="hlc" data-c="#b45309" style="background:#b45309"></span><span class="hlc" data-c="#047857" style="background:#047857"></span><span class="hlc" data-c="#be123c" style="background:#be123c"></span><span class="hlc" data-c="#1d4ed8" style="background:#1d4ed8"></span><span id="hlClear" style="color:#ff6b6b;font-size:.8rem;cursor:pointer;margin-left:6px">\u2715</span>';
+    toolbar.style.cssText = 'display:none;position:absolute;z-index:99999;background:#1e293b;border:1px solid #475569;border-radius:8px;padding:6px 10px;box-shadow:0 4px 20px rgba(0,0,0,.5);align-items:center;gap:6px';
+
+    var css = document.createElement('style');
+    css.textContent = '.hlc{width:22px;height:22px;border-radius:50%;cursor:pointer;display:inline-block;border:2px solid #fff3}.hlc:hover{transform:scale(1.2);border-color:#fff}mark.hl{color:#fff!important;font-weight:700!important;padding:1px 3px!important;border-radius:2px!important;cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,.5)!important}';
+    document.head.appendChild(css);
+    document.body.appendChild(toolbar);
+
+    document.addEventListener('mouseup', function(e) {
+        if (e.target.closest('#hlToolbar')) return;
+        setTimeout(function() {
+            var sel = window.getSelection();
+            var text = sel.toString().trim();
+            if (text.length > 1) {
+                var rect = sel.getRangeAt(0).getBoundingClientRect();
+                toolbar.style.display = 'flex';
+                toolbar.style.top = (window.scrollY + rect.top - 40) + 'px';
+                toolbar.style.left = (rect.left + rect.width/2 - 100) + 'px';
+            } else { toolbar.style.display = 'none'; }
+        }, 50);
+    });
+
+    toolbar.querySelectorAll('.hlc').forEach(function(btn) {
+        btn.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            var color = this.dataset.c;
+            var sel = window.getSelection();
+            var text = sel.toString().trim();
+            if (!text || !sel.rangeCount) return;
+            try {
+                var range = sel.getRangeAt(0);
+                var mark = document.createElement('mark');
+                mark.className = 'hl';
+                mark.setAttribute('data-hl-text', text);
+                mark.style.cssText = 'background-color:' + color + '!important;color:#fff!important;font-weight:700!important;padding:1px 3px;border-radius:2px;cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,.5)';
+                range.surroundContents(mark);
+            } catch(err) {}
+            var hl = getHL(); hl.push({text:text,color:color}); saveHL(hl);
+            updateHLCount();
+            sel.removeAllRanges();
+            toolbar.style.display = 'none';
+        });
+    });
+
+    document.getElementById('hlClear').addEventListener('mousedown', function(e) {
+        e.preventDefault();
+        var sel = window.getSelection();
+        var text = sel.toString().trim();
+        document.querySelectorAll('.hl').forEach(function(el) {
+            if (text && (el.textContent.includes(text) || text.includes(el.textContent))) {
+                el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
+            }
+        });
+        var hl = getHL().filter(function(h){return !text||(!text.includes(h.text)&&!h.text.includes(text))});
+        saveHL(hl); updateHLCount(); toolbar.style.display = 'none';
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList && e.target.classList.contains('hl')) {
+            if (confirm('Remove highlight?')) {
+                var text = e.target.getAttribute('data-hl-text');
+                e.target.parentNode.replaceChild(document.createTextNode(e.target.textContent), e.target);
+                var hl = getHL().filter(function(h){return h.text!==text}); saveHL(hl); updateHLCount();
+            }
+        }
+    });
+
+    function updateHLCount() {
+        var hl = getHL();
+        var c = document.getElementById('hlCounter');
+        if (!c) {
+            c = document.createElement('div'); c.id = 'hlCounter';
+            c.style.cssText = 'position:fixed;bottom:15px;left:15px;background:#fbbf24;color:#000;padding:7px 14px;border-radius:20px;font-size:.72rem;font-weight:700;z-index:998;cursor:pointer';
+            c.onclick = function(){
+                if(confirm('OK=Export PDF | Cancel=Remove all')){exportHL()}else{if(confirm('Remove ALL?')){document.querySelectorAll('.hl').forEach(function(el){el.parentNode.replaceChild(document.createTextNode(el.textContent),el)});saveHL([]);updateHLCount()}}
+            };
+            document.body.appendChild(c);
+        }
+        c.textContent = '\ud83d\udd8d\ufe0f ' + hl.length + ' marked';
+        c.style.display = hl.length > 0 ? 'block' : 'none';
+    }
+
+    function exportHL() {
+        var hl = getHL();
+        if (!hl.length) { alert('No highlights!'); return; }
+        var html = '<html><head><title>Highlights - ' + document.title + '</title><style>body{font-family:Segoe UI,sans-serif;padding:30px;max-width:700px;margin:0 auto}.item{padding:10px 14px;margin-bottom:8px;border-radius:6px;font-size:.9rem}</style></head><body>';
+        html += '<h2>\ud83d\udd8d\ufe0f My Highlights - ' + document.title + '</h2>';
+        hl.forEach(function(h,i){ html += '<div class="item" style="background:'+h.color+'22;border-left:4px solid '+h.color+'">'+(i+1)+'. '+h.text+'</div>'; });
+        html += '<script>window.print()<\/script></body></html>';
+        var w = window.open('','_blank'); w.document.write(html); w.document.close();
+    }
+
+    function restoreHL() {
+        var hl = getHL(); if (!hl.length) return;
+        hl.forEach(function(h) {
+            var exists = false;
+            document.querySelectorAll('.hl').forEach(function(el){if(el.textContent===h.text)exists=true});
+            if (exists) return;
+            var walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+            while (walker.nextNode()) {
+                var node = walker.currentNode;
+                var idx = node.textContent.indexOf(h.text);
+                if (idx >= 0 && !node.parentElement.classList.contains('hl')) {
+                    try {
+                        var range = document.createRange();
+                        range.setStart(node, idx); range.setEnd(node, idx + h.text.length);
+                        var mark = document.createElement('mark'); mark.className = 'hl';
+                        mark.setAttribute('data-hl-text', h.text);
+                        mark.style.cssText = 'background-color:'+h.color+'!important;color:#fff!important;font-weight:700!important;padding:1px 3px;border-radius:2px;cursor:pointer;text-shadow:0 1px 2px rgba(0,0,0,.5)';
+                        range.surroundContents(mark);
+                    } catch(e) {}
+                    break;
+                }
+            }
+        });
+    }
+
+    setTimeout(function(){ restoreHL(); updateHLCount(); }, 1500);
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('.q-title')) setTimeout(function(){ restoreHL(); updateHLCount(); }, 300);
+    });
+})();
+
+
+// === PRIORITY RATING (★★★/★★/★) ===
+(function(){
+    var priorities = {
+        'oops': {
+            3: [1,2,4,5,6,15,16,23,24,25,32,33,34,35,36,37,38,39,40,41,45,46,50,51,54,58,62,72,73,80,82,84,85,89,90,91,101,103],
+            2: [3,7,8,9,11,14,17,18,22,26,27,28,30,31,42,43,47,48,55,57,59,60,61,63,64,66,67,69,70,74,75,76,77,78,79,81,83,86,87,92,94,97,98,99,100,102,104],
+            1: [10,12,13,19,20,21,29,44,49,52,53,56,65,68,71,88,93,95,96]
+        },
+        'c#': {3:[1,2,3,4,5,6,7,8,9,10,11,12,15,16,17,18,19,20,23,36,37,51,52,53,54,55,86,87,88,89,90],2:[13,14,21,22,24,25,26,27,28,29,30,31,32,33,34,35,38,39,40,41,42,43,44,45,56,57,58,59,60,91,92,93,94,95],1:[46,47,48,49,50,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85]},
+        'sql': {3:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,25,26,27,28,29,30,41,42,43,44,45],2:[18,19,20,21,22,23,24,31,32,33,34,35,36,37,38,39,40,46,47,48,49,50],1:[51,52]},
+        'mvc': {3:[1,2,3,4,5,6,7,8,9,10,11,12,16,17,18,19,20,31,32,33,34,35,36,51,52,53,54,55],2:[13,14,15,21,22,23,24,25,26,27,28,29,30,37,38,39,40,41,42,43,44,45,46,47,48,49,50,56,57,58,59,60,71,72,73,74,75],1:[]},
+        'asp.net': {3:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],2:[26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70],1:[]},
+        'web api': {3:[1,2,3,4,5,6,7,8,9,10],2:[11,12,13,14,15],1:[]},
+        'ef core': {3:[1,2,3,4,5,6],2:[7,8,9,10,11,12],1:[]},
+        'solid': {3:[1,2,3,4,5,6,7,8,9,10,11,12],2:[],1:[]},
+        'di': {3:[1,2,3,4,5,6,7,8],2:[],1:[]},
+        'git': {3:[1,2,3,4],2:[5,6,7,8,9,10,11,12],1:[]},
+        'javascript': {3:[1,2,3,4,5,6,7,8,9,10,11,12],2:[],1:[]},
+        'oracle': {3:[1,2,3,4,5,6,7,8,9,10],2:[11,12,13,14,15,16,17,18,19,20],1:[21,22,23,24,25,26,27,28,29,30]},
+        'project': {3:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],2:[16,17,18,19,20,21,22,23,24,25,26,27,28,29],1:[]},
+        'coding': {3:[1,2,3,4,5,6,7,8,9,10],2:[11,12,13,14,15,16,17,18,19,20],1:[21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40]}
+    };
+
+    var titleMap = {
+        'oops':['oops'],'c#':['c#','csharp'],'sql':['sql interview'],'mvc':['mvc'],
+        'asp.net':['asp.net'],'web api':['web api'],'ef core':['ef core'],
+        'solid':['solid'],'di':['dependency injection'],'git':['git'],
+        'javascript':['javascript'],'oracle':['oracle'],'project':['project'],'coding':['coding']
+    };
+
+    function getMatchedKey() {
+        var title = document.title.toLowerCase();
+        for (var key in titleMap) {
+            var matches = titleMap[key];
+            for (var i = 0; i < matches.length; i++) {
+                if (title.includes(matches[i])) return key;
+            }
+        }
+        return null;
+    }
+
+    function getRating(qNum) {
+        var key = getMatchedKey();
+        if (!key || !priorities[key]) return 0;
+        var data = priorities[key];
+        if (data[3] && data[3].indexOf(qNum) > -1) return 3;
+        if (data[2] && data[2].indexOf(qNum) > -1) return 2;
+        if (data[1] && data[1].indexOf(qNum) > -1) return 1;
+        return 2;
+    }
+
+    function addRatings() {
+        var key = getMatchedKey();
+        if (!key) return;
+
+        document.querySelectorAll('.q').forEach(function(qDiv) {
+            var title = qDiv.querySelector('.q-title');
+            if (!title || title.querySelector('.priority-star')) return;
+            
+            var qNum = 0;
+            var dataS = qDiv.getAttribute('data-s') || '';
+            var match = dataS.match(/q(\d+)/i);
+            if (match) qNum = parseInt(match[1]);
+            
+            if (!qNum) {
+                var numEl = title.querySelector('.num');
+                if (numEl) { var m = numEl.textContent.match(/\d+/); if (m) qNum = parseInt(m[0]); }
+            }
+            
+            var rating = getRating(qNum);
+            if (rating) {
+                var colors = {3:'#ef4444',2:'#f59e0b',1:'#10b981'};
+                var labels = {3:'\u2605\u2605\u2605',2:'\u2605\u2605',1:'\u2605'};
+                var titles = {3:'Must Know',2:'Important',1:'Good to Know'};
+                var star = document.createElement('span');
+                star.className = 'priority-star';
+                star.style.cssText = 'color:'+colors[rating]+';font-size:.7rem;font-weight:700;margin-left:8px';
+                star.textContent = labels[rating];
+                star.title = titles[rating];
+                var arrow = title.querySelector('.arrow');
+                if (arrow) title.insertBefore(star, arrow);
+                else title.appendChild(star);
+            }
+        });
+    }
+
+    function addLegend() {
+        var key = getMatchedKey();
+        if (!key) return;
+        var container = document.querySelector('.container');
+        if (!container || container.querySelector('.priority-legend')) return;
+
+        var legend = document.createElement('div');
+        legend.className = 'priority-legend';
+        legend.style.cssText = 'display:flex;justify-content:center;gap:14px;margin-bottom:12px;font-size:.72rem;flex-wrap:wrap';
+        legend.innerHTML = '<span style="color:#ef4444;font-weight:700">\u2605\u2605\u2605 Must Know</span><span style="color:#f59e0b;font-weight:700">\u2605\u2605 Important</span><span style="color:#10b981;font-weight:700">\u2605 Good to Know</span>';
         
-        var origClick = counter.onclick;
-        counter.onclick = null;
-        counter.onclick = function(e) {
-            var choice = confirm('OK = Export highlights as PDF\nCancel = Remove all highlights');
-            if (choice) {
-                exportHighlightsPDF();
+        var searchEl = document.getElementById('search');
+        if (searchEl) searchEl.insertAdjacentElement('afterend', legend);
+    }
+
+    setTimeout(function(){ addLegend(); addRatings(); }, 800);
+})();
+
+
+// === ASK AI (Opens ChatGPT/Copilot with question) ===
+(function(){
+    function addAIButtons() {
+        document.querySelectorAll('.q-title').forEach(function(title) {
+            if (title.querySelector('.ask-ai-btn')) return;
+            
+            // Get question text
+            var txtEl = title.querySelector('.txt');
+            var qText = txtEl ? txtEl.textContent.trim() : title.textContent.trim();
+            
+            var btn = document.createElement('button');
+            btn.className = 'ask-ai-btn';
+            btn.textContent = '\ud83e\udd16';
+            btn.title = 'Ask AI (ChatGPT)';
+            btn.style.cssText = 'background:none;border:none;font-size:1rem;cursor:pointer;margin-left:6px;opacity:.5;transition:opacity .2s';
+            btn.onmouseover = function() { this.style.opacity = '1'; };
+            btn.onmouseout = function() { this.style.opacity = '.5'; };
+            
+            btn.onclick = function(e) {
+                e.stopPropagation();
+                var topic = document.title.replace(' Interview Questions','').replace(' Principles','');
+                var prompt = 'Explain this ' + topic + ' interview question in simple terms with example: "' + qText + '"';
+                
+                // Show options
+                var choice = confirm('OK = Open ChatGPT\nCancel = Open Google Search');
+                if (choice) {
+                    window.open('https://chat.openai.com/?q=' + encodeURIComponent(prompt), '_blank');
+                } else {
+                    window.open('https://www.google.com/search?q=' + encodeURIComponent(qText + ' C# interview answer'), '_blank');
+                }
+            };
+            
+            var arrow = title.querySelector('.arrow');
+            if (arrow) title.insertBefore(btn, arrow);
+            else title.appendChild(btn);
+        });
+    }
+
+    setTimeout(addAIButtons, 1200);
+})();
+
+
+// === SELF-TEST EVALUATION FUNCTIONS ===
+function extractKeywords(text) {
+    var lines = text.split('\n').map(function(l){return l.trim()}).filter(function(l){return l.length > 0});
+    var keywords = [];
+    
+    // Important technical terms to look for in answers
+    var importantTerms = ['object','class','encapsulation','inheritance','polymorphism','abstraction','data hiding','access modifier','private','public','protected','code reuse','overloading','overriding','compile-time','runtime','virtual','override','abstract','interface','sealed','static','constructor','destructor','method','property','getter','setter','value type','reference type','stack','heap','boxing','unboxing','immutable','mutable','delegate','event','publisher','subscriber','async','await','task','thread','linq','generic','collection','list','dictionary','exception','try-catch','finally','dispose','garbage collection','singleton','factory','repository','dependency injection','loose coupling','tight coupling','solid','single responsibility','open closed','liskov','interface segregation','dependency inversion','middleware','pipeline','transient','scoped','singleton','dbcontext','migration','code first','database first','lazy loading','eager loading','rest','http','get','post','put','delete','status code','jwt','cors','index','clustered','non-clustered','stored procedure','view','trigger','join','inner join','left join','group by','having','cte','normalization','transaction','acid','deadlock','primary key','foreign key'];
+    
+    // Extract from the answer text
+    var lowerText = text.toLowerCase();
+    importantTerms.forEach(function(term) {
+        if (lowerText.includes(term)) {
+            keywords.push(term);
+        }
+    });
+    
+    // Also extract key:value keys from bullet points
+    lines.forEach(function(line) {
+        if (line.startsWith('- ') && line.includes(':')) {
+            var key = line.substring(2).split(':')[0].trim().toLowerCase();
+            if (key.length > 2 && key.length < 25 && keywords.indexOf(key) === -1) {
+                keywords.push(key);
+            }
+        }
+    });
+    
+    // Remove duplicates
+    keywords = keywords.filter(function(k,i,arr){return arr.indexOf(k) === i});
+    
+    return keywords.slice(0, 15);
+}
+
+function evaluateSelfTest(idx) {
+    var textarea = document.getElementById('selfTest_' + idx);
+    var resultDiv = document.getElementById('evalResult_' + idx);
+    if (!textarea || !resultDiv) return;
+    
+    var userAnswer = textarea.value.trim();
+    if (!userAnswer) { alert('Please write your answer first!'); return; }
+    
+    var interviewDiv = textarea.closest('.interview-ans-text');
+    var answerText = interviewDiv.dataset.answertext || '';
+    
+    // Get API key
+    var apiKey = localStorage.getItem('gemini_api_key');
+    if (!apiKey) {
+        apiKey = prompt('Enter your Gemini API Key (free from https://aistudio.google.com/apikey):');
+        if (!apiKey || !apiKey.trim()) return;
+        localStorage.setItem('gemini_api_key', apiKey.trim());
+    }
+    
+    // Get question text
+    var qDiv = interviewDiv.closest('.q');
+    var qText = qDiv ? (qDiv.querySelector('.txt') || qDiv.querySelector('.q-title')).textContent.trim() : 'Unknown question';
+    
+    // Show loading
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = '<div style="text-align:center;padding:16px;color:#64748b"><div style="font-size:1.2rem;margin-bottom:6px">\u23f3</div>Evaluating with AI...</div>';
+    
+    // Build prompt
+    var prompt = 'You are an interview evaluator for a C#/.NET developer position.\n\n' +
+        'Question: ' + qText + '\n\n' +
+        'Correct Answer (reference): ' + answerText.substring(0, 1500) + '\n\n' +
+        'Student\'s Answer: ' + userAnswer + '\n\n' +
+        'Evaluate the student\'s answer and respond in this EXACT JSON format only:\n' +
+        '{"score": <number 0-10>, "feedback": "<one line feedback>", "correct_points": ["<point they got right>", ...], "missed_points": ["<important point they missed>", ...], "ideal_answer": "<what a perfect 30-second interview answer would be>"}';
+    
+    // Call Gemini API
+    fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + apiKey, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            contents: [{parts: [{text: prompt}]}],
+            generationConfig: {temperature: 0.3}
+        })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+        try {
+            var responseText = data.candidates[0].content.parts[0].text;
+            // Extract JSON from response
+            var jsonMatch = responseText.match(/\{[\s\S]*\}/);
+            if (!jsonMatch) throw new Error('No JSON found');
+            var result = JSON.parse(jsonMatch[0]);
+            
+            var score = result.score || 0;
+            var color = score >= 7 ? '#059669' : score >= 4 ? '#d97706' : '#dc2626';
+            var emoji = score >= 8 ? '\ud83d\udd25' : score >= 6 ? '\ud83d\udc4d' : score >= 4 ? '\ud83d\ude10' : '\ud83d\udcda';
+            
+            var html = '<div style="background:#fff;border:1px solid '+color+'40;border-radius:10px;padding:14px;margin-top:10px">';
+            html += '<div style="display:flex;align-items:center;gap:12px;margin-bottom:10px">';
+            html += '<span style="font-size:1.4rem;font-weight:700;color:'+color+';background:'+color+'12;padding:6px 14px;border-radius:8px;border:2px solid '+color+'">'+score+'/10</span>';
+            html += '<span style="font-size:.85rem;color:#334155">'+emoji+' '+result.feedback+'</span></div>';
+            
+            if (result.correct_points && result.correct_points.length > 0) {
+                html += '<div style="margin-bottom:8px"><div style="font-size:.72rem;color:#059669;font-weight:600;margin-bottom:4px">\u2705 What you got right:</div>';
+                result.correct_points.forEach(function(p) {
+                    html += '<div style="padding:2px 0 2px 10px;font-size:.78rem;color:#334155">\u2022 '+p+'</div>';
+                });
+                html += '</div>';
+            }
+            
+            if (result.missed_points && result.missed_points.length > 0) {
+                html += '<div style="margin-bottom:8px"><div style="font-size:.72rem;color:#dc2626;font-weight:600;margin-bottom:4px">\u274c What you missed:</div>';
+                result.missed_points.forEach(function(p) {
+                    html += '<div style="padding:2px 0 2px 10px;font-size:.78rem;color:#334155">\u2022 '+p+'</div>';
+                });
+                html += '</div>';
+            }
+            
+            if (result.ideal_answer) {
+                html += '<div style="margin-top:10px;background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px">';
+                html += '<div style="font-size:.72rem;color:#047857;font-weight:700;margin-bottom:4px">\ud83c\udfaf Perfect Answer:</div>';
+                html += '<div style="font-size:.8rem;color:#1e293b;line-height:1.7">'+result.ideal_answer+'</div>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            resultDiv.innerHTML = html;
+            
+            // Save score
+            var page = document.title.replace(/[^a-zA-Z0-9]/g,'');
+            var scores = JSON.parse(localStorage.getItem('selftest_' + page) || '{}');
+            scores['q' + idx] = score;
+            localStorage.setItem('selftest_' + page, JSON.stringify(scores));
+            
+        } catch(e) {
+            resultDiv.innerHTML = '<div style="color:#dc2626;padding:10px;font-size:.8rem">\u26a0\ufe0f Error parsing AI response. Try again. <br><small style="color:#64748b">'+e.message+'</small></div>';
+        }
+    })
+    .catch(function(err) {
+        if (err.message && err.message.includes('API')) {
+            localStorage.removeItem('gemini_api_key');
+            resultDiv.innerHTML = '<div style="color:#dc2626;padding:10px;font-size:.8rem">\u26a0\ufe0f Invalid API key. <a href="#" onclick="localStorage.removeItem(\'gemini_api_key\');location.reload();return false" style="color:#0ea5e9">Click to re-enter key</a></div>';
+        } else {
+            resultDiv.innerHTML = '<div style="color:#dc2626;padding:10px;font-size:.8rem">\u26a0\ufe0f Network error. Check internet connection.<br><small>'+err.message+'</small><br><a href="#" onclick="localStorage.removeItem(\'gemini_api_key\');location.reload();return false" style="color:#0ea5e9;font-size:.72rem">Reset API Key</a></div>';
+        }
+    });
+}
+
+function showCorrectAnswer(idx) {
+    var correctDiv = document.getElementById('correctAns_' + idx);
+    if (!correctDiv) return;
+    
+    if (correctDiv.style.display === 'block') {
+        correctDiv.style.display = 'none';
+        return;
+    }
+    
+    var interviewDiv = correctDiv.closest('.interview-ans-text');
+    var answerText = interviewDiv.dataset.answertext || '';
+    var keywords = JSON.parse(interviewDiv.dataset.keywords || '[]');
+    
+    // Generate INTERVIEWER-EXPECTED answer (concise, structured)
+    var lines = answerText.split('\n').map(function(l){return l.trim()}).filter(function(l){return l.length > 0});
+    var definition = '';
+    var keyPoints = [];
+    
+    lines.forEach(function(line) {
+        // Skip code completely
+        if (line.match(/^[\s{}();,\[\]]+$/)) return;
+        if (line.startsWith('===') || line.startsWith('+--') || line.startsWith('//')) return;
+        if (line.startsWith('using ') || line.startsWith('namespace')) return;
+        if (line.match(/^(public|private|protected|static|void|class|interface|abstract|override|virtual|sealed)\s/)) return;
+        if (line.startsWith('Console.') || line === '{' || line === '}') return;
+        if (line.match(/^(var|int|string|bool|decimal|double|float)\s+\w+\s*[=;]/)) return;
+        if (line.match(/^\w+\.\w+\(/) || line.match(/^new \w/) || line.startsWith('await ')) return;
+        if (line.match(/^(try|catch|finally|throw|if|else|foreach|for|while|switch|case|break|continue|return)\b/)) return;
+        if (line.match(/^\w+\s*[=+\-]/) && !line.includes(':')) return;
+        if (line.match(/^(List|Dictionary|HashSet|Task|Action|Func)</)) return;
+        if (line.startsWith('|') && line.includes('---')) return;
+        
+        // First meaningful line = definition
+        if (!definition && line.length > 15 && !line.startsWith('-') && !line.startsWith('|') && !line.match(/^[A-Z]{3,}/)) {
+            definition = line;
+            return;
+        }
+        
+        // Collect important points
+        if (line.startsWith('- ')) {
+            keyPoints.push(line.substring(2).trim());
+        } else if (line.match(/^[A-Z][A-Z\s]{3,}:?$/)) {
+            keyPoints.push('**' + line.replace(/:$/,'') + '**');
+        } else if (line.includes(':') && line.indexOf(':') < 28 && line.indexOf(':') > 2 && !line.includes('//') && !line.includes('=>') && !line.includes('http')) {
+            keyPoints.push(line);
+        } else if (line.startsWith('|') && !line.includes('---')) {
+            keyPoints.push(line);
+        } else if (line.length > 10 && line.length < 120 && line.match(/^[A-Z]/)) {
+            keyPoints.push(line);
+        }
+    });
+    
+    // Build the "What interviewer wants to hear" answer
+    var html = '<div style="background:#fff;border:1px solid #059669;border-radius:10px;padding:14px;margin-top:10px">';
+    html += '<div style="font-size:.75rem;color:#047857;font-weight:700;margin-bottom:10px;border-bottom:1px solid #dcfce7;padding-bottom:6px">\u2705 WHAT INTERVIEWER WANTS TO HEAR:</div>';
+    
+    // Definition
+    if (definition) {
+        html += '<div style="background:#f0fdf4;padding:8px 12px;border-radius:6px;margin-bottom:10px;font-size:.85rem;color:#1e293b;font-weight:600;border-left:3px solid #059669">' + definition + '</div>';
+    }
+    
+    // Key points
+    if (keyPoints.length > 0) {
+        html += '<div style="font-size:.72rem;color:#047857;font-weight:600;margin-bottom:6px">Key points to mention:</div>';
+        keyPoints.forEach(function(point) {
+            if (point.startsWith('**')) {
+                html += '<div style="color:#047857;font-weight:700;margin-top:8px;font-size:.8rem">' + point.replace(/\*\*/g,'') + '</div>';
+            } else if (point.startsWith('|')) {
+                html += '<div style="font-family:monospace;font-size:.7rem;color:#475569;padding:1px 0">' + point.replace(/</g,'&lt;').replace(/>/g,'&gt;') + '</div>';
+            } else if (point.includes(':') && point.indexOf(':') < 28) {
+                var parts = point.split(':');
+                html += '<div style="padding:3px 0 3px 10px;border-left:2px solid #86efac;margin-bottom:3px;font-size:.82rem"><span style="color:#047857;font-weight:600">\u25b8 ' + parts[0].trim() + '</span>: <span style="color:#334155">' + parts.slice(1).join(':').trim() + '</span></div>';
             } else {
-                if (confirm('Sure? Remove ALL highlights?')) {
-                    document.querySelectorAll('.hl').forEach(function(el) {
-                        el.parentNode.replaceChild(document.createTextNode(el.textContent), el);
-                    });
-                    var page = document.title.replace(/[^a-zA-Z0-9]/g,'');
-                    localStorage.setItem('hl_' + page, '[]');
-                    location.reload();
+                html += '<div style="padding:3px 0 3px 10px;border-left:2px solid #86efac;margin-bottom:3px;font-size:.82rem;color:#334155"><span style="color:#059669">\u25b8</span> ' + point + '</div>';
+            }
+        });
+    }
+    
+    // Keywords
+    if (keywords.length > 0) {
+        html += '<div style="margin-top:10px;padding:8px 10px;background:#f0fdf4;border-radius:6px;font-size:.7rem;color:#047857">\ud83d\udd11 <strong>Must-mention keywords:</strong> ' + keywords.join(', ') + '</div>';
+    }
+    
+    html += '<div style="margin-top:8px;font-size:.68rem;color:#64748b;font-style:italic">\ud83d\udca1 Say the definition first \u2192 then key points \u2192 offer example if asked.</div>';
+    html += '</div>';
+    
+    correctDiv.style.display = 'block';
+    correctDiv.innerHTML = html;
+}
+
+
+// === GEMINI API KEY SETTINGS ===
+(function(){
+    setTimeout(function(){
+        var container = document.querySelector('.container');
+        if (!container || !document.querySelector('.q-ans')) return;
+        
+        var keyBtn = document.createElement('button');
+        keyBtn.textContent = '\u2699\ufe0f AI Key';
+        keyBtn.style.cssText = 'position:fixed;bottom:15px;right:60px;background:#6366f1;color:#fff;border:none;padding:6px 12px;border-radius:20px;font-size:.7rem;font-weight:600;cursor:pointer;z-index:998';
+        keyBtn.onclick = function() {
+            var current = localStorage.getItem('gemini_api_key') || '';
+            var key = prompt('Enter Gemini API Key (get free from https://aistudio.google.com/apikey):', current);
+            if (key !== null) {
+                if (key.trim()) {
+                    localStorage.setItem('gemini_api_key', key.trim());
+                    alert('API Key saved! You can now use AI evaluation.');
+                } else {
+                    localStorage.removeItem('gemini_api_key');
+                    alert('API Key removed.');
                 }
             }
         };
-    }, 2000);
+        document.body.appendChild(keyBtn);
+    }, 1500);
 })();
-
-function exportHighlightsPDF() {
-    var page = document.title.replace(/[^a-zA-Z0-9]/g,'');
-    var highlights = JSON.parse(localStorage.getItem('hl_' + page) || '[]');
-    if (!highlights.length) { alert('No highlights to export!'); return; }
-    
-    var html = '<html><head><title>My Highlights - ' + document.title + '</title>';
-    html += '<style>body{font-family:Segoe UI,sans-serif;padding:30px;max-width:700px;margin:0 auto}h1{color:#0369a1;font-size:1.3rem}';
-    html += '.item{padding:10px 14px;margin-bottom:8px;border-radius:6px;font-size:.9rem;line-height:1.6}</style></head><body>';
-    html += '<h1>\ud83d\udd8d\ufe0f My Highlights - ' + document.title + '</h1>';
-    html += '<p style="color:#666;font-size:.8rem">Exported: ' + new Date().toLocaleDateString() + ' | Total: ' + highlights.length + ' highlights</p>';
-    
-    highlights.forEach(function(h, i) {
-        html += '<div class="item" style="background-color:' + h.color + '22;border-left:4px solid ' + h.color + '">';
-        html += '<span style="color:#333;font-weight:600">' + (i+1) + '.</span> ' + h.text;
-        html += '</div>';
-    });
-    
-    html += '<script>window.print();<\/script></body></html>';
-    var w = window.open('', '_blank');
-    w.document.write(html);
-    w.document.close();
-}
-
-// (Edit functionality is now built into short answer button above)
-
-
