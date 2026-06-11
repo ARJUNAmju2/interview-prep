@@ -527,10 +527,15 @@ function evaluateSelfTest(idx) {
     .then(function(res) { return res.json(); })
     .then(function(data) {
         try {
+            if (data.error) {
+                throw new Error(data.error.message || 'API Error');
+            }
             var responseText = data.candidates[0].content.parts[0].text;
+            // Clean response - remove markdown code blocks if present
+            responseText = responseText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
             // Extract JSON from response
             var jsonMatch = responseText.match(/\{[\s\S]*\}/);
-            if (!jsonMatch) throw new Error('No JSON found');
+            if (!jsonMatch) throw new Error('No JSON in response: ' + responseText.substring(0, 100));
             var result = JSON.parse(jsonMatch[0]);
             
             var score = result.score || 0;
